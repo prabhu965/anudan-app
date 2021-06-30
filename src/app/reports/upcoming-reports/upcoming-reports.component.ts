@@ -18,6 +18,7 @@ import * as inf from 'indian-number-format';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { FieldDialogComponent } from 'app/components/field-dialog/field-dialog.component';
 import { SearchFilterComponent } from 'app/layouts/admin-layout/search-filter/search-filter.component';
+import * as moment from "moment";
 
 
 @Component({
@@ -42,6 +43,10 @@ export class UpcomingReportsComponent implements OnInit {
     deleteReportsClicked: boolean = false;
     upcomingSearchCriteria: string;
     filteredToSetupReports: Report[];
+    filteredToSetupReportD: Report[];
+    filteredToSetupReportDOrig: Report[];
+    filteredToSetupReportOD: Report[];
+    filteredToSetupReportODOrig: Report[];
     filteredReadyToSubmitReports: Report[];
     filterAllReports: Report[];
     searchClosed = true;
@@ -132,6 +137,14 @@ export class UpcomingReportsComponent implements OnInit {
             this.reportsToSetup = reports;
             this.reportsToSetupData = reports;
             this.filteredToSetupReports = this.reportsToSetupData;
+            if (this.filteredToSetupReports && this.filteredToSetupReports.length > 0) {
+                this.filteredToSetupReportD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') <= 0);
+                this.filteredToSetupReportOD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') > 0);
+                this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
+                this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
+
+            }
+
             this.processReports(reports);
         });
 
@@ -426,7 +439,13 @@ export class UpcomingReportsComponent implements OnInit {
     startFilter(val) {
         val = val.toLowerCase();
         this.filterCriteria = val;
-        this.filteredToSetupReports = this.reportsToSetupData.filter(g => {
+        this.filteredToSetupReportD = this.filteredToSetupReportDOrig.filter(g => {
+            return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+                (g.grant.name.toLowerCase().includes(val)) ||
+                (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+                (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
+        });
+        this.filteredToSetupReportOD = this.filteredToSetupReportODOrig.filter(g => {
             return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
                 (g.grant.name.toLowerCase().includes(val)) ||
                 (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||

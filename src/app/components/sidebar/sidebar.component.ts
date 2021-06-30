@@ -55,7 +55,7 @@ export const SINGLE_REPORT_ROUTES: RouteInfo[] = [
 
 export const REPORT_ROUTES: RouteInfo[] = [
   { path: '/reports/upcoming', title: 'Upcoming', icon: 'grant.svg', class: '', divide: false },
-  { path: '/reports/submitted', title: 'Submitted', icon: 'view_agenda', class: '', divide: false },
+  { path: '/reports/submitted', title: 'In-Progress', icon: 'view_agenda', class: '', divide: false },
   { path: '/reports/approved', title: 'Approved', icon: 'preview.svg', class: '', divide: false }
 ];
 

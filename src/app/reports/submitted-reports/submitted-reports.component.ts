@@ -11,7 +11,7 @@ import { TitleCasePipe } from '@angular/common';
 import * as indianCurrencyInWords from 'indian-currency-in-words';
 import * as inf from 'indian-number-format';
 import { SearchFilterComponent } from 'app/layouts/admin-layout/search-filter/search-filter.component';
-
+import * as moment from "moment";
 
 @Component({
     selector: 'app-submitted-reports',
@@ -24,6 +24,10 @@ export class SubmittedReportsComponent implements OnInit {
     submittedReports: Report[];
     subscribers: any = {};
     filteredSubmittedReports: Report[];
+    filteredSubmittedReportsD: Report[];
+    filteredSubmittedReportsDOrig: Report[];
+    filteredSubmittedReportsOD: Report[];
+    filteredSubmittedReportsODOrig: Report[];
     searchClosed = true;
     filterReady = false;
     filterCriteria: any;
@@ -89,7 +93,10 @@ export class SubmittedReportsComponent implements OnInit {
             this.reportService.changeMessage(reports);
             this.submittedReports = reports;
             this.filteredSubmittedReports = this.submittedReports;
-
+            this.filteredSubmittedReportsD = this.filteredSubmittedReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') <= 0)
+            this.filteredSubmittedReportsOD = this.filteredSubmittedReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') > 0)
+            this.filteredSubmittedReportsDOrig = this.filteredSubmittedReportsD;
+            this.filteredSubmittedReportsODOrig = this.filteredSubmittedReportsOD;
         });
     }
 
@@ -156,7 +163,13 @@ export class SubmittedReportsComponent implements OnInit {
     startFilter(val) {
         val = val.toLowerCase();
         this.filterCriteria = val;
-        this.filteredSubmittedReports = this.submittedReports.filter(g => {
+        this.filteredSubmittedReportsD = this.filteredSubmittedReportsDOrig.filter(g => {
+            return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+                (g.grant.name.toLowerCase().includes(val)) ||
+                (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+                (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
+        });
+        this.filteredSubmittedReportsOD = this.filteredSubmittedReportsODOrig.filter(g => {
             return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
                 (g.grant.name.toLowerCase().includes(val)) ||
                 (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||

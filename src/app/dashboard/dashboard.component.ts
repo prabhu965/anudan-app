@@ -317,4 +317,12 @@ export class DashboardComponent implements OnInit {
       this.portfolioData = data.filters;
     });
   }
+
+  getName(): string {
+    const name = this.appComponent.loggedInUser.firstName;
+    if (name.substr(name.length, 1) === 's') {
+      return name + '\' Dashboard';
+    }
+    return name + '\'s Dashboard';
+  }
 }
