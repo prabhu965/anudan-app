@@ -1,3 +1,4 @@
+import { MyCategory } from '../model/mydashboard';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from '../model/user';
@@ -12,7 +13,7 @@ import { Report } from '../model/report'
 import * as $ from 'jquery'
 import { ToastrService } from 'ngx-toastr';
 import { GrantComponent } from "../grant/grant.component";
-import { MatBottomSheet, MatDatepickerInputEvent, MatDialog } from '@angular/material';
+import { MatBottomSheet, MatDatepickerInputEvent, MatDialog, MatTabGroup } from '@angular/material';
 import { GrantTemplateDialogComponent } from '../components/grant-template-dialog/grant-template-dialog.component';
 import { WelcomePopupComponent } from '../components/welcome-popup/welcome-popup.component';
 import * as inf from 'indian-number-format';
@@ -45,6 +46,8 @@ export class DashboardComponent implements OnInit {
   grantInProgressCount: number;
   grantActiveCount: number;
   grantClosedCount: number;
+  myCategory: MyCategory = new MyCategory();
+  @ViewChild("DashboardTabGroup") DashboardTabGroup: MatTabGroup;
 
   //Retain this
   totalGrantsIssued: number = 0;
@@ -77,6 +80,7 @@ export class DashboardComponent implements OnInit {
     this.appComponent.subMenu = { name: '' };
     if (!this.parameters.status || (this.parameters.status && this.parameters.status === 'd')) {
       this.getDashboardSummary();
+      this.getMyDashboardSummary();
     } else if (this.parameters.status && this.parameters.status === 'n' && this.appComponent.loggedInUser.organization.type !== 'PLATFORM') {
 
       const dialogRef = this.dialog.open(WelcomePopupComponent, {
@@ -318,11 +322,34 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  getMyDashboardSummary() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'X-TENANT-CODE': localStorage.getItem('X-TENANT-CODE'),
+        'Authorization': localStorage.getItem('AUTH_TOKEN')
+      })
+    };
+
+    this.appComponent.loggedIn = true;
+
+    let url = '/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary';
+
+    this.http.get(url, httpOptions).subscribe((data: any) => {
+      this.myCategory = data;
+      console.log(this.myCategory);
+    });
+  }
+
   getName(): string {
     const name = this.appComponent.loggedInUser.firstName;
     if (name.substr(name.length, 1) === 's') {
       return name + '\' Dashboard';
     }
     return name + '\'s Dashboard';
+  }
+
+  tabSelectionChange(ev) {
+    this.appComponent.currentDashboard = ev.index;
   }
 }

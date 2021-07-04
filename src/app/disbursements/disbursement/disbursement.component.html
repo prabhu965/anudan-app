@@ -406,6 +406,77 @@
                 />
               </mat-form-field>
             </div>
+            <div class="col-12">
+              <div class="row mb-4 mt-2" style="
+                        border: 1px solid #ececec;
+                        border-radius: 4px;
+                        padding: 20px;
+                        background: #fcfcfc;
+                      ">
+  <ng-container class="mb-2">
+    <div class="col-sm-4 col-lg-8">
+      <label>Field Name:</label>
+      <p class="anu-input" style="background-color: transparent !important;">Associated Documentation</p>
+    </div>
+
+    <div class="col-sm-4 col-lg-4 text-left">
+      <label>Field Type:</label>
+      <p class="anu-input" style="background-color: transparent !important;">Document</p>
+    </div>
+
+    <div class="col-sm-12 col-lg-12 text-left">
+      <div class="row">
+        <div class="col-6">
+          <button class="btn btn-sm btn-green w-100" disabled>
+            <mat-icon style='display:flex;align-items:center;justify-content: center;'>business</mat-icon>
+            Browse from library
+          </button>
+        </div>
+        <div class="col-6 pl-0 pr-2">
+          <label for="projectDocument" class="btn btn-sm btn-green w-100 ml-0">
+            <mat-icon style='display:flex;align-items:center;justify-content: center;'>computer</mat-icon>
+            Browse from system</label>
+          <input id="projectDocument" type="file" style="height: 0; visibility: hidden;" multiple (change)="
+                                  processSelectedFiles($event)
+                                " accept=".pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx" />
+        </div>
+      </div>
+      <mat-nav-list>
+        <ng-container *ngFor="let attachment of disbursementDocs">
+          <mat-list-item>
+            <p [id] mat-line style="
+                                    border-bottom: 1px solid #d4d4d4;
+                                    padding-left: 0;font-size: 14px;
+                                  ">
+              {{ attachment.name + "." + attachment.extension }}
+            </p>
+            <input id='attachment_{{attachment.id}}' mat-list-icon class="attachment-checkbox" type="checkbox" (change)="
+                                    handleSelection(attachment.id)
+                                  " style="width: 18px;" />
+          </mat-list-item>
+        </ng-container>
+        <mat-list-item *ngIf="
+                               disbursementDocs &&
+                               disbursementDocs.length > 0
+                              ">
+          <button id="downloadBtn" class="btn btn-sm btn-blue" disabled (click)="downloadSelection()">
+            <mat-icon style="cursor: pointer;top: 5px; font-size: 13px; margin-right: 3px;">
+              system_update_alt
+            </mat-icon>
+            Download Selected Documents
+          </button>
+
+          <button id="deleteBtn" class="btn btn-sm btn-blue ml-4" disabled (click)="deleteSelection()">
+            <img src="./assets/img/trash.svg"
+              style="width: 16px; opacity: 1; position: absolute; left: 0; margin-left: 5px; top: 5px;" />Delete
+            Selected Documents
+          </button>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
+  </ng-container>
+</div>
+            </div>
           </div>
         </div>
       </div>

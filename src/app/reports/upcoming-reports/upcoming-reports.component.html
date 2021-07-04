@@ -44,7 +44,7 @@
                 *ngFor="let report of filteredToSetupReportD; let i = index"
                 (click)="manageReport(report)"
               >
-                <div class="col-12 mb-1 search-context">
+                <div class="col-12 mb-1">
                   <p
                     *ngIf="report.disabledByAmendment"
                     class="mb-0 text-red text-left"
@@ -56,18 +56,18 @@
                   <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId)}" ><small>{{getGrantTypeName(report.grant.grantTypeId)}}</small></span>
                   <p class="text-subheader text-left mb-0">
                     Grant Name:
-                    <b>{{
+                    <b  class="search-context">{{
                       (report.grant.referenceNo
                         ? report.grant.referenceNo + " | "
                         : "") + report.grant.name
                     }}</b>
                     <br>Implementing Organization:
-                    <b *ngIf="isExternalGrant(report.grant)">{{
+                    <b *ngIf="isExternalGrant(report.grant)" class="search-context">{{
                       report.grant.organization
                         ? report.grant.organization.name
                         : ""
                     }}</b> 
-                    <b *ngIf="!isExternalGrant(report.grant)">{{
+                    <b *ngIf="!isExternalGrant(report.grant)" class="search-context">{{
                       report.grant.grantorOrganization.name
                     }}</b> 
                     <br />
@@ -80,12 +80,12 @@
                     }}</span>
                   </p>
                 </div>
-                <div class="col-10 search-context" style="display: flex; align-items: center">
+                <div class="col-10" style="display: flex; align-items: center">
                   <p
                     class="text-header text-left mr-3"
                     (click)="manageReport(report)"
                   >
-                    {{ report.name }} |
+                    <span class="search-context">{{ report.name }}</span> |
                     {{ report.dueDate | date: "dd-MMM-yyyy" }} |
                   </p>
                   <ng-container *ngIf="report.futureReportsCount" class="col-2">
@@ -232,7 +232,7 @@
                 *ngFor="let report of filteredToSetupReportOD; let i = index"
                 (click)="manageReport(report)"
               >
-                <div class="col-12 mb-1 search-context">
+                <div class="col-12 mb-1">
                   <p
                     *ngIf="report.disabledByAmendment"
                     class="mb-0 text-red text-left"
@@ -244,18 +244,18 @@
                   <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId)}" ><small>{{getGrantTypeName(report.grant.grantTypeId)}}</small></span>
                   <p class="text-subheader text-left mb-0">
                     Grant Name:
-                    <b>{{
+                    <b class="search-context">{{
                       (report.grant.referenceNo
                         ? report.grant.referenceNo + " | "
                         : "") + report.grant.name
                     }}</b>
                     <br>Implementing Organization:
-                    <b *ngIf="isExternalGrant(report.grant)">{{
+                    <b *ngIf="isExternalGrant(report.grant)" class="search-context">{{
                       report.grant.organization
                         ? report.grant.organization.name
                         : ""
                     }}</b> 
-                    <b *ngIf="!isExternalGrant(report.grant)">{{
+                    <b *ngIf="!isExternalGrant(report.grant)" class="search-context">{{
                       report.grant.grantorOrganization.name
                     }}</b> 
                     <br />
@@ -268,12 +268,12 @@
                     }}</span>
                   </p>
                 </div>
-                <div class="col-10 search-context" style="display: flex; align-items: center">
+                <div class="col-10" style="display: flex; align-items: center">
                   <p
                     class="text-header text-left mr-3"
                     (click)="manageReport(report)"
                   >
-                    {{ report.name }} |
+                    <span class="search-context">{{ report.name }}</span> |
                     {{ report.dueDate | date: "dd-MMM-yyyy" }} |
                   </p>
                   <ng-container *ngIf="report.futureReportsCount" class="col-2">
@@ -564,7 +564,7 @@
                 *ngFor="let report of filterAllReports; let i = index"
                 (click)="manageReport(report)"
               >
-                <div class="col-12 mb-1 search-context">
+                <div class="col-12 mb-1">
                   <p
                     *ngIf="report.disabledByAmendment"
                     class="mb-0 text-red text-left"
@@ -576,18 +576,18 @@
                   <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId)}" ><small>{{getGrantTypeName(report.grant.grantTypeId)}}</small></span>
                   <p class="text-subheader text-left mb-0">
                     Grant Name:
-                    <b>{{
+                    <b class="search-context">{{
                       (report.grant.referenceNo
                         ? report.grant.referenceNo + " | "
                         : "") + report.grant.name
                     }}</b>
                     <br>Implementing Organization:
-                    <b *ngIf="isExternalGrant(report.grant)">{{
+                    <b *ngIf="isExternalGrant(report.grant)" class="search-context">{{
                       report.grant.organization
                         ? report.grant.organization.name
                         : ""
                     }}</b> 
-                    <b *ngIf="!isExternalGrant(report.grant)">{{
+                    <b *ngIf="!isExternalGrant(report.grant)" class="search-context">{{
                       report.grant.grantorOrganization.name
                     }}</b> 
                     <br />
@@ -600,9 +600,9 @@
                     }}</span>
                   </p>
                 </div>
-                <div class="col-10 search-context" style="display: flex; align-items: center">
+                <div class="col-10" style="display: flex; align-items: center">
                   <p class="text-header text-left mr-3">
-                    {{ report.name }} |
+                    <span class="search-context">{{ report.name }}</span> |
                     {{ report.dueDate | date: "dd-MMM-yyyy" }}
                   </p>
                   <ng-container *ngIf="report.futureReportsCount" class="col-2">

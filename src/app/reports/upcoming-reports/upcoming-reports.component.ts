@@ -261,6 +261,7 @@ export class UpcomingReportsComponent implements OnInit {
         const user = JSON.parse(localStorage.getItem('USER'));
         let url = '/api/user/' + user.id + '/report/templates';
         this.http.get<ReportTemplate[]>(url, httpOptions).subscribe((templates: ReportTemplate[]) => {
+            this.openSearch();
             let dialogRef = this.dialog.open(ReportTemplateDialogComponent, {
                 data: templates,
                 panelClass: 'grant-template-class'

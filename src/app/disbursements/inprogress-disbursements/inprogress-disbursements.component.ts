@@ -64,7 +64,7 @@ export class InprogressDisbursementsComponent implements OnInit {
             data: ownedGrants,
             panelClass: 'grant-template-class'
           });
-
+          this.openSearch();
           dialogRef.afterClosed().subscribe((result) => {
             if (result.result) {
               this.createDisbursement(result.selectedGrant);

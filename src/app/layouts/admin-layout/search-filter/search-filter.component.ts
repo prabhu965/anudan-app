@@ -16,10 +16,14 @@ export class SearchFilterComponent implements OnInit, OnChanges {
   offsetTop: number = 210;
   searchString: string;
 
+
   @Input("ready") ready = false;
+  @Input("searchContext") searchContext = '.search-context';
+  @Input("scollableArea") scrollableArea = '.main-content';
   @Output() filterCriteria = new EventEmitter();
   @Output() highlightDone = new EventEmitter();
   @Output() close = new EventEmitter();
+
 
   constructor() { }
 
@@ -29,11 +33,10 @@ export class SearchFilterComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     for (let property in changes) {
       if (property === 'ready') {
-        if (this.ready) {
-          this.highlightText(this.searchString);
-          this.highlightDone.emit(false);
-          this.ready = false;
-        }
+        //if (this.ready) {
+        this.highlightText(this.searchString);
+        this.highlightDone.emit(false);
+        //}
       }
       $('#searchCompField').focus();
     }
@@ -47,7 +50,7 @@ export class SearchFilterComponent implements OnInit, OnChanges {
     if (val === undefined) {
       return;
     }
-    let ctx = document.querySelectorAll('.search-context');
+    let ctx = document.querySelectorAll(this.searchContext);
     var instance = new Mark(ctx);
 
     instance.unmark({
@@ -87,36 +90,13 @@ export class SearchFilterComponent implements OnInit, OnChanges {
         this.currentIndex = marks.length - 1;
       }
       $(marks[this.currentIndex]).addClass('current');
-      let position = $(marks[this.currentIndex]).offset().top - $('.main-content').offset().top;//$(marks[this.currentIndex]).parent().find('.grants-section').offset().top;
-      //$('#grantsContent').scrollTo(0, position);
-      if (direction === 'forward') {
-        var bottom = $('.main-content').offset().top + $('.main-content').height();
-        if (position > bottom) {
-          $('.main-content').animate({
-            scrollTop: $('.main-content').scrollTop() + $(marks[this.currentIndex - 1]).parent().closest('.grants-section').offset().top
-          }, 500);
-        } else if (this.currentIndex === 0) {
-          $('.main-content').animate({
-            scrollTop: $('.container-fluid').offset().top - $(marks[this.currentIndex]).offset().top
-          }, 500);
-        }
-      } else if (direction === 'backward') {
-        var top = $('.main-content').offset().top;
-        if (position < top && this.currentIndex !== 0) {
-          $('.main-content').animate({
-            scrollTop: $('.main-content').scrollTop() + $(marks[this.currentIndex - 1]).parent().closest('.grants-section').offset().top
-          }, 500);
-        } else if (position < top && this.currentIndex === 0) {
-          $('.main-content').animate({
-            scrollTop: $(marks[this.currentIndex]).parent().parent().parent().offset().top
-          }, 500);
-        } else if (this.currentIndex === marks.length - 1) {
-          $('.main-content').animate({
-            scrollTop: $('.container-fluid').offset().top + $(marks[this.currentIndex]).offset().top
-          }, 500);
-        }
-      }
+
+      this.scrollIfNeeded(marks[this.currentIndex], $(this.scrollableArea)[0]);
     }
+  }
+
+  scrollIfNeeded(element, container) {
+    $(container).animate({ scrollTop: $(container).scrollTop() + ($(element).offset().top - $(container).offset().top) - 100 });
   }
 
   closeSearch() {
@@ -124,7 +104,7 @@ export class SearchFilterComponent implements OnInit, OnChanges {
     this.filterCriteria.emit('');
     this.currentIndex = 0;
     let marks = $('mark');
-    $('.main-content').animate({
+    $(this.scrollableArea).animate({
       scrollTop: 0
     }, 500);
     this.close.emit(true);
