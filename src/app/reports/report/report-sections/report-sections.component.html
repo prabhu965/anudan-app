@@ -2546,23 +2546,7 @@
                                 disabled
                                 (click)="deleteSelection(attribute.id)"
                               >
-                                <img
-                                  src="./assets/img/trash.svg"
-                                  (click)="
-                                    deleteAttachment(
-                                      attribute.id,
-                                      attachment.id
-                                    )
-                                  "
-                                  style="
-                                    width: 16px;
-                                    opacity: 1;
-                                    position: absolute;
-                                    left: 0;
-                                    margin-left: 5px;
-                                    top: 5px;
-                                  "
-                                />Delete Selected Documents
+                              <mat-icon style='display:flex;align-items:center;justify-content: center;'>_outlined</mat-icon>Delete Selected Documents
                               </button>
                             </mat-list-item>
                           </mat-nav-list>
@@ -2598,11 +2582,7 @@
                                   i === 0 ? null : section.attributes[i - 1]
                                 )
                               "
-                              ><img
-                                src="./assets/img/chevron-up.svg"
-                                class="w-10 mr-2"
-                                style="width: 24px"
-                            /></a>
+                              ><mat-icon style='color:#676767;'>keyboard_arrow_up</mat-icon></a>
                             <a
                               [class]="
                                 i === section.attributes.length - 1
@@ -2618,30 +2598,21 @@
                                     : section.attributes[i + 1]
                                 )
                               "
-                              ><img
-                                src="./assets/img/chevron-down.svg"
-                                class="w-10 mr-2"
-                                style="width: 24px"
-                            /></a>
+                              ><mat-icon style='color:#676767;'>keyboard_arrow_down</mat-icon></a>
                             <a
                               ><img
                                 src="./assets/img/Line.svg"
                                 class="w-10 mr-2"
                                 style="width: 1px"
                             /></a>
-                            <a>
-                              <img
-                                src="./assets/img/trash.svg"
-                                (click)="
+                            <a href="javascript:" (click)="
                                   deleteFieldEntry(
                                     section.id,
                                     attribute.id,
                                     attribute.fieldName
                                   )
-                                "
-                                class="w-10 mr-2"
-                                style="width: 24px"
-                              />
+                                ">
+                                <mat-icon style='color:#676767;'>delete_outlined</mat-icon>
                             </a>
                           </div>
                           <div
@@ -2657,11 +2628,7 @@
                                   i === 0 ? null : section.attributes[i - 1]
                                 )
                               "
-                              ><img
-                                src="./assets/img/chevron-up.svg"
-                                class="w-10 mr-2"
-                                style="width: 24px"
-                            /></a>
+                              ><mat-icon style='color:#676767;'>keyboard_arrow_up</mat-icon></a>
                             <a
                               [class]="
                                 i === section.attributes.length - 1
@@ -2677,30 +2644,21 @@
                                     : section.attributes[i + 1]
                                 )
                               "
-                              ><img
-                                src="./assets/img/chevron-down.svg"
-                                class="w-10 mr-2"
-                                style="width: 24px"
-                            /></a>
+                              ><mat-icon style='color:#676767;'>keyboard_arrow_down</mat-icon></a>
                             <a
                               ><img
                                 src="./assets/img/Line.svg"
                                 class="w-10 mr-2"
                                 style="width: 1px"
                             /></a>
-                            <a>
-                              <img
-                                src="./assets/img/trash.svg"
-                                (click)="
+                            <a href="javascript:" (click)="
                                   deleteFieldEntry(
                                     section.id,
                                     attribute.id,
                                     attribute.fieldName
                                   )
-                                "
-                                class="w-10 mr-2"
-                                style="width: 24px"
-                              />
+                                ">
+                                <mat-icon style='color:#676767;'>delete_outlined</mat-icon>
                             </a>
                           </div>
                         </div>
