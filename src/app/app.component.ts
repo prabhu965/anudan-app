@@ -95,6 +95,7 @@ export class AppComponent implements AfterViewChecked {
 
   org: string;
   public defaultClass = '';
+  currentDashboard: number;
 
   constructor(private toastr: ToastrService,
     private httpClient: HttpClient,

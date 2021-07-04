@@ -56,6 +56,7 @@ export class AnudanErrorHandler implements ErrorHandler {
   handleError(error: Error) {
     if (Error) {
       console.log(error);
+      return true;
     } else console.log("hello");
   }
 }

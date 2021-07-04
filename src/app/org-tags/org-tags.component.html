@@ -16,7 +16,7 @@
         class="fas fa-dot-circle mr-2 text-red" style="cursor: pointer;"></i>Disable</button>
         <button *ngIf="tag.disabled && tag.id!==tagBeingEdited.id" class="btn btn-sm btn-green" (click)="enableTag(tag)"><i
         class=" fas fa-dot-circle mr-2 text-green" style="cursor: pointer;"></i>Enable</button>
-       <button *ngIf="tag.id!==tagBeingEdited.id" mat-icon-button (click)="deleteTag(tag)" [ngStyle]="tag.used?{'cursor': 'pointer','color':'#dee2e6'}:{'cursor': 'pointer','color':'#9f9f9f'}" [disabled]="tag.used"><mat-icon matListIcon class="pull-right" style="right:15px;">delete</mat-icon></button>       
+       <button *ngIf="tag.id!==tagBeingEdited.id" mat-icon-button (click)="deleteTag(tag)" [ngStyle]="tag.used?{'cursor': 'pointer','color':'#dee2e6'}:{'cursor': 'pointer','color':'#676767'}" [disabled]="tag.used"><mat-icon>delete_outlined</mat-icon></button>       
          <input matInput class="anu-input m-3" *ngIf="tag.id===tagBeingEdited.id" [(ngModel)]="tag.name" placeholder="Edit Tag Name:">
        <button *ngIf="tag.id===tagBeingEdited.id" class="btn btn-sm btn-green-primary" (click)="saveTag(tag)">Save</button>
       </mat-list-item>

@@ -137,8 +137,8 @@ export class AdminLayoutComponent implements OnInit {
       // if we are on windows OS we activate the perfectScrollbar function
 
       document
-        .getElementsByTagName("body")[0]
-        .classList.add("perfect-scrollbar-on");
+      /* .getElementsByTagName("body")[0]
+      .classList.add("perfect-scrollbar-on"); */
     } else {
       document
         .getElementsByTagName("body")[0]
