@@ -17,6 +17,7 @@ export class Disbursement {
   actualDisbursements: ActualDisbursement[];
   approvedActualsDibursements: ActualDisbursement[];
   disabledByAmendment: boolean;
+  disbursementDocuments: any[];
 }
 
 export class ActualDisbursement {

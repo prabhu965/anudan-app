@@ -69,7 +69,10 @@ export class DisbursementComponent implements OnInit, OnDestroy {
     this.appComponent.currentView = "disbursement";
 
     this.disbursementService.currentMessage.subscribe(
-      (disbursement) => (this.currentDisbursement = disbursement)
+      (disbursement) => {
+        this.currentDisbursement = disbursement;
+        this.disbursementDocs = this.currentDisbursement.disbursementDocuments
+      }
     );
     if (
       this.currentDisbursement === undefined ||
