@@ -1,6 +1,7 @@
+import { ElementRef } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 declare var require: any;
 import * as $ from "jquery";
 const Mark = require('mark.js');
@@ -24,6 +25,8 @@ export class SearchFilterComponent implements OnInit, OnChanges {
   @Output() highlightDone = new EventEmitter();
   @Output() close = new EventEmitter();
 
+  @ViewChild("searchCompField") searchCompField: ElementRef;
+
 
   constructor() { }
 
@@ -38,7 +41,8 @@ export class SearchFilterComponent implements OnInit, OnChanges {
         this.highlightDone.emit(false);
         //}
       }
-      $('#searchCompField').focus();
+      //$('#searchCompField').focus();
+      this.searchCompField.nativeElement.focus();
     }
   }
   startFilter(val) {
