@@ -1,3 +1,5 @@
+import { MyChartSummaryComponent } from './../../dashboard/mychart-summary/mychart-summary.component';
+import { MyPortfolioSummaryComponent } from './../../dashboard/myportfolio-summary/myportfolio-summary.component';
 import { OrgTagsComponent } from './../../org-tags/org-tags.component';
 import { GrantTagsComponent } from './../../grant-tags/grant-tags.component';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -140,6 +142,8 @@ import { SearchFilterComponent } from './search-filter/search-filter.component';
         ProgressSummaryComponent,
         ChartSummaryComponent,
         PortfolioSummaryComponent,
+        MyPortfolioSummaryComponent,
+        MyChartSummaryComponent,
         GrantsComponent,
         DraftGrantsComponent,
         ActiveGrantsComponent,
