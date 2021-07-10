@@ -1,7 +1,7 @@
 <div class="">
     <div class="container-fluid">
 
-        <mat-tab-group (focusChange)="tabSelected($event)">
+        <mat-tab-group class="org-tab" (focusChange)="tabSelected($event)">
             <mat-tab label="Roles">
                 <div class="anu-container text-left mx-0">
                     <app-roles [roles]="roles"></app-roles>
@@ -17,40 +17,30 @@
             
 
             <mat-tab label="Library">
-                <div class="row text-left">
-                    <div class="col-12 text-left">
+                <div class="anu-container text-left mx-0">
                         <app-document-library [docs]="docs"></app-document-library>
-                    </div>
                 </div>
             </mat-tab>
 
             <mat-tab label="Tags" *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'">
-                <div class="row text-left">
-                    <div class="col-12 text-left">
+                <div class="anu-container text-left mx-0">
                         <app-org-tags [tags]="tags"></app-org-tags>
-                    </div>
                 </div>
             </mat-tab>
 
             <mat-tab label="App Configurations" *ngIf="appComp.loggedInUser.organization.organizationType==='GRANTER'">
-                <div class="row text-left">
-                    <div class="col-12">
+                <div class="anu-container text-left mx-0">
                         <app-settings></app-settings>
-                    </div>
                 </div>
             </mat-tab>
             <mat-tab label="Workflows (Coming Soon)" *ngIf="appComp.loggedInUser.organization.organizationType==='GRANTER'">
-                <div class="row text-left">
-                    <div class="col-12 text-left">
+                <div class="anu-container text-left mx-0">
                         <app-workflow-management></app-workflow-management>
-                    </div>
                 </div>
             </mat-tab>
             <mat-tab label="Templates (Coming Soon)" *ngIf="appComp.loggedInUser.organization.organizationType==='GRANTER'">
-                <div class="row text-left">
-                    <div class="col-12 text-left">
+                <div class="anu-container text-left mx-0">
                         <app-templates></app-templates>
-                    </div>
                 </div>
             </mat-tab>
         </mat-tab-group>

@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { WfvalidationService } from './../../../wfvalidation.service';
 import { AdminService } from './../../../admin.service';
 import { GrantTagsComponent } from './../../../grant-tags/grant-tags.component';
@@ -574,5 +575,19 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
 
     });
 
+  }
+
+  downloadAttachment(
+    disbursementId: number,
+    docId: number,
+    docName: string,
+    docLoc: string
+  ) {
+
+    this.disbursementService.downloadAttachment(this.appComponent.loggedInUser.id,
+      this.currentDisbursement.id,
+      docName,
+      docId, docLoc
+    );
   }
 }

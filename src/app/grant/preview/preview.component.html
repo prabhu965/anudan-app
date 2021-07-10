@@ -1,7 +1,7 @@
-<div class="row anu-container">
+<div class="row" style="position: sticky; top: 80px; z-index: 1040">
   <div
     class="col-12 bg-white"
-    style="position: sticky; top: 80px; z-index: 1040"
+    
   >
     <!--<span class="badge badge-dark text-white pull-right mt-2" matBadgeSize="medium">{{currentGrant.grantStatus.displayName}}</span>-->
     <div class="row">
@@ -177,10 +177,14 @@
       </div>
     </div>
   </div>
+</div>
+<div [ngClass]="(currentGrant.canManage)?'main-content no-top-margin1':'main-content no-top-margin3'" style="margin-top: 40px;">
+  <div class="container-fluid anudan-scrollable" style="background: #fff;">
+
   <div #grantSummary class="col-lg-12">
     <div
       #container
-      class="container text-left mt-5 px-5 py-5"
+      class="container text-left mt-0 px-5 py-5"
       (scroll)="rememberScrollPosition($event)"
     >
       <kendo-pdf-export
@@ -1611,6 +1615,7 @@
             </div>-->
     </div>
   </div>
+</div>
 </div>
 
 <div

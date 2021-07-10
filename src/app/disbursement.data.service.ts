@@ -1,5 +1,6 @@
+import { takeUntil } from 'rxjs/operators';
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import {
   Disbursement,
   DisbursementWorkflowAssignment,
@@ -13,12 +14,14 @@ import { User } from "./model/user";
 import { CurrencyService } from "./currency-service";
 import { Report } from "./model/report";
 import { DatePipe } from "@angular/common";
+import { saveAs } from "file-saver";
 
 @Injectable({
   providedIn: "root",
 })
 export class DisbursementDataService {
   private messageSource = new BehaviorSubject<Disbursement>(null);
+  private ngUnsubscribe = new Subject();
   url: string = "/api/user/%USERID%/disbursements";
   months: string[] = [
     "Jan",
@@ -527,6 +530,32 @@ export class DisbursementDataService {
         return Promise.reject<void>(
           "Unable to create new actual disbursement entry"
         );
+      });
+  }
+
+  downloadAttachment(userId: number, disbursementId: number, docName: string, docId: number, docLoc: string): void {
+
+    const httpOptions = {
+      responseType: "blob" as "json",
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    let url =
+      "/api/user/" +
+      userId +
+      "/disbursements/" +
+      disbursementId +
+      "/file/" + docId;
+
+    this.httpClient
+      .get(url, httpOptions)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        saveAs(data, docName + '.' + docLoc.substring(docLoc.lastIndexOf(".") + 1));
       });
   }
 }

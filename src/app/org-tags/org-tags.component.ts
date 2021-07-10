@@ -10,7 +10,12 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-org-tags',
   templateUrl: './org-tags.component.html',
-  styleUrls: ['./org-tags.component.scss']
+  styleUrls: ['./org-tags.component.scss'],
+  styles: [`
+        :: ng-deep .org-tab .mat-tab-body-content{
+            overflow: hidden !important;
+        }
+    `]
 })
 export class OrgTagsComponent implements OnInit {
 

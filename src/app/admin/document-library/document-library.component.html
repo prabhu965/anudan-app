@@ -4,7 +4,7 @@
     <h5 style="font-weight:bold;">Upload Document</h5>
   </div>
   <div class="col-12">
-    <div class="row" style="background:#f6f6f6;">
+    <div class="row" style="background:#f6f6f6; height: 95px;">
       <div class="col-6" style="display: flex;align-items: center;">
         <button class="btn btn-sm btn-green w-100" disabled>
           <mat-icon style='display:flex;align-items:center;justify-content: center;'>business</mat-icon>Browse from library
@@ -18,13 +18,11 @@
     </div>
 
   </div>
-  <div class="col-12">
-    <hr />
-  </div>
-  <div class="col-12">
+
+  <div class="col-12 mt-3">
     <h5 style="font-weight:bold;">Manage Library Documents</h5>
   </div>
-  <div class="col-12">
+  <div class="col-12 main-content no-top-margin4">
     <mat-nav-list style="background:#fff;">
       <ng-container id="doc_{{doc.id}}" *ngFor="let doc of docs" style="min-height:48px;height:auto;padding:8px;">
         <mat-list-item>

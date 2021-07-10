@@ -23,7 +23,7 @@ export class InprogressDisbursementsComponent implements OnInit {
 
   disbursements: Disbursement[];
   deleteDisbursementEvent: boolean = false;
-  filteredDisbursements: Disbursement[];
+  filteredDisbursements: Disbursement[] = [];
   searchClosed = true;
   filterReady = false;
   filterCriteria: any;

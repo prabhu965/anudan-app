@@ -137,8 +137,8 @@ export class AdminLayoutComponent implements OnInit {
       // if we are on windows OS we activate the perfectScrollbar function
 
       document
-      /* .getElementsByTagName("body")[0]
-      .classList.add("perfect-scrollbar-on"); */
+        .getElementsByClassName("anudan-scrollable")[0]
+        .classList.add("perfect-scrollbar-on");
     } else {
       document
         .getElementsByTagName("body")[0]
@@ -446,6 +446,7 @@ export class AdminLayoutComponent implements OnInit {
   }
 
   showWorkflowAssigments() {
+    this.appComponent.initAppUI();
     if (this.appComponent.currentView === "grant") {
       const wfModel = new WorkflowAssignmentModel();
       wfModel.users = this.appComponent.tenantUsers;

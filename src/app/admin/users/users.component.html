@@ -11,15 +11,15 @@
                     <small class="text-danger" *ngIf="existingUser">User with this email address already exists</small>
                 </mat-form-field>
             </div>
-            <div class="col-6 pt-3">
+            <div class="col-5 pt-3">
                 <mat-label>Select a role</mat-label>
                 <mat-select class="anu-input" [(ngModel)]="newRole">
                     <mat-option *ngFor="let role of roles" [value]="role">{{role.name}}</mat-option>
                 </mat-select>
             </div>
-            <div class="col-12 text-right">
+            <div class="col-2 text-right d-flex align-items-center mt-3">
                 <button #createRoleBtn class="btn btn-sm btn-green float-right" (click)="createNewUser()"
-                    [disabled]="canSendInvite()">Send Invitation</button>
+                    [disabled]="canSendInvite()">Send Invite</button>
             </div>
         </div>
 
@@ -28,7 +28,7 @@
     <div class="col-12 mt-3">
         <h5 style="font-weight:bold;">Manage Users</h5>
     </div>
-    <div class="col-12 px-0">
+    <div class="col-12 main-content no-top-margin4">
         <mat-list style="background:#fff;">
 
             <mat-list-item class="user-list-item-class" id="user_{{user.id}}" *ngFor="let user of users"
