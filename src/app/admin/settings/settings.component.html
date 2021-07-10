@@ -1,11 +1,11 @@
-<div class="main-content">
+<div class="main-content no-top-margin1">
     <h3 class="text-center" *ngIf="this.appComp.loggedInUser.organization.organizationType==='PLATFORM'">Application Configurations</h3>
     <div>
         <ng-container class="row grants-section p-3 mx-3" *ngFor="let setting of appSettings">
             <div *ngIf="setting.configurable" class="row grants-section p-3 mx-3">
             <div class="col-3" align="left" width="30%" valign="top">
-                <small class="badge badge-light" *ngIf="setting.type==='app'">Anudan default</small>
-                <small class="badge badge-success" *ngIf="setting.type==='org'">{{this.appComp.loggedInUser.organization.name}} configured</small>
+                <small class="badge badge-light" *ngIf="setting.type==='app'" style="white-space: pre-wrap;line-height: 1.1em;text-align: left;">Anudan default</small>
+                <small class="badge badge-success" *ngIf="setting.type==='org'" style="white-space: pre-wrap;line-height: 1.1em;text-align: left;">{{this.appComp.loggedInUser.organization.name}} configured</small>
 
                 <div [innerHTML]="setting.description" class="pt-4"></div>
             </div>

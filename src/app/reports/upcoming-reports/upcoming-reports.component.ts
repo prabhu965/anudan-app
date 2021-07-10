@@ -142,7 +142,11 @@ export class UpcomingReportsComponent implements OnInit {
                 this.filteredToSetupReportOD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') > 0);
                 this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
                 this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
-
+            } else {
+                this.filteredToSetupReportD = [];
+                this.filteredToSetupReportOD = [];
+                this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
+                this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
             }
 
             this.processReports(reports);
@@ -389,6 +393,19 @@ export class UpcomingReportsComponent implements OnInit {
                             if (index >= 0) {
                                 this.reportsToSetupData.splice(index, 1);
                             }
+                            this.filteredToSetupReports = this.reportsToSetupData;
+
+                            if (this.filteredToSetupReports && this.filteredToSetupReports.length > 0) {
+                                this.filteredToSetupReportD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') <= 0);
+                                this.filteredToSetupReportOD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') > 0);
+                                this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
+                                this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
+                            } else {
+                                this.filteredToSetupReportD = [];
+                                this.filteredToSetupReportOD = [];
+                                this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
+                                this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
+                            }
                         }
                         if (this.reportsToSetup !== undefined && this.reportsToSetup !== null) {
                             index = this.reportsToSetup.findIndex(r => r.id === report.id);
@@ -406,6 +423,7 @@ export class UpcomingReportsComponent implements OnInit {
                             index = this.allReports.findIndex(r => r.id === report.id);
                             if (index >= 0) {
                                 this.allReports.splice(index, 1);
+                                this.filterAllReports = this.addnlReports;
                             }
                         }
                         this.deleteReportsClicked = false;

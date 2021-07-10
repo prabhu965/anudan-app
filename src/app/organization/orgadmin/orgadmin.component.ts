@@ -9,7 +9,19 @@ import { MatTabChangeEvent } from '@angular/material';
 @Component({
     selector: 'organization-admin-dashboard',
     templateUrl: './orgadmin.component.html',
-    styleUrls: ['./orgadmin.component.css']
+    styleUrls: ['./orgadmin.component.css'],
+    styles: [`
+        ::ng-deep .org-tab .mat-tab-header{
+            position: static;
+            top: 80px;
+            z-index: 1040;
+            background: #fff;
+        },
+
+        :: ng-deep .org-tab .mat-tab-body-content{
+            overflow: hidden !important;
+        }
+    `]
 })
 export class OrgadminComponent implements OnInit {
 

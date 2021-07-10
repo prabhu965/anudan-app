@@ -17,7 +17,12 @@ declare var jsPlumb: any;
 @Component({
     selector: 'app-wfassignment-dialog',
     templateUrl: './wfassignment.component.html',
-    styleUrls: ['./wfassignment.component.scss']
+    styleUrls: ['./wfassignment.component.scss'],
+    styles: [`
+        ::ng-deep .wf-assignment-class .mat-dialog-container{
+            overflow: hidden !important;
+        }
+    `]
 })
 export class WfassignmentComponent implements OnInit, AfterViewInit {
 

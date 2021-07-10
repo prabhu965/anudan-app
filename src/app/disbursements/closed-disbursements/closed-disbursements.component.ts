@@ -16,7 +16,7 @@ export class ClosedDisbursementsComponent implements OnInit {
 
 
   disbursements: Disbursement[];
-  filteredDisbursements: Disbursement[];
+  filteredDisbursements: Disbursement[] = [];
   searchClosed = true;
   filterReady = false;
   filterCriteria: any;

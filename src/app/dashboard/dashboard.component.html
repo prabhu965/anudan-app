@@ -34,23 +34,24 @@
         </mat-card>
     </div>
 </div-->
+<div class="main-content no-top-margin" style="margin-top: 40px;">
     <div class="container-fluid">
 
         <mat-tab-group (selectedTabChange)="tabSelectionChange($event)" #DashboardTabGroup *ngIf="this.appComponent.loggedInUser.organization.type==='GRANTER'" class="mt-4">
             <mat-tab label="{{this.appComponent.loggedInUser.organization.name}}">
                 <div class="anu-container text-left mx-0 px-4">
-                    <div class="row">
+                    <div class="row mx-0">
                         <div class="col-4 px-0"><app-summary [heading]="totalGrantsIssued" caption="Total Grants issued"></app-summary></div>
                         <div class="col-4 px-0"><app-summary [heading]="totalGrantees" caption="Grantees"></app-summary></div>
                         <div class="col-4 px-0"><app-summary [heading]="totalGrantAmount" caption="Total Grant Amount"></app-summary></div>
                     </div>
-                    <div class="row">
+                    <div class="row mx-0">
                         <div class="col-4 px-0"><app-summary heading="-" caption="RFPs" disabled="true"></app-summary></div>
                         <div class="col-4 px-0"><app-summary heading="-" caption="Applications" disabled="true"></app-summary></div>
                         <div class="col-4 px-0"><app-summary [heading]="totalActiveUsers" caption="Active users"></app-summary></div>
                     </div>
                     <hr>
-                    <div class="row mt-4">
+                    <div class="row mx-0 mt-4">
                         <div class="col-12 px-2">
                             <app-portfolio-summary [data]="portfolioData" [display]="false" name="Grant Portfolio"></app-portfolio-summary>
                         </div>
@@ -86,4 +87,5 @@
 
             </mat-tab> -->
         </mat-tab-group>
+    </div>
     </div>

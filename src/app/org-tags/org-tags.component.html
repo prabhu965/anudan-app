@@ -2,11 +2,13 @@
   <div class="col-12">
       <h5 style="font-weight:bold;">Add Tags</h5>
   </div>
-  <div class="col-12">
+  <div class="col-12 d-flex align-items-center" style="height:95px;">
     <input matInput class="anu-input" placeholder="Type in text and press Enter to create a new tag" (keyup.enter)="addTag($event)">
   </div>
-  <div class="col-12">
-    <h5 class="mt-4" style="font-weight:bold;">Manage Tags</h5>
+  <div class="col-12 mt-3">
+    <h5 style="font-weight:bold;">Manage Tags</h5>
+  </div>
+  <div class="col-12 main-content no-top-margin4">
     <mat-list dense>
       <mat-list-item *ngFor="let tag of tags" style="background:#f4f4f4 !important;" class="m-1">
        <p *ngIf="tag.id!==tagBeingEdited.id" matLine>{{tag.name}}</p>

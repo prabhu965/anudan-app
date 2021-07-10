@@ -19,7 +19,7 @@ import { SearchFilterComponent } from 'app/layouts/admin-layout/search-filter/se
 export class ApprovedDisbursementsComponent implements OnInit {
 
   disbursements: Disbursement[];
-  filteredDisbursements: Disbursement[];
+  filteredDisbursements: Disbursement[] = [];
   searchClosed = true;
   filterReady = false;
   filterCriteria: any;

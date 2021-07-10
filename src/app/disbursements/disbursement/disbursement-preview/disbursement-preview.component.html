@@ -1,5 +1,4 @@
-<div class="row anu-container">
-  <div
+<div
     class="col-12 bg-white"
     style="position: sticky; top: 80px; z-index: 1040"
   >
@@ -80,6 +79,9 @@
     </div>
   </div>
 
+  <div [ngClass]="(currentDisbursement.status.internalStatus==='ACTIVE' || currentDisbursement.status.internalStatus==='CLOSED')?'main-content no-top-margin3':'main-content no-top-margin1'" style="margin-top: 40px;">
+    <div class="container-fluid anudan-scrollable" style="background: #fff;">
+  <div class="row anu-container">
   <div #reportSummary class="col-lg-12">
     <div #container class="container text-left mt-5 px-5 py-5">
       <!--MANAGEMENT SECTION-->
@@ -747,6 +749,7 @@
               ><i class="fas fa-plus-circle text-green mr-1"></i>Add a row</span
             >
           </div>
+
           <div
             *ngIf="
               currentDisbursement.canRecordActuals &&
@@ -850,6 +853,53 @@
             </table>
           </ng-container>
         </div>
+        <p *ngIf="currentDisbursement.disbursementDocuments && currentDisbursement.disbursementDocuments.length>0" class="text-header mt-3">Associated Documents</p>
+        <ng-container *ngFor="let doc of currentDisbursement.disbursementDocuments">
+          <a
+            (click)="
+              downloadAttachment(
+                currentDisbursement.id,
+                doc.id,
+                doc.name,
+                doc.location
+              )
+            "
+          >
+            <span class="ml-0">
+              <ng-container *ngIf="doc.location.includes('.pdf')">
+                <i class="far fa-file-pdf text-danger ml-1"></i>
+              </ng-container>
+              <ng-container
+                *ngIf="
+                doc.location.includes('.xls') || doc.location.includes('.xlsx')
+                "
+              >
+                <i
+                  class="far fa-file-excel text-success ml-1"
+                ></i>
+              </ng-container>
+              <ng-container
+                *ngIf="
+                doc.location.includes('.doc') || doc.location.includes('.docx')
+                "
+              >
+                <i
+                  class="far fa-file-word text-primary ml-1"
+                ></i>
+              </ng-container>
+              <ng-container
+                *ngIf="
+                doc.location.includes('.ppt') || doc.location.includes('.pptx')
+                "
+              >
+                <i
+                  class="far fa-file-powerpoint text-danger ml-1"
+                ></i>
+              </ng-container>
+              {{ doc.name }}{{'.'+doc.location.substring(doc.location.lastIndexOf(".")+1)}}
+            </span></a
+          ><br />
+        </ng-container>
 
         <ng-template
           kendoPDFTemplate
@@ -861,4 +911,6 @@
       </kendo-pdf-export>
     </div>
   </div>
+</div>
+</div>
 </div>
