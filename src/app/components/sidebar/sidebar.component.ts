@@ -361,6 +361,7 @@ export class SidebarComponent implements OnInit {
       if (thisMenu === 'organization') {
         this.reportsElem.close();
         this.grantsElem.close();
+        this.disbursementsElem.close();
       } else if (thisMenu === 'reports') {
         if (this.organizationElem) {
           this.organizationElem.close();

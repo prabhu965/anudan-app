@@ -1,22 +1,14 @@
-<div class="sidebar-wrapper h-100">
-  <ul
-    class="nav"
-    *ngIf="
-      appComponent.loggedInUser.organization.type === 'GRANTER' ||
-      appComponent.loggedInUser.organization.type === 'GRANTEE'
-    "
-  >
-    <li
+<div
       *ngIf="isMobileMenu()"
       class="p-1 nav-item"
       style="
         padding-top: 0 !important;
-        min-height: 81px;
-        max-height: 81px;
+        min-height: 80px;
+        max-height: 80px;
         position: sticky;
         top: 0;
         background: #424652;
-        z-index: 1;
+        z-index: 1040;
         border-bottom: 1px solid #525560;
       "
     >
@@ -35,10 +27,17 @@
           class="nav-link float-left"
           style="max-width: 35%"
         />
-        <strong class="text-left">{{ appComponent.loggedInUser.organization.name }}</strong>
+        <strong class="text-left text-white">{{ appComponent.loggedInUser.organization.name }}</strong>
       </div>
-    </li>
-
+    </div>
+<div class="sidebar-wrapper">
+  <ul
+    class="nav"
+    *ngIf="
+      appComponent.loggedInUser.organization.type === 'GRANTER' ||
+      appComponent.loggedInUser.organization.type === 'GRANTEE'
+    "
+  >
     <ng-container
       *ngIf="
         appComponent.currentView === 'dashboard' ||
@@ -534,22 +533,3 @@
     </ng-container>
   </ul>
 </div>
-<!--<mat-expansion-panel class="w-100 m-0 p-0" style="position: absolute; bottom: 0; z-index: 5;">
-    <mat-expansion-panel-header class="profilearea" style="background: #24262E;height: 64px !important;">
-        <mat-panel-title style="display: flex; align-items: center">
-            <p class="text-white font-weight-bolder text-left m-0"><img src="./assets/img/avatar.svg" class="w-10 mr-2" style="width:10%;">{{appComponent.loggedInUser.lastName}}, {{appComponent.loggedInUser.firstName}}</p>
-        </mat-panel-title>
-    </mat-expansion-panel-header>
-    <ul class="nav" style="background:#424652; height:100%;">
-        <li routerLinkActive="active" class="nav-item" *ngIf="appComponent.loggedInUser && isMobileMenu()" style="background:#424652;">
-            <a class="nav-link" routerLinkActive="active" (click)="showProfile()">
-                <p class="pl-5 pt-2 text-left text-light">Profile</p>
-            </a>
-        </li>
-        <li routerLinkActive="active" class="nav-item" *ngIf="appComponent.loggedInUser && isMobileMenu()" style="background:#424652;">
-            <a class="nav-link" (click)="appComponent.logout()">
-                <p class="pl-5 pt-2 text-left text-light">Logout</p>
-            </a>
-        </li>
-    </ul>
-</mat-expansion-panel>-->
