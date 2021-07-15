@@ -48,6 +48,10 @@ export class UpcomingReportsComponent implements OnInit {
     filteredToSetupReportOD: Report[];
     filteredToSetupReportODOrig: Report[];
     filteredReadyToSubmitReports: Report[];
+    filteredReadyToSubmitReportsD: Report[];
+    filteredReadyToSubmitReportsOD: Report[];
+    filteredReadyToSubmitReportsDOrig: Report[];
+    filteredReadyToSubmitReportsODOrig: Report[];
     filterAllReports: Report[];
     searchClosed = true;
     filterReady = false;
@@ -167,6 +171,18 @@ export class UpcomingReportsComponent implements OnInit {
             this.filteredReadyToSubmitReports = this.reportsReadyToSubmit;
             if (this.appComp.loggedInUser.organization.organizationType === 'GRANTEE') {
                 this.reportsReadyToSubmit.sort((a, b) => (a.dueDate <= b.dueDate) ? -1 : 1);
+            }
+
+            if (this.filteredReadyToSubmitReports && this.filteredReadyToSubmitReports.length > 0) {
+                this.filteredReadyToSubmitReportsD = this.filteredReadyToSubmitReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') <= 0);
+                this.filteredReadyToSubmitReportsOD = this.filteredReadyToSubmitReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') > 0);
+                this.filteredReadyToSubmitReportsDOrig = this.filteredToSetupReportD;
+                this.filteredReadyToSubmitReportsODOrig = this.filteredToSetupReportOD;
+            } else {
+                this.filteredReadyToSubmitReportsD = [];
+                this.filteredReadyToSubmitReportsOD = [];
+                this.filteredReadyToSubmitReportsDOrig = this.filteredToSetupReportD;
+                this.filteredReadyToSubmitReportsODOrig = this.filteredToSetupReportOD;
             }
         });
 
@@ -473,7 +489,13 @@ export class UpcomingReportsComponent implements OnInit {
                 (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
                 (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
         });
-        this.filteredReadyToSubmitReports = this.reportsReadyToSubmit.filter(g => {
+        this.filteredReadyToSubmitReportsD = this.filteredReadyToSubmitReportsDOrig.filter(g => {
+            return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+                (g.grant.name.toLowerCase().includes(val)) ||
+                (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+                (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
+        });
+        this.filteredReadyToSubmitReportsOD = this.filteredReadyToSubmitReportsODOrig.filter(g => {
             return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
                 (g.grant.name.toLowerCase().includes(val)) ||
                 (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||

@@ -412,6 +412,10 @@
         max-height: calc(100vh - 386px) !important;
     }
 
+    .main-content.mat-tab-body-content{
+        overflow-x: hidden;
+    }
+
      .footer{
         border-top: 1px solid #e7e7e7;
         padding-bottom: 0;

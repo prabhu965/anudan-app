@@ -2,13 +2,13 @@
 export class ActionsPending {
   Grants: number = 0;
   Reports: number = 0;
-  DisbursementApprovals: number = 0;
+  DisbursementApprovals: string = '-';
 }
 
 export class UpcomingGrants {
   DraftGrants: number = 0;
   Grantsinmyworkflow: number = 0;
-  GrantAmount: number = 0;
+  GrantAmount: string = '-';
 }
 
 export class Summary {

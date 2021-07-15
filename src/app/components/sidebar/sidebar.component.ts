@@ -151,6 +151,9 @@ export class SidebarComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient,
     private disbursementDataService: DisbursementDataService) {
+    if (appComponent.loggedInUser.organization.organizationType === 'GRANTEE') {
+      REPORT_ROUTES[0].title = 'Submissions Due'
+    }
     if (!this.appComponent.loggedInUser) {
       this.appComponent.logout();
     }
