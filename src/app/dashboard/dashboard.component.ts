@@ -30,6 +30,10 @@ import { DisbursementDataService } from 'app/disbursement.data.service';
      ::ng-deep .mat-card-header-text {
         width:100% !important;
      }
+    `, `
+     ::ng-deep .mat-tab-body-content{
+       overflow-x: hidden !important;
+     }
     `]
 })
 export class DashboardComponent implements OnInit {
@@ -337,6 +341,8 @@ export class DashboardComponent implements OnInit {
 
     this.http.get(url, httpOptions).subscribe((data: any) => {
       this.myCategory = data;
+      this.myCategory.summary.ActionsPending.DisbursementApprovals = '₹' + inf.format(Number(this.myCategory.summary.ActionsPending.DisbursementApprovals), 2);
+      this.myCategory.summary.UpcomingGrants.GrantAmount = '₹' + inf.format(Number(this.myCategory.summary.UpcomingGrants.GrantAmount), 2);
       console.log(this.myCategory);
     });
   }
