@@ -428,12 +428,12 @@
                   <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId)}" ><small>{{getGrantTypeName(report.grant.grantTypeId)}}</small></span>
                   <p class="text-subheader text-left mb-0">
                     Grant Name:
-                    <b>{{
+                    <b class="search-context">{{
                       (report.grant.referenceNo
                         ? report.grant.referenceNo + " | "
                         : "") + report.grant.name
                     }}</b><br>Implementing Organization:
-                    <b *ngIf="isExternalGrant(report.grant)">{{
+                    <b class="search-context" *ngIf="isExternalGrant(report.grant)">{{
                       report.grant.organization
                         ? report.grant.organization.name
                         : ""
@@ -452,7 +452,7 @@
                   </p>
                 </div>
                 <div class="col-10 search-context">
-                  <p class="text-header text-left">
+                  <p class="text-header text-left search-contextfmat">
                     {{ report.name }} |
                     {{ report.dueDate | date: "dd-MMM-yyyy" }}
                   </p>
@@ -582,17 +582,17 @@
                   <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId)}" ><small>{{getGrantTypeName(report.grant.grantTypeId)}}</small></span>
                   <p class="text-subheader text-left mb-0">
                     Grant Name:
-                    <b>{{
+                    <b class="search-context">{{
                       (report.grant.referenceNo
                         ? report.grant.referenceNo + " | "
                         : "") + report.grant.name
                     }}</b><br>Implementing Organization:
-                    <b *ngIf="isExternalGrant(report.grant)">{{
+                    <b class="search-context" *ngIf="isExternalGrant(report.grant)">{{
                       report.grant.organization
                         ? report.grant.organization.name
                         : ""
                     }}</b> 
-                    <b *ngIf="!isExternalGrant(report.grant)">{{
+                    <b class="search-context" *ngIf="!isExternalGrant(report.grant)">{{
                       report.grant.grantorOrganization.name
                     }}</b> 
                     <br />
@@ -606,7 +606,7 @@
                   </p>
                 </div>
                 <div class="col-10 search-context">
-                  <p class="text-header text-left">
+                  <p class="text-header text-left search-context">
                     {{ report.name }} |
                     {{ report.dueDate | date: "dd-MMM-yyyy" }}
                   </p>

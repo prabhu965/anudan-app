@@ -29,7 +29,7 @@
               *ngFor="let report of filteredSubmittedReportsD; let i = index"
               (click)="manageReport(report)"
             >
-              <div class="col-12 mb-1 search-context">
+              <div class="col-12 mb-1">
                 <p
                   *ngIf="report.disabledByAmendment"
                   class="mb-0 text-red text-left"
@@ -41,13 +41,13 @@
                 <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId)}" ><small>{{getGrantTypeName(report.grant.grantTypeId)}}</small></span>
                 <p class="text-subheader text-left mb-0">
                   Grant Name:
-                  <b>{{
+                  <b class="search-context">{{
                     (report.grant.referenceNo
                       ? report.grant.referenceNo + " | "
                       : "") + report.grant.name
                   }}</b>
                   <br>Implementing Organization:
-                  <b *ngIf="isExternalGrant(report.grant)">{{
+                  <b class="search-context" *ngIf="isExternalGrant(report.grant)">{{
                     report.grant.organization
                       ? report.grant.organization.name
                       : ""
