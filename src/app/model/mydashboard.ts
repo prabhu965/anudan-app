@@ -2,13 +2,13 @@
 export class ActionsPending {
   Grants: number = 0;
   Reports: number = 0;
-  DisbursementApprovals: string = '-';
+  DisbursementApprovals: number = 0;
 }
 
 export class UpcomingGrants {
   DraftGrants: number = 0;
   Grantsinmyworkflow: number = 0;
-  GrantAmount: string = '-';
+  GrantAmount: number = 0;
 }
 
 export class Summary {
@@ -62,6 +62,7 @@ export class Filter {
 
 export class MyCategory {
   name: string = '';
+  canshowdashboard: boolean;
   summary: Summary = new Summary();
   filters: Filter[] = [];
 }

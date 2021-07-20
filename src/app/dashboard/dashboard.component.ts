@@ -341,10 +341,13 @@ export class DashboardComponent implements OnInit {
 
     this.http.get(url, httpOptions).subscribe((data: any) => {
       this.myCategory = data;
-      this.myCategory.summary.ActionsPending.DisbursementApprovals = '₹' + inf.format(Number(this.myCategory.summary.ActionsPending.DisbursementApprovals), 2);
-      this.myCategory.summary.UpcomingGrants.GrantAmount = '₹' + inf.format(Number(this.myCategory.summary.UpcomingGrants.GrantAmount), 2);
+      //this.myCategory.summary.ActionsPending.DisbursementApprovals = '₹' + inf.format(Number(this.myCategory.summary.ActionsPending.DisbursementApprovals), 2);
       console.log(this.myCategory);
     });
+  }
+
+  getFormattedGrantAmount(amount: number) {
+    return '₹' + inf.format(amount, 2);
   }
 
   getName(): string {
