@@ -74,9 +74,21 @@
                     </div>
                     <div *ngIf="myCategory.summary.UpcomingGrants.DraftGrants>0 || myCategory.summary.UpcomingGrants.Grantsinmyworkflow>0 || myCategory.summary.UpcomingGrants.GrantAmount>0" class="row">
                         <div class="col-12 mt-4"><h5 class="text-green mb-0" style="font-weight: 400;">Upcoming Grants</h5></div>
-                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.UpcomingGrants.DraftGrants" caption="Draft Grants"></app-summary></div>
-                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.UpcomingGrants.Grantsinmyworkflow" caption="Grants in my workflow"></app-summary></div>
-                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [color]="'#f4f4f4'" [heading]="getFormattedGrantAmount(myCategory.summary.UpcomingGrants.GrantAmount)" caption="Grant Amount"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.UpcomingGrants.DraftGrants" caption="Drafts"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.UpcomingGrants.Grantsinmyworkflow" caption="Workflows"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [color]="'#f4f4f4'" [heading]="getFormattedGrantAmount(myCategory.summary.UpcomingGrants.GrantAmount)" caption="Commitments"></app-summary></div>
+                    </div>
+                    <div *ngIf="myCategory.summary.UpcomingReports.DraftReports>0 || myCategory.summary.UpcomingReports.Reportsinmyworkflow>0 || myCategory.summary.UpcomingReports.ReportAmount>0" class="row">
+                        <div class="col-12 mt-4"><h5 class="text-green mb-0" style="font-weight: 400;">Upcoming Reports</h5></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.UpcomingReports.DraftReports" caption="Drafts"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.UpcomingReports.Reportsinmyworkflow" caption="Workflows"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [color]="'#f4f4f4'" [heading]="getFormattedGrantAmount(myCategory.summary.UpcomingReports.ReportAmount)" caption="Grant Commitments Pending"></app-summary></div>
+                    </div>
+                    <div *ngIf="myCategory.summary.upcomingDisbursements.DraftDisbursements>0 || myCategory.summary.upcomingDisbursements.Disbursementsinmyworkflow>0 || myCategory.summary.upcomingDisbursements.DisbursementAmount>0" class="row">
+                        <div class="col-12 mt-4"><h5 class="text-green mb-0" style="font-weight: 400;">Upcoming Disbursements</h5></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.upcomingDisbursements.DraftDisbursements" caption="Drafts"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.upcomingDisbursements.Disbursementsinmyworkflow" caption="Workflows"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [color]="'#f4f4f4'" [heading]="getFormattedGrantAmount(myCategory.summary.upcomingDisbursements.DisbursementAmount)" caption="Disbursement Requests"></app-summary></div>
                     </div>
                     <hr>
                     <div *ngIf="myCategory.filters && myCategory.filters.length>0 && (myCategory.filters[0].totalGrants>0 || myCategory.filters[1].totalGrants>0)" class="row mt-4">

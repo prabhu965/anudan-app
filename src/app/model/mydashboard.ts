@@ -11,9 +11,23 @@ export class UpcomingGrants {
   GrantAmount: number = 0;
 }
 
+export class UpcomingReports {
+  DraftReports: number = 0;
+  Reportsinmyworkflow: number = 0;
+  ReportAmount: number = 0;
+}
+
+export class UpcomingDisbursements {
+  DraftDisbursements: number = 0;
+  Disbursementsinmyworkflow: number = 0;
+  DisbursementAmount: number = 0;
+}
+
 export class Summary {
   ActionsPending: ActionsPending = new ActionsPending();
   UpcomingGrants: UpcomingGrants = new UpcomingGrants();
+  UpcomingReports: UpcomingReports = new UpcomingReports();
+  upcomingDisbursements: UpcomingDisbursements = new UpcomingDisbursements();
 }
 
 export class Value {
