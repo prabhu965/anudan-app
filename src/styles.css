@@ -1007,3 +1007,15 @@ mat-icon:hover{
   display: block;
   width:20px;
 }
+
+.app-summary-class{
+  background: #ffffff;
+  border-left-width: 3px;
+  border-left-style: solid;
+  border-left-color:  #4DC252;
+  border-top: 1px solid rgba(14, 16, 14, 0.12);
+  border-radius: 2px;
+  border-right: 1px solid rgba(14, 16, 14, 0.12);
+  border-bottom: 1px solid rgba(14, 16, 14, 0.12);
+  box-shadow: 4px 4px 10px #d7d7d7;
+}

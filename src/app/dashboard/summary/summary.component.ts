@@ -1,4 +1,4 @@
-import {Component, OnInit,Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 
 @Component({
@@ -8,16 +8,18 @@ import {Component, OnInit,Input} from '@angular/core';
 })
 export class SummaryComponent implements OnInit {
 
-     @Input() heading: string;
-     @Input() caption: string;
-     @Input() disabled: boolean = false;
+  @Input() heading: string;
+  @Input() caption: string;
+  @Input() disabled: boolean = false;
+  @Input() color = "#ffffff";
+  @Input() border = "#ffffff";
 
-    constructor() {
+  constructor() {
 
-    }
+  }
 
-    ngOnInit() {
+  ngOnInit() {
 
-    }
+  }
 
 }

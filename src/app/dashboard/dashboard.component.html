@@ -41,9 +41,9 @@
             <mat-tab label="{{this.appComponent.loggedInUser.organization.name}}">
                 <div class="anu-container text-left mx-0 px-4">
                     <div class="row mx-0">
-                        <div class="col-4 px-0"><app-summary [heading]="totalGrantsIssued" caption="Total Grants issued"></app-summary></div>
-                        <div class="col-4 px-0"><app-summary [heading]="totalGrantees" caption="Grantees"></app-summary></div>
-                        <div class="col-4 px-0"><app-summary [heading]="totalGrantAmount" caption="Total Grant Amount"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#4dc252'" [heading]="totalGrantsIssued" caption="Total Grants issued"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#4dc252'" [heading]="totalGrantees" caption="Grantees"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#4dc252'" [heading]="totalGrantAmount" caption="Total Grant Amount"></app-summary></div>
                     </div>
                     <div class="row mx-0">
                         <div class="col-4 px-0"><app-summary heading="-" caption="RFPs" disabled="true"></app-summary></div>
@@ -51,7 +51,7 @@
                         <div class="col-4 px-0"><app-summary [heading]="totalActiveUsers" caption="Active users"></app-summary></div>
                     </div>
                     <hr>
-                    <div class="row mx-0 mt-4">
+                    <div *ngIf="portfolioData && portfolioData.length>0" class="row mx-0 mt-4">
                         <div class="col-12 px-2">
                             <app-portfolio-summary [data]="portfolioData" [display]="false" name="Grant Portfolio"></app-portfolio-summary>
                         </div>
@@ -61,22 +61,37 @@
                 </div>
 
             </mat-tab>
-            <!-- <mat-tab label="{{getName()}}">
+            <!-- <mat-tab *ngIf="myCategory.canshowdashboard" label="{{getName()}}">
                 <div class="anu-container text-left mx-0 px-4">
                     <div class="row">
-                        <div class="col-12 mt-4"><h5 class="text-green mb-0" style="font-weight: 400;">Actions Pending</h5></div>
-                        <div class="col-4 px-0"><app-summary [heading]="myCategory.summary.ActionsPending.Grants" caption="Grants"></app-summary></div>
-                        <div class="col-4 px-0"><app-summary [heading]="myCategory.summary.ActionsPending.Reports" caption="Reports"></app-summary></div>
-                        <div class="col-4 px-0"><app-summary [heading]="myCategory.summary.ActionsPending.DisbursementApprovals" caption="Disbursement Approvals"></app-summary></div>
+                        <div class="col-12 mt-4">
+                            <h5 *ngIf="myCategory.summary.ActionsPending.Grants>0 || myCategory.summary.ActionsPending.Reports>0 || myCategory.summary.ActionsPending.DisbursementApprovals>0" class="text-green mb-0" style="font-weight: 400;">Actions Pending</h5>
+                            <h5 *ngIf="myCategory.summary.ActionsPending.Grants===0 && myCategory.summary.ActionsPending.Reports===0 && myCategory.summary.ActionsPending.DisbursementApprovals===0" class="text-green mb-0" style="font-weight: 400;">No Actions Pending</h5>
+                        </div>
+                        <div class="col-4 px-0"><app-summary *ngIf="myCategory.summary.ActionsPending.Grants>0 || myCategory.summary.ActionsPending.Reports>0 || myCategory.summary.ActionsPending.DisbursementApprovals>0" [border]="'#ffbf00'" [heading]="myCategory.summary.ActionsPending.Grants" caption="Grants"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary *ngIf="myCategory.summary.ActionsPending.Grants>0 || myCategory.summary.ActionsPending.Reports>0 || myCategory.summary.ActionsPending.DisbursementApprovals>0" [border]="'#ffbf00'" [heading]="myCategory.summary.ActionsPending.Reports" caption="Reports"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary *ngIf="myCategory.summary.ActionsPending.Grants>0 || myCategory.summary.ActionsPending.Reports>0 || myCategory.summary.ActionsPending.DisbursementApprovals>0" [border]="'#ffbf00'" [heading]="myCategory.summary.ActionsPending.DisbursementApprovals" caption="Disbursement Approvals"></app-summary></div>
                     </div>
-                    <div class="row">
+                    <div *ngIf="myCategory.summary.UpcomingGrants.DraftGrants>0 || myCategory.summary.UpcomingGrants.Grantsinmyworkflow>0 || myCategory.summary.UpcomingGrants.GrantAmount>0" class="row">
                         <div class="col-12 mt-4"><h5 class="text-green mb-0" style="font-weight: 400;">Upcoming Grants</h5></div>
-                        <div class="col-4 px-0"><app-summary [heading]="myCategory.summary.UpcomingGrants.DraftGrants" caption="Draft Grants"></app-summary></div>
-                        <div class="col-4 px-0"><app-summary [heading]="myCategory.summary.UpcomingGrants.Grantsinmyworkflow" caption="Grants in my workflow"></app-summary></div>
-                        <div class="col-4 px-0"><app-summary [heading]="myCategory.summary.UpcomingGrants.GrantAmount" caption="Grant Amount"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.UpcomingGrants.DraftGrants" caption="Drafts"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.UpcomingGrants.Grantsinmyworkflow" caption="Workflows"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [color]="'#f4f4f4'" [heading]="getFormattedGrantAmount(myCategory.summary.UpcomingGrants.GrantAmount)" caption="Commitments"></app-summary></div>
+                    </div>
+                    <div *ngIf="myCategory.summary.UpcomingReports.DraftReports>0 || myCategory.summary.UpcomingReports.Reportsinmyworkflow>0 || myCategory.summary.UpcomingReports.ReportAmount>0" class="row">
+                        <div class="col-12 mt-4"><h5 class="text-green mb-0" style="font-weight: 400;">Upcoming Reports</h5></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.UpcomingReports.DraftReports" caption="Drafts"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.UpcomingReports.Reportsinmyworkflow" caption="Workflows"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [color]="'#f4f4f4'" [heading]="getFormattedGrantAmount(myCategory.summary.UpcomingReports.ReportAmount)" caption="Grant Commitments Pending"></app-summary></div>
+                    </div>
+                    <div *ngIf="myCategory.summary.upcomingDisbursements.DraftDisbursements>0 || myCategory.summary.upcomingDisbursements.Disbursementsinmyworkflow>0 || myCategory.summary.upcomingDisbursements.DisbursementAmount>0" class="row">
+                        <div class="col-12 mt-4"><h5 class="text-green mb-0" style="font-weight: 400;">Upcoming Disbursements</h5></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.upcomingDisbursements.DraftDisbursements" caption="Drafts"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [heading]="myCategory.summary.upcomingDisbursements.Disbursementsinmyworkflow" caption="Workflows"></app-summary></div>
+                        <div class="col-4 px-0"><app-summary [border]="'#9d9d9d'" [color]="'#f4f4f4'" [heading]="getFormattedGrantAmount(myCategory.summary.upcomingDisbursements.DisbursementAmount)" caption="Disbursement Requests"></app-summary></div>
                     </div>
                     <hr>
-                    <div class="row mt-4">
+                    <div *ngIf="myCategory.filters && myCategory.filters.length>0 && (myCategory.filters[0].totalGrants>0 || myCategory.filters[1].totalGrants>0)" class="row mt-4">
                         <div class="col-12 px-2">
                             <app-myportfolio-summary [data]="myCategory.filters" [display]="false" name="My Grant Portfolio"></app-myportfolio-summary>
                         </div>

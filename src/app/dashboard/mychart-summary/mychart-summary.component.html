@@ -14,8 +14,8 @@
             <div class="col-12 pt-1">
                 <div *ngIf="selected.name==='Reports' && (portfolioType==='Active Grants' || portfolioType==='Closed Grants')" style="display: block; height: auto;">
                     <div class="row">
-                        <div class="col-6 pt-4"><div><p style="font-weight: 600;text-align: center;">Reports Due</p><canvas  style="border: 1px solid #d7d7d7;box-shadow: 4px 4px 12px grey; border-radius: 4px; padding: 11px;" class="pieChart1"></canvas></div></div>
-                        <div class="col-6 pt-4"><div><p style="font-weight: 600;text-align: center;">My Approved Status</p><canvas  style="border: 1px solid #d7d7d7;box-shadow: 4px 4px 12px grey; border-radius: 4px; padding: 11px;" class="pieChart3"></canvas></div></div>
+                        <div class="col-6 pt-4"><div><p style="font-weight: 600;text-align: center;">Due Status</p><canvas  style="border: 1px solid #d7d7d7;box-shadow: 4px 4px 12px grey; border-radius: 4px; padding: 11px;" class="pieChart1"></canvas></div></div>
+                        <div class="col-6 pt-4"><div><p style="font-weight: 600;text-align: center;">Approved Status</p><canvas  style="border: 1px solid #d7d7d7;box-shadow: 4px 4px 12px grey; border-radius: 4px; padding: 11px;" class="pieChart3"></canvas></div></div>
                     </div>
                 </div>
                 <div *ngIf="selected.name==='Reports' && portfolioType==='Closed Grants'" style="display: block; width: 400px; height: 200px;">

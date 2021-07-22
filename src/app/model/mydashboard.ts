@@ -2,18 +2,32 @@
 export class ActionsPending {
   Grants: number = 0;
   Reports: number = 0;
-  DisbursementApprovals: string = '-';
+  DisbursementApprovals: number = 0;
 }
 
 export class UpcomingGrants {
   DraftGrants: number = 0;
   Grantsinmyworkflow: number = 0;
-  GrantAmount: string = '-';
+  GrantAmount: number = 0;
+}
+
+export class UpcomingReports {
+  DraftReports: number = 0;
+  Reportsinmyworkflow: number = 0;
+  ReportAmount: number = 0;
+}
+
+export class UpcomingDisbursements {
+  DraftDisbursements: number = 0;
+  Disbursementsinmyworkflow: number = 0;
+  DisbursementAmount: number = 0;
 }
 
 export class Summary {
   ActionsPending: ActionsPending = new ActionsPending();
   UpcomingGrants: UpcomingGrants = new UpcomingGrants();
+  UpcomingReports: UpcomingReports = new UpcomingReports();
+  upcomingDisbursements: UpcomingDisbursements = new UpcomingDisbursements();
 }
 
 export class Value {
@@ -62,6 +76,7 @@ export class Filter {
 
 export class MyCategory {
   name: string = '';
+  canshowdashboard: boolean;
   summary: Summary = new Summary();
   filters: Filter[] = [];
 }
