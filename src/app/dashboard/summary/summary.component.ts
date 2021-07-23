@@ -13,6 +13,7 @@ export class SummaryComponent implements OnInit {
   @Input() disabled: boolean = false;
   @Input() color = "#ffffff";
   @Input() border = "#ffffff";
+  @Input() borderWidth = '1px';
 
   constructor() {
 

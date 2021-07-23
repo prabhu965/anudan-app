@@ -1016,6 +1016,7 @@ mat-icon:hover{
   border-top: 1px solid rgba(14, 16, 14, 0.12);
   border-radius: 2px;
   border-right: 1px solid rgba(14, 16, 14, 0.12);
+  border-left: 1px solid rgba(14, 16, 14, 0.12);
   border-bottom: 1px solid rgba(14, 16, 14, 0.12);
-  box-shadow: 4px 4px 10px #d7d7d7;
+  
 }
