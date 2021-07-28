@@ -1,3 +1,4 @@
+import { ListDialogComponent } from './../components/list-dialog/list-dialog.component';
 import { MyCategory } from '../model/mydashboard';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -360,5 +361,96 @@ export class DashboardComponent implements OnInit {
 
   tabSelectionChange(ev) {
     this.appComponent.currentDashboard = ev.index;
+  }
+
+  showpendingGrants() {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendinggrants', httpOptions)
+      .subscribe((results) => {
+        const dg = this.dialog.open(ListDialogComponent, { data: { _for: 'grant', grants: results }, panelClass: "addnl-report-class" });
+      });
+  }
+
+  showpendingReports() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendingreports', httpOptions)
+      .subscribe((results) => {
+        console.log(results);
+      });
+  }
+
+  showpendingDisbursements() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendingdisbursements', httpOptions)
+      .subscribe((results) => {
+        console.log(results);
+      });
+  }
+
+  showupcomingGrants() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftgrants', httpOptions)
+      .subscribe((results) => {
+        console.log(results);
+      });
+  }
+
+  showupcomingReports() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftreports', httpOptions)
+      .subscribe((results) => {
+        console.log(results);
+      });
+  }
+
+  showupcomingDisbursements() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftdisbursements', httpOptions)
+      .subscribe((results) => {
+        console.log(results);
+      });
   }
 }

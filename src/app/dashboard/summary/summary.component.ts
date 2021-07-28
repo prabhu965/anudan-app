@@ -14,6 +14,8 @@ export class SummaryComponent implements OnInit {
   @Input() color = "#ffffff";
   @Input() border = "#ffffff";
   @Input() borderWidth = '1px';
+  @Input() shadow = 'none';
+  @Input() clickable = false;
 
   constructor() {
 

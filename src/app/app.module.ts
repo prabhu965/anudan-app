@@ -50,6 +50,7 @@ import { OwnersPopupComponent } from './components/owners-popup/owners-popup.com
 import { ProjectDocumentsComponent } from './components/project-documents/project-documents.component';
 import { NocookieComponent } from './nocookie/nocookie.component';
 import { NgxMarkjsModule } from 'ngx-markjs';
+import { ListDialogComponent } from './components/list-dialog/list-dialog.component';
 
 export class AnudanErrorHandler implements ErrorHandler {
   constructor() { }
@@ -97,6 +98,7 @@ export function provideConfig() {
     OwnersPopupComponent,
     NotificationspopupComponent,
     NocookieComponent,
+    ListDialogComponent
   ],
   imports: [
     BrowserAnimationsModule,
