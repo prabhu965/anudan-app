@@ -20,7 +20,7 @@
               [ngClass]="uiService.getCardStyle(grant.currentAssignment ===appComp.loggedInUser.id)"
               style="border-radius: 8px; cursor: pointer"
               *ngFor="let grant of filteredGrants; let i = index"
-              
+              (click)="manageGrant(grant)"
             >
               <div class="col-10 text-left search-context">
                 <i *ngIf="grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></i>
@@ -184,7 +184,7 @@
                 [ngClass]="uiService.getCardStyle(report.canManage)"
                 style="cursor: pointer"
                 *ngFor="let report of reports; let i = index"
-                
+                (click)="manageReport(report)"
               >
                 <div class="col-12 mb-1">
                   <p
@@ -353,6 +353,7 @@
               [ngClass]="uiService.getCardStyle(disbursement.canManage)"
               style="cursor: pointer"
               *ngFor="let disbursement of disbursements; let i = index"
+              (click)="manageDisbursement(disbursement)"
             >
               <div class="col-10 mb-1 search-context">
                 <p

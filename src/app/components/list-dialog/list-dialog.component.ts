@@ -1,3 +1,8 @@
+import { DisbursementDataService } from 'app/disbursement.data.service';
+import { Disbursement } from 'app/model/disbursement';
+import { SingleReportDataService } from './../../single.report.data.service';
+import { Router } from '@angular/router';
+import { DataService } from './../../data.service';
 import { SearchFilterComponent } from 'app/layouts/admin-layout/search-filter/search-filter.component';
 import { GrantDataService } from './../../grant.data.service';
 import { UiUtilService } from '../../ui-util.service';
@@ -32,6 +37,10 @@ export class ListDialogComponent implements OnInit {
   filterCriteria: any;
   @ViewChild("appSearchFilter") appSearchFilter: SearchFilterComponent;
   filteredGrants: any;
+  deleteDisbursementEvent: boolean = false;
+
+  otherReportsClicked: boolean = false;
+  deleteReportsClicked: boolean = false;
 
   constructor(private dialog: MatDialog,
     private reportService: ReportDataService,
@@ -40,7 +49,14 @@ export class ListDialogComponent implements OnInit {
     , private http: HttpClient,
     public currenyService: CurrencyService,
     public uiService: UiUtilService,
-    public grantService: GrantDataService) {
+    public grantService: GrantDataService,
+    public dataService: DataService,
+    public router: Router,
+    private singleReportService: SingleReportDataService,
+    private disbursementDataService: DisbursementDataService
+
+  ) {
+
     this.appComp = listMetaData.appComp;
     this._for = listMetaData._for;
     this.title = listMetaData.title;
@@ -133,5 +149,101 @@ export class ListDialogComponent implements OnInit {
 
   resetFilterFlag(val) {
     this.filterReady = val;
+  }
+
+  manageGrant(grant: Grant) {
+
+    this.appComp.subMenu = { name: "In-progress Grants", action: "dg" };
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      })
+    };
+
+    this.appComp.loggedIn = true;
+
+    const url = "/api/user/" + this.appComp.loggedInUser.id + "/grant/" + grant.id;
+
+    this.http.get(url, httpOptions).subscribe((grant: Grant) => {
+      if (
+        grant.workflowAssignments.filter(
+          (wf) =>
+            wf.stateId === grant.grantStatus.id &&
+            wf.assignments === this.appComp.loggedInUser.id
+        ).length > 0 &&
+        this.appComp.loggedInUser.organization.organizationType !==
+        "GRANTEE" &&
+        grant.grantStatus.internalStatus !== "ACTIVE" &&
+        grant.grantStatus.internalStatus !== "CLOSED"
+      ) {
+        grant.canManage = true;
+      } else {
+        grant.canManage = false;
+      }
+      this.dataService.changeMessage(grant.id);
+      this.grantService.changeMessage(grant, this.appComp.loggedInUser.id);
+      this.appComp.originalGrant = JSON.parse(JSON.stringify(grant));
+      this.appComp.currentView = "grant";
+
+      this.appComp.selectedTemplate = grant.grantTemplate;
+
+      this.dialogRef.close();
+
+      if (grant.canManage) {
+        this.router.navigate(["grant/basic-details"]);
+      } else {
+        this.appComp.action = "preview";
+        this.router.navigate(["grant/preview"]);
+      }
+    });
+
+  }
+
+  manageReport(report: Report) {
+    if (this.otherReportsClicked || this.deleteReportsClicked) {
+      return;
+    }
+    this.appComp.subMenu = { name: 'Submitted Reports', action: 'sr' };
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'X-TENANT-CODE': localStorage.getItem('X-TENANT-CODE'),
+        'Authorization': localStorage.getItem('AUTH_TOKEN')
+      })
+    };
+
+    const user = JSON.parse(localStorage.getItem('USER'));
+    let url = '/api/user/' + user.id + '/report/' + report.id;
+    this.http.get<Report>(url, httpOptions).subscribe((report: Report) => {
+      this.appComp.currentView = 'report';
+      this.singleReportService.changeMessage(report);
+      this.dialogRef.close();
+      if (report.canManage && report.status.internalStatus != 'CLOSED') {
+        this.appComp.action = 'report';
+        this.router.navigate(['report/report-header']);
+      } else {
+        this.appComp.action = 'report';
+        this.router.navigate(['report/report-preview']);
+      }
+    });
+  }
+
+  manageDisbursement(disbursement: Disbursement) {
+    if (this.deleteDisbursementEvent) {
+      return;
+    }
+
+    this.appComp.subMenu = { name: 'Approvals In-progress', action: 'id' };
+
+    this.disbursementDataService.changeMessage(disbursement);
+    this.dialogRef.close();
+    if (disbursement.canManage) {
+      this.router.navigate(['disbursement/approval-request']);
+    } else {
+      this.router.navigate(['disbursement/preview']);
+    }
   }
 }
