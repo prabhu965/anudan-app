@@ -375,7 +375,10 @@ export class DashboardComponent implements OnInit {
 
     this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendinggrants', httpOptions)
       .subscribe((results) => {
-        const dg = this.dialog.open(ListDialogComponent, { data: { _for: 'grant', grants: results }, panelClass: "addnl-report-class" });
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'grant', grants: results, appComp: this.appComponent, title: 'Actions Pending - Grants' },
+          panelClass: "addnl-report-class"
+        });
       });
   }
 
@@ -388,9 +391,12 @@ export class DashboardComponent implements OnInit {
       }),
     };
 
-    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendingreports', httpOptions)
+    this.http.get<Report[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendingreports', httpOptions)
       .subscribe((results) => {
-        console.log(results);
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'report', reports: results, appComp: this.appComponent, title: 'Actions Pending - Reports' },
+          panelClass: "addnl-report-class"
+        });
       });
   }
 
@@ -403,9 +409,17 @@ export class DashboardComponent implements OnInit {
       }),
     };
 
-    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendingdisbursements', httpOptions)
+    this.http.get<Disbursement[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendingdisbursements', httpOptions)
       .subscribe((results) => {
-        console.log(results);
+        if (results && results.length > 0) {
+          for (let disb of results) {
+            disb = this.disbursementService.setPermission(disb);
+          }
+        }
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'disbursement', disbursements: results, appComp: this.appComponent, title: 'Actions Pending - Disbursement Approvals' },
+          panelClass: "addnl-report-class"
+        });
       });
   }
 
@@ -420,7 +434,11 @@ export class DashboardComponent implements OnInit {
 
     this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftgrants', httpOptions)
       .subscribe((results) => {
-        console.log(results);
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'grant', grants: results, appComp: this.appComponent, title: 'Upcoming Draft Grants' },
+          panelClass: "addnl-report-class"
+        });
+
       });
   }
 
@@ -433,9 +451,12 @@ export class DashboardComponent implements OnInit {
       }),
     };
 
-    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftreports', httpOptions)
+    this.http.get<Report[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftreports', httpOptions)
       .subscribe((results) => {
-        console.log(results);
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'report', reports: results, appComp: this.appComponent, title: 'Upcoming Darft Reports' },
+          panelClass: "addnl-report-class"
+        });
       });
   }
 
@@ -448,9 +469,17 @@ export class DashboardComponent implements OnInit {
       }),
     };
 
-    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftdisbursements', httpOptions)
+    this.http.get<Disbursement[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftdisbursements', httpOptions)
       .subscribe((results) => {
-        console.log(results);
+        if (results && results.length > 0) {
+          for (let disb of results) {
+            disb = this.disbursementService.setPermission(disb);
+          }
+        }
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'disbursement', disbursements: results, appComp: this.appComponent, title: 'Upcming Draft Disbursement Requests' },
+          panelClass: "addnl-report-class"
+        });
       });
   }
 }
