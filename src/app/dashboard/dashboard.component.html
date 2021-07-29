@@ -48,7 +48,7 @@
                     <div class="row mx-0">
                         <div class="col-4"><app-summary [borderWidth]="'4px'" heading="-" caption="RFPs" disabled="true"></app-summary></div>
                         <div class="col-4"><app-summary [borderWidth]="'4px'" heading="-" caption="Applications" disabled="true"></app-summary></div>
-                        <div class="col-4"><app-summary [borderWidth]="'4px'" [heading]="totalActiveUsers" caption="Active users"></app-summary></div>
+                        <div class="col-4"><app-summary [border]="'#4dc252'" [borderWidth]="'4px'" [heading]="totalActiveUsers" caption="Active users"></app-summary></div>
                     </div>
                     <hr>
                     <div *ngIf="portfolioData && portfolioData.length>0" class="row mx-0 mt-4">
@@ -82,14 +82,14 @@
                                 <div class="col-4"><app-summary [border]="'#9d9d9d'" [borderWidth]="'4px'" [color]="'#f4f4f4'" [heading]="getFormattedGrantAmount(myCategory.summary.UpcomingGrants.GrantAmount)" caption="Commitment Amount"></app-summary></div>
                             </div>
                             <div *ngIf="myCategory.summary.UpcomingReports.DraftReports>0 || myCategory.summary.UpcomingReports.Reportsinmyworkflow>0 || myCategory.summary.UpcomingReports.ReportAmount>0" class="row">
-                                <div class="col-12 mt-0"><h5 class="text-green mb-0" style="font-weight: 400;">Progress Reports</h5></div>
+                                <div class="col-12 mt-4"><h5 class="text-green mb-0" style="font-weight: 400;">Progress Reports</h5></div>
                                 <div class="col-4"><app-summary [border]="'#ffbf00'" [clickable]="true" [shadow]="'4px 4px 10px #d7d7d7'" [borderWidth]="'4px'" [heading]="myCategory.summary.UpcomingReports.DraftReports" caption="Drafts" (click)="showupcomingReports()"></app-summary></div>
                                 <div class="col-4"><app-summary [border]="'#9d9d9d'" [borderWidth]="'4px'" [heading]="myCategory.summary.UpcomingReports.Reportsinmyworkflow" caption="In-Progress"></app-summary></div>
                                 <div class="col-4"><app-summary [border]="'#9d9d9d'" [borderWidth]="'4px'" [color]="'#f4f4f4'" [heading]="getFormattedGrantAmount(myCategory.summary.UpcomingReports.ReportAmount)" caption="Pending Amount"></app-summary></div>
                             </div>
                             <div *ngIf="myCategory.summary.upcomingDisbursements.DraftDisbursements>0 || myCategory.summary.upcomingDisbursements.Disbursementsinmyworkflow>0 || myCategory.summary.upcomingDisbursements.DisbursementAmount>0" class="row">
-                                <div class="col-12 mt-4"><h5 class="text-green mb-0" style="font-weight: 400;">Disbursements Requests</h5></div>
-                                <div class="col-4"><app-summary [border]="'#ffbf00'" [clickable]="true" [shadow]="'4px 4px 10px #d7d7d7 #d7d7d7'" [borderWidth]="'4px'" [heading]="myCategory.summary.upcomingDisbursements.DraftDisbursements" caption="Drafts" (click)="showupcomingDisbursements()"></app-summary></div>
+                                <div class="col-12 mt-4"><h5 class="text-green mb-0" style="font-weight: 400;">Disbursement Requests</h5></div>
+                                <div class="col-4"><app-summary [border]="'#ffbf00'" [clickable]="true" [shadow]="'4px 4px 10px #d7d7d7'" [borderWidth]="'4px'" [heading]="myCategory.summary.upcomingDisbursements.DraftDisbursements" caption="Drafts" (click)="showupcomingDisbursements()"></app-summary></div>
                                 <div class="col-4"><app-summary [border]="'#9d9d9d'" [borderWidth]="'4px'" [heading]="myCategory.summary.upcomingDisbursements.Disbursementsinmyworkflow" caption="In-Progress"></app-summary></div>
                                 <div class="col-4"><app-summary [border]="'#9d9d9d'" [borderWidth]="'4px'" [color]="'#f4f4f4'" [heading]="getFormattedGrantAmount(myCategory.summary.upcomingDisbursements.DisbursementAmount)" caption="Request Amount"></app-summary></div>
                             </div>

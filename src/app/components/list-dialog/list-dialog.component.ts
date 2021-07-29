@@ -21,7 +21,12 @@ import { MatDialog } from '@angular/material';
   selector: 'app-list-dialog',
   templateUrl: './list-dialog.component.html',
   styleUrls: ['./list-dialog.component.scss'],
-  providers: [AppComponent, UpdateService]
+  providers: [AppComponent, UpdateService],
+  styles: [`
+    ::ng-deep .addnl-report-class{
+      overflow: hidden !important;
+    }
+  `]
 })
 export class ListDialogComponent implements OnInit {
 
@@ -35,12 +40,14 @@ export class ListDialogComponent implements OnInit {
   searchClosed = true;
   filterReady = false;
   filterCriteria: any;
-  @ViewChild("appSearchFilter") appSearchFilter: SearchFilterComponent;
+  @ViewChild("appSearchFilter1") appSearchFilter1: SearchFilterComponent;
   filteredGrants: any;
   deleteDisbursementEvent: boolean = false;
 
   otherReportsClicked: boolean = false;
   deleteReportsClicked: boolean = false;
+  filteredReports: any;
+  filteredDisbursements: any;
 
   constructor(private dialog: MatDialog,
     private reportService: ReportDataService,
@@ -65,8 +72,10 @@ export class ListDialogComponent implements OnInit {
       this.filteredGrants = this.grants;
     } else if (listMetaData._for === 'report') {
       this.reports = listMetaData.reports;
+      this.filteredReports = this.reports;
     } else if (listMetaData._for === 'disbursement') {
       this.disbursements = listMetaData.disbursements;
+      this.filteredDisbursements = this.disbursements;
     }
 
 
@@ -127,24 +136,46 @@ export class ListDialogComponent implements OnInit {
       this.searchClosed = false;
     } else {
       this.searchClosed = true;
-      this.appSearchFilter.closeSearch();
+      this.appSearchFilter1.closeSearch();
     }
   }
 
   startFilter(val) {
     val = val.toLowerCase();
     this.filterCriteria = val;
-    this.filteredGrants = this.grants.filter(g => {
-      this.filterReady = true;
-      return (
-        (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
-        //(g.organization && g.organization.name && g.organization.name.toLowerCase().includes(val)) ||
-        (g.referenceNo && g.referenceNo.toLowerCase().includes(val))
-      )
-    });
+    if (this._for === 'grant') {
+      this.filteredGrants = this.grants.filter(g => {
+        this.filterReady = true;
+        return (
+          (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+          //(g.organization && g.organization.name && g.organization.name.toLowerCase().includes(val)) ||
+          (g.referenceNo && g.referenceNo.toLowerCase().includes(val))
+        )
+      });
+    } else if (this._for === 'report') {
+      this.filteredReports = this.reports.filter(g => {
+        this.filterReady = true;
+        return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+          (g.grant.name.toLowerCase().includes(val)) ||
+          (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+          (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
+      });
+    } else if (this._for === 'disbursement') {
+      this.filteredDisbursements = this.disbursements.filter(g => {
+        this.filterReady = true;
+        return (g.grant.name.toLowerCase().includes(val)) ||
+          (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+          (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
+      });
+    }
 
 
 
+
+  }
+
+  closeSearch(ev: any) {
+    this.searchClosed = ev;
   }
 
   resetFilterFlag(val) {

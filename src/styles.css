@@ -852,8 +852,8 @@ li:focus {
 }
 
 .addnl-report-class {
-  min-width: calc(100% - 422px) !important;
-  max-width: calc(100% - 422px) !important;
+  min-width: calc(100% - 300px) !important;
+  max-width: calc(100% - 300px) !important;
   height: 100% !important;
   position: relative !important;
   left: 150px !important;

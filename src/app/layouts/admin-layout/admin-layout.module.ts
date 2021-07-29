@@ -1,3 +1,4 @@
+import { ListDialogComponent } from './../../components/list-dialog/list-dialog.component';
 import { MyChartSummaryComponent } from './../../dashboard/mychart-summary/mychart-summary.component';
 import { MyPortfolioSummaryComponent } from './../../dashboard/myportfolio-summary/myportfolio-summary.component';
 import { OrgTagsComponent } from './../../org-tags/org-tags.component';
@@ -168,6 +169,7 @@ import { SearchFilterComponent } from './search-filter/search-filter.component';
         GrantTemplateDialogComponent,
         ReportTemplateDialogComponent,
         GrantSelectionDialogComponent,
+        ListDialogComponent,
         GranttypeSelectionDialogComponent,
         TemplateDialogComponent,
         BottomsheetComponent,
@@ -205,7 +207,7 @@ import { SearchFilterComponent } from './search-filter/search-filter.component';
         OrgTagsComponent,
         SearchFilterComponent
     ],
-    entryComponents: [WelcomePopupComponent, AddnlreportsDialogComponent, InviteDialogComponent, BottomsheetComponent, BottomsheetAttachmentsComponent, BottomsheetNotesComponent, GrantTemplateDialogComponent, ReportTemplateDialogComponent, GrantSelectionDialogComponent, TemplateDialogComponent, GrantNotesComponent, SectionEditComponent, ReportNotesComponent, DisbursementNotesComponent, GranttypeSelectionDialogComponent, GrantTagsComponent],
+    entryComponents: [WelcomePopupComponent, AddnlreportsDialogComponent, InviteDialogComponent, BottomsheetComponent, BottomsheetAttachmentsComponent, BottomsheetNotesComponent, GrantTemplateDialogComponent, ReportTemplateDialogComponent, GrantSelectionDialogComponent, ListDialogComponent, TemplateDialogComponent, GrantNotesComponent, SectionEditComponent, ReportNotesComponent, DisbursementNotesComponent, GranttypeSelectionDialogComponent, GrantTagsComponent],
     schemas: [NO_ERRORS_SCHEMA]
 })
 
