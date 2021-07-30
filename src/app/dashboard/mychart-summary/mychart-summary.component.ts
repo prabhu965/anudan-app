@@ -37,6 +37,9 @@ export class MyChartSummaryComponent implements OnInit, OnChanges, AfterViewChec
     inprogressReportsCount: number = 0;
     approvedReportsCount: number = 0;
     grantTypes: GrantType[] = [];
+    showReport: boolean = true;
+    showDisbursement: boolean = true;
+    showDueOverdueReport: boolean = true;
 
     constructor(private elRef: ElementRef) {
 
@@ -111,6 +114,7 @@ export class MyChartSummaryComponent implements OnInit, OnChanges, AfterViewChec
                 maxStatusTick = Number(s.value) + 1;
             }
         }
+
 
 
 
@@ -230,7 +234,32 @@ export class MyChartSummaryComponent implements OnInit, OnChanges, AfterViewChec
                 }
             });
 
+            if (dataSummary && dataSummary.length > 0) {
+                for (let i = 0; i < dataSummary.length; i++) {
+                    if (Number(dataSummary[i]) === 0) {
+                        this.showReport = false;
+                    } else {
+                        this.showReport = true;
+                        break;
+                    }
+                }
+            }
 
+            if (data && data.length > 0) {
+                for (let i = 0; i < data.length; i++) {
+                    if (Number(data[i]) === 0) {
+                        this.showDueOverdueReport = false;
+                    } else {
+                        this.showDueOverdueReport = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!this.showReport && !this.showDueOverdueReport) {
+                data.splice(0, 1);
+                //this.selected = undefined;
+            }
 
 
         } else if (this.portfolioType === 'Closed Grants') {
@@ -404,6 +433,22 @@ export class MyChartSummaryComponent implements OnInit, OnChanges, AfterViewChec
                 }
             }
         });
+
+        if (dataDisbursed && dataDisbursed.length > 0) {
+            for (let i = 0; i < dataDisbursed.length; i++) {
+                if (Number(dataDisbursed[i]) === 0) {
+                    this.showDisbursement = false;
+                } else {
+                    this.showDisbursement = true;
+                    break;
+                }
+            }
+            if (!this.showDisbursement) {
+                this.data.splice(0, 1);
+                this.selected = this.data[0];
+                this.readyToDisplayReportsChart = true;
+            }
+        }
         this.BarChart.generateLegend();
     }
 
