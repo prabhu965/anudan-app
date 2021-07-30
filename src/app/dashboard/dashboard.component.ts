@@ -364,6 +364,9 @@ export class DashboardComponent implements OnInit {
   }
 
   showpendingGrants() {
+    if (this.myCategory.summary.ActionsPending.Grants === 0) {
+      return;
+    }
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -383,6 +386,10 @@ export class DashboardComponent implements OnInit {
   }
 
   showpendingReports() {
+    if (this.myCategory.summary.ActionsPending.Reports === 0) {
+      return;
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -401,6 +408,11 @@ export class DashboardComponent implements OnInit {
   }
 
   showpendingDisbursements() {
+
+    if (this.myCategory.summary.ActionsPending.DisbursementApprovals === 0) {
+      return;
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -424,6 +436,11 @@ export class DashboardComponent implements OnInit {
   }
 
   showupcomingGrants() {
+
+    if (this.myCategory.summary.UpcomingGrants.DraftGrants === 0) {
+      return;
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -443,6 +460,10 @@ export class DashboardComponent implements OnInit {
   }
 
   showupcomingReports() {
+
+    if (this.myCategory.summary.UpcomingReports.DraftReports === 0) {
+      return;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -461,6 +482,11 @@ export class DashboardComponent implements OnInit {
   }
 
   showupcomingDisbursements() {
+
+    if (this.myCategory.summary.upcomingDisbursements.DraftDisbursements === 0) {
+      return;
+    }
+
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
