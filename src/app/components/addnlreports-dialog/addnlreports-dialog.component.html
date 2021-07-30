@@ -1,17 +1,18 @@
-<div class="row mb-3">
-  <div class="col-12">
-    <button
-      mat-button
-      mat-flat-button
-      class="text-green btn-link"
-      (click)="onNoClick()"
-    >
-      < Go Back
-    </button>
+<span class="" style="position:absolute; right: 18px; left: auto;top: 15px; z-index: 1;" (click)="onNoClick()">
+  <mat-icon>close</mat-icon>
+</span>
+<div class="row">
+  <div class="col-9" style="display: flex;align-items: center;justify-content: flex-end;min-height: 53px;">
+    <app-search-filter #appSearchFilter1 [searchContext]="'.search-context-grant-selection'" [scollableArea]="'.scrollable'" *ngIf="!searchClosed" [turnOffSearch]="searchClosed" [ready]="filterReady" (highlightDone)="resetFilterFlag($event)" (filterCriteria)="startFilter($event)" (close)="closeSearch($event)" style="transition: display 2s;"></app-search-filter>
+    <mat-icon (click)="openSearch()" style="position: absolute; right: 0; margin-right: 20px;">search</mat-icon>
+    
   </div>
+  <div class="col-3"></div>
+</div>
+<div class="row mb-3 mt-3">
   <div class="col-12">
     <mat-form-field class="text-center">
-      <mat-label *ngIf="!singleGrant">Reports for</mat-label>
+      <mat-label *ngIf="!singleGrant" class='text-green'>Reports for</mat-label>
       <mat-select
         *ngIf="!singleGrant"
         id="grantselection"
@@ -34,127 +35,130 @@
       />
     </mat-form-field>
   </div>
-</div>
-<div *ngIf="!selectedReports" style="text-align: center">
-  <img src="./assets/img/loader.gif" style="width: 10%" />
-  <p style="color: black">Loading reports...</p>
-</div>
-<div
-  *ngIf="selectedReports && selectedReports.length === 0"
-  style="text-align: center"
->
-  <p style="color: black">No additional reports available for this grant</p>
-</div>
-<div
-  [ngClass]="uiService.getCardStyle(report.canManage)"
-  style="cursor: pointer"
-  *ngFor="let report of selectedReports; let i = index"
->
-  <div class="col-12 mb-0" (click)="manageReport(report)">
-    <p class="text-subheader text-left mb-0"></p>
-    <span class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId)}" ><small>{{getGrantTypeName(report.grant.grantTypeId)}}</small></span>
-    <i *ngIf="report.grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></i>
-    <i *ngIf="report.grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></i>
-    <p class="text-subheader text-left mb-0">
-      Grant Name:
-      <b>{{
-        (report.grant.referenceNo ? report.grant.referenceNo + " | " : "") +
-          report.grant.name
-      }}</b>
-      &nbsp;&nbsp;|&nbsp;&nbsp; Implementing Organization:
-      <b>{{
-        report.grant.organization ? report.grant.organization.name : ""
-      }}</b
-      ><br />
-      Grant Amount:
-      <img src="./assets/img/rupee.png" style="width: 9px" /><b
-        >{{ getFormattedGrantAmount(report.grant.amount) }}
-      </b>
-      &nbsp;&nbsp;<span>{{ getGrantAmountInWords(report.grant.amount) }}</span>
-    </p>
-  </div>
-  <div
-    class="col-10"
-    style="display: flex; align-items: flex-start"
-    (click)="manageReport(report)"
-  >
-    <p class="text-header text-left">
-      {{ report.name }} | {{ report.dueDate | date: "dd-MMM-yyyy" }} |
-    </p>
-  </div>
-  <div class="col-2">
-    <span
-      [class]="
-        'badge pull-right state-' + report.status.internalStatus.toLowerCase()
-      "
-      style="color: #000 !important"
-      >{{ report.status.displayName }}</span
-    >
-  </div>
-
-  <div
-    class="col-10 p-3"
-    style="background: #f1f1f1"
-    (click)="manageReport(report)"
-  >
-    <div class="row mb-0">
-      <div class="col-2">
-        <p class="mb-0 text-subheader text-left">Report Type:</p>
-      </div>
-      <div class="col-7">
-        <p class="mb-0 text-subheader text-left">Reporting Time Frame:</p>
-      </div>
-      <div class="col-3">
-        <p class="mb-0 text-subheader text-left">Submission Due Date</p>
-      </div>
+  <div  class="col-12 scrollable" style="overflow-y: scroll;height: inherit;min-height: calc(100vh - 200px) !important;max-height: calc(100vh - 200px) !important;">
+    <div *ngIf="!selectedFilteredReports" style="text-align: center">
+      <img src="./assets/img/loader.gif" style="width: 10%" />
+      <p style="color: black">Loading reports...</p>
     </div>
-    <div class="row">
-      <div class="col-2">
-        <p class="text-left text-bold-highlight my-0">
-          {{ report.type }}
+    <div
+      *ngIf="selectedFilteredReports && selectedFilteredReports.length === 0"
+      style="text-align: center"
+    >
+      <p style="color: black">No additional reports available for this grant</p>
+    </div>
+    <div
+      [ngClass]="uiService.getCardStyle(report.canManage)"
+      style="cursor: pointer"
+      *ngFor="let report of selectedFilteredReports; let i = index"
+    >
+      <div class="col-12 mb-0" (click)="manageReport(report)">
+        <p class="text-subheader text-left mb-0"></p>
+        <span class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId)}" ><small>{{getGrantTypeName(report.grant.grantTypeId)}}</small></span>
+        <i *ngIf="report.grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></i>
+        <i *ngIf="report.grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></i>
+        <p class="text-subheader text-left mb-0">
+          Grant Name:
+          <b class="search-context-grant-selection">{{
+            (report.grant.referenceNo ? report.grant.referenceNo + " | " : "") +
+              report.grant.name
+          }}</b>
+          &nbsp;&nbsp;|&nbsp;&nbsp; Implementing Organization:
+          <b class="search-context-grant-selection">{{
+            report.grant.organization ? report.grant.organization.name : ""
+          }}</b
+          ><br />
+          Grant Amount:
+          <img src="./assets/img/rupee.png" style="width: 9px" /><b
+            >{{ getFormattedGrantAmount(report.grant.amount) }}
+          </b>
+          &nbsp;&nbsp;<span>{{ getGrantAmountInWords(report.grant.amount) }}</span>
         </p>
       </div>
-      <div class="col-7">
+      <div
+        class="col-10"
+        style="display: flex; align-items: flex-start"
+        (click)="manageReport(report)"
+      >
+        <p class="text-header text-left search-context-grant-selection">
+          {{ report.name }} | {{ report.dueDate | date: "dd-MMM-yyyy" }} |
+        </p>
+      </div>
+      <div class="col-2">
+        <span
+          [class]="
+            'badge pull-right state-' + report.status.internalStatus.toLowerCase()
+          "
+          style="color: #000 !important"
+          >{{ report.status.displayName }}</span
+        >
+      </div>
+    
+      <div
+        class="col-10 p-3"
+        style="background: #f1f1f1"
+        (click)="manageReport(report)"
+      >
+        <div class="row mb-0">
+          <div class="col-2">
+            <p class="mb-0 text-subheader text-left">Report Type:</p>
+          </div>
+          <div class="col-7">
+            <p class="mb-0 text-subheader text-left">Reporting Time Frame:</p>
+          </div>
+          <div class="col-3">
+            <p class="mb-0 text-subheader text-left">Submission Due Date</p>
+          </div>
+        </div>
         <div class="row">
-          <div>
-            <p class="text-bold-highlight my-0">
-              <mat-icon [inline]="true" class="mr-1">calendar_today </mat-icon>
-              {{ report.startDate | date: "dd-MMM-yyyy" }}
+          <div class="col-2">
+            <p class="text-left text-bold-highlight my-0">
+              {{ report.type }}
             </p>
           </div>
-          <div>
-            <mat-icon [inline]="true" class="mx-3 my-0"
-              >arrow_forward
-            </mat-icon>
+          <div class="col-7">
+            <div class="row">
+              <div>
+                <p class="text-bold-highlight my-0">
+                  <mat-icon [inline]="true" class="mr-1">calendar_today </mat-icon>
+                  {{ report.startDate | date: "dd-MMM-yyyy" }}
+                </p>
+              </div>
+              <div>
+                <mat-icon [inline]="true" class="mx-3 my-0"
+                  >arrow_forward
+                </mat-icon>
+              </div>
+              <div>
+                <p class="text-bold-highlight my-0">
+                  <mat-icon [inline]="true" class="mr-1">calendar_today </mat-icon>
+                  {{ report.endDate | date: "dd-MMM-yyyy" }}
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <p class="text-bold-highlight my-0">
-              <mat-icon [inline]="true" class="mr-1">calendar_today </mat-icon>
-              {{ report.endDate | date: "dd-MMM-yyyy" }}
+          <div class="col-3">
+            <p class="text-left text-bold-highlight my-0">
+              {{ report.dueDate | date: "dd-MMM-yyyy" }}
             </p>
           </div>
         </div>
       </div>
-      <div class="col-3">
-        <p class="text-left text-bold-highlight my-0">
-          {{ report.dueDate | date: "dd-MMM-yyyy" }}
-        </p>
+      <div
+        class="col-2"
+        style="display: flex; align-items: center; justify-content: center"
+      >
+        <button
+          *ngIf="
+            (report.canManage && report.status.internalStatus === 'DRAFT') ||
+            (!report.canManage && report.disabledByAmendment)
+          "
+          class="btn btn-sm btn-red mt-3 mb-3 mx-0"
+          (click)="deleteReport(report)"
+        >
+          Delete
+        </button>
       </div>
     </div>
   </div>
-  <div
-    class="col-2"
-    style="display: flex; align-items: center; justify-content: center"
-  >
-    <button
-      *ngIf="
-        (report.canManage && report.status.internalStatus === 'DRAFT') ||
-        (!report.canManage && report.disabledByAmendment)
-      "
-      class="btn btn-sm btn-red mt-3 mb-3 mx-0"
-      (click)="deleteReport(report)"
-    >
-      Delete
-    </button>
-  </div>
 </div>
+

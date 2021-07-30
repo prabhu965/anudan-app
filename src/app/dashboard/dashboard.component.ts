@@ -1,3 +1,4 @@
+import { ListDialogComponent } from './../components/list-dialog/list-dialog.component';
 import { MyCategory } from '../model/mydashboard';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -360,5 +361,151 @@ export class DashboardComponent implements OnInit {
 
   tabSelectionChange(ev) {
     this.appComponent.currentDashboard = ev.index;
+  }
+
+  showpendingGrants() {
+    if (this.myCategory.summary.ActionsPending.Grants === 0) {
+      return;
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendinggrants', httpOptions)
+      .subscribe((results) => {
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'grant', grants: results, appComp: this.appComponent, title: 'Actions Pending | Grants' },
+          panelClass: "addnl-report-class"
+        });
+      });
+  }
+
+  showpendingReports() {
+    if (this.myCategory.summary.ActionsPending.Reports === 0) {
+      return;
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Report[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendingreports', httpOptions)
+      .subscribe((results) => {
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'report', reports: results, appComp: this.appComponent, title: 'Actions Pending | Progress Reports' },
+          panelClass: "addnl-report-class"
+        });
+      });
+  }
+
+  showpendingDisbursements() {
+
+    if (this.myCategory.summary.ActionsPending.DisbursementApprovals === 0) {
+      return;
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Disbursement[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/pendingdisbursements', httpOptions)
+      .subscribe((results) => {
+        if (results && results.length > 0) {
+          for (let disb of results) {
+            disb = this.disbursementService.setPermission(disb);
+          }
+        }
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'disbursement', disbursements: results, appComp: this.appComponent, title: 'Actions Pending - Disbursement Requests' },
+          panelClass: "addnl-report-class"
+        });
+      });
+  }
+
+  showupcomingGrants() {
+
+    if (this.myCategory.summary.UpcomingGrants.DraftGrants === 0) {
+      return;
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftgrants', httpOptions)
+      .subscribe((results) => {
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'grant', grants: results, appComp: this.appComponent, title: 'Upcoming | Grants | Drafts' },
+          panelClass: "addnl-report-class"
+        });
+
+      });
+  }
+
+  showupcomingReports() {
+
+    if (this.myCategory.summary.UpcomingReports.DraftReports === 0) {
+      return;
+    }
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Report[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftreports', httpOptions)
+      .subscribe((results) => {
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'report', reports: results, appComp: this.appComponent, title: 'Upcoming | Progrss Reports | Drafts' },
+          panelClass: "addnl-report-class"
+        });
+      });
+  }
+
+  showupcomingDisbursements() {
+
+    if (this.myCategory.summary.upcomingDisbursements.DraftDisbursements === 0) {
+      return;
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    this.http.get<Disbursement[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/upcomingdraftdisbursements', httpOptions)
+      .subscribe((results) => {
+        if (results && results.length > 0) {
+          for (let disb of results) {
+            disb = this.disbursementService.setPermission(disb);
+          }
+        }
+        const dg = this.dialog.open(ListDialogComponent, {
+          data: { _for: 'disbursement', disbursements: results, appComp: this.appComponent, title: 'Upcoming | Disbursement Requests | Drafts' },
+          panelClass: "addnl-report-class"
+        });
+      });
   }
 }

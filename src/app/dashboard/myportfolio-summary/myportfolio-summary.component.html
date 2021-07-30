@@ -20,10 +20,10 @@
         </div>
     </div>
 
-    <div *ngIf="selected.totalGrants>0" class="row">
-        <div class="col-4 px-0"><app-summary [heading]="selected.granteeOrgs" caption="Grantee Organizations"></app-summary></div>
-        <div class="col-4 px-0"><app-summary [heading]="selected.grantswithnoapprovedreports" caption="Grants with no Approved reports"></app-summary></div>
-        <div class="col-4 px-0"><app-summary [heading]="selected.grantswithnokpis" caption="Grants with no KPI/Measurements"></app-summary></div>
+    <div *ngIf="selected.totalGrants>0" class="row mt-4">
+        <div class="col-4"><app-summary [heading]="selected.granteeOrgs" [border]="'#dddddd'" caption="Grantee Organizations"></app-summary></div>
+        <div class="col-4"><app-summary [heading]="selected.grantswithnoapprovedreports" [border]="'#dddddd'" caption="Grants missing Progress Reports"></app-summary></div>
+        <div class="col-4"><app-summary [heading]="selected.grantswithnokpis" [border]="'#dddddd'" caption="Grants missing Outcomes/Measures"></app-summary></div>
     </div>
     <div *ngIf="selected.totalGrants>0" class="row">
         <div class="col-12">

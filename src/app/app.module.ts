@@ -38,7 +38,7 @@ import { GoogleLoginProvider, LinkedinLoginProvider } from 'ng-social-login-modu
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ToastrModule } from 'ngx-toastr';
-import { MatBottomSheet, MatDatepickerModule, MatNativeDateModule, MatIconModule, MatExpansionModule, MatBadgeModule, MatMenuModule, MatSelectModule, MatListModule } from '@angular/material';
+import { MatBottomSheet, MatDatepickerModule, MatNativeDateModule, MatIconModule, MatExpansionModule, MatBadgeModule, MatMenuModule, MatSelectModule, MatListModule, MatButtonModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { Colors } from './model/app-config';
@@ -139,7 +139,8 @@ export function provideConfig() {
     MatSnackBarModule,
     MatIconModule,
     NgxSpinnerModule,
-    NgxMarkjsModule
+    NgxMarkjsModule,
+    MatButtonModule
   ],
   providers: [
     {

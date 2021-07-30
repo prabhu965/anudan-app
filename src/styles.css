@@ -852,8 +852,19 @@ li:focus {
 }
 
 .addnl-report-class {
-  min-width: calc(100% - 422px) !important;
-  max-width: calc(100% - 422px) !important;
+  min-width: calc(100% - 300px) !important;
+  max-width: calc(100% - 300px) !important;
+  height: 100% !important;
+  position: relative !important;
+  left: 150px !important;
+  overflow: scroll !important;
+  top: 62px;
+  max-height: calc(100% - 35px);
+}
+
+.addnl-report-class-2 {
+  min-width: calc(100% - 300px) !important;
+  max-width: calc(100% - 300px) !important;
   height: 100% !important;
   position: relative !important;
   left: 150px !important;
@@ -1016,6 +1027,7 @@ mat-icon:hover{
   border-top: 1px solid rgba(14, 16, 14, 0.12);
   border-radius: 2px;
   border-right: 1px solid rgba(14, 16, 14, 0.12);
+  border-left: 1px solid rgba(14, 16, 14, 0.12);
   border-bottom: 1px solid rgba(14, 16, 14, 0.12);
-  box-shadow: 4px 4px 10px #d7d7d7;
+  
 }
