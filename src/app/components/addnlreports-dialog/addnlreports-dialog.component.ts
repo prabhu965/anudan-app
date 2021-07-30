@@ -1,3 +1,4 @@
+import { SearchFilterComponent } from 'app/layouts/admin-layout/search-filter/search-filter.component';
 import { UiUtilService } from './../../ui-util.service';
 import { UpdateService } from './../../update.service';
 import { AppComponent } from 'app/app.component';
@@ -14,7 +15,30 @@ import { MatDialog } from '@angular/material';
   selector: 'app-addnlreports-dialog',
   templateUrl: './addnlreports-dialog.component.html',
   styleUrls: ['./addnlreports-dialog.component.scss'],
-  providers: [AppComponent, UpdateService]
+  providers: [AppComponent, UpdateService],
+  styles: [`
+    ::ng-deep .addnl-report-class{
+      overflow: hidden !important;
+    }
+  `, `
+    ::ng-deep .addnl-report-class .mat-dialog-container{
+      border-radius: 0 !important;
+      overflow: hidden !important;
+      padding-top: 0 !important;
+    }
+  `, `
+    ::ng-deep .addnl-report-class .mat-form-field-wrapper{
+      padding: 0 !important;
+    }
+  `, `
+    ::ng-deep .addnl-report-class .mat-form-field-infix{
+      border-top: none !important;
+    }
+  `, `
+    ::ng-deep .addnl-report-class app-search-filter .mat-form-field-suffix{
+      top: 0 !important;
+    }
+  `]
 })
 export class AddnlreportsDialogComponent implements OnInit {
 
@@ -25,9 +49,14 @@ export class AddnlreportsDialogComponent implements OnInit {
   selectedReports: Report[];
   singleGrant: boolean;
   deletedReports: Report[] = [];
+  selectedFilteredReports: Report[] = [];
   type: string;
   data: AdditionReportsModel
   appComp: AppComponent
+  searchClosed = true;
+  filterReady = false;
+  filterCriteria: any;
+  @ViewChild("appSearchFilter1") appSearchFilter1: SearchFilterComponent;
 
   constructor(private dialog: MatDialog, private reportService: ReportDataService, public dialogRef: MatDialogRef<AddnlreportsDialogComponent>
     , @Inject(MAT_DIALOG_DATA) public reportsMetaData: any
@@ -51,6 +80,7 @@ export class AddnlreportsDialogComponent implements OnInit {
       this.getReportsForSelectedGrant(this.reportId, this.grantId, this.type);
     } else {
       this.selectedReports = this.futureReports;
+      this.selectedFilteredReports = this.selectedReports;
     }
   }
 
@@ -91,6 +121,7 @@ export class AddnlreportsDialogComponent implements OnInit {
     this.http.get(url, httpOptions).subscribe((reports: Report[]) => {
       reports.sort((a, b) => a.endDate > b.endDate ? 1 : -1)
       this.selectedReports = reports;
+      this.selectedFilteredReports = this.selectedReports;
     });
   }
 
@@ -148,5 +179,35 @@ export class AddnlreportsDialogComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  openSearch() {
+    if (this.searchClosed) {
+      this.searchClosed = false;
+    } else {
+      this.searchClosed = true;
+      this.appSearchFilter1.closeSearch();
+    }
+  }
+
+  startFilter(val) {
+    val = val.toLowerCase();
+    this.filterCriteria = val;
+
+    this.selectedFilteredReports = this.selectedReports.filter(g => {
+      this.filterReady = true;
+      return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+        (g.grant.name.toLowerCase().includes(val)) ||
+        (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+        (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
+    });
+  }
+
+  closeSearch(ev: any) {
+    this.searchClosed = ev;
+  }
+
+  resetFilterFlag(val) {
+    this.filterReady = val;
   }
 }

@@ -41,14 +41,14 @@
             <mat-tab label="{{this.appComponent.loggedInUser.organization.name}}">
                 <div class="anu-container text-left pt-3 mx-0 px-4">
                     <div class="row mx-0">
-                        <div class="col-4"><app-summary [border]="'#4dc252'" [borderWidth]="'4px'" [heading]="totalGrantsIssued" caption="Total Grants issued"></app-summary></div>
+                        <div class="col-4"><app-summary [border]="'#4dc252'" [borderWidth]="'4px'" [heading]="totalGrantsIssued" caption="Grants Issued"></app-summary></div>
                         <div class="col-4"><app-summary [border]="'#4dc252'" [borderWidth]="'4px'" [heading]="totalGrantees" caption="Grantees"></app-summary></div>
                         <div class="col-4"><app-summary [border]="'#4dc252'" [borderWidth]="'4px'" [heading]="totalGrantAmount" caption="Total Grant Amount"></app-summary></div>
                     </div>
                     <div class="row mx-0">
                         <div class="col-4"><app-summary [borderWidth]="'4px'" heading="-" caption="RFPs" disabled="true"></app-summary></div>
                         <div class="col-4"><app-summary [borderWidth]="'4px'" heading="-" caption="Applications" disabled="true"></app-summary></div>
-                        <div class="col-4"><app-summary [border]="'#4dc252'" [borderWidth]="'4px'" [heading]="totalActiveUsers" caption="Active users"></app-summary></div>
+                        <div class="col-4"><app-summary [border]="'#4dc252'" [borderWidth]="'4px'" [heading]="totalActiveUsers" caption="Active Users"></app-summary></div>
                     </div>
                     <hr>
                     <div *ngIf="portfolioData && portfolioData.length>0" class="row mx-0 mt-4">

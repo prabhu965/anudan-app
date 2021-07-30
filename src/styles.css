@@ -862,6 +862,17 @@ li:focus {
   max-height: calc(100% - 35px);
 }
 
+.addnl-report-class-2 {
+  min-width: calc(100% - 300px) !important;
+  max-width: calc(100% - 300px) !important;
+  height: 100% !important;
+  position: relative !important;
+  left: 150px !important;
+  overflow: scroll !important;
+  top: 62px;
+  max-height: calc(100% - 35px);
+}
+
 .addnl-report-class .mat-form-field-label-wrapper {
   left: 0 !important;
 }

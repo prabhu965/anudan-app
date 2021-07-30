@@ -1,16 +1,20 @@
-<span class="" style="position:absolute; right: 18px; left: auto;top: 5px;" (click)="onNoClick()">
+<span class="" style="position:absolute; right: 18px; left: auto;top: 15px; z-index: 1;" (click)="onNoClick()">
   <mat-icon>close</mat-icon>
 </span>
+<div class="row">
+  <div class="col-9" style="display: flex;align-items: center;justify-content: flex-end;min-height: 53px;">
+    <app-search-filter #appSearchFilter1 [searchContext]="'.search-context-grant-selection'" [scollableArea]="'.scrollable'" *ngIf="!searchClosed" [turnOffSearch]="searchClosed" [ready]="filterReady" (highlightDone)="resetFilterFlag($event)" (filterCriteria)="startFilter($event)" (close)="closeSearch($event)" style="transition: display 2s;"></app-search-filter>
+    <mat-icon (click)="openSearch()" style="position: absolute; right: 0; margin-right: 20px;">search</mat-icon>
+    
+  </div>
+  <div class="col-3"></div>
+</div>
 <div class="row mb-3">
   <div class="col-12">
     <div class="text-green mb-0 ng-star-inserted w-100 text-center" style="font-weight: 500;font-size: 1.2em;">{{title}}</div>
   </div>
-  <div class="col-12" style="display: flex;align-items: center;justify-content: flex-end;">
-    <app-search-filter #appSearchFilter1 [searchContext]="'.search-context-grant-selection'" [scollableArea]="'.mat-dialog-content'" *ngIf="!searchClosed" [turnOffSearch]="searchClosed" [ready]="filterReady" (highlightDone)="resetFilterFlag($event)" (filterCriteria)="startFilter($event)" (close)="closeSearch($event)" style="transition: display 2s;"></app-search-filter>
-    <mat-icon (click)="openSearch()" style="position: absolute; right: 0; margin-right: 20px;">search</mat-icon>
-  </div>
   
-  <div class="col-12" *ngIf="_for==='grant'">
+  <div class="col-12 scrollable" style="overflow-y: scroll;height: inherit;min-height: calc(100vh - 180px) !important;max-height: calc(100vh - 180px) !important;" *ngIf="_for==='grant'">
     <div
               [ngClass]="uiService.getCardStyle(grant.currentAssignment ===appComp.loggedInUser.id)"
               style="border-radius: 8px; cursor: pointer"
@@ -174,7 +178,7 @@
               </div>
             </div>
   </div>
-  <div class="col-12" *ngIf="_for==='report'">
+  <div class="col-12 scrollable" style="overflow-y: scroll;height: inherit;min-height: calc(100vh - 180px) !important;max-height: calc(100vh - 180px) !important;" *ngIf="_for==='report'">
     <div
                 [ngClass]="uiService.getCardStyle(report.canManage)"
                 style="cursor: pointer"
@@ -343,7 +347,7 @@
               </div>
   </div>
 
-  <div class="col-12" *ngIf="_for==='disbursement'">
+  <div class="col-12 scrollable" style="overflow-y: scroll;height: inherit;min-height: calc(100vh - 180px) !important;max-height: calc(100vh - 180px) !important;" *ngIf="_for==='disbursement'">
     <div
               [ngClass]="uiService.getCardStyle(disbursement.canManage)"
               style="cursor: pointer"

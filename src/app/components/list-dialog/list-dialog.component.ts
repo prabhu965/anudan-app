@@ -26,6 +26,24 @@ import { MatDialog } from '@angular/material';
     ::ng-deep .addnl-report-class{
       overflow: hidden !important;
     }
+  `, `
+    ::ng-deep .addnl-report-class .mat-dialog-container{
+      border-radius: 0 !important;
+      overflow: hidden !important;
+      padding-top: 0 !important;
+    }
+  `, `
+    ::ng-deep .addnl-report-class .mat-form-field-wrapper{
+      padding: 0 !important;
+    }
+  `, `
+    ::ng-deep .addnl-report-class .mat-form-field-infix{
+      border-top: none !important;
+    }
+  `, `
+    ::ng-deep .addnl-report-class app-search-filter .mat-form-field-suffix{
+      top: 0 !important;
+    }
   `]
 })
 export class ListDialogComponent implements OnInit {
