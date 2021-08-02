@@ -1,3 +1,4 @@
+import { UiUtilService } from './../../ui-util.service';
 import { Grant } from './../../model/dahsboard';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportDataService } from '../../report.data.service'
@@ -37,7 +38,8 @@ export class ApprovedReportsComponent implements OnInit {
         private router: Router,
         public appComp: AppComponent,
         private spinner: NgxSpinnerService,
-        private titlecasePipe: TitleCasePipe) {
+        private titlecasePipe: TitleCasePipe,
+        public uiService: UiUtilService) {
     }
 
     ngOnInit() {

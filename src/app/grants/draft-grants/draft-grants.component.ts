@@ -118,7 +118,7 @@ export class DraftGrantsComponent implements OnInit, AfterViewInit {
     public appComponent: AppComponent,
     private router: Router,
     private route: ActivatedRoute,
-    private data: GrantDataService,
+    public data: GrantDataService,
     private toastr: ToastrService,
     public grantComponent: GrantComponent,
     private dataService: DataService,

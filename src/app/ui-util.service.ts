@@ -12,14 +12,15 @@ export class UiUtilService {
       return [
         'row',
         'w-100',
-        'p-3',
-        'mb-2',
+        'pl-1',
+        'pt-3',
+        'mb-4',
         'mx-0',
         'grants-section',
         'owner-highlight'
       ];
     } else {
-      return ['row', 'w-100', 'p-3', 'mb-2', 'mx-0', 'grants-section']
+      return ['row', 'w-100', 'pl-1', 'pt-3', 'mb-4', 'mx-0', 'grants-section', 'owner-no-highlight']
     }
   }
 }

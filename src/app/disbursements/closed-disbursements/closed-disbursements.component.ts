@@ -1,3 +1,4 @@
+import { UiUtilService } from './../../ui-util.service';
 import { Grant } from './../../model/dahsboard';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Disbursement } from 'app/model/disbursement';
@@ -27,7 +28,8 @@ export class ClosedDisbursementsComponent implements OnInit {
     public appComponent: AppComponent,
     public disbursementDataService: DisbursementDataService,
     private router: Router,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    public uiService: UiUtilService
   ) { }
 
   ngOnInit() {

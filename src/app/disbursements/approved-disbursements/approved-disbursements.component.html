@@ -1,5 +1,5 @@
-<div class="row"  style="position: absolute; top: 80px; width: 100%;min-height:70px;max-height:70px; padding: 0 14px;z-index: 2; background: rgb(229, 229, 229);">
-  <div class="col-9" style="z-index: 2; min-width: 280px;max-height: 70px;display: flex;align-items: center;justify-content: flex-end;">
+<div class="row search-panel" >
+  <div class="col-9 search-panel-container">
     <app-search-filter #appSearchFilter *ngIf="!searchClosed" [ready]="filterReady" (highlightDone)="resetFilterFlag($event)" (filterCriteria)="startFilter($event)" (close)="closeSearch($event)"></app-search-filter>
     <mat-icon (click)="openSearch()" style="position: absolute; right: 0; margin-right: 20px;">search</mat-icon>
   </div>
@@ -16,103 +16,68 @@
           </div>
 
           <div *ngIf="disbursements && disbursements.length === 0">
-            <h5 class="mt-5">No Active Approval Requests were found</h5>
+            <h5 class="mt-5">
+              No Draft/In-progress Approval Requests were found
+            </h5>
           </div>
           <div *ngIf="disbursements && disbursements.length > 0">
             <div
-              [ngClass]="uiService.getCardStyle(disbursement.canRecordActuals)"
+              [ngClass]="uiService.getCardStyle(disbursement.canManage)"
               style="cursor: pointer"
               *ngFor="let disbursement of filteredDisbursements; let i = index"
+              (click)="manageDisbursement(disbursement)"
             >
-              <div
-                class="col-10 mb-1"
-                (click)="manageDisbursement(disbursement)"
-              >
-                <p
-                  *ngIf="disbursement.disabledByAmendment"
-                  class="mb-0 text-red text-left"
-                  style="font-weight: 600; font-size: 12px"
-                >
-                  Reference Grant has been amended or closed
-                </p>
-                <span class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(disbursement.grant.grantTypeId)}" ><small>{{getGrantTypeName(disbursement.grant.grantTypeId)}}</small></span>
-                                
-                  <p class="text-subheader text-left mb-0">
-                  Grant Name:
-                  <b class="search-context">{{
-                    (disbursement.grant.referenceNo
-                      ? disbursement.grant.referenceNo + " | "
-                      : "") + disbursement.grant.name
-                  }}</b>
-                  <br>Implementing Organization:
-                <b *ngIf="isExternalGrant(disbursement.grant)" class="search-context">{{
-                  disbursement.grant.organization
-                    ? disbursement.grant.organization.name
-                    : ""
-                }}</b> 
-                <b *ngIf="!isExternalGrant(disbursement.grant)" class="search-context">{{
-                  disbursement.grant.grantorOrganization.name
-                }}</b>
-                  <br />
-                  Grant Amount:
-                  <b class="search-context"
-                    >{{
-                      currencyService.getFormattedAmount(
-                        disbursement.grant.amount
-                      )
-                    }}
-                  </b>
-                  &nbsp;&nbsp;<span>{{
-                    currencyService.getAmountInWords(disbursement.grant.amount)
-                  }}</span>
-                </p>
+              <div class="col-9 mb-1 search-context px-0">
+                <div *ngIf="disbursement.disabledByAmendment" class="mb-0 text-red text-left" style="font-weight: 600; font-size: 12px">
+                  Underlying grant has been amended. Please check if this
+                  disbursement is still valid
+                </div>
+                
+                <div class="text-subheader text-left mb-0">
+                 <div class="mb-1"><b>{{ (disbursement.grant.referenceNo? disbursement.grant.referenceNo + " | ": "") + disbursement.grant.name}}</b></div>
+                 <div class="mb-1"><b *ngIf="isExternalGrant(disbursement.grant)">{{disbursement.grant.organization? disbursement.grant.organization.name: ""}}</b> </div>
+                 <div class="mb-1"><b *ngIf="!isExternalGrant(disbursement.grant)">{{disbursement.grant.grantorOrganization.name}}</b></div>
+
+                 <div class="mt-1">
+                  <b>{{currencyService.getFormattedAmount(disbursement.grant.amount)}}</b>
+                    &nbsp;&nbsp;<span>({{currencyService.getAmountInWords(disbursement.grant.amount)}})</span>
+                  </div>
+                </div>
               </div>
-              <div class="col-2" (click)="manageDisbursement(disbursement)">
-                <span
-                  [class]="
-                    'badge state-' +
-                    disbursement.status.internalStatus.toLowerCase()
-                  "
-                  style="color: #000 !important"
-                  >{{ disbursement.status.displayName }}</span
-                >
+              <div class="col-2 d-flex align-items-end justify-content-center">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="status-indicator2">
+                      <div [class]="'text-center status-icon state-'+disbursement.status.internalStatus.toLowerCase()">
+                      </div>{{disbursement.status.name | uppercase}}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="col-10 text-left pt-3">
-                <p class="text-subheader mb-0">Requested Amount:</p>
-                <p class="text-header text-left m-0 search-context">
-                  {{
-                    currencyService.getFormattedAmount(
-                      disbursement.requestedAmount
-                    )
-                  }}
-                  <span class="text-subheader ml-3">
+              <div class="col-10 text-left pt-3" (click)="manageDisbursement(disbursement)">
+                <div class="row">
+                  <div class="col-12">
+                    <p class="text-subheader mb-0"><strong>Requested Amount:</strong> <span class="text-header search-context">
+                      {{
+                        currencyService.getFormattedAmount(
+                          disbursement.requestedAmount
+                        )
+                      }}</span>&nbsp;&nbsp;<span class="text-subheader ml-3">
                     {{
                       currencyService.getAmountInWords(
                         disbursement.requestedAmount
                       )
-                    }}</span
-                  >
-                </p>
+                    }}</span>
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div
-                *ngIf="
-                  (disbursement.canManage &&
-                    disbursement.status.internalStatus === 'DRAFT') ||
-                  disbursement.disabledByAmendment
-                "
-                class="col-2"
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                "
-              >
-                <button
-                  class="btn btn-sm btn-red mx-0"
-                  (click)="deleteDisbursement(disbursement)"
-                >
-                  Delete
-                </button>
+              
+              <div class="col-9"></div>
+              <div *ngIf="appComponent.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(disbursement.grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
+                <div class="float-right" >
+                  <small>{{getGrantTypeName(disbursement.grant.grantTypeId)}}</small>
+                </div>
               </div>
             </div>
           </div>
