@@ -923,6 +923,11 @@ li:focus {
     color: transparent
 }
 
+.owner-highlight-no-edit {
+  border-left: 11px solid rgba(59,115,63,1) !important;
+}
+
+
 .owner-no-highlight {
   border-left: 11px solid rgba(59,115,63,0.65) !important;
 }

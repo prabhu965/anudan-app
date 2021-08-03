@@ -66,6 +66,7 @@ export class ListDialogComponent implements OnInit {
   deleteReportsClicked: boolean = false;
   filteredReports: any;
   filteredDisbursements: any;
+  deleteGrantEvent: boolean = false;
 
   constructor(private dialog: MatDialog,
     private reportService: ReportDataService,
@@ -87,6 +88,11 @@ export class ListDialogComponent implements OnInit {
     this.title = listMetaData.title;
     if (listMetaData._for === 'grant') {
       this.grants = listMetaData.grants;
+      if (this.grants && this.grants.length > 0) {
+        for (let g of this.grants) {
+          grantService.changeMessage(g, this.appComp.loggedInUser.id);
+        }
+      }
       this.filteredGrants = this.grants;
     } else if (listMetaData._for === 'report') {
       this.reports = listMetaData.reports;
@@ -201,6 +207,9 @@ export class ListDialogComponent implements OnInit {
   }
 
   manageGrant(grant: Grant) {
+    if (this.deleteGrantEvent) {
+      return;
+    }
 
     this.appComp.subMenu = { name: "In-progress Grants", action: "dg" };
     const httpOptions = {
@@ -294,5 +303,109 @@ export class ListDialogComponent implements OnInit {
     } else {
       this.router.navigate(['disbursement/preview']);
     }
+  }
+
+  deleteReport(report: Report) {
+    this.deleteReportsClicked = true;
+    const dialogRef = this.dialog.open(FieldDialogComponent, {
+      data: { title: 'Are you sure you want to delete this report?', btnMain: "Delete Report", btnSecondary: "Not Now" },
+      panelClass: 'center-class'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.reportService.deleteReport(report)
+          .then(() => {
+            let index = -1;
+            if (this.reports !== undefined && this.reports !== null) {
+              index = this.reports.findIndex(r => r.id === report.id);
+              if (index >= 0) {
+                this.reports.splice(index, 1);
+              }
+              this.filteredReports = this.reports;
+
+              /* if (this.filteredToSetupReports && this.filteredToSetupReports.length > 0) {
+                  this.filteredToSetupReportD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') <= 0);
+                  this.filteredToSetupReportOD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') > 0);
+                  this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
+                  this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
+              } else {
+                  this.filteredToSetupReportD = [];
+                  this.filteredToSetupReportOD = [];
+                  this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
+                  this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
+              } */
+            }
+
+            this.deleteReportsClicked = false;
+          })
+      } else {
+        this.deleteReportsClicked = false;
+        dialogRef.close();
+      }
+    });
+  }
+
+  deleteGrant(grant: Grant) {
+    this.deleteGrantEvent = true;
+    const dialogRef = this.dialog.open(FieldDialogComponent, {
+      data: { title: "Are you sure you want to delete this grant?", btnMain: "Delete Grant", btnSecondary: "Not Now" },
+      panelClass: "center-class",
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.deleteGrantEvent = false;
+      if (result) {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            "Content-Type": "application/json",
+            "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+            Authorization: localStorage.getItem("AUTH_TOKEN"),
+          }),
+        };
+
+        const url =
+          "/api/user/" +
+          this.appComp.loggedInUser.id +
+          "/grant/" +
+          grant.id;
+
+        this.http.delete(url, httpOptions).subscribe((val: any) => {
+          const user = JSON.parse(localStorage.getItem("USER"));
+          const index = this.grants.findIndex(r => r.id === grant.id);
+          if (index >= 0) {
+            this.grants.splice(index, 1);
+          }
+          this.filteredGrants = this.grants;
+        });
+      } else {
+        dialogRef.close();
+      }
+    });
+  }
+
+  deleteDisbursement(disbursement: Disbursement) {
+
+    this.deleteDisbursementEvent = true;
+    const dialogRef = this.dialog.open(FieldDialogComponent, {
+      data: { title: 'Are you sure you want to delete this disbursement?', btnMain: "Delete Disbursement", btnSecondary: "Not Now" },
+      panelClass: 'center-class'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.deleteDisbursementEvent = false;
+      if (result) {
+        this.disbursementDataService.deleteDisbursement(disbursement)
+          .then(disbs => {
+            const index = this.disbursements.findIndex(r => r.id === disbursement.id);
+            if (index >= 0) {
+              this.disbursements.splice(index, 1);
+            }
+            this.filteredDisbursements = this.disbursements;
+          })
+      } else {
+        dialogRef.close();
+      }
+    });
   }
 }
