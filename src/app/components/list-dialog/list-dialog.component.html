@@ -107,7 +107,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12 mt-2 text-left">
+              <div class="col-10 mt-2 text-left">
                 <div class="row">
                   <div
                     class="col-6 text-subheader"
@@ -143,26 +143,22 @@
                   </div>
                 </div>
               </div>
-
-              <div
-                class="col-2"
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: flex-end;
+              <div class="col-2" style="
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;">
+              <button
+                *ngIf="
+                  grant.canManage &&
+                  grant.grantStatus.internalStatus === 'DRAFT'
                 "
+                class="btn btn-sm btn-red mx-0"
+                (click)="deleteGrant(grant)"
               >
-                <button
-                  *ngIf="
-                    grant.canManage &&
-                    grant.grantStatus.internalStatus === 'DRAFT'
-                  "
-                  class="btn btn-sm btn-red mx-0"
-                  
-                >
-                  Delete
-                </button>
-              </div>
+                Delete
+              </button>
+            </div>
+              
               <div class="col-12 mt-2 text-left">
                 <div class="row">
                   <div class="col-6 text-subheader" style="">
@@ -281,9 +277,7 @@
                             report.status.internalStatus === 'DRAFT') ||
                           (!report.canManage && report.disabledByAmendment)
                         "
-                        class="btn btn-sm btn-red mt-3 mb-3 mx-0"
-                        
-                      >
+                        class="btn btn-sm btn-red mt-3 mb-3 mx-0" (click)="deleteReport(report)">
                         Delete
                       </button>
                     </div>
@@ -439,6 +433,7 @@
                     disbursement.status.internalStatus === 'DRAFT'
                   "
                   class="btn btn-sm btn-red mx-0"
+                  (click)="deleteDisbursement(disbursement)"
                 >
                   Delete
                 </button>

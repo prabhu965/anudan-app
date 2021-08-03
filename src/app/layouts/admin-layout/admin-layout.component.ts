@@ -136,9 +136,13 @@ export class AdminLayoutComponent implements OnInit {
     ) {
       // if we are on windows OS we activate the perfectScrollbar function
 
-      document
-        .getElementsByClassName("anudan-scrollable")[0]
-        .classList.add("perfect-scrollbar-on");
+      const scrollableHtmlColl = document
+        .getElementsByClassName("anudan-scrollable");
+      if (scrollableHtmlColl && scrollableHtmlColl.length > 0) {
+        [0]
+        scrollableHtmlColl[0].classList.add("perfect-scrollbar-on");
+      }
+
     } else {
       document
         .getElementsByTagName("body")[0]
