@@ -382,6 +382,10 @@ export class DashboardComponent implements OnInit {
           data: { _for: 'grant', grants: results, appComp: this.appComponent, title: 'Actions Pending | Grants' },
           panelClass: "addnl-report-class"
         });
+
+        dg.afterClosed().subscribe(() => {
+          this.getMyDashboardSummary();
+        });
       });
   }
 
@@ -403,6 +407,10 @@ export class DashboardComponent implements OnInit {
         const dg = this.dialog.open(ListDialogComponent, {
           data: { _for: 'report', reports: results, appComp: this.appComponent, title: 'Actions Pending | Progress Reports' },
           panelClass: "addnl-report-class"
+        });
+
+        dg.afterClosed().subscribe(() => {
+          this.getMyDashboardSummary();
         });
       });
   }
@@ -432,6 +440,9 @@ export class DashboardComponent implements OnInit {
           data: { _for: 'disbursement', disbursements: results, appComp: this.appComponent, title: 'Actions Pending - Disbursement Requests' },
           panelClass: "addnl-report-class"
         });
+        dg.afterClosed().subscribe(() => {
+          this.getMyDashboardSummary();
+        });
       });
   }
 
@@ -455,7 +466,9 @@ export class DashboardComponent implements OnInit {
           data: { _for: 'grant', grants: results, appComp: this.appComponent, title: 'Upcoming | Grants | Drafts' },
           panelClass: "addnl-report-class"
         });
-
+        dg.afterClosed().subscribe(() => {
+          this.getMyDashboardSummary();
+        });
       });
   }
 
@@ -477,6 +490,10 @@ export class DashboardComponent implements OnInit {
         const dg = this.dialog.open(ListDialogComponent, {
           data: { _for: 'report', reports: results, appComp: this.appComponent, title: 'Upcoming | Progrss Reports | Drafts' },
           panelClass: "addnl-report-class"
+        });
+
+        dg.afterClosed().subscribe(() => {
+          this.getMyDashboardSummary();
         });
       });
   }
@@ -505,6 +522,10 @@ export class DashboardComponent implements OnInit {
         const dg = this.dialog.open(ListDialogComponent, {
           data: { _for: 'disbursement', disbursements: results, appComp: this.appComponent, title: 'Upcoming | Disbursement Requests | Drafts' },
           panelClass: "addnl-report-class"
+        });
+
+        dg.afterClosed().subscribe(() => {
+          this.getMyDashboardSummary();
         });
       });
   }

@@ -338,6 +338,9 @@ export class ListDialogComponent implements OnInit {
             }
 
             this.deleteReportsClicked = false;
+            if (this.disbursements && this.disbursements.length === 0) {
+              this.onNoClick();
+            }
           })
       } else {
         this.deleteReportsClicked = false;
@@ -377,6 +380,9 @@ export class ListDialogComponent implements OnInit {
             this.grants.splice(index, 1);
           }
           this.filteredGrants = this.grants;
+          if (this.grants && this.grants.length === 0) {
+            this.onNoClick();
+          }
         });
       } else {
         dialogRef.close();
@@ -402,6 +408,9 @@ export class ListDialogComponent implements OnInit {
               this.disbursements.splice(index, 1);
             }
             this.filteredDisbursements = this.disbursements;
+            if (this.disbursements && this.disbursements.length === 0) {
+              this.onNoClick();
+            }
           })
       } else {
         dialogRef.close();

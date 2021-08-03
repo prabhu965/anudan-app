@@ -1,3 +1,8 @@
+import { ListDialogComponent } from './../../components/list-dialog/list-dialog.component';
+import { MatDialog } from '@angular/material';
+import { AppComponent } from 'app/app.component';
+import { Grant } from 'app/model/dahsboard';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
 
@@ -19,7 +24,9 @@ export class MyPortfolioSummaryComponent implements OnInit, OnChanges {
     portfolioType: any;
 
 
-    constructor() {
+    constructor(private http: HttpClient,
+        public appComponent: AppComponent,
+        private dialog: MatDialog) {
 
     }
 
@@ -55,6 +62,30 @@ export class MyPortfolioSummaryComponent implements OnInit, OnChanges {
                 this.portfolioType = this.data[i].name;
                 this.portfolioDetailData = this.data[i].details;
             }
+        }
+    }
+
+    showMyGrantsByStatus() {
+        if (Number(this.selected.totalGrants) === 0) {
+            return;
+        } else {
+            const status = this.selected.name === 'Active Grants' ? 'Active' : 'Closed';
+            const httpOptions = {
+                headers: new HttpHeaders({
+                    "Content-Type": "application/json",
+                    "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+                    Authorization: localStorage.getItem("AUTH_TOKEN"),
+                }),
+            };
+
+            this.http.get<Grant[]>('/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/mysummary/grants/' + status, httpOptions).subscribe(result => {
+                const dg = this.dialog.open(ListDialogComponent, {
+                    data: { _for: 'grant', grants: result, appComp: this.appComponent, title: (status + ' Grants') },
+                    panelClass: "addnl-report-class"
+                });
+
+
+            });
         }
     }
 }

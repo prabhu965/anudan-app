@@ -13,7 +13,7 @@
             <p class="text-header">Portfolio data not available</p>
         </div>
         <div *ngIf="selected.totalGrants>0" class="col-3">
-            <app-summary-centered [display]="false" [data]="portfolioData"></app-summary-centered>
+            <app-summary-centered [clickable]="selected.totalGrants>0?true:false" [display]="false" [data]="portfolioData" (click)="showMyGrantsByStatus()"></app-summary-centered>
         </div>
         <div *ngIf="selected.totalGrants>0" class="col-9">
             <app-progress-summary [display]="false" [data]="portfolioProgessData"></app-progress-summary>
