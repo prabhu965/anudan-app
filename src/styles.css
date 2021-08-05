@@ -913,8 +913,8 @@ li:focus {
 }
 
 .owner-highlight {
-  border-left: 18px solid rgba(59,115,63,1) !important;
-  box-shadow: 2px 2px 4px rgba(59,115,63,1);
+  border-left: 18px solid rgba(77,194,82) !important;
+  box-shadow: 2px 2px 4px rgba(77,194,82);
 }
 
 .owner-highlight-noedit {
@@ -922,7 +922,7 @@ li:focus {
 }
 
 .owner-highlight-wf {
-  border-left: 18px solid #FFF7E6 !important;
+  border-left: 18px solid rgba(77,194,82,0.5) !important;
 }
 
 .owner-highlight-no-edit {
