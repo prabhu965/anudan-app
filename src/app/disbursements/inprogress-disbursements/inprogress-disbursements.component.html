@@ -31,54 +31,46 @@
           </div>
           <div *ngIf="disbursements && disbursements.length > 0">
             <div
-              [ngClass]="uiService.getCardStyle(disbursement.canManage)"
+              [ngClass]="uiService.getDisbursementCardStyle(disbursement,appComponent)"
               style="cursor: pointer"
               *ngFor="let disbursement of filteredDisbursements; let i = index"
               (click)="manageDisbursement(disbursement)"
             >
+            <div class="d-flex align-items-center disbursement-delete" *ngIf="(disbursement.canManage && disbursement.status.internalStatus === 'DRAFT')" (click)="deleteDisbursement(disbursement)">
+              <mat-icon class="text-red">delete_outline</mat-icon>
+            </div>
               <div class="col-9 mb-1 search-context px-0">
                 <div *ngIf="disbursement.disabledByAmendment" class="mb-0 text-red text-left" style="font-weight: 600; font-size: 12px">
                   Underlying grant has been amended. Please check if this
                   disbursement is still valid
                 </div>
                 
-                <div class="text-subheader text-left mb-0">
-                 <div class="mb-1"><b>{{ (disbursement.grant.referenceNo? disbursement.grant.referenceNo + " | ": "") + disbursement.grant.name}}</b></div>
-                 <div class="mb-1"><b *ngIf="isExternalGrant(disbursement.grant)">{{disbursement.grant.organization? disbursement.grant.organization.name: ""}}</b> </div>
-                 <div class="mb-1"><b *ngIf="!isExternalGrant(disbursement.grant)">{{disbursement.grant.grantorOrganization.name}}</b></div>
+                <div class="text-subheader text-left mb-0 mt-3 ml-3">
+                 <div class="mb-1"><span>{{ (disbursement.grant.referenceNo? disbursement.grant.referenceNo + " | ": "") + disbursement.grant.name}}</span></div>
+                 <div class="mb-1"><span *ngIf="isExternalGrant(disbursement.grant)">{{disbursement.grant.organization? disbursement.grant.organization.name: ""}}</span> </div>
+                 <div class="mb-1"><span *ngIf="!isExternalGrant(disbursement.grant)">{{disbursement.grant.grantorOrganization.name}}</span></div>
 
                  <div class="mt-1">
-                  <b>{{currencyService.getFormattedAmount(disbursement.grant.amount)}}</b>
+                  <span>{{currencyService.getFormattedAmount(disbursement.grant.amount)}}</span>
                     &nbsp;&nbsp;<span>({{currencyService.getAmountInWords(disbursement.grant.amount)}})</span>
                   </div>
                 </div>
               </div>
-              <div class="col-2 d-flex align-items-end justify-content-center">
+              <div class="col-3 d-flex align-items-end justify-content-center">
                 <div class="row">
                   <div class="col-12">
                     <div class="status-indicator2">
                       <div [class]="'text-center status-icon state-'+disbursement.status.internalStatus.toLowerCase()">
                       </div>{{disbursement.status.name | uppercase}}
                     </div>
-                  </div>
-                  <div
-                    class="col-12"
-                    style="
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                    "
-                  >
-                  <div class="d-flex align-items-center disbursement-delete" *ngIf="(disbursement.canManage && disbursement.status.internalStatus === 'DRAFT')" (click)="deleteDisbursement(disbursement)">
-                    <mat-icon class="text-red">delete_outline</mat-icon>
-                  </div>
+                    <div class="text-center text-subheader pl-3 mt-2">{{disbursement.ownerName}}</div>
                   </div>
                 </div>
               </div>
               <div class="col-10 text-left pt-3" (click)="manageDisbursement(disbursement)">
-                <div class="row">
+                <div class="row mb-2">
                   <div class="col-12">
-                    <p class="text-subheader mb-0"><strong>Requested Amount:</strong> <span class="text-header search-context">
+                    <p class="text-subheader mb-0"><span>Requested Amount:</span> <span class="text-header search-context">
                       {{
                         currencyService.getFormattedAmount(
                           disbursement.requestedAmount
@@ -91,13 +83,6 @@
                     }}</span>
                     </p>
                   </div>
-                </div>
-              </div>
-              
-              <div class="col-9"></div>
-              <div *ngIf="appComponent.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(disbursement.grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
-                <div class="float-right" >
-                  <small>{{getGrantTypeName(disbursement.grant.grantTypeId)}}</small>
                 </div>
               </div>
             </div>

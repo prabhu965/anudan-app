@@ -185,6 +185,7 @@ body {
   height: 100%;
   scrollbar-width: none;
   overflow: hidden;
+  color: #2B2B2B;
 }
 body {
   margin: 0;
@@ -341,10 +342,10 @@ body {
 .grants-section {
   background: #fff;
   border-radius: 4px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid #acacac;
   margin-top: 20px;
   border-radius: 8px;
-  box-shadow:4px 4px 8px #b8b8b8;
+  position: relative;
 }
 
 input:-internal-autofill-selected {
@@ -450,7 +451,7 @@ font-white {
 }
 .text-header {
   font-size: 14px !important;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .text-header-light {
@@ -491,7 +492,7 @@ font-white {
 }
 
 .node-highight {
-  border: 2px dashed;
+  box-shadow:2px 2px 4px #3d3c3c
 }
 
 .state-highlight {
@@ -501,7 +502,8 @@ font-white {
 .status-indicator {
   position: absolute;
   font-size: 18px;
-  color: #338136;
+  color: #2B2B2B;
+  left: 170px;
 }
 
 .jtk-connector,
@@ -530,6 +532,10 @@ font-white {
 }
 
 .state-review {
+  background: #ffbf00;
+}
+
+.state-ext-review {
   background: #ffbf00;
 }
 
@@ -702,8 +708,8 @@ font-white {
 }
 
 .wf-assignment-class {
-  min-width: calc(100% - 360px) !important;
-  max-width: calc(100% - 360px) !important;
+  min-width: calc(100% - 300px) !important;
+  max-width: calc(100% - 300px) !important;
   position: relative !important;
   left: 150px !important;
   overflow: hidden !important;
@@ -907,29 +913,25 @@ li:focus {
 }
 
 .owner-highlight {
-  border-left: 11px solid rgba(59,115,63,1) !important;
+  border-left: 18px solid rgba(59,115,63,1) !important;
+  box-shadow: 2px 2px 4px rgba(59,115,63,1);
 }
 
-.owner-highlight::before{
-    content: '.';
-    background-image: url('./assets/img/edit_border.png');
-    background-size: 10px;
-    line-height: 10px;
-    position: relative;
-    left: -14px;
-    background-repeat: no-repeat;
-    width: 20px;
-    top: -4px;
-    color: transparent
+.owner-highlight-noedit {
+  border-left: 18px solid rgba(59,115,63,1) !important;
+}
+
+.owner-highlight-wf {
+  border-left: 18px solid #FFF7E6 !important;
 }
 
 .owner-highlight-no-edit {
-  border-left: 11px solid rgba(59,115,63,1) !important;
+  border-left: 18px solid rgba(59,115,63,1) !important;
 }
 
 
 .owner-no-highlight {
-  border-left: 11px solid rgba(59,115,63,0.65) !important;
+  border-left: 18px solid rgba(59,115,63,0.65) !important;
 }
 
 .owner-no-highlight::before{
@@ -1088,6 +1090,21 @@ mat-icon:hover{
     line-height: 12px;
 }
 
+.status-indicator3{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 12px;
+  margin-top: 5px;
+  line-height: 12px;
+}
+
+.state-ext-active{
+  border: 2px dashed #FEBE2D;
+  background-color: #FFF7E6;
+}
+
 .status-icon{
   width: 12px; height: 12px; border-radius: 50%;
   margin-right: 5px;
@@ -1120,36 +1137,37 @@ mat-icon:hover{
 
 .grant-delete{
   position: absolute;
-  top: -80px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
 }
 
 .grant-delete mat-icon{
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
+  color: #676767 !important;
 }
 
 .report-delete{
   position: absolute;
-  top: -100px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
 }
 
 .report-delete mat-icon{
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
+  color:#676767 !important;
 }
 
 .disbursement-delete{
   position: absolute;
-  top: -70px;
-  right: -70px;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
 }
 
 .disbursement-delete mat-icon{
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
+  color:#676767 !important;
+}
+
+.wf-assignment-class .mat-dialog-container {
+  border-radius: 0 !important;
 }

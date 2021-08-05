@@ -47,7 +47,7 @@ export class AddnlreportsDialogComponent implements OnInit {
   grants: Grant[];
   futureReports: Report[];
   selectedReports: Report[];
-  singleGrant: boolean;
+  singleGrant: boolean = false;
   deletedReports: Report[] = [];
   selectedFilteredReports: Report[] = [];
   type: string;

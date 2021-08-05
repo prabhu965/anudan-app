@@ -29,18 +29,20 @@
           
           <div *ngIf="hasTenant">
             <div
-              [ngClass]="uiService.getCardStyle(grant.currentAssignment !== undefined && grant.currentAssignment === appComponent.loggedInUser.id)"
+              [ngClass]="uiService.getGrantCardStyle(grant,appComponent)"
               style="cursor: pointer"
               *ngFor="let grant of filteredGrants; let i = index; let last = last;"
               (click)="manageGrant(grant)"
             >
-            
+            <div *ngIf="grant.canManage && grant.grantStatus.internalStatus === 'DRAFT'" class="d-flex align-items-center grant-delete" (click)="deleteGrant(grant)">
+              <mat-icon class="text-red">delete_outline</mat-icon>
+            </div>
               
               <div class="col-12 text-left search-context">
                 <i *ngIf="grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></i>
                 <i *ngIf="grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></i>
                 <p
-                  class="text-header mb-1"
+                  class="text-header mb-1 mt-2"
                   *ngIf="!grant.referenceNo"
                   style="font-size: 18px"
                 >
@@ -59,7 +61,7 @@
                   {{ grant.name }}
                 </p>
                   <p
-                  class="text-header mb-1"
+                  class="text-header mb-1 mt-2"
                   *ngIf="grant.referenceNo"
                   style="font-size: 18px"
                 >
@@ -75,8 +77,8 @@
                 </p>
               </div>
               
-              <div class="col-12 text-left search-context mb-3">
-                <div class="text-subheader mb-2">
+              <div class="col-12 text-left search-context mb-0">
+                <div class="text-header mb-0">
                   {{ grant.organization ? grant.organization.name : null }}
                 </div>
               </div>
@@ -87,27 +89,25 @@
                 <div class="row">
                   <div class="col-12 mt-1">
                     <div class="row">
-                      <div class="col-5 mb-0">
+                      <div class="col-12 mb-0 pr-0">
                         ₹
                         <span class="text-header mr-4 search-context">{{
                           getFormattedGrantAmount(grant.amount)
-                        }}</span>
-                      </div>
-                      <div class="col-7 text-subheader">
-                        {{getGrantAmountInWords(grant.amount)}}
+                        }}</span><span class="text-subheader">{{getGrantAmountInWords(grant.amount)}}</span>
                       </div>
                     </div>
                   </div>
                   <div class="col-12 mt-4">
-                    <p class="mb-0 text-subheader">
+                    <p class="mb-0 text-header">
                       <mat-icon [inline]="true" class="mr-1"
                         >calendar_today</mat-icon
                       >
                       {{ grant.startDate | date: "dd-MMM-yyyy" }}
                       -
                       {{ grant.endDate | date: "dd-MMM-yyyy" }}
-                      <small class="ml-2">({{ data.getDateDuration(grant) }})</small>
+                      <small class="ml-2 text subheader">({{ data.getDateDuration(grant) }})</small>
                     </p>
+                    
                   </div>
                 </div>
               </div>
@@ -117,17 +117,16 @@
                     <div class="row">
                       <div
                         class="col-12 text-subheader">
-                        Disbursed <small>(till date)</small>:<strong>
-                          Applicable to Active grants only</strong>
+                        Disbursed <small>(till date)</small>:<span class="text-header">
+                          Applicable to Active grants only</span>
                       </div>
                     </div>
                   </div>
                   <div class="col-12 mt-2 text-left">
                     <div class="row">
                       <div class="col-12 text-subheader" style="">
-                        Approved Reports :<strong>
-                          Applicable to Active grants only</strong
-                        >
+                        Approved Reports :<span class="text-header">
+                          Applicable to Active grants only</span>
                       </div>
     
                     </div>
@@ -135,13 +134,12 @@
                   <div class="col-12 mt-2 text-left">
                     <div class="row">
                       <div class="col-12 text-subheader" style="">
-                        Project Documents:<strong>
+                        Project Documents:<span class="text-header">
                           {{
                             grant.projectDocumentsCount === 0
                               ? "none"
                               : grant.projectDocumentsCount
-                          }}</strong
-                        >
+                          }}</span>
                       </div>
                     </div>
                     
@@ -153,22 +151,7 @@
                   <div [class]="'text-center status-icon state-'+grant.grantStatus.internalStatus.toLowerCase()">
                   </div>{{grant.grantStatus.name | uppercase}}
                 </div>
-                    <div
-                    *ngIf="
-                      grant.canManage &&
-                      grant.grantStatus.internalStatus === 'DRAFT'
-                    "
-                    class="grant-delete"
-                    style="
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                    "
-                  >
-                    <div class="d-flex align-items-center">
-                      <mat-icon class="text-red">delete_outline</mat-icon>
-                    </div>
-                  </div>
+                <div class="text-center text-subheader pl-3 mt-2">{{grant.ownerName}}</div>
               </div>
               <div class="col-9"></div>
               <div *ngIf="appComponent.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">

@@ -16,12 +16,16 @@
   
   <div class="col-12 scrollable" style="overflow-y: scroll;height: inherit;min-height: calc(100vh - 180px) !important;max-height: calc(100vh - 180px) !important;" *ngIf="_for==='grant'">
     <div
-              [ngClass]="uiService.getCardStyle(grant.currentAssignment ===appComp.loggedInUser.id)"
-              style="border-radius: 8px; cursor: pointer"
-              *ngFor="let grant of filteredGrants; let i = index"
+              [ngClass]="uiService.getGrantCardStyle(grant,appComp)"
+              style="cursor: pointer"
+              *ngFor="let grant of filteredGrants; let i = index; let last = last;"
               (click)="manageGrant(grant)"
             >
-              <div class="col-10 text-left search-context">
+            <div class="d-flex align-items-center grant-delete">
+              <mat-icon class="text-red">delete_outline</mat-icon>
+            </div>
+              
+              <div class="col-12 text-left search-context">
                 <i *ngIf="grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></i>
                 <i *ngIf="grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></i>
                 <p
@@ -29,404 +33,309 @@
                   *ngIf="!grant.referenceNo"
                   style="font-size: 18px"
                 >
-                  <span class="search-context-grant-selection">{{ grant.name }}</span>
                   <span
-                    class="text-red ml-3"
+                    class="text-red pl-0"
+                    style="font-size: 10px; font-weight: normal"
                     *ngIf="
-                      grant.grantStatus.internalStatus === 'ACTIVE' &&
-                      grant.amendGrantId
+                      (grant.grantStatus.internalStatus === 'DRAFT' ||
+                        grant.grantStatus.internalStatus === 'REVIEW') &&
+                      grant.origGrantId
                     "
                   >
-                    <small>Amendment in-progress</small>
+                    Amendment in-progress [<b>{{ grant.origGrantRefNo }}</b
+                    >]
                   </span>
+                  {{ grant.name }}
                 </p>
-                <p
-                  class="text-header mb-1 search-context-grant-selection"
+                  <p
+                  class="text-header mb-1"
                   *ngIf="grant.referenceNo"
                   style="font-size: 18px"
                 >
-                  {{ grant.referenceNo }} | <b>{{ grant.name }}</b>
-                </p>
-                <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(grant.grantTypeId)}" ><small>{{getGrantTypeName(grant.grantTypeId)}}</small></span>
-              </div>
-              <div class="col-2 text-right">
-                <div>
                   <span
-                    [class]="
-                      'badge text-white state-' +
-                      grant.grantStatus.internalStatus.toLowerCase()
-                    "
-                    style="color: #000 !important"
-                    >{{ grant.grantStatus.displayName }}</span
-                  >
-                </div>
+                    class="text-red pl-0"
+                    style="font-size: 10px; font-weight: normal"
+                    *ngIf="
+                      (grant.grantStatus.internalStatus === 'DRAFT' ||
+                        grant.grantStatus.internalStatus === 'REVIEW') &&
+                      grant.origGrantId
+                    ">Amendment in-progress [<span>{{ grant.origGrantRefNo }}</span>]</span>
+                  <span>{{ grant.name }}</span>
+                </p>
               </div>
-              <div class="col-12 text-left mb-2 search-context">
-                <div class="text-subheader mb-2 search-context-grant-selection">
+              
+              <div class="col-12 text-left search-context mb-3">
+                <div class="text-header mb-2">
                   {{ grant.organization ? grant.organization.name : null }}
                 </div>
-                
               </div>
               <div
-                class="col-6 text-left"
+                class="col-4 text-left"
                 style="border-right: 1px solid #d4d4d4"
               >
                 <div class="row">
-                  <div class="col-12">
-                    <p class="mb-0">
-                      ₹
-                      <span class="text-header mr-4 search-context">{{
-                        getFormattedGrantAmount(grant.amount)
-                      }}</span>
-                      <small class="mb-0">{{
-                        getGrantAmountInWords(grant.amount)
-                      }}</small>
-                    </p>
+                  <div class="col-12 mt-1">
+                    <div class="row">
+                      <div class="col-12 mb-0 pr-0">
+                        ₹
+                        <span class="text-header mr-4 search-context">{{
+                          getFormattedGrantAmount(grant.amount)
+                        }}</span><span class="text-subheader">{{getGrantAmountInWords(grant.amount)}}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div class="col-6 text-left">
-                <div class="row">
-                  <div class="col-12">
-                    <p class="mb-0 text-subheader">
+                  <div class="col-12 mt-4">
+                    <p class="mb-0 text-header">
                       <mat-icon [inline]="true" class="mr-1"
                         >calendar_today</mat-icon
                       >
                       {{ grant.startDate | date: "dd-MMM-yyyy" }}
-                      <mat-icon [inline]="true" class="mx-2"
-                        >keyboard_arrow_right</mat-icon
-                      >
-                      <mat-icon [inline]="true" class="mr-1"
-                        >calendar_today</mat-icon
-                      >
+                      -
                       {{ grant.endDate | date: "dd-MMM-yyyy" }}
-                      <small class="ml-2"
-                        >({{ grantService.getDateDuration(grant) }})</small
-                      >
+                      <span class="ml-2 text-subheader">({{ grantService.getDateDuration(grant) }})</span>
                     </p>
                   </div>
                 </div>
               </div>
-              <div class="col-10 mt-2 text-left">
+              <div class="col-5">
                 <div class="row">
-                  <div
-                    class="col-6 text-subheader"
-                    style="border-right: 1px solid #d4d4d4"
-                  >
-                    Disbursed <small>(till date)</small>:<strong>
-                      {{
-                        grant.approvedDisbursementsTotal === 0
-                          ? "none"
-                          : currenyService.getFormattedAmount(
-                              grant.approvedDisbursementsTotal
-                            )
-                      }}</strong
-                    >
-                    <small
-                      class="ml-2"
-                      *ngIf="grant.approvedDisbursementsTotal > 0"
-                      >{{
-                        currenyService.getAmountInWords(
-                          grant.approvedDisbursementsTotal
-                        )
-                      }}</small
-                    >
+                  <div class="col-12 mt-2 text-left">
+                    <div class="row">
+                      <div
+                        class="col-12 text-subheader">
+                        Disbursed <small>(till date)</small>:<span class="text-subheader">
+                          Applicable to Active grants only</span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-6 text-subheader">
-                    Project Documents:<strong>
-                      {{
-                        grant.projectDocumentsCount === 0
-                          ? "none"
-                          : grant.projectDocumentsCount
-                      }}</strong
-                    >
+                  <div class="col-12 mt-2 text-left">
+                    <div class="row">
+                      <div class="col-12 text-subheader" style="">
+                        Approved Reports :<span class="text-subheader">
+                          Applicable to Active grants only</span
+                        >
+                      </div>
+    
+                    </div>
+                  </div>
+                  <div class="col-12 mt-2 text-left">
+                    <div class="row">
+                      <div class="col-12 text-subheader" style="">
+                        Project Documents:<span class="text-subheader">
+                          {{
+                            grant.projectDocumentsCount === 0
+                              ? "none"
+                              : grant.projectDocumentsCount
+                          }}</span
+                        >
+                      </div>
+                    </div>
+                    
                   </div>
                 </div>
               </div>
-              <div class="col-2" style="
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;">
-              <button
-                *ngIf="
-                  grant.canManage &&
-                  grant.grantStatus.internalStatus === 'DRAFT'
-                "
-                class="btn btn-sm btn-red mx-0"
-                (click)="deleteGrant(grant)"
-              >
-                Delete
-              </button>
-            </div>
+              <div class="col-3 text-left">
+                <div class="status-indicator2">
+                  <div [class]="'text-center status-icon state-'+grant.grantStatus.internalStatus.toLowerCase()">
+                  </div>{{grant.grantStatus.name | uppercase}}
+                </div>
+                <div class="text-center text-subheader pl-3 mt-2">{{grant.ownerName}}</div>
+              </div>
+              <div class="col-9"></div>
+              <div *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
+                <div class="float-right" >
+                  <small>{{getGrantTypeName(grant.grantTypeId)}}</small>
+                </div>
+              </div>
               
-              <div class="col-12 mt-2 text-left">
-                <div class="row">
-                  <div class="col-6 text-subheader" style="">
-                    Approved Reports :<strong>
-                      {{
-                        grant.approvedReportsForGrant === 0
-                          ? "none"
-                          : grant.approvedReportsForGrant
-                      }}</strong
-                    >
-                  </div>
-                </div>
-              </div>
+              
             </div>
   </div>
   <div class="col-12 scrollable" style="overflow-y: scroll;height: inherit;min-height: calc(100vh - 180px) !important;max-height: calc(100vh - 180px) !important;" *ngIf="_for==='report'">
+    <div *ngIf="!filteredReports">
+      <img src="./assets/img/loader.gif" style="width: 10%" />
+      <p style="color: black">Loading upcoming reports...</p>
+    </div>
     <div
-                [ngClass]="uiService.getCardStyle(report.canManage)"
-                style="cursor: pointer"
-                *ngFor="let report of filteredReports; let i = index"
-                (click)="manageReport(report)"
-              >
-                <div class="col-12 mb-1">
-                  <p
-                    *ngIf="report.disabledByAmendment"
-                    class="mb-0 text-red text-left"
-                    style="font-weight: 600; font-size: 12px"
-                  >
-                    Underlying grant has been amended. Please check if this
-                    report is still valid.
-                  </p>
-                  <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId)}" ><small>{{getGrantTypeName(report.grant.grantTypeId)}}</small></span>
-                  <p class="text-subheader text-left mb-0">
-                    Grant Name:
-                    <b  class="search-context-grant-selection">{{
-                      (report.grant.referenceNo
-                        ? report.grant.referenceNo + " | "
-                        : "") + report.grant.name
-                    }}</b>
-                    <br>Implementing Organization:
-                    <b *ngIf="isExternalGrant(report.grant)" class="search-context-grant-selection">{{
-                      report.grant.organization
-                        ? report.grant.organization.name
-                        : ""
-                    }}</b> 
-                    <b *ngIf="!isExternalGrant(report.grant)" class="search-context-grant-selection">{{
-                      report.grant.grantorOrganization.name
-                    }}</b> 
-                    <br />
-                    Grant Amount:
-                    <img src="./assets/img/rupee.png" style="width: 9px" /><b
-                      >{{ getFormattedGrantAmount(report.grant.amount) }}
-                    </b>
-                    &nbsp;&nbsp;<span>{{
-                      getGrantAmountInWords(report.grant.amount)
-                    }}</span>
+      *ngIf="filteredReports && filteredReports.length === 0"
+    >
+      <p style="color: black">No reports found</p>
+    </div>
+    <div
+      [ngClass]="uiService.getReportCardStyle(report,appComp)"
+      style="cursor: pointer"
+      *ngFor="let report of filteredReports; let i = index"
+      (click)="manageReport(report)"
+    >
+    <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
+      <mat-icon class="text-red">delete_outline</mat-icon>
+    </div>
+      <div class="col-12 mb-1">
+        <p
+          *ngIf="report.disabledByAmendment"
+          class="mb-0 text-red text-left"
+          style="font-weight: 600; font-size: 12px"
+        >
+          Underlying grant has been amended. Please check if this
+          report is still valid.
+        </p>
+        <div class="text-subheader text-left mb-0">
+          <div class="mb-1"><span  class="search-context">{{
+            (report.grant.referenceNo
+              ? report.grant.referenceNo + " | "
+              : "") + report.grant.name
+          }}</span></div>
+          
+          <div class="mb-1"><span *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
+            report.grant.organization
+              ? report.grant.organization.name
+              : ""
+          }}</span> 
+          <span *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
+            report.grant.grantorOrganization.name
+          }}</span> </div>
+          
+          <div class="mt-1">
+            <img src="./assets/img/rupee.png" style="width: 9px" /><span
+            >{{ getFormattedGrantAmount(report.grant.amount) }}
+          </span>
+          &nbsp;&nbsp;<span>({{
+            getGrantAmountInWords(report.grant.amount)
+          }})</span>
+          </div>
+          
+        </div>
+      </div>
+      <div class="col-9 mb-2" style="display: flex; align-items: center">
+        <div class="row">
+          <div class="col-12 my-4">
+            <div class="text-header text-left mr-3" (click)="manageReport(report)">
+              <span class="search-context">{{ report.name }}</span> | {{ report.dueDate | date: "dd-MMM-yyyy" }}
+              <!-- <ng-container *ngIf="report.futureReportsCount" class="col-2">
+                <div>
+                  <small>
+                    <a
+                      (click)="viewAddnlReports(report.id, report.grant.id,'upcoming')"
+                      class="text-blue"
+                      (mouseenter)="highlight($event, true)"
+                      (mouseleave)="highlight($event, false)">
+                      See additional reports ({{report.futureReportsCount}})</a>
+                    </small>
+                  </div>
+              </ng-container>
+              <ng-container *ngIf="!report.futureReportsCount" class="col-2">
+                <div>
+                  <small class="ml-0"><a class="text-grey"> Additional reports not available</a></small>
+                </div>
+                
+              </ng-container> -->
+            </div>
+          </div>
+          <div class="col-12 px-0">
+            <div class="col-10 py-1 px-3">
+              <div class="row mb-0">
+                <div class="col-5">
+                  <p class="mb-0 text-subheader text-left">
+                    Reporting Time Frame:
                   </p>
                 </div>
-                <div class="col-10" style="display: flex; align-items: center">
-                  <p
-                    class="text-header text-left mr-3"
-                    
-                  >
-                    <span class="search-context-grant-selection">{{ report.name }}</span> |
-                    {{ report.dueDate | date: "dd-MMM-yyyy" }} |
+                <div class="col-3">
+                  <p class="mb-0 text-subheader text-left">Report Type:</p>
+                </div>
+                <div class="col-4">
+                  <p class="mb-0 text-subheader text-left">
+                    Submission Due Date
                   </p>
-                  <ng-container *ngIf="report.futureReportsCount" class="col-2">
-                    <p>
-                      <small
-                        ><a
-                          
-                          class="text-blue"
-                          
-                        >
-                          See additional reports ({{
-                            report.futureReportsCount
-                          }})</a
-                        ></small
-                      >
-                    </p>
-                  </ng-container>
-                  <ng-container
-                    *ngIf="!report.futureReportsCount"
-                    class="col-2"
-                  >
-                    <p>
-                      <small class="ml-3"
-                        ><a> Additional reports not available</a></small
-                      >
-                    </p>
-                  </ng-container>
-                </div>
-                <div class="col-2">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="status-indicator2">
-                        <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
-                        </div>{{report.status.name | uppercase}}
-                      </div>
-                    </div>
-                    <div
-                      class="col-12"
-                      style="
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                    <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
-                      <mat-icon class="text-red">delete_outline</mat-icon>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-12 p-3" style="background: #f1f1f1">
-                  <div class="row mb-0">
-                    <div class="col-2">
-                      <p class="mb-0 text-subheader text-left">Report Type:</p>
-                    </div>
-                    <div class="col-7">
-                      <p class="mb-0 text-subheader text-left">
-                        Reporting Time Frame:
-                      </p>
-                    </div>
-                    <div class="col-3">
-                      <p class="mb-0 text-subheader text-left">
-                        Submission Due Date
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-2">
-                      <p class="text-left text-bold-highlight my-0">
-                        {{ report.type === "adhoc" ? "Ad hoc" : report.type }}
-                      </p>
-                    </div>
-                    <div class="col-7">
-                      <div class="row">
-                        <div>
-                          <p class="text-bold-highlight my-0">
-                            <mat-icon [inline]="true" class="mr-1"
-                              >calendar_today
-                            </mat-icon>
-                            {{ report.startDate | date: "dd-MMM-yyyy" }}
-                          </p>
-                        </div>
-                        <div>
-                          <mat-icon [inline]="true" class="mx-3 my-0"
-                            >arrow_forward
-                          </mat-icon>
-                        </div>
-                        <div>
-                          <p class="text-bold-highlight my-0">
-                            <mat-icon [inline]="true" class="mr-1"
-                              >calendar_today
-                            </mat-icon>
-                            {{ report.endDate | date: "dd-MMM-yyyy" }}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <p class="text-left text-bold-highlight my-0">
-                        {{ report.dueDate | date: "dd-MMM-yyyy" }}
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-5 pr-0 text-left text-header">
+                  {{ report.startDate | date: "dd-MMM-yyyy" }} - {{ report.endDate | date: "dd-MMM-yyyy" }}
+                </div>
+                <div class="col-3">
+                  <p class="text-left text-header my-0">
+                    {{ report.type === "adhoc" ? "Ad hoc" : report.type }}
+                  </p>
+                </div>
+                <div class="col-4">
+                  <p class="text-left text-header my-0">
+                    {{ report.dueDate | date: "dd-MMM-yyyy" }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="col-3">
+        <div class="row">
+          <div class="col-12">
+            <div class="status-indicator2">
+              <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
+              </div>{{report.status.name | uppercase}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="col-12 scrollable" style="overflow-y: scroll;height: inherit;min-height: calc(100vh - 180px) !important;max-height: calc(100vh - 180px) !important;" *ngIf="_for==='disbursement'">
     <div
-              [ngClass]="uiService.getCardStyle(disbursement.canManage)"
+              [ngClass]="uiService.getDisbursementCardStyle(disbursement,appComp)"
               style="cursor: pointer"
               *ngFor="let disbursement of filteredDisbursements; let i = index"
               (click)="manageDisbursement(disbursement)"
             >
-              <div class="col-10 mb-1 search-context-grant-selection">
-                <p
-                  *ngIf="disbursement.disabledByAmendment"
-                  class="mb-0 text-red text-left"
-                  style="font-weight: 600; font-size: 12px"
-                >
+            <div class="d-flex align-items-center disbursement-delete" *ngIf="(disbursement.canManage && disbursement.status.internalStatus === 'DRAFT')" (click)="deleteDisbursement(disbursement)">
+              <mat-icon class="text-red">delete_outline</mat-icon>
+            </div>
+              <div class="col-9 mb-1 search-context px-0">
+                <div *ngIf="disbursement.disabledByAmendment" class="mb-0 text-red text-left" style="font-weight: 600; font-size: 12px">
                   Underlying grant has been amended. Please check if this
                   disbursement is still valid
-                </p>
-                <span class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(disbursement.grant.grantTypeId)}" ><small>{{getGrantTypeName(disbursement.grant.grantTypeId)}}</small></span>
+                </div>
                 
-                <p class="text-subheader text-left mb-0">
-                  Grant Name:
-                  <b>{{
-                    (disbursement.grant.referenceNo
-                      ? disbursement.grant.referenceNo + " | "
-                      : "") + disbursement.grant.name
-                  }}</b>
-                  <br>Implementing Organization:
-                <b *ngIf="isExternalGrant(disbursement.grant)">{{
-                  disbursement.grant.organization
-                    ? disbursement.grant.organization.name
-                    : ""
-                }}</b> 
-                <b *ngIf="!isExternalGrant(disbursement.grant)">{{
-                  disbursement.grant.grantorOrganization.name
-                }}</b>
-                  <br />
-                  Grant Amount:
-                  <b
-                    >{{
-                      currenyService.getFormattedAmount(
-                        disbursement.grant.amount
-                      )
-                    }}
-                  </b>
-                  &nbsp;&nbsp;<span>{{
-                    currenyService.getAmountInWords(disbursement.grant.amount)
-                  }}</span>
-                </p>
+                <div class="text-subheader text-left mb-0 mt-3 ml-3">
+                 <div class="mb-1"><span>{{ (disbursement.grant.referenceNo? disbursement.grant.referenceNo + " | ": "") + disbursement.grant.name}}</span></div>
+                 <div class="mb-1"><span *ngIf="isExternalGrant(disbursement.grant)">{{disbursement.grant.organization? disbursement.grant.organization.name: ""}}</span> </div>
+                 <div class="mb-1"><span *ngIf="!isExternalGrant(disbursement.grant)">{{disbursement.grant.grantorOrganization.name}}</span></div>
+
+                 <div class="mt-1">
+                  <span>{{currenyService.getFormattedAmount(disbursement.grant.amount)}}</span>
+                    &nbsp;&nbsp;<span>({{currenyService.getAmountInWords(disbursement.grant.amount)}})</span>
+                  </div>
+                </div>
               </div>
-              <div class="col-2">
-                <span
-                  [class]="
-                    'badge state-' +
-                    disbursement.status.internalStatus.toLowerCase()
-                  "
-                  style="color: #000 !important"
-                  >{{ disbursement.status.displayName }}</span
-                >
+              <div class="col-3 d-flex align-items-end justify-content-center">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="status-indicator2">
+                      <div [class]="'text-center status-icon state-'+disbursement.status.internalStatus.toLowerCase()">
+                      </div>{{disbursement.status.name | uppercase}}
+                    </div>
+                    <div class="text-center text-subheader pl-3 mt-2">{{disbursement.ownerName}}</div>
+                  </div>
+                </div>
               </div>
-              <div
-                class="col-10 text-left pt-3"
-              >
-                <p class="text-subheader mb-0">Requested Amount:</p>
-                <p class="text-header text-left m-0">
-                  <span class="search-context-grant-selection">
-                  {{
-                    currenyService.getFormattedAmount(
-                      disbursement.requestedAmount
-                    )
-                  }}</span>
-                  <span class="text-subheader ml-3">
+              <div class="col-10 text-left pt-3" (click)="manageDisbursement(disbursement)">
+                <div class="row mb-2">
+                  <div class="col-12">
+                    <p class="text-subheader mb-0"><span>Requested Amount:</span> <span class="text-header search-context">
+                      {{
+                        currenyService.getFormattedAmount(
+                          disbursement.requestedAmount
+                        )
+                      }}</span>&nbsp;&nbsp;<span class="text-subheader ml-3">
                     {{
                       currenyService.getAmountInWords(
                         disbursement.requestedAmount
                       )
-                    }}</span
-                  >
-                </p>
-              </div>
-              <div
-                class="col-2"
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                "
-              >
-                <button
-                  *ngIf="
-                    disbursement.canManage &&
-                    disbursement.status.internalStatus === 'DRAFT'
-                  "
-                  class="btn btn-sm btn-red mx-0"
-                  (click)="deleteDisbursement(disbursement)"
-                >
-                  Delete
-                </button>
+                    }}</span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
   </div>

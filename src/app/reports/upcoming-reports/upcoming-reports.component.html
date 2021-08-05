@@ -37,11 +37,14 @@
                 <p style="color: black">No reports found</p>
               </div>
               <div
-                [ngClass]="uiService.getCardStyle(report.canManage)"
+                [ngClass]="uiService.getReportCardStyle(report,appComp)"
                 style="cursor: pointer"
                 *ngFor="let report of filteredToSetupReportD; let i = index"
                 (click)="manageReport(report)"
               >
+              <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
+                <mat-icon class="text-red">delete_outline</mat-icon>
+              </div>
                 <div class="col-12 mb-1">
                   <p
                     *ngIf="report.disabledByAmendment"
@@ -51,26 +54,26 @@
                     Underlying grant has been amended. Please check if this
                     report is still valid.
                   </p>
-                  <div class="text-subheader text-left mb-0">
-                    <div class="mb-1"><b  class="search-context">{{
+                  <div class="text-subheader text-left mb-0 mt-3">
+                    <div class="mb-1"><span  class="search-context">{{
                       (report.grant.referenceNo
                         ? report.grant.referenceNo + " | "
                         : "") + report.grant.name
-                    }}</b></div>
+                    }}</span></div>
                     
-                    <div class="mb-1"><b *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
+                    <div class="mb-1"><span *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
                       report.grant.organization
                         ? report.grant.organization.name
                         : ""
-                    }}</b> 
-                    <b *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
+                    }}</span> 
+                    <span *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
                       report.grant.grantorOrganization.name
-                    }}</b> </div>
+                    }}</span> </div>
                     
                     <div class="mt-1">
-                      <img src="./assets/img/rupee.png" style="width: 9px" /><b
+                      <img src="./assets/img/rupee.png" style="width: 9px" /><span
                       >{{ getFormattedGrantAmount(report.grant.amount) }}
-                    </b>
+                    </span>
                     &nbsp;&nbsp;<span>({{
                       getGrantAmountInWords(report.grant.amount)
                     }})</span>
@@ -78,10 +81,10 @@
                     
                   </div>
                 </div>
-                <div class="col-9" style="display: flex; align-items: center">
+                <div class="col-9 mb-2" style="display: flex; align-items: center">
                   <div class="row">
                     <div class="col-12 my-4">
-                      <div class="text-header text-left mr-3 text-green" (click)="manageReport(report)">
+                      <div class="text-header text-left mr-3" (click)="manageReport(report)">
                         <span class="search-context">{{ report.name }}</span> | {{ report.dueDate | date: "dd-MMM-yyyy" }}
                         <ng-container *ngIf="report.futureReportsCount" class="col-2">
                           <div>
@@ -121,16 +124,16 @@
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-5 text-left text-bold-highlight">
+                          <div class="col-5 pr-0 text-left text-header">
                             {{ report.startDate | date: "dd-MMM-yyyy" }} - {{ report.endDate | date: "dd-MMM-yyyy" }}
                           </div>
                           <div class="col-3">
-                            <p class="text-left text-bold-highlight my-0">
+                            <p class="text-left text-header my-0">
                               {{ report.type === "adhoc" ? "Ad hoc" : report.type }}
                             </p>
                           </div>
                           <div class="col-4">
-                            <p class="text-left text-bold-highlight my-0">
+                            <p class="text-left text-header my-0">
                               {{ report.dueDate | date: "dd-MMM-yyyy" }}
                             </p>
                           </div>
@@ -147,25 +150,8 @@
                         <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
                         </div>{{report.status.name | uppercase}}
                       </div>
+                      <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
                     </div>
-                    <div
-                      class="col-12"
-                      style="
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                      "
-                    >
-                    <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
-                      <mat-icon class="text-red">delete_outline</mat-icon>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-9"></div>
-                <div *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
-                  <div class="float-right" >
-                    <small>{{getGrantTypeName(report.grant.grantTypeId)}}</small>
                   </div>
                 </div>
               </div>
@@ -188,11 +174,14 @@
               <p style="color: black">No reports found</p>
             </div>
             <div
-              [ngClass]="uiService.getCardStyle(report.canManage)"
+              [ngClass]="uiService.getReportCardStyle(report,appComp)"
               style="cursor: pointer"
               *ngFor="let report of filteredToSetupReportOD; let i = index"
               (click)="manageReport(report)"
             >
+            <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
+              <mat-icon class="text-red">delete_outline</mat-icon>
+            </div>
               <div class="col-12 mb-1">
                 <p
                   *ngIf="report.disabledByAmendment"
@@ -202,26 +191,26 @@
                   Underlying grant has been amended. Please check if this
                   report is still valid.
                 </p>
-                <div class="text-subheader text-left mb-0">
-                  <div class="mb-1"><b  class="search-context">{{
+                <div class="text-subheader text-left mb-0 mt-3">
+                  <div class="mb-1"><span  class="search-context">{{
                     (report.grant.referenceNo
                       ? report.grant.referenceNo + " | "
                       : "") + report.grant.name
-                  }}</b></div>
+                  }}</span></div>
                   
-                  <div class="mb-1"><b *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
+                  <div class="mb-1"><span *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
                     report.grant.organization
                       ? report.grant.organization.name
                       : ""
-                  }}</b> 
-                  <b *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
+                  }}</span> 
+                  <span *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
                     report.grant.grantorOrganization.name
-                  }}</b> </div>
+                  }}</span> </div>
                   
                   <div class="mt-1">
-                    <img src="./assets/img/rupee.png" style="width: 9px" /><b
+                    <img src="./assets/img/rupee.png" style="width: 9px" /><span
                     >{{ getFormattedGrantAmount(report.grant.amount) }}
-                  </b>
+                  </span>
                   &nbsp;&nbsp;<span>({{
                     getGrantAmountInWords(report.grant.amount)
                   }})</span>
@@ -229,10 +218,10 @@
                   
                 </div>
               </div>
-              <div class="col-9" style="display: flex; align-items: center">
+              <div class="col-9 mb-2" style="display: flex; align-items: center">
                 <div class="row">
                   <div class="col-12 my-4">
-                    <div class="text-header text-left mr-3 text-green" (click)="manageReport(report)">
+                    <div class="text-header text-left mr-3" (click)="manageReport(report)">
                       <span class="search-context">{{ report.name }}</span> | {{ report.dueDate | date: "dd-MMM-yyyy" }}
                       <ng-container *ngIf="report.futureReportsCount" class="col-2">
                         <div>
@@ -269,16 +258,16 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-5 text-left text-bold-highlight">
+                        <div class="col-5 pr-0 text-left text-header">
                           {{ report.startDate | date: "dd-MMM-yyyy" }} - {{ report.endDate | date: "dd-MMM-yyyy" }}
                         </div>
                         <div class="col-3">
-                          <p class="text-left text-bold-highlight my-0">
+                          <p class="text-left text-header my-0">
                             {{ report.type === "adhoc" ? "Ad hoc" : report.type }}
                           </p>
                         </div>
                         <div class="col-4">
-                          <p class="text-left text-bold-highlight my-0">
+                          <p class="text-left text-header my-0">
                             {{ report.dueDate | date: "dd-MMM-yyyy" }}
                           </p>
                         </div>
@@ -295,25 +284,8 @@
                       <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
                       </div>{{report.status.name | uppercase}}
                     </div>
+                    <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
                   </div>
-                  <div
-                    class="col-12"
-                    style="
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                    "
-                  >
-                  <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
-                    <mat-icon class="text-red">delete_outline</mat-icon>
-                  </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-9"></div>
-              <div *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
-                <div class="float-right" >
-                  <small>{{getGrantTypeName(report.grant.grantTypeId)}}</small>
                 </div>
               </div>
             </div>
@@ -333,11 +305,14 @@
               <p style="color: black">No reports found</p>
             </div>
             <div
-              [ngClass]="uiService.getCardStyle(report.canManage)"
+              [ngClass]="uiService.getReportCardStyle(report,appComp)"
               style="cursor: pointer"
               *ngFor="let report of filteredReadyToSubmitReportsD; let i = index"
               (click)="manageReport(report)"
             >
+            <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
+              <mat-icon class="text-red">delete_outline</mat-icon>
+            </div>
               <div class="col-12 mb-1">
                 <p
                   *ngIf="report.disabledByAmendment"
@@ -347,26 +322,26 @@
                   Underlying grant has been amended. Please check if this
                   report is still valid.
                 </p>
-                <div class="text-subheader text-left mb-0">
-                  <div class="mb-1"><b  class="search-context">{{
+                <div class="text-subheader text-left mb-0 mt-3">
+                  <div class="mb-1"><span  class="search-context">{{
                     (report.grant.referenceNo
                       ? report.grant.referenceNo + " | "
                       : "") + report.grant.name
-                  }}</b></div>
+                  }}</span></div>
                   
-                  <div class="mb-1"><b *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
+                  <div class="mb-1"><span *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
                     report.grant.organization
                       ? report.grant.organization.name
                       : ""
-                  }}</b> 
-                  <b *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
+                  }}</span> 
+                  <span *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
                     report.grant.grantorOrganization.name
-                  }}</b> </div>
+                  }}</span> </div>
                   
                   <div class="mt-1">
-                    <img src="./assets/img/rupee.png" style="width: 9px" /><b
+                    <img src="./assets/img/rupee.png" style="width: 9px" /><span
                     >{{ getFormattedGrantAmount(report.grant.amount) }}
-                  </b>
+                  </span>
                   &nbsp;&nbsp;<span>({{
                     getGrantAmountInWords(report.grant.amount)
                   }})</span>
@@ -374,10 +349,10 @@
                   
                 </div>
               </div>
-              <div class="col-9" style="display: flex; align-items: center">
+              <div class="col-9 mb-2" style="display: flex; align-items: center">
                 <div class="row">
                   <div class="col-12 my-4">
-                    <div class="text-header text-left mr-3 text-green" (click)="manageReport(report)">
+                    <div class="text-header text-left mr-3" (click)="manageReport(report)">
                       <span class="search-context">{{ report.name }}</span> | {{ report.dueDate | date: "dd-MMM-yyyy" }}
                       <!-- <ng-container *ngIf="report.futureReportsCount" class="col-2">
                         <div>
@@ -414,16 +389,16 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-5 text-left text-bold-highlight">
+                        <div class="col-5 pr-0 text-left text-header">
                           {{ report.startDate | date: "dd-MMM-yyyy" }} - {{ report.endDate | date: "dd-MMM-yyyy" }}
                         </div>
                         <div class="col-3">
-                          <p class="text-left text-bold-highlight my-0">
+                          <p class="text-left text-header my-0">
                             {{ report.type === "adhoc" ? "Ad hoc" : report.type }}
                           </p>
                         </div>
                         <div class="col-4">
-                          <p class="text-left text-bold-highlight my-0">
+                          <p class="text-left text-header my-0">
                             {{ report.dueDate | date: "dd-MMM-yyyy" }}
                           </p>
                         </div>
@@ -437,28 +412,11 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="status-indicator2">
-                      <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
+                      <div [class]="'text-center status-icon state-'+(isExternalGrant(report.grant)?'ext-':'')+report.status.internalStatus.toLowerCase()">
                       </div>{{report.status.name | uppercase}}
                     </div>
+                    <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
                   </div>
-                  <div
-                    class="col-12"
-                    style="
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                    "
-                  >
-                  <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
-                    <mat-icon class="text-red">delete_outline</mat-icon>
-                  </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-9"></div>
-              <div *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
-                <div class="float-right" >
-                  <small>{{getGrantTypeName(report.grant.grantTypeId)}}</small>
                 </div>
               </div>
             </div>
@@ -478,7 +436,7 @@
               <p style="color: black">No reports found</p>
             </div>
             <div
-              [ngClass]="uiService.getCardStyle(report.canManage)"
+              [ngClass]="uiService.getReportCardStyle(report,appComp)"
               style="cursor: pointer"
               *ngFor="let report of filteredReadyToSubmitReportsOD; let i = index"
               (click)="manageReport(report)"
@@ -492,26 +450,26 @@
                   Underlying grant has been amended. Please check if this
                   report is still valid.
                 </p>
-                <div class="text-subheader text-left mb-0">
-                  <div class="mb-1"><b  class="search-context">{{
+                <div class="text-subheader text-left mb-0 mt-3">
+                  <div class="mb-1"><span  class="search-context">{{
                     (report.grant.referenceNo
                       ? report.grant.referenceNo + " | "
                       : "") + report.grant.name
-                  }}</b></div>
+                  }}</span></div>
                   
-                  <div class="mb-1"><b *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
+                  <div class="mb-1"><span *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
                     report.grant.organization
                       ? report.grant.organization.name
                       : ""
-                  }}</b> 
-                  <b *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
+                  }}</span> 
+                  <span *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
                     report.grant.grantorOrganization.name
-                  }}</b> </div>
+                  }}</span> </div>
                   
                   <div class="mt-1">
-                    <img src="./assets/img/rupee.png" style="width: 9px" /><b
+                    <img src="./assets/img/rupee.png" style="width: 9px" /><span
                     >{{ getFormattedGrantAmount(report.grant.amount) }}
-                  </b>
+                  </span>
                   &nbsp;&nbsp;<span>({{
                     getGrantAmountInWords(report.grant.amount)
                   }})</span>
@@ -519,10 +477,10 @@
                   
                 </div>
               </div>
-              <div class="col-9" style="display: flex; align-items: center">
+              <div class="col-9 mb-2" style="display: flex; align-items: center">
                 <div class="row">
                   <div class="col-12 my-4">
-                    <div class="text-header text-left mr-3 text-green" (click)="manageReport(report)">
+                    <div class="text-header text-left mr-3" (click)="manageReport(report)">
                       <span class="search-context">{{ report.name }}</span> | {{ report.dueDate | date: "dd-MMM-yyyy" }}
                       <!-- <ng-container *ngIf="report.futureReportsCount" class="col-2">
                         <div>
@@ -559,16 +517,16 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-5 text-left text-bold-highlight">
+                        <div class="col-5 pr-0 text-left text-header">
                           {{ report.startDate | date: "dd-MMM-yyyy" }} - {{ report.endDate | date: "dd-MMM-yyyy" }}
                         </div>
                         <div class="col-3">
-                          <p class="text-left text-bold-highlight my-0">
+                          <p class="text-left text-header my-0">
                             {{ report.type === "adhoc" ? "Ad hoc" : report.type }}
                           </p>
                         </div>
                         <div class="col-4">
-                          <p class="text-left text-bold-highlight my-0">
+                          <p class="text-left text-header my-0">
                             {{ report.dueDate | date: "dd-MMM-yyyy" }}
                           </p>
                         </div>
@@ -582,9 +540,10 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="status-indicator2">
-                      <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
+                      <div [class]="'text-center status-icon state-'+(isExternalGrant(report.grant)?'ext-':'')+report.status.internalStatus.toLowerCase()">
                       </div>{{report.status.name | uppercase}}
                     </div>
+                    <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
                   </div>
                   <div
                     class="col-12"
@@ -598,12 +557,6 @@
                     <mat-icon class="text-red">delete_outline</mat-icon>
                   </div>
                   </div>
-                </div>
-              </div>
-              <div class="col-9"></div>
-              <div *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
-                <div class="float-right" >
-                  <small>{{getGrantTypeName(report.grant.grantTypeId)}}</small>
                 </div>
               </div>
             </div>
@@ -621,11 +574,14 @@
               <p style="color: black">No reports found</p>
             </div>
             <div
-              [ngClass]="uiService.getCardStyle(report.canManage)"
+              [ngClass]="uiService.getReportCardStyle(report,appComp)"
               style="cursor: pointer"
               *ngFor="let report of filterAllReports; let i = index"
               (click)="manageReport(report)"
             >
+            <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
+              <mat-icon class="text-red">delete_outline</mat-icon>
+            </div>
               <div class="col-12 mb-1">
                 <p
                   *ngIf="report.disabledByAmendment"
@@ -635,26 +591,26 @@
                   Underlying grant has been amended. Please check if this
                   report is still valid.
                 </p>
-                <div class="text-subheader text-left mb-0">
-                  <div class="mb-1"><b  class="search-context">{{
+                <div class="text-subheader text-left mb-0 mt-3">
+                  <div class="mb-1"><span  class="search-context">{{
                     (report.grant.referenceNo
                       ? report.grant.referenceNo + " | "
                       : "") + report.grant.name
-                  }}</b></div>
+                  }}</span></div>
                   
-                  <div class="mb-1"><b *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
+                  <div class="mb-1"><span *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
                     report.grant.organization
                       ? report.grant.organization.name
                       : ""
-                  }}</b> 
-                  <b *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
+                  }}</span> 
+                  <span *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
                     report.grant.grantorOrganization.name
-                  }}</b> </div>
+                  }}</span> </div>
                   
                   <div class="mt-1">
-                    <img src="./assets/img/rupee.png" style="width: 9px" /><b
+                    <img src="./assets/img/rupee.png" style="width: 9px" /><span
                     >{{ getFormattedGrantAmount(report.grant.amount) }}
-                  </b>
+                  </span>
                   &nbsp;&nbsp;<span>({{
                     getGrantAmountInWords(report.grant.amount)
                   }})</span>
@@ -662,10 +618,10 @@
                   
                 </div>
               </div>
-              <div class="col-9" style="display: flex; align-items: center">
+              <div class="col-9 mb-2" style="display: flex; align-items: center">
                 <div class="row">
                   <div class="col-12 my-4">
-                    <div class="text-header text-left mr-3 text-green" (click)="manageReport(report)">
+                    <div class="text-header text-left mr-3" (click)="manageReport(report)">
                       <span class="search-context">{{ report.name }}</span> | {{ report.dueDate | date: "dd-MMM-yyyy" }}
                       <ng-container *ngIf="report.futureReportsCount" class="col-2">
                         <div>
@@ -705,16 +661,16 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="col-5 text-left text-bold-highlight">
+                        <div class="col-5 pr-0 text-left text-header">
                           {{ report.startDate | date: "dd-MMM-yyyy" }} - {{ report.endDate | date: "dd-MMM-yyyy" }}
                         </div>
                         <div class="col-3">
-                          <p class="text-left text-bold-highlight my-0">
+                          <p class="text-left text-header my-0">
                             {{ report.type === "adhoc" ? "Ad hoc" : report.type }}
                           </p>
                         </div>
                         <div class="col-4">
-                          <p class="text-left text-bold-highlight my-0">
+                          <p class="text-left text-header my-0">
                             {{ report.dueDate | date: "dd-MMM-yyyy" }}
                           </p>
                         </div>
@@ -731,27 +687,11 @@
                       <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
                       </div>{{report.status.name | uppercase}}
                     </div>
-                  </div>
-                  <div
-                    class="col-12"
-                    style="
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                    "
-                  >
-                  <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
-                    <mat-icon class="text-red">delete_outline</mat-icon>
-                  </div>
+                    <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
                   </div>
                 </div>
               </div>
               <div class="col-9"></div>
-              <div *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
-                <div class="float-right" >
-                  <small>{{getGrantTypeName(report.grant.grantTypeId)}}</small>
-                </div>
-              </div>
             </div>
             </mat-tab>
           </mat-tab-group>

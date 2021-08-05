@@ -103,7 +103,7 @@
                     <span
                       data-html2canvas-ignore
                       [class]="
-                        'badge state-' +
+                        'badge state-' + (isExternalGrant(currentReport.grant)?'ext-':'') +
                         currentReport.status.internalStatus.toLowerCase()
                       "
                       style="color: #000 !important"

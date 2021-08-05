@@ -281,6 +281,8 @@ export class Grant {
   isInternal: boolean;
   grantTags: GrantTag[];
   tags: GrantTag[];
+  ownerName: string;
+  ownerId: number;
 }
 
 export class GrantTag {

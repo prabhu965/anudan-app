@@ -30,7 +30,7 @@
 
           <div *ngIf="hasTenant">
             <p *ngIf="filteredGrants && filteredGrants.length===0">no gants</p>
-            <div [ngClass]="uiService.getCardStyle(grant.currentAssignment ===appComponent.loggedInUser.id)"
+            <div [ngClass]="uiService.getGrantCardStyle(grant,appComponent)"
             style="border-radius: 8px; cursor: pointer"  
             *ngFor="let grant of filteredGrants; let i = index"
               (click)="manageGrant(grant)"
@@ -54,8 +54,8 @@
                 </p>
               </div>
               
-              <div class="col-12 text-left mb-2 search-context">
-                <div class="text-subheader mb-2">
+              <div class="col-12 text-left mb-0 search-context">
+                <div class="text-header mb-0">
                   {{ grant.organization ? grant.organization.name : null }}
                 </div>
               </div>
@@ -64,19 +64,16 @@
                 <div class="row">
                   <div class="col-12 mt-1">
                     <div class="row">
-                      <div class="col-5 mb-0">
+                      <div class="col-12 mb-0 pr-0">
                         ₹
                         <span class="text-header mr-4 search-context">{{
                           getFormattedGrantAmount(grant.amount)
-                        }}</span>
-                      </div>
-                      <div class="col-7 text-subheader">
-                        {{getGrantAmountInWords(grant.amount)}}
+                        }}</span><span class="text-subheader">{{getGrantAmountInWords(grant.amount)}}</span>
                       </div>
                     </div>
                   </div>
                   <div class="col-12 mt-4">
-                    <p class="mb-0 text-subheader">
+                    <p class="mb-0 text-header">
                       <mat-icon [inline]="true" class="mr-1"
                         >calendar_today</mat-icon
                       >
@@ -94,14 +91,14 @@
                     <div class="row">
                       <div
                         class="col-12 text-subheader">
-                        Disbursed <small>(till date)</small>:<strong>
+                        Disbursed <small>(till date)</small>:<span class="text-header">
                           {{
                             grant.approvedDisbursementsTotal === 0
                               ? "none"
                               : currencyService.getFormattedAmount(
                                   grant.approvedDisbursementsTotal
                                 )
-                          }}</strong>
+                          }}</span>
                           <small
                       class="ml-2"
                       *ngIf="grant.approvedDisbursementsTotal > 0"
@@ -117,13 +114,12 @@
                   <div class="col-12 mt-2 text-left">
                     <div class="row">
                       <div class="col-12 text-subheader" style="">
-                        Approved Reports :<strong>
+                        Approved Reports :<span class="text-header">
                           {{
                             grant.approvedReportsForGrant === 0
                               ? "none"
                               : grant.approvedReportsForGrant
-                          }}</strong
-                        >
+                          }}</span>
                       </div>
     
                     </div>
@@ -131,13 +127,12 @@
                   <div class="col-12 mt-2 text-left">
                     <div class="row">
                       <div class="col-12 text-subheader" style="">
-                        Project Documents:<strong>
+                        Project Documents:<span  class="text-header">
                           {{
                             grant.projectDocumentsCount === 0
                               ? "none"
                               : grant.projectDocumentsCount
-                          }}</strong
-                        >
+                          }}</span>
                       </div>
                     </div>
                     
@@ -150,6 +145,7 @@
                   <div [class]="'text-center status-icon state-'+grant.grantStatus.internalStatus.toLowerCase()">
                   </div>{{grant.grantStatus.name | uppercase}}
                 </div>
+                <div class="text-center text-subheader pl-3 mt-2">{{grant.ownerName}}</div>
               </div>
               <div class="col-9 text-left">
                 <strong class="text-subheader text-red">{{getCleanClosureNote(grant)}}</strong>

@@ -1,3 +1,4 @@
+import { Report } from './../../model/report';
 import { Component, Inject, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatButtonModule, MatDialog } from '@angular/material';
 import { WorkflowAssignmentModel } from '../../model/dahsboard';
@@ -191,8 +192,8 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         this.renderer.addClass(node, 'state-node');
                         if (transition.fromStateId === this.data.model.grant.grantStatus.id) {
                             const indicator = this.renderer.createElement('i');
-                            this.renderer.addClass(indicator, 'fa');
-                            this.renderer.addClass(indicator, 'fa-arrow-circle-right');
+                            this.renderer.addClass(indicator, 'far');
+                            this.renderer.addClass(indicator, 'fa-user');
                             this.renderer.addClass(indicator, 'status-indicator');
                             this.renderer.addClass(node, 'node-highight');
                             this.renderer.appendChild(node, indicator);
@@ -269,7 +270,7 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                     const nodeId = 'state_' + transition.fromStateId;
                     if (this.elemRef.nativeElement.querySelector('#' + nodeId) === null) {
                         const node = this.renderer.createElement('div');
-                        this.renderer.addClass(node, this.getColorCodeByStatus(this.data.model.workflowStatuses.filter((status) => status.id === transition.fromStateId)[0].internalStatus));
+                        this.renderer.addClass(node, this.getColorCodeByStatusForReport(this.data.model.workflowStatuses.filter((status) => status.id === transition.fromStateId)[0].internalStatus, this.data.model.report));
 
                         const historyNode = this.renderer.createElement('div');
                         this.renderer.addClass(historyNode, 'col-3');
@@ -411,8 +412,8 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         this.renderer.addClass(node, 'state-node');
                         if (transition.fromStateId === this.data.model.report.status.id) {
                             const indicator = this.renderer.createElement('i');
-                            this.renderer.addClass(indicator, 'fa');
-                            this.renderer.addClass(indicator, 'fa-arrow-circle-right');
+                            this.renderer.addClass(indicator, 'far');
+                            this.renderer.addClass(indicator, 'fa-user');
                             this.renderer.addClass(indicator, 'status-indicator');
                             this.renderer.addClass(node, 'node-highight');
                             this.renderer.appendChild(node, indicator);
@@ -442,8 +443,8 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
 
                         if (transition.toStateId === this.data.model.report.status.id) {
                             const indicator = this.renderer.createElement('i');
-                            this.renderer.addClass(indicator, 'fa');
-                            this.renderer.addClass(indicator, 'fa-arrow-circle-right');
+                            this.renderer.addClass(indicator, 'far');
+                            this.renderer.addClass(indicator, 'fa-user');
                             this.renderer.addClass(indicator, 'status-indicator');
                             this.renderer.addClass(node, 'node-highight');
                             this.renderer.appendChild(node, indicator);
@@ -579,8 +580,8 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         this.renderer.addClass(node, 'state-node');
                         if (transition.fromStateId === this.data.model.disbursement.status.id) {
                             const indicator = this.renderer.createElement('i');
-                            this.renderer.addClass(indicator, 'fa');
-                            this.renderer.addClass(indicator, 'fa-arrow-circle-right');
+                            this.renderer.addClass(indicator, 'far');
+                            this.renderer.addClass(indicator, 'fa-user');
                             this.renderer.addClass(indicator, 'status-indicator');
                             this.renderer.addClass(node, 'node-highight');
                             this.renderer.appendChild(node, indicator);
@@ -860,6 +861,24 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
         if (status === 'DRAFT') {
             return 'state-draft';
         } else if (status === 'ACTIVE') {
+            return 'state-active';
+        } else if (status === 'REVIEW') {
+            return 'state-review';
+        }
+        return 'state-closed';
+    }
+
+    getColorCodeByStatusForReport(status, report: Report): string {
+        if (status === 'DRAFT') {
+            return 'state-draft';
+        } else if (status === 'ACTIVE') {
+            if (this.data.appComp.loggedInUser.organization.organizationType === 'GRANTER' && this.data.appComp.grantTypes.filter(gt => Number(gt.id) === Number(report.grant.grantTypeId))[0].internal) {
+                return 'state-active';
+            } else if (this.data.appComp.loggedInUser.organization.organizationType === 'GRANTEE') {
+                return 'state-ext-active';
+            } else {
+                return 'state-ext-active';
+            }
             return 'state-active';
         } else if (status === 'REVIEW') {
             return 'state-review';
