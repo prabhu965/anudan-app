@@ -13,7 +13,7 @@
           <p style="color: black">Loading upcoming reports...</p>
         </div>
         <div class="w-100" *ngIf="filteredApprovedReports && filteredApprovedReports.length === 0">
-          <p style="color: black">No reports found</p>
+          <p class="py-5">No Reports</p>
         </div>
         <div
           [ngClass]="uiService.getReportCardStyle(report,appComp)"

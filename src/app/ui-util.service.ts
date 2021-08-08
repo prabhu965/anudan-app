@@ -95,7 +95,8 @@ export class UiUtilService {
       'pt-1',
       'mb-4',
       'mx-0',
-      'grants-section'
+      'grants-section',
+      'owner-highlight-nowf'
     ];
   }
 

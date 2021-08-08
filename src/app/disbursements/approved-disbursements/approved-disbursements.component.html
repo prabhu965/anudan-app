@@ -16,9 +16,9 @@
           </div>
 
           <div *ngIf="disbursements && disbursements.length === 0">
-            <h5 class="mt-5">
-              No Draft/In-progress Approval Requests were found
-            </h5>
+            <p class="py-5">
+              No Disbursements
+            </p>
           </div>
           <div *ngIf="disbursements && disbursements.length > 0">
             <div

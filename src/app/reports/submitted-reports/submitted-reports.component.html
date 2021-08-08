@@ -23,7 +23,7 @@
             <div
               *ngIf="filteredSubmittedReportsD && filteredSubmittedReportsD.length === 0"
             >
-              <p style="color: black">No reports found</p>
+              <p class="py-5">No Reports</p>
             </div>
             <div
               [ngClass]="uiService.getReportCardStyle(report,appComp)"
@@ -137,7 +137,7 @@
             <div
               *ngIf="filteredSubmittedReportsOD && filteredSubmittedReportsOD.length === 0"
             >
-              <p style="color: black">No reports found</p>
+              <p class="py-5">No Reports</p>
             </div>
             <div
               [ngClass]="uiService.getReportCardStyle(report,appComp)"

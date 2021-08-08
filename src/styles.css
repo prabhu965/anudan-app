@@ -449,8 +449,14 @@ font-white {
 .text-blue {
   color: #3f51b5 !important;
 }
+
 .text-header {
   font-size: 14px !important;
+  font-weight: 500;
+}
+
+.text-header-h1 {
+  font-size: 16px !important;
   font-weight: 500;
 }
 
@@ -923,6 +929,11 @@ li:focus {
 
 .owner-highlight-wf {
   border-left: 18px solid rgba(77,194,82,0.5) !important;
+}
+
+.owner-highlight-nowf {
+  border-left: 1px solid #acacac !important;
+  padding-left: 20px !important;
 }
 
 .owner-highlight-no-edit {

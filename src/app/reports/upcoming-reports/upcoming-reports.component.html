@@ -34,7 +34,9 @@
               <div
                 *ngIf="filteredToSetupReportD && filteredToSetupReportD.length === 0"
               >
-                <p style="color: black">No reports found</p>
+              <p class="py-5">
+                No Reports
+              </p>
               </div>
               <div
                 [ngClass]="uiService.getReportCardStyle(report,appComp)"
@@ -171,7 +173,7 @@
             <div
               *ngIf="filteredToSetupReportOD && filteredToSetupReportOD.length === 0"
             >
-              <p style="color: black">No reports found</p>
+              <p class="py-5">No Reports</p>
             </div>
             <div
               [ngClass]="uiService.getReportCardStyle(report,appComp)"
@@ -302,7 +304,7 @@
             <div
               *ngIf="filteredReadyToSubmitReportsD && filteredReadyToSubmitReportsD.length === 0"
             >
-              <p style="color: black">No reports found</p>
+              <p class="py-5">No Reports</p>
             </div>
             <div
               [ngClass]="uiService.getReportCardStyle(report,appComp)"
@@ -433,7 +435,7 @@
             <div
               *ngIf="filteredReadyToSubmitReportsOD && filteredReadyToSubmitReportsOD.length === 0"
             >
-              <p style="color: black">No reports found</p>
+              <p class="py-5">No Reports</p>
             </div>
             <div
               [ngClass]="uiService.getReportCardStyle(report,appComp)"
@@ -571,7 +573,7 @@
             <div
               *ngIf="filterAllReports && filterAllReports.length === 0"
             >
-              <p style="color: black">No reports found</p>
+              <p class="py-5">No Reports</p>
             </div>
             <div
               [ngClass]="uiService.getReportCardStyle(report,appComp)"

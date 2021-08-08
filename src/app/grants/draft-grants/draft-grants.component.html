@@ -26,8 +26,13 @@
             <img src="./assets/img/loader.gif" style="width: 10%" />
             <p style="color: black">Loading grants...</p>
           </div>
+
+          
           
           <div *ngIf="hasTenant">
+            <p *ngIf="filteredGrants && filteredGrants.length===0" class="py-5">
+              No Grants
+            </p>
             <div
               [ngClass]="uiService.getGrantCardStyle(grant,appComponent)"
               style="cursor: pointer"
@@ -42,7 +47,7 @@
                 <i *ngIf="grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></i>
                 <i *ngIf="grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></i>
                 <p
-                  class="text-header mb-1 mt-2"
+                  class="text-header-h1 mb-1 mt-2"
                   *ngIf="!grant.referenceNo"
                   style="font-size: 18px"
                 >
@@ -61,7 +66,7 @@
                   {{ grant.name }}
                 </p>
                   <p
-                  class="text-header mb-1 mt-2"
+                  class="text-header-h1 mb-1 mt-2"
                   *ngIf="grant.referenceNo"
                   style="font-size: 18px"
                 >
