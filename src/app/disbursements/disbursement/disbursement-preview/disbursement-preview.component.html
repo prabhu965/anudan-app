@@ -172,12 +172,38 @@
                   style="color: #929292; font-size: 13px; font-family: Roboto"
                   >Grant Name:</span
                 >
-                <div class="ml-0 mb-3">
+                <div class="ml-0 mb-1">
                   <b>{{
                     (currentDisbursement.grant.referenceNo
                       ? currentDisbursement.grant.referenceNo + " | "
                       : "") + currentDisbursement.grant.name
                   }}</b>
+                </div>
+              </div>
+              <div class="col-6 mb-2">
+                <span
+                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  >Implementing Organization:</span
+                >
+                <div  
+                  class="ml-0 mb-1"
+                >
+                  <b *ngIf="isExternalGrant(currentDisbursement.grant)">{{ currentDisbursement.grant.organization.name }}</b>
+                  <b *ngIf="!isExternalGrant(currentDisbursement.grant)">{{
+                    currentDisbursement.grant.grantorOrganization.name
+                  }}</b>
+                </div>
+              </div>
+              <div class="col-6 mb-2">
+                <span
+                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  >Implementing Organization Representative:</span
+                >
+                <div  
+                  class="ml-0 mb-1"
+                >
+                  <b >{{ currentDisbursement.grant.representative }}</b>
+                  
                 </div>
               </div>
               <div class="col-3 mb-2">
@@ -202,30 +228,8 @@
                   }}</b>
                 </div>
               </div>
+            
               <div class="col-6 mb-2">
-                <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
-                  >Implementing Organization:</span
-                >
-                <div  
-                  class="ml-0 mb-3"
-                >
-                  <b *ngIf="isExternalGrant(currentDisbursement.grant)">{{ currentDisbursement.grant.organization.name }}</b>
-                  <b *ngIf="!isExternalGrant(currentDisbursement.grant)">{{
-                    currentDisbursement.grant.grantorOrganization.name
-                  }}</b>
-                </div>
-              </div>
-              <div class="col-4 mb-2">
-                <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
-                  >Implementing Organization Representative:</span
-                >
-                <div class="ml-0 mb-3">
-                  <b>{{ currentDisbursement.grant.representative }}</b>
-                </div>
-              </div>
-              <div class="col-7 mb-2">
                 <span
                   style="color: #929292; font-size: 13px; font-family: Roboto"
                   >Grant Amount:</span
@@ -235,11 +239,7 @@
                   style="display: flex; align-items: center"
                 >
                   <b
-                    ><img
-                      src="./assets/img/rupee.png"
-                      style="width: 10px"
-                      class="mr-1"
-                    />{{
+                    >{{
                       getFormattedGrantAmount(currentDisbursement.grant.amount)
                     }}&nbsp;&nbsp;&nbsp;
                     <small>{{

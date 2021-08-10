@@ -62,10 +62,29 @@
                 }}</b>
               </div>
             </div>
+            <div class="col-6">
+              <mat-label>Implementing Organization:</mat-label>
+              <div class="ml-0 mb-1">
+                <b *ngIf="isExternalGrant(currentDisbursement.grant)">{{
+                  currentDisbursement.grant.organization
+                    ? currentDisbursement.grant.organization.name
+                    : ""
+                }}</b>
+                <b *ngIf="!isExternalGrant(currentDisbursement.grant)">{{
+                  currentDisbursement.grant.grantorOrganization.name
+                }}</b>
+              </div>
+            </div>
+            <div class="col-6">
+              <mat-label>Implementing Organization Representative:</mat-label>
+              <div class="ml-0 mb-1">
+                <b>{{currentDisbursement.grant.representative}}</b>
+              </div>
+            </div>
 
-            <div class="col-8 mb-1">
+            <div class="col-6 mb-0">
               <mat-label>Duration:</mat-label>
-              <div class="row ml-0 mb-3">
+              <div class="row ml-0 mb-1">
                 <div>
                   <mat-icon [inline]="true" class="mr-1"
                     >calendar_today
@@ -89,20 +108,8 @@
                 </div>
               </div>
             </div>
-            <div class="col-4">
-              <mat-label>Implementing Organization:</mat-label>
-              <div class="ml-0 mb-1">
-                <b *ngIf="isExternalGrant(currentDisbursement.grant)">{{
-                  currentDisbursement.grant.organization
-                    ? currentDisbursement.grant.organization.name
-                    : ""
-                }}</b>
-                <b *ngIf="!isExternalGrant(currentDisbursement.grant)">{{
-                  currentDisbursement.grant.grantorOrganization.name
-                }}</b>
-              </div>
-            </div>
-            <div class="col-12">
+            
+            <div class="col-6">
               <mat-label>Grant Amount:</mat-label>
               <div class="ml-0 mb-1">
                 <b>{{

@@ -1,69 +1,57 @@
-<div class="main-content">
-  <div class="anu-container pt-2">
+<div class="main-content no-top-margin5" style="padding: 0;margin:0 !important">
+  <div class="anu-container pt-2" style="margin: 0;">
     <div class="row m-3">
       <div class="col-12 pl-0 mb-3">
         <h5 class="text-left" style="font-weight:bold;">User Profile</h5>
       </div>
-      <div class="col-4 pl-0 text-left">
-        <label>Email Id:</label>
-        <p class="anu-input" style="background:#f4f4f4 !important;">{{user.emailId}}</p>
+      <div class="col-4">
+        <div style="width: 100px;">
+          <label for="profilePic" style="cursor: pointer;">
+            <img style="max-width: 100px;" *ngIf="user.userProfile!==null" (click)="loadImage()" class="img-fluid"
+              [src]="user.userProfile">
+          </label>
+          <label for="profilePic" style="cursor: pointer;">
+            <img style="max-width: 100px;" *ngIf="user.userProfile===undefined || user.userProfile===null"
+              (click)="loadImage()" class="img-fluid" src="./assets/img/avatar.svg" style="width:100px;">
+          </label>
+          <input id="profilePic" type="file" accept=".png,.jpg,.jpeg" (change)="processProfilePic($event)"
+            style="visibility: hidden;">
+        </div>
       </div>
-      <div class="col-4 text-left">
-        <label>Roles:</label>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <input class="anu-input" [ngModelOptions]="{standAlone: true}" [(ngModel)]="user.firstName" id="userFName"
+            matInput placeholder="First Name" type="text" value="{{user.firstName}}">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input class="anu-input" [ngModelOptions]="{standAlone: true}" [(ngModel)]="user.lastName" id="userLName"
+            matInput placeholder="Last Name" type="text" value="{{user.lastName}}">
+        </mat-form-field>
+        <div class="text-left"><label>Email Id:</label>
+        <p class="anu-input" style="background:#f4f4f4 !important;">{{user.emailId}}</p>
+        <a href="#" data-toggle="modal" data-target="#changePwdModal">Change Password</a>
+      </div>
+        
+        <div class="text-left"><label>Roles:</label>
         <p class="anu-input" style="background:#f4f4f4 !important;">
           <ng-container *ngFor="let userRole of user.userRoles; let i = index">
             <span>{{userRole.role.name}}</span>
             <ng-container *ngIf="i<user.userRoles.length-1">, </ng-container>
           </ng-container>
-        </p>
+        </p></div>
+        
+        
       </div>
-      <div class="col-4 text-left">
-        <label>Organization Name:</label>
-        <p class="anu-input" style="background:#f4f4f4 !important;">{{user.organization.name}}</p>
-      </div>
-      <div class="col-12">
-        <div class="row">
-          <div class="col-md-4 pl-0">
-            <mat-form-field class="example-full-width">
-              <input class="anu-input" [ngModelOptions]="{standAlone: true}" [(ngModel)]="user.firstName" id="userFName"
-                matInput placeholder="First Name" type="text" value="{{user.firstName}}">
-            </mat-form-field>
-            <div class="row pl-3">
-              <div class="col-12 px-0" style="display: flex;align-items: flex-start;justify-content: flex-start;">
-                <button type="submit" class="btn btn-sm btn-green-primary m-0" (click)="updateProfile()">Update
-                  Profile
-                </button>
-                <button class="btn btn-sm btn-green ml-2 my-0" data-toggle="modal" data-target="#changePwdModal">Change
-                  Password</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <mat-form-field class="example-full-width">
-              <input class="anu-input" [ngModelOptions]="{standAlone: true}" [(ngModel)]="user.lastName" id="userLName"
-                matInput placeholder="Last Name" type="text" value="{{user.lastName}}">
-            </mat-form-field>
-          </div>
-          <!-- <div class="col-4" style="display: flex;align-items: center;justify-content: center;">
-            <div style="width: 200px;height: 200px;">
-              <label for="profilePic" style="cursor: pointer;">
-                <img style="max-width: 200px;" *ngIf="user.userProfile!==null" (click)="loadImage()" class="img-fluid"
-                  src="{{user.userProfile}}">
-              </label>
-              <label for="profilePic" style="cursor: pointer;">
-                <img style="max-width: 200px;" *ngIf="user.userProfile===undefined || user.userProfile===null"
-                  (click)="loadImage()" class="img-fluid" src="./assets/img/avatar.svg" style="width:200px;">
-              </label>
-              <input id="profilePic" type="file" accept="image/x-png" (change)="processProfilePic($event)"
-                style="visibility: hidden;">
-            </div>
-          </div> -->
-
-        </div>
+ 
+  
+      <div class="col-4 pl-0 text-left d-flex align-items-start justify-content-center">
+        <button type="submit" class="btn btn-sm btn-green-primary m-0" (click)="updateProfile()">Update
+          Profile
+        </button>
       </div>
     </div>
-  </div>
 </div>
+
 
 <div class="modal fade" id="changePwdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">

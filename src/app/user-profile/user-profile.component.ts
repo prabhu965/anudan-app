@@ -23,7 +23,7 @@ declare var $: any;
 export class UserProfileComponent implements OnInit {
 
   user: User;
-  constructor(private http: HttpClient, private elem: ElementRef, private router: Router, private appComp: AppComponent, private toastr: ToastrService) { }
+  constructor(private http: HttpClient, private elem: ElementRef, private router: Router, public appComp: AppComponent, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('USER'));
@@ -170,6 +170,18 @@ export class UserProfileComponent implements OnInit {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       this.user.userProfile = reader.result.toString();
+      let formData = new FormData();
+      formData.append("file", file);
+
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'X-TENANT-CODE': localStorage.getItem('X-TENANT-CODE'),
+          'Authorization': localStorage.getItem('AUTH_TOKEN')
+        })
+      };
+      const url = 'api/users/' + this.appComp.loggedInUser.id + '/profile';
+
+      this.http.post(url, formData, httpOptions).subscribe(() => { });
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);
