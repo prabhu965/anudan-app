@@ -51,7 +51,10 @@
       *ngFor="let report of selectedFilteredReports; let i = index"
       (click)="manageReport(report)"
     >
-      <div class="col-12 mb-1">
+    <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
+      <mat-icon class="text-red">delete_outline</mat-icon>
+    </div>
+      <div class="col-12 mb-1 mt-2">
         <p
           *ngIf="report.disabledByAmendment"
           class="mb-0 text-red text-left"
@@ -126,7 +129,7 @@
                   </p>
                 </div>
               </div>
-              <div class="row">
+              <div class="row mb-1">
                 <div class="col-5 text-left text-bold-highlight">
                   {{ report.startDate | date: "dd-MMM-yyyy" }} - {{ report.endDate | date: "dd-MMM-yyyy" }}
                 </div>
@@ -153,25 +156,8 @@
               <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
               </div>{{report.status.name | uppercase}}
             </div>
+            <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
           </div>
-          <div
-            class="col-12"
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            "
-          >
-          <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
-            <mat-icon class="text-red">delete_outline</mat-icon>
-          </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-9"></div>
-      <div *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(report.grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
-        <div class="float-right" >
-          <small>{{getGrantTypeName(report.grant.grantTypeId)}}</small>
         </div>
       </div>
     </div>

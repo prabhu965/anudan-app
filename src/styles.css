@@ -453,6 +453,7 @@ font-white {
 .text-header {
   font-size: 14px !important;
   font-weight: 500;
+  color: #2B2B2B !important;
 }
 
 .text-header-h1 {

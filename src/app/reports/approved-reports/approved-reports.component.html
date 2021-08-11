@@ -24,13 +24,13 @@
           <div class="col-12 mb-1">
             <p
               *ngIf="report.disabledByAmendment"
-              class="mb-0 text-red text-left"
+              class="mb-0 text-red text-left mt-2"
               style="font-weight: 600; font-size: 12px"
             >
               Underlying grant has been amended. Please check if this
               report is still valid.
             </p>
-            <div class="text-subheader text-left mb-0 mt-3">
+            <div class="text-subheader text-left mb-0 mt-2">
               <div class="mb-1"><span  class="search-context">{{
                 (report.grant.referenceNo
                   ? report.grant.referenceNo + " | "

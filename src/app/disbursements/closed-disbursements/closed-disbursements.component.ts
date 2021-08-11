@@ -106,4 +106,15 @@ export class ClosedDisbursementsComponent implements OnInit {
       this.appSearchFilter.closeSearch();
     }
   }
+
+  getActualDisbursements(disbursement: Disbursement): number {
+    if (disbursement.actualDisbursements && disbursement.actualDisbursements.length > 0) {
+      let total = 0;
+      for (let ad of disbursement.actualDisbursements) {
+        total += ad.actualAmount ? ad.actualAmount : 0;
+      }
+      return total;
+    }
+    return 0;
+  }
 }

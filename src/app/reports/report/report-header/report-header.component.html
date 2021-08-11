@@ -87,7 +87,7 @@
               </div>
               <div class="col-6">
                 <mat-label>Implementing Organization:</mat-label>
-                <div class="ml-0 mb-1">
+                <div class="ml-0 mb-2">
                   <b *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE' && isExternalGrant(currentReport.grant)">{{
                     currentReport.grant.organization
                       ? currentReport.grant.organization.name

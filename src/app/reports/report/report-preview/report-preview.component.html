@@ -124,7 +124,7 @@
                   style="color: #929292; font-size: 13px; font-family: Roboto"
                   >Grant Name:</span
                 >
-                <div class="ml-0 mb-0">
+                <div class="ml-0 mb-2">
                   <b>{{
                     (currentReport.grant.referenceNo
                       ? currentReport.grant.referenceNo + " | "
@@ -138,8 +138,7 @@
                   >Implementing Organization:</span
                 >
                 <div class="ml-0 mb-0">
-                  <b *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE' && isExternalGrant(currentReport.grant)">{{ currentReport.grant.organization.name }}</b>
-                  <b *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE' && !isExternalGrant(currentReport.grant)">{{ currentReport.grant.grantorOrganization.name }}</b>
+                  <b>{{ currentReport.grant.organization.name }}</b>
                 </div>
               </div>
               <div class="col-6 mb-0">

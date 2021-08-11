@@ -39,13 +39,13 @@
             <div class="d-flex align-items-center disbursement-delete" *ngIf="(disbursement.canManage && disbursement.status.internalStatus === 'DRAFT')" (click)="deleteDisbursement(disbursement)">
               <mat-icon class="text-red">delete_outline</mat-icon>
             </div>
-              <div class="col-9 mb-1 search-context px-0">
+              <div class="col-9 mb-1 search-context px-0 mt-2">
                 <div *ngIf="disbursement.disabledByAmendment" class="mb-0 text-red text-left" style="font-weight: 600; font-size: 12px">
                   Underlying grant has been amended. Please check if this
                   disbursement is still valid
                 </div>
                 
-                <div class="text-subheader text-left mb-0 mt-3 ml-3">
+                <div class="text-subheader text-left mb-0 mt-2 ml-3">
                  <div class="mb-1"><span>{{ (disbursement.grant.referenceNo? disbursement.grant.referenceNo + " | ": "") + disbursement.grant.name}}</span></div>
                  <div class="mb-1"><span *ngIf="isExternalGrant(disbursement.grant)">{{disbursement.grant.organization? disbursement.grant.organization.name: ""}}</span> </div>
                  <div class="mb-1"><span *ngIf="!isExternalGrant(disbursement.grant)">{{disbursement.grant.grantorOrganization.name}}</span></div>
@@ -70,7 +70,7 @@
               <div class="col-10 text-left pt-3" (click)="manageDisbursement(disbursement)">
                 <div class="row mb-2">
                   <div class="col-12">
-                    <p class="text-subheader mb-0"><span>Requested Amount:</span> <span class="text-header search-context">
+                    <div class="text-subheader mb-1"><p class="mb-0">Requested Amount:</p> <span class="text-header search-context">
                       {{
                         currencyService.getFormattedAmount(
                           disbursement.requestedAmount
@@ -81,7 +81,7 @@
                         disbursement.requestedAmount
                       )
                     }}</span>
-                    </p>
+                  </div>
                   </div>
                 </div>
               </div>
