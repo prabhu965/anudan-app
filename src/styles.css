@@ -920,8 +920,8 @@ li:focus {
 }
 
 .owner-highlight {
-  border-left: 18px solid rgba(77,194,82) !important;
-  box-shadow: 2px 2px 4px rgba(77,194,82);
+  border-left: 18px solid rgba(77,194,82,1) !important;
+  box-shadow: 2px 2px 4px rgba(77,194,82,1);
 }
 
 .owner-highlight-noedit {
