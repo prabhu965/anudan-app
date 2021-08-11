@@ -54,7 +54,7 @@
     <div class="d-flex align-items-center report-delete" *ngIf="(report.canManage && report.status.internalStatus === 'DRAFT') || (!report.canManage && report.disabledByAmendment)" (click)="deleteReport(report)">
       <mat-icon class="text-red">delete_outline</mat-icon>
     </div>
-      <div class="col-12 mb-1 mt-2">
+      <div class="col-12 mb-1">
         <p
           *ngIf="report.disabledByAmendment"
           class="mb-0 text-red text-left"
@@ -63,7 +63,7 @@
           Underlying grant has been amended. Please check if this
           report is still valid.
         </p>
-        <div class="text-subheader text-left mb-0">
+        <div class="text-subheader text-left mb-0 mt-2">
           <div class="mb-1"><b  class="search-context">{{
             (report.grant.referenceNo
               ? report.grant.referenceNo + " | "
