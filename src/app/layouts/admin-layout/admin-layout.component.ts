@@ -235,7 +235,7 @@ export class AdminLayoutComponent implements OnInit {
                 }
               }
 
-              for (let i = 0; i < notifications.length; i++) {
+              for (let i = 0; i < 1; i++) {
                 if (
                   !notifications[i].read &&
                   notifications[i].notificationFor === "REPORT"
