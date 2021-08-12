@@ -181,7 +181,10 @@ export class UserProfileComponent implements OnInit {
       };
       const url = 'api/users/' + this.appComp.loggedInUser.id + '/profile';
 
-      this.http.post(url, formData, httpOptions).subscribe(() => { });
+      this.http.post(url, formData, httpOptions).subscribe(() => {
+
+        this.appComp.profile = "/api/public/images/profile/" + this.user.id + '?' + (new Date().getTime()).toString();
+      });
     };
     reader.onerror = function (error) {
       console.log('Error: ', error);

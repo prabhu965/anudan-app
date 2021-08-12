@@ -38,6 +38,7 @@ export class AppComponent implements AfterViewChecked {
   cookieEnabled: boolean;
 
   title = 'anudan.org';
+  profile = "";
   loggedInUser: User;
   autosave: boolean = false;
   autosaveDisplay = '';

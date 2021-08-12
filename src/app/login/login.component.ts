@@ -172,7 +172,7 @@ export class LoginComponent implements OnInit {
         }
       }
 
-      this.user.userProfile = "/api/public/images/profile/" + this.user.id;
+      this.appComponent.profile = "/api/public/images/profile/" + this.user.id + '?' + (new Date().getTime()).toString();
       localStorage.setItem('USER', '' + JSON.stringify(this.user));
       this.appComponent.loggedInUser = this.user;
       console.log(this.user);
