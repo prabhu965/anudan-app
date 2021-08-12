@@ -12,6 +12,12 @@ export class Organization {
   type: string;
   createdAt: Date;
   createdBy: string;
+  description: string;
+  website: string;
+  twitter: string;
+  facebook: string;
+  linkedin: string;
+  instagram: string;
 }
 
 export class GrantorOrganization {
