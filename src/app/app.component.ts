@@ -39,6 +39,7 @@ export class AppComponent implements AfterViewChecked {
 
   title = 'anudan.org';
   profile = "";
+  logo = "";
   loggedInUser: User;
   autosave: boolean = false;
   autosaveDisplay = '';

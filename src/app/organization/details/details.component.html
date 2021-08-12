@@ -5,19 +5,48 @@
                 <button class="btn btn-sm bg-green" [disabled]="checkIfChanged()" style="position: absolute;right:0;" (click)="updateOrg()">Update</button>
                 <div *ngIf="org.organizationType==='GRANTER'"
                     class="col-6">
-                    <p class="text-left"><span class="text-header">About
+                    <h5 class="text-left">About <span class="text-green" style="font-weight:bold;">
                             {{org.name}}</span>
-                    </p>
+                    </h5>
                     <div class="text-left py-3" style="border-radius: 4px;">
-                        <img style="cursor: pointer; border: 1px solid #d8d8d8; border-radius: 4px; width:50%;" (click)="loadImage()" class="img-fluid mb-4" [src]="'/api/public/images/'+org.code.toUpperCase()+'/logo'">
-                        <div class="col-12">
-                            <div style="position: absolute; right: -90px; font-size: 20px; top: -50px;">
-                                <i class="fa fa-twitter mr-3" style="color: #a7a7a7;"></i>
-                                <i class="fa fa-facebook mr-3" style="color: #a7a7a7;"></i>
-                                <i class="fa fa-linkedin mr-3 text-green"></i>
-                                <i class="fa fa-instagram mr-3" style="color: #a7a7a7;"></i>
+                        <div style="position: absolute;right: 0;font-size: 25px;padding: 5px 10px;border: 1px solid #dfdfdf;border-radius: 4px;">
+                            <div style="display: flex;align-items: center;justify-content: center;">
+                                <i [ngClass]="org.twitter?'fa fa-twitter mr-4 text-green':'fa fa-twitter mr-4 text-grey'" (click)="showTwitter()"></i>
+                                <i [ngClass]="org.facebook?'fa fa-facebook mr-4 text-green':'fa fa-facebook mr-4 text-grey'" (click)="showFacebook()"></i>
+                                <i [ngClass]="org.linkedin?'fa fa-linkedin mr-4 text-green':'fa fa-linkedin mr-4 text-grey'" (click)="showLinkedin()"></i>
+                                <i [ngClass]="org.instagram?'fa fa-instagram mr-4 text-green':'fa fa-instagram mr-4 text-grey'" (click)="showInstagram()"></i>
                             </div>
+                            
+                            <div class='row' *ngIf="twitter || facebook || linkedin || instagram">
+                                <div class="col-12" *ngIf="twitter">
+                                    <mat-form-field>
+                                        <input #twitterEl matInput class="anu-input" [(ngModel)]="org.twitter">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12" *ngIf="facebook">
+                                    <mat-form-field>
+                                        <input #facebookEl matInput class="anu-input" [(ngModel)]="org.facebook">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12" *ngIf="linkedin">
+                                    <mat-form-field>
+                                        <input #linkedinEl matInput class="anu-input" [(ngModel)]="org.linkedin">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12" *ngIf="instagram">
+                                    <mat-form-field>
+                                        <input #instagramEl matInput class="anu-input" [(ngModel)]="org.instagram">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            
+                            
                         </div>
+                        <label for="profilePic" style="cursor: pointer;">
+                            <img style="cursor: pointer; border: 1px solid #d8d8d8; border-radius: 4px; width:50%;" (click)="loadImage()" class="img-fluid mb-4" [src]="'/api/public/images/'+org.code.toUpperCase()+'/logo'">
+                        </label>
+                        <input id="profilePic" type="file" accept=".png,.jpg,.jpeg" (change)="processProfilePic($event)"
+                            style="visibility: hidden;">
                         <mat-form-field>
                             <mat-label>Organization Name:</mat-label>
                             <input matInput class="anu-input" [(ngModel)]='org.name'>

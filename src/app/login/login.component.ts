@@ -66,7 +66,8 @@ export class LoginComponent implements OnInit {
       this.parameters = params;
     });
     const tenantCode = localStorage.getItem('X-TENANT-CODE');
-    this.logoURL = "/api/public/images/" + tenantCode + "/logo";
+    this.appComponent.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+    this.logoURL = this.appComponent.logo;
 
     const url = '/api/public/tenant/' + tenantCode;
     this.http.get(url, { responseType: 'text' }).subscribe((orgName) => {

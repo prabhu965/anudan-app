@@ -450,6 +450,10 @@ font-white {
   color: #3f51b5 !important;
 }
 
+.text-grey {
+  color: #9c9c9c !important;
+}
+
 .text-header {
   font-size: 14px !important;
   font-weight: 500;
