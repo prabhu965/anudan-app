@@ -1,40 +1,50 @@
+<div class="row px-4 pt-3 bg-white">
+    <div class="col-9 px-4">
+        <button class="btn btn-sm bg-green" [disabled]="checkIfChanged()" style="position: absolute;right:0;" (click)="updateOrg()">Update</button>
+
+                    <h5 class="text-left mb-4"><span class="text-green" style="font-weight:bold;">About
+                            {{org.name}}</span>
+                    </h5>
+    </div>
+</div>
 <div class="main-content no-top-margin5">
     <div class="container-fluid">
         <div class="row mt-4">
             <div class="col-12">
-                <button class="btn btn-sm bg-green" [disabled]="checkIfChanged()" style="position: absolute;right:0;" (click)="updateOrg()">Update</button>
                 <div *ngIf="org.organizationType==='GRANTER'"
-                    class="col-6">
-                    <h5 class="text-left">About <span class="text-green" style="font-weight:bold;">
-                            {{org.name}}</span>
-                    </h5>
+                    class="col-9">
+                    
                     <div class="text-left py-3" style="border-radius: 4px;">
-                        <div style="position: absolute;right: 0;font-size: 25px;padding: 5px 10px;border: 1px solid #dfdfdf;border-radius: 4px;">
+                        <div class="social-box">
                             <div style="display: flex;align-items: center;justify-content: center;">
-                                <i [ngClass]="org.twitter?'fa fa-twitter mr-4 text-green':'fa fa-twitter mr-4 text-grey'" (click)="showTwitter()"></i>
-                                <i [ngClass]="org.facebook?'fa fa-facebook mr-4 text-green':'fa fa-facebook mr-4 text-grey'" (click)="showFacebook()"></i>
-                                <i [ngClass]="org.linkedin?'fa fa-linkedin mr-4 text-green':'fa fa-linkedin mr-4 text-grey'" (click)="showLinkedin()"></i>
-                                <i [ngClass]="org.instagram?'fa fa-instagram mr-4 text-green':'fa fa-instagram mr-4 text-grey'" (click)="showInstagram()"></i>
+                                <i [ngClass]="org.twitter?'fa fa-twitter mr-4 text-green anu-social':'fa fa-twitter anu-social mr-4 text-grey'" (click)="showTwitter()"></i>
+                                <i [ngClass]="org.facebook?'fa fa-facebook mr-4 text-green anu-social':'fa fa-facebook anu-social mr-4 text-grey'" (click)="showFacebook()"></i>
+                                <i [ngClass]="org.linkedin?'fa fa-linkedin mr-4 text-green anu-social':'fa fa-linkedin anu-social mr-4 text-grey'" (click)="showLinkedin()"></i>
+                                <i [ngClass]="org.instagram?'fa fa-instagram mr-4 text-green anu-social':'fa fa-instagram anu-social mr-4 text-grey'" (click)="showInstagram()"></i>
                             </div>
                             
                             <div class='row' *ngIf="twitter || facebook || linkedin || instagram">
                                 <div class="col-12" *ngIf="twitter">
                                     <mat-form-field>
+                                        <span matPrefix class="social-prefix">https://</span>
                                         <input #twitterEl matInput class="anu-input" [(ngModel)]="org.twitter">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-12" *ngIf="facebook">
                                     <mat-form-field>
+                                        <span matPrefix class="social-prefix">https://</span>
                                         <input #facebookEl matInput class="anu-input" [(ngModel)]="org.facebook">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-12" *ngIf="linkedin">
                                     <mat-form-field>
+                                        <span matPrefix class="social-prefix">https://</span>
                                         <input #linkedinEl matInput class="anu-input" [(ngModel)]="org.linkedin">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-12" *ngIf="instagram">
                                     <mat-form-field>
+                                        <span matPrefix class="social-prefix">https://</span>
                                         <input #instagramEl matInput class="anu-input" [(ngModel)]="org.instagram">
                                     </mat-form-field>
                                 </div>

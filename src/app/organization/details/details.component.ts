@@ -85,6 +85,7 @@ export class DetailsComponent implements OnInit {
         if (this.twitter) {
             this.twitter = false;
         } else {
+            this.closeAllSocial();
             this.twitter = true;
             this.twitterEl.nativeElement.focus();
         }
@@ -94,6 +95,7 @@ export class DetailsComponent implements OnInit {
         if (this.facebook) {
             this.facebook = false;
         } else {
+            this.closeAllSocial();
             this.facebook = true;
         }
     }
@@ -102,6 +104,7 @@ export class DetailsComponent implements OnInit {
         if (this.linkedin) {
             this.linkedin = false;
         } else {
+            this.closeAllSocial();
             this.linkedin = true;
         }
     }
@@ -110,8 +113,16 @@ export class DetailsComponent implements OnInit {
         if (this.instagram) {
             this.instagram = false;
         } else {
+            this.closeAllSocial();
             this.instagram = true;
         }
+    }
+
+    closeAllSocial() {
+        this.instagram = false;
+        this.linkedin = false;
+        this.twitter = false;
+        this.facebook = false;
     }
 
     processProfilePic(ev) {

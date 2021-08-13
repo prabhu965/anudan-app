@@ -1195,3 +1195,21 @@ mat-icon:hover{
 .wf-assignment-class .mat-dialog-container {
   border-radius: 0 !important;
 }
+
+.anu-social{
+  cursor: pointer;
+}
+
+.social-prefix{
+  position: relative;
+  top: -12px;
+}
+
+.social-box{
+  position: absolute;
+  right: 0;
+  font-size: 25px;
+  padding: 5px 10px;
+  border: 1px solid #dfdfdf;
+  border-radius: 4px;width:340px
+}
