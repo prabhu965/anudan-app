@@ -174,6 +174,7 @@ export class AppComponent implements AfterViewChecked {
     });
 
     this.getGrantTypes();
+    this.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
   }
 
   getGrantTypes() {
