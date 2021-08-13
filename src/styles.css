@@ -863,6 +863,7 @@ li:focus {
 
 .mat-tab-label {
   color: #000 !important;
+  opacity: 1 !important;
 }
 .mat-tab-label-active {
   background: #4dc252;
