@@ -209,6 +209,14 @@ body {
   background-image: none !important;
 }
 
+.anu-input:focus{
+  border: 1px solid #39743c !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-label{
+  color: #39743c !important;
+}
+
 .anu-select {
   background: url(./assets/img/DownArrow.jpg) #fff !important;
   background-size: 5% !important;

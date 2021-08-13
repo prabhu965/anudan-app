@@ -106,7 +106,7 @@
                 [ngModelOptions]="{ standAlone: true }"
                 (ngModelChange)="checkGrant()"
                 placeholder="Enter grant title ..."
-                required
+                
                 type="text"
                 autocomplete="off"
                 class="anu-input"
@@ -320,7 +320,7 @@
                         <mat-form-field>
                             <textarea rows="5" id="grantDesc" matInput type="text"
                                       [(ngModel)]="currentGrant.description"
-                                      [ngModelOptions]="{standAlone:true}" (ngModelChange)="checkGrant()" required
+                                      [ngModelOptions]="{standAlone:true}" (ngModelChange)="checkGrant()" 
                                       placeholder="Grant Description" autocomplete="off" class="anu-input"></textarea>
                         </mat-form-field>
                     </div-->
@@ -329,7 +329,7 @@
           <div class="col-6">
             <!--mat-form-field>
                             <mat-select placeholder="Implementing Organization" matInput [value]="currentGrant.organization.id"
-                                        (selectionChange)="setNewOrg($event)" required class="anu-input">
+                                        (selectionChange)="setNewOrg($event)"  class="anu-input">
                                 <mat-option *ngFor="let org of appComp.appConfig.granteeOrgs" [value]="org.id"
                                             (select)="org.id===currentGrant.organization.id">{{org.name}}</mat-option>
                             </mat-select>
