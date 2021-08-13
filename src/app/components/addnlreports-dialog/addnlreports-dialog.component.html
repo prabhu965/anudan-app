@@ -46,7 +46,7 @@
       <p style="color: black">No reports found</p>
     </div>
     <div
-      [ngClass]="uiService.getCardStyle(report.canManage)"
+      [ngClass]="uiService.getReportCardStyle(report,appComp)"
       style="cursor: pointer"
       *ngFor="let report of selectedFilteredReports; let i = index"
       (click)="manageReport(report)"

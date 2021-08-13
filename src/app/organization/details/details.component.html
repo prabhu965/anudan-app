@@ -53,7 +53,7 @@
                             
                         </div>
                         <label for="profilePic" style="cursor: pointer;">
-                            <img style="cursor: pointer; border: 1px solid #d8d8d8; border-radius: 4px; width:50%;" (click)="loadImage()" class="img-fluid mb-4" [src]="'/api/public/images/'+org.code.toUpperCase()+'/logo'">
+                            <img style="cursor: pointer; border: 1px solid #d8d8d8; border-radius: 4px; width:200px;padding: 10px;" (click)="loadImage()" class="img-fluid mb-4" [src]="'/api/public/images/'+org.code.toUpperCase()+'/logo'">
                         </label>
                         <input id="profilePic" type="file" accept=".png,.jpg,.jpeg" (change)="processProfilePic($event)"
                             style="visibility: hidden;">
