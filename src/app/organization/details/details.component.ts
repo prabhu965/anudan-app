@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './../../model/user';
 import { stringify } from '@angular/core/src/util';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { AppComponent } from '../../app.component';
 import { Organization } from 'app/model/dahsboard';
 import { ThrowStmt } from '@angular/compiler';
@@ -12,7 +12,7 @@ import { ThrowStmt } from '@angular/compiler';
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.css']
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, AfterViewInit {
 
     org: Organization;
     twitter: boolean = false;
@@ -33,6 +33,12 @@ export class DetailsComponent implements OnInit {
     ngOnInit() {
         this.org = JSON.parse(JSON.stringify(this.appComp.loggedInUser.organization));
         this.appComp.subMenu = { name: 'Organization Details' };
+    }
+
+    ngAfterViewInit() {
+        if (this.twitter) {
+            this.twitterEl.nativeElement.focus();
+        }
     }
 
     loadImage() {
@@ -87,7 +93,7 @@ export class DetailsComponent implements OnInit {
         } else {
             this.closeAllSocial();
             this.twitter = true;
-            this.twitterEl.nativeElement.focus();
+            document.getElementById('twitterEl').focus();
         }
     }
 

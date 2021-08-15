@@ -89,6 +89,7 @@ export class ApprovedReportsComponent implements OnInit {
         let url = '/api/user/' + user.id + '/report/' + report.id;
         this.http.get<Report>(url, httpOptions).subscribe((report: Report) => {
             this.appComp.currentView = 'report';
+            report.canManage = false;
             this.singleReportService.changeMessage(report);
 
             if (report.canManage && report.status.internalStatus != 'CLOSED') {

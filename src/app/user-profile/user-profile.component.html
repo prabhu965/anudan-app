@@ -4,21 +4,19 @@
       <div class="col-12 pl-0 mb-3">
         <h5 class="text-left" style="font-weight:bold;">User Profile</h5>
       </div>
-      <div class="col-4">
-        <div>
-          <label for="profilePic" style="cursor: pointer;">
-            <img *ngIf="user.userProfile!==null" (click)="loadImage()" class="img-fluid"
+      <div class="col-5 px-0 text-left">
+          <label class="profile-pic-class" for="profilePic" style="cursor: pointer;">
+            <img *ngIf="user.userProfile!==null" (click)="loadImage()" class="img-fluid profile-pic-area"
               [src]="appComp.profile">
           </label>
           <label for="profilePic" style="cursor: pointer;">
             <img style="max-width: 100px;" *ngIf="user.userProfile===undefined || user.userProfile===null"
-              (click)="loadImage()" class="img-fluid" src="./assets/img/avatar.svg" style="width:100px;">
+              (click)="loadImage()" class="img-fluid profile-pic-area" src="./assets/img/avatar.svg">
           </label>
           <input id="profilePic" type="file" accept=".png,.jpg,.jpeg" (change)="processProfilePic($event)"
             style="visibility: hidden;">
-        </div>
       </div>
-      <div class="col-8">
+      <div class="col-7">
         <mat-form-field class="example-full-width">
           <input class="anu-input" [ngModelOptions]="{standAlone: true}" [(ngModel)]="user.firstName" id="userFName"
             matInput placeholder="First Name" type="text" value="{{user.firstName}}" (keyup)='updateProfile()'>

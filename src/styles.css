@@ -1199,6 +1199,11 @@ mat-icon:hover{
 
 .anu-social{
   cursor: pointer;
+  width: 30px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .social-prefix{
@@ -1208,9 +1213,21 @@ mat-icon:hover{
 
 .social-box{
   position: absolute;
-  right: 0;
   font-size: 25px;
   padding: 5px 10px;
   border: 1px solid #dfdfdf;
-  border-radius: 4px;width:340px
+  border-radius: 4px;width:340px;
+  margin: 5px auto;
+}
+
+.profile-pic-area{
+  cursor: pointer;
+    border: 1px solid #d8d8d8;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.profile-pic-class::before{
+  content: url(./assets/img/edit.svg);
+  position: absolute;
 }

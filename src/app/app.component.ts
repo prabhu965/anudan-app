@@ -39,7 +39,7 @@ export class AppComponent implements AfterViewChecked {
 
   title = 'anudan.org';
   profile = "";
-  logo = "";
+  public logo = "";
   loggedInUser: User;
   autosave: boolean = false;
   autosaveDisplay = '';
@@ -175,6 +175,9 @@ export class AppComponent implements AfterViewChecked {
 
     this.getGrantTypes();
     this.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+    if (this.loggedInUser) {
+      this.profile = "/api/public/images/profile/" + this.loggedInUser.id + "?" + (new Date().getTime()).toString();
+    }
   }
 
   getGrantTypes() {
