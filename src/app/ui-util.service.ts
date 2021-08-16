@@ -37,11 +37,12 @@ export class UiUtilService {
   }
 
   public getReportCardStyle(report: Report, appComp: AppComponent) {
+
     if (Number(appComp.loggedInUser.id) === Number(report.ownerId) && (report.status.internalStatus === 'DRAFT' || report.status.internalStatus === 'REVIEW')) {
       return this.ownerWithEdit();
     } else if (Number(appComp.loggedInUser.id) === Number(report.ownerId) && (report.status.internalStatus === 'ACTIVE' || report.status.internalStatus === 'CLOSED')) {
       return this.ownerWithNoEdit();
-    } else if (report.workflowAssignments.findIndex(g => Number(g.assignmentId) === Number(appComp.loggedInUser.id)) >= 0) {
+    } else if (report.workflowAssignments && report.workflowAssignments.findIndex(g => Number(g.assignmentId) === Number(appComp.loggedInUser.id)) >= 0) {
       return this.inWorkflow();
     } else {
       return this.notInWorkflow();
