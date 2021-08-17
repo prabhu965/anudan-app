@@ -9,7 +9,7 @@
                     <p class="text-left text-subheader" *ngIf="appComp.loggedInUser.organization.organizationType==='GRANTEE'">Updates to this screen is visible to all grant giving organizations within Anudan.</p>
     </div>
 </div>
-<div class="main-content no-top-margin5">
+<div class="main-content no-top-margin6">
     <div class="container-fluid">
         <div class="row mt-4">
             <div class="col-12">
@@ -34,7 +34,7 @@
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-label>Organization Description:</mat-label>
-                                    <input matInput class="anu-input" [(ngModel)]='org.description'>
+                                    <textarea matInput class="anu-input" [(ngModel)]='org.description'></textarea>
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-label>Website:</mat-label>

@@ -634,15 +634,15 @@ font-white {
   text-decoration: none;
 }
 
-.ng-animating .mat-expansion-panel & {
+.ng-animating .mat-expansion-panel {
   min-height: 48px;
 }
 
-.ng-animating .mat-expansion-panel.mat-expanded & {
+.ng-animating .mat-expansion-panel.mat-expanded {
   min-height: 64px;
 }
 
-.ng-animating .mat-expansion-panel:not(.mat-expanded) & {
+.ng-animating .mat-expansion-panel:not(.mat-expanded) {
   height: 0;
   overflow: hidden;
 }
@@ -1222,12 +1222,23 @@ mat-icon:hover{
 
 .profile-pic-area{
   cursor: pointer;
-    border: 1px solid #d8d8d8;
-    border-radius: 4px;
     padding: 15px;
 }
 
-.profile-pic-class::before{
+.profile-pic-class{
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+}
+
+.profile-pic-class::after{
   content: url(./assets/img/edit.svg);
-  position: absolute;
+  position: relative;
+  bottom: 0;
+  left: 90%;
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

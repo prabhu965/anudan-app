@@ -417,6 +417,12 @@
         max-height: calc(100vh - 126px) !important;
     }
 
+    .main-content.no-top-margin6 {
+        margin-top: 0 !important;
+        min-height: calc(100vh - 195px) !important;
+        max-height: calc(100vh - 195px) !important;
+    }
+
     .main-content.mat-tab-body-content{
         overflow-x: hidden;
     }

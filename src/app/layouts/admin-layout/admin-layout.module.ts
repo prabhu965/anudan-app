@@ -47,7 +47,8 @@ import {
     MatAutocompleteModule,
     MatMenuModule,
     MatProgressBarModule,
-    MatListModule
+    MatListModule,
+    MAT_FORM_FIELD_DEFAULT_OPTIONS
 } from '@angular/material';
 import { MatTabsModule } from '@angular/material/tabs';
 import { WelcomePopupComponent } from '../../components/welcome-popup/welcome-popup.component';
@@ -208,7 +209,8 @@ import { SearchFilterComponent } from './search-filter/search-filter.component';
         SearchFilterComponent
     ],
     entryComponents: [WelcomePopupComponent, AddnlreportsDialogComponent, InviteDialogComponent, BottomsheetComponent, BottomsheetAttachmentsComponent, BottomsheetNotesComponent, GrantTemplateDialogComponent, ReportTemplateDialogComponent, GrantSelectionDialogComponent, ListDialogComponent, TemplateDialogComponent, GrantNotesComponent, SectionEditComponent, ReportNotesComponent, DisbursementNotesComponent, GranttypeSelectionDialogComponent, GrantTagsComponent],
-    schemas: [NO_ERRORS_SCHEMA]
+    schemas: [NO_ERRORS_SCHEMA],
+
 })
 
 export class AdminLayoutModule {
