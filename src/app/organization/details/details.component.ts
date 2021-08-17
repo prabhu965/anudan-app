@@ -147,11 +147,22 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                     'Authorization': localStorage.getItem('AUTH_TOKEN')
                 })
             };
-            const url = 'api/organizations/logo';
+
+            let url = 'api/organizations/logo';
+            if (this.appComp.loggedInUser.organization.organizationType === 'GRANTEE') {
+                url = 'api/organizations/' + this.appComp.loggedInUser.organization.id + '/logo';
+            }
+
 
             this.httpClient.post(url, formData, httpOptions).subscribe(() => {
 
-                this.appComp.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+                if (this.appComp.loggedInUser && this.appComp.loggedInUser.organization.organizationType === 'GRANTER') {
+                    this.appComp.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+                } else if (this.appComp.loggedInUser && this.appComp.loggedInUser.organization.organizationType === 'GRANTEE') {
+                    this.appComp.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/' + this.appComp.loggedInUser.organization.id + '/logo?' + (new Date().getTime()).toString();
+                } else {
+                    this.appComp.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+                }
             });
         };
         reader.onerror = function (error) {

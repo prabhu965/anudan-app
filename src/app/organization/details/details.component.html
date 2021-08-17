@@ -19,7 +19,7 @@
                         
                         <div class="row">
                             <div class="col-5">
-                                <ng-container *ngIf="appComp.loggedInUser.organization.organizationType==='GRANTER'">
+                                <ng-container>
                                 <label class="profile-pic-class" for="profilePic" style="cursor: pointer;">
                                     <img (click)="loadImage()" class="img-fluid mb-4 profile-pic-area" [src]="appComp.logo">
                                 </label>
