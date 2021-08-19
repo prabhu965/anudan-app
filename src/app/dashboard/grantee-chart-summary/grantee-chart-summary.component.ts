@@ -20,10 +20,12 @@ export class GranteeChartSummaryComponent implements OnInit, OnChanges, AfterVie
 
     ctx: any;
     PieChart1: any;
+    PieChart3: any;
     PieChartX: any;
     PieChart2: any;
     BarChart: any;
     pieChart1: HTMLCanvasElement;
+    pieChart3: HTMLCanvasElement;
     pieChartX: HTMLCanvasElement;
     pieChart2: HTMLCanvasElement;
     barChart: HTMLCanvasElement;
@@ -102,6 +104,14 @@ export class GranteeChartSummaryComponent implements OnInit, OnChanges, AfterVie
             }
         }
 
+        for (let s of this.selected.summary.approvedSummary) {
+            labelsStatus.push(s.name);
+            dataStatus.push(s.value);
+            if (Number(s.value) > maxTick) {
+                maxStatusTick = Number(s.value);
+            }
+        }
+
 
 
         if (this.portfolioType === 'Active Grants') {
@@ -144,6 +154,85 @@ export class GranteeChartSummaryComponent implements OnInit, OnChanges, AfterVie
                     },
                     tooltips: {
                         enabled: false
+                    }
+                }
+            });
+
+            this.pieChart3 = <HTMLCanvasElement>elemRef.getElementsByClassName('pieChart3')[0];
+            this.ctx = this.pieChart3.getContext('2d');
+            this.ctx.clearRect(0, 0, this.pieChart3.width, this.pieChart3.height);
+
+            this.PieChart3 = new Chart(this.ctx, {
+                plugins: [ChartDataLabels],
+                type: 'bar',
+
+                data: {
+                    labels: labelsStatus,
+                    datasets: [{
+                        //barThickness: 40,
+                        //rotation: 45,
+                        datalabels: {
+                            color: 'white',
+
+                            font: {
+                                weight: 'bold'
+                            },
+                            formatter: function (value, context) {
+                                if (Number(value) > 0) {
+                                    return value;
+                                } else {
+                                    return '';
+                                }
+                            }
+                        },
+                        data: dataStatus,
+                        backgroundColor: [
+                            '#4dc252', '#FFA500', '#f44336'
+
+                        ]
+                    }]
+                },
+                options: {
+
+                    legend: {
+                        display: false,
+                        position: 'bottom',
+                        align: 'center'
+                    },
+                    tooltips: {
+                        enabled: false
+                    },
+                    scales: {
+
+                        xAxes: [{
+                            display: "true",
+
+                            gridLines: {
+                                display: false,
+                                color: "rgba(0, 0, 0, 0)",
+                            },
+                            ticks: {
+                                display: true,
+                                min: 0,
+                                max: maxStatusTick + 1,
+                                stepSize: 1,
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }],
+                        yAxes: [{
+                            display: "false",
+                            gridLines: {
+                                display: false,
+                                color: "rgba(0, 0, 0, 0)",
+                            },
+                            ticks: {
+                                display: true,
+                                min: 0,
+                                max: maxStatusTick + 1,
+                                stepSize: 1
+                            }
+                        }]
                     }
                 }
             });

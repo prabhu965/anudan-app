@@ -43,7 +43,8 @@
                                 <canvas style="border: 1px solid #d7d7d7;" class="pieChartX" ></canvas>
                             </div>
                         </div>
-                        <div class="col-6 pt-4"><div><p style="font-weight: 600;text-align: center;">Due Status</p><canvas  style="border: 1px solid #d7d7d7;" class="pieChart1"></canvas></div></div>
+                        <div class="col-6 pt-4"><div><p style="font-weight: 600;text-align: center;">Reports in-progress</p><canvas  style="border: 1px solid #d7d7d7;" class="pieChart1"></canvas></div></div>
+                        <div class="col-6 pt-4"><div *ngIf="this.selected.summary && this.selected.summary.approvedSummary && this.selected.summary.approvedSummary.length>0"><p style="font-weight: 600;text-align: center;">Approved Reports</p><canvas  style="border: 1px solid #d7d7d7;" class="pieChart3"></canvas></div></div>
                     </div>
                     
                     
