@@ -67,10 +67,7 @@ export class LoginComponent implements OnInit {
     });
     const tenantCode = localStorage.getItem('X-TENANT-CODE');
 
-    if (this.appComponent.loggedInUser === null) {
-      this.appComponent.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
-      this.logoURL = this.appComponent.logo;
-    }
+
 
     const url = '/api/public/tenant/' + tenantCode;
     this.http.get(url, { responseType: 'text' }).subscribe((orgName) => {
@@ -102,6 +99,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.appComponent.loggedInUser === null) {
+      this.appComponent.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+      this.logoURL = this.appComponent.logo;
+    }
 
     if (this.appComponent.loggedInUser) {
       this.appComponent.logout();

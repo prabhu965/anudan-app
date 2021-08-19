@@ -164,12 +164,13 @@ export class GranteeChartSummaryComponent implements OnInit, OnChanges, AfterVie
 
             this.PieChart3 = new Chart(this.ctx, {
                 plugins: [ChartDataLabels],
-                type: 'bar',
+                type: 'horizontalBar',
 
                 data: {
-                    labels: labelsStatus,
+
+                    labels: this.formatLabel(labelsStatus),
                     datasets: [{
-                        //barThickness: 40,
+                        barThickness: 40,
                         //rotation: 45,
                         datalabels: {
                             color: 'white',
@@ -193,7 +194,6 @@ export class GranteeChartSummaryComponent implements OnInit, OnChanges, AfterVie
                     }]
                 },
                 options: {
-
                     legend: {
                         display: false,
                         position: 'bottom',
@@ -205,19 +205,16 @@ export class GranteeChartSummaryComponent implements OnInit, OnChanges, AfterVie
                     scales: {
 
                         xAxes: [{
-                            display: "true",
-
+                            display: "false",
                             gridLines: {
-                                display: false,
+
                                 color: "rgba(0, 0, 0, 0)",
                             },
                             ticks: {
-                                display: true,
+                                display: false,
                                 min: 0,
-                                max: maxStatusTick + 1,
-                                stepSize: 1,
-                                maxRotation: 45,
-                                minRotation: 45
+                                max: maxStatusTick + 2,
+                                stepSize: 1
                             }
                         }],
                         yAxes: [{
@@ -225,12 +222,6 @@ export class GranteeChartSummaryComponent implements OnInit, OnChanges, AfterVie
                             gridLines: {
                                 display: false,
                                 color: "rgba(0, 0, 0, 0)",
-                            },
-                            ticks: {
-                                display: true,
-                                min: 0,
-                                max: maxStatusTick + 1,
-                                stepSize: 1
                             }
                         }]
                     }
