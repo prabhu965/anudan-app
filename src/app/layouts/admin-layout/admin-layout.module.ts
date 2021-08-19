@@ -1,3 +1,7 @@
+import { GranteeProgressSummaryComponent } from './../../dashboard/grantee-progress-summary/grantee-progress-summary.component';
+import { GranteeSummaryCenteredComponent } from './../../dashboard/grantee-summary-centered/grantee-summary-centered.component';
+import { GranteeChartSummaryComponent } from './../../dashboard/grantee-chart-summary/grantee-chart-summary.component';
+import { GranteePortfolioSummaryComponent } from '../../dashboard/grantee-portfolio-summary/grantee-portfolio-summary.component';
 import { ListDialogComponent } from './../../components/list-dialog/list-dialog.component';
 import { MyChartSummaryComponent } from './../../dashboard/mychart-summary/mychart-summary.component';
 import { MyPortfolioSummaryComponent } from './../../dashboard/myportfolio-summary/myportfolio-summary.component';
@@ -141,11 +145,15 @@ import { SearchFilterComponent } from './search-filter/search-filter.component';
         DashboardComponent,
         SummaryComponent,
         SummaryCenteredComponent,
+        GranteeSummaryCenteredComponent,
         ProgressSummaryComponent,
+        GranteeProgressSummaryComponent,
         ChartSummaryComponent,
         PortfolioSummaryComponent,
         MyPortfolioSummaryComponent,
+        GranteePortfolioSummaryComponent,
         MyChartSummaryComponent,
+        GranteeChartSummaryComponent,
         GrantsComponent,
         DraftGrantsComponent,
         ActiveGrantsComponent,

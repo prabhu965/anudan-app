@@ -84,7 +84,11 @@ export class DashboardComponent implements OnInit {
 
     this.appComponent.subMenu = { name: '' };
     if (!this.parameters.status || (this.parameters.status && this.parameters.status === 'd')) {
-      this.getDashboardSummary();
+      if (this.appComponent.loggedInUser.organization.organizationType === 'GRANTER') {
+        this.getDashboardSummary();
+      } else if (this.appComponent.loggedInUser.organization.organizationType === 'GRANTEE') {
+        this.getGranteeDashboardSummary();
+      }
       this.getMyDashboardSummary();
     } else if (this.parameters.status && this.parameters.status === 'n' && this.appComponent.loggedInUser.organization.type !== 'PLATFORM') {
 
@@ -316,6 +320,30 @@ export class DashboardComponent implements OnInit {
     this.appComponent.loggedIn = true;
 
     let url = '/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/summary';
+
+    this.http.get(url, httpOptions).subscribe((data: any) => {
+      console.log(data);
+      this.totalGrantsIssued = data.summary.totalGrants;
+      this.totalGrantees = data.summary.grantees;
+      this.totalGrantAmount = '₹' + inf.format(Number(data.summary.totalGrantAmount), 2);
+      this.totalActiveUsers = data.summary.activeUsers;
+      this.portfolioData = data.filters;
+    });
+  }
+
+
+  getGranteeDashboardSummary() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'X-TENANT-CODE': localStorage.getItem('X-TENANT-CODE'),
+        'Authorization': localStorage.getItem('AUTH_TOKEN')
+      })
+    };
+
+    this.appComponent.loggedIn = true;
+
+    let url = '/api/users/' + this.appComponent.loggedInUser.id + '/dashboard/summary/grantee/' + this.appComponent.loggedInUser.organization.id;
 
     this.http.get(url, httpOptions).subscribe((data: any) => {
       console.log(data);
