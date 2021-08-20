@@ -1,15 +1,15 @@
-<div class="">
-    <div class="container-fluid">
+<div class="main-content no-top-margin5" style="overflow: hidden;">
+    <div class="container-fluid px-3">
 
-        <mat-tab-group class="org-tab" (focusChange)="tabSelected($event)">
+        <mat-tab-group class="org-tab mt-4" (focusChange)="tabSelected($event)">
             <mat-tab label="Roles">
-                <div class="anu-container text-left mx-0">
+                <div class="anu-container text-left mx-0 px-0">
                     <app-roles [roles]="roles"></app-roles>
 
                 </div>
             </mat-tab>
             <mat-tab label="Users">
-                <div class="anu-container text-left mx-0">
+                <div class="anu-container text-left mx-0 px-0">
                     <app-users [users]="users" [roles]="roles"></app-users>
 
                 </div>
@@ -17,29 +17,29 @@
             
 
             <mat-tab label="Library">
-                <div class="anu-container text-left mx-0">
+                <div class="anu-container text-left mx-0 px-0">
                         <app-document-library [docs]="docs"></app-document-library>
                 </div>
             </mat-tab>
 
             <mat-tab label="Tags" *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'">
-                <div class="anu-container text-left mx-0">
+                <div class="anu-container text-left mx-0 px-0">
                         <app-org-tags [tags]="tags"></app-org-tags>
                 </div>
             </mat-tab>
 
             <mat-tab label="App Configurations" *ngIf="appComp.loggedInUser.organization.organizationType==='GRANTER'">
-                <div class="anu-container text-left mx-0">
+                <div class="anu-container text-left mx-0 px-0">
                         <app-settings></app-settings>
                 </div>
             </mat-tab>
             <mat-tab label="Workflows (Coming Soon)" *ngIf="appComp.loggedInUser.organization.organizationType==='GRANTER'">
-                <div class="anu-container text-left mx-0">
+                <div class="anu-container text-left mx-0 px-0">
                         <app-workflow-management></app-workflow-management>
                 </div>
             </mat-tab>
             <mat-tab label="Templates (Coming Soon)" *ngIf="appComp.loggedInUser.organization.organizationType==='GRANTER'">
-                <div class="anu-container text-left mx-0">
+                <div class="anu-container text-left mx-0 px-0">
                         <app-templates></app-templates>
                 </div>
             </mat-tab>

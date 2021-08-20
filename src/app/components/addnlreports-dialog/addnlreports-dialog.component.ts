@@ -47,7 +47,7 @@ export class AddnlreportsDialogComponent implements OnInit {
   grants: Grant[];
   futureReports: Report[];
   selectedReports: Report[];
-  singleGrant: boolean;
+  singleGrant: boolean = false;
   deletedReports: Report[] = [];
   selectedFilteredReports: Report[] = [];
   type: string;
@@ -95,7 +95,7 @@ export class AddnlreportsDialogComponent implements OnInit {
 
   updateSelectedReports(evt) {
     this.selectedReports = null;
-    this.getReportsForSelectedGrant(this.reportId, evt, 'upcoming')
+    this.getReportsForSelectedGrant(this.reportId, evt, 'all')
   }
 
   manageReport(report: Report) {

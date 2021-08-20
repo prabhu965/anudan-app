@@ -103,7 +103,7 @@
                     <span
                       data-html2canvas-ignore
                       [class]="
-                        'badge state-' +
+                        'badge state-' + (isExternalGrant(currentReport.grant)?'ext-':'') +
                         currentReport.status.internalStatus.toLowerCase()
                       "
                       style="color: #000 !important"
@@ -119,12 +119,12 @@
           <hr />
           <div class="col-12 mb-2 m-2" style="background: #f9f9f9">
             <div class="row">
-              <div class="col-12 mb-2">
+              <div class="col-12 mb-0">
                 <span
                   style="color: #929292; font-size: 13px; font-family: Roboto"
                   >Grant Name:</span
                 >
-                <div class="ml-0 mb-3">
+                <div class="ml-0 mb-2">
                   <b>{{
                     (currentReport.grant.referenceNo
                       ? currentReport.grant.referenceNo + " | "
@@ -132,12 +132,30 @@
                   }}</b>
                 </div>
               </div>
+              <div class="col-6 mb-2">
+                <span
+                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  >Implementing Organization:</span
+                >
+                <div class="ml-0 mb-0">
+                  <b>{{ currentReport.grant.organization.name }}</b>
+                </div>
+              </div>
+              <div class="col-6 mb-0">
+                <span
+                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  >Implementing Organization Representative:</span
+                >
+                <div class="ml-0 mb-0">
+                  <b>{{ currentReport.grant.representative }}</b>
+                </div>
+              </div>
               <div class="col-3 mb-2">
                 <span
                   style="color: #929292; font-size: 13px; font-family: Roboto"
                   >Grant Start Date:</span
                 >
-                <div class="ml-0 mb-3">
+                <div class="ml-0 mb-0">
                   <b>{{ currentReport.grant.stDate | date: "dd-MMM-yyyy" }}</b>
                 </div>
               </div>
@@ -153,25 +171,6 @@
               <div class="col-6 mb-2">
                 <span
                   style="color: #929292; font-size: 13px; font-family: Roboto"
-                  >Implementing Organization:</span
-                >
-                <div class="ml-0 mb-3">
-                  <b *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE' && isExternalGrant(currentReport.grant)">{{ currentReport.grant.organization.name }}</b>
-                  <b *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE' && !isExternalGrant(currentReport.grant)">{{ currentReport.grant.grantorOrganization.name }}</b>
-                </div>
-              </div>
-              <div class="col-4 mb-2">
-                <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
-                  >Implementing Organization Representative:</span
-                >
-                <div class="ml-0 mb-3">
-                  <b>{{ currentReport.grant.representative }}</b>
-                </div>
-              </div>
-              <div class="col-7 mb-2">
-                <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
                   >Grant Amount:</span
                 >
                 <div
@@ -179,7 +178,7 @@
                   style="display: flex; align-items: center"
                 >
                   <b
-                    ><img src="./assets/img/rupee.png" style="width: 9px" />{{
+                    >{{
                       getFormattedGrantAmount(currentReport.grant.amount)
                     }}&nbsp;&nbsp;&nbsp;
                     <small>{{
@@ -188,6 +187,8 @@
                   >
                 </div>
               </div>
+              
+              
             </div>
           </div>
           <div class="col-4 mb-2">

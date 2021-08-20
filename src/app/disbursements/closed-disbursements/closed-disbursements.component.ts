@@ -1,3 +1,4 @@
+import { UiUtilService } from './../../ui-util.service';
 import { Grant } from './../../model/dahsboard';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Disbursement } from 'app/model/disbursement';
@@ -27,7 +28,8 @@ export class ClosedDisbursementsComponent implements OnInit {
     public appComponent: AppComponent,
     public disbursementDataService: DisbursementDataService,
     private router: Router,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    public uiService: UiUtilService
   ) { }
 
   ngOnInit() {
@@ -103,5 +105,16 @@ export class ClosedDisbursementsComponent implements OnInit {
       this.searchClosed = true;
       this.appSearchFilter.closeSearch();
     }
+  }
+
+  getActualDisbursements(disbursement: Disbursement): number {
+    if (disbursement.actualDisbursements && disbursement.actualDisbursements.length > 0) {
+      let total = 0;
+      for (let ad of disbursement.actualDisbursements) {
+        total += ad.actualAmount ? ad.actualAmount : 0;
+      }
+      return total;
+    }
+    return 0;
   }
 }

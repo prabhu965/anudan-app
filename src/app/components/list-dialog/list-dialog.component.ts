@@ -88,11 +88,11 @@ export class ListDialogComponent implements OnInit {
     this.title = listMetaData.title;
     if (listMetaData._for === 'grant') {
       this.grants = listMetaData.grants;
-      if (this.grants && this.grants.length > 0) {
+      /* if (this.grants && this.grants.length > 0) {
         for (let g of this.grants) {
           grantService.changeMessage(g, this.appComp.loggedInUser.id);
         }
-      }
+      } */
       this.filteredGrants = this.grants;
     } else if (listMetaData._for === 'report') {
       this.reports = listMetaData.reports;

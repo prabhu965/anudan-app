@@ -1,3 +1,4 @@
+import { UiUtilService } from './../../ui-util.service';
 import { Grant } from './../../model/dahsboard';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportDataService } from '../../report.data.service'
@@ -37,7 +38,8 @@ export class ApprovedReportsComponent implements OnInit {
         private router: Router,
         public appComp: AppComponent,
         private spinner: NgxSpinnerService,
-        private titlecasePipe: TitleCasePipe) {
+        private titlecasePipe: TitleCasePipe,
+        public uiService: UiUtilService) {
     }
 
     ngOnInit() {
@@ -87,6 +89,7 @@ export class ApprovedReportsComponent implements OnInit {
         let url = '/api/user/' + user.id + '/report/' + report.id;
         this.http.get<Report>(url, httpOptions).subscribe((report: Report) => {
             this.appComp.currentView = 'report';
+            report.canManage = false;
             this.singleReportService.changeMessage(report);
 
             if (report.canManage && report.status.internalStatus != 'CLOSED') {

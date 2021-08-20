@@ -257,7 +257,7 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
         wfModel.disbursement.grant.isInternal = this.appComponent.grantTypes.filter(gt => this.currentDisbursement.grant.grantTypeId)[0].internal;
         wfModel.canManage = this.currentDisbursement.canManage;
         const dialogRef = this.dialog.open(WfassignmentComponent, {
-          data: { model: wfModel, userId: this.appComponent.loggedInUser.id },
+          data: { model: wfModel, userId: this.appComponent.loggedInUser.id, appComp: this.appComponent },
           panelClass: "wf-assignment-class",
         });
 

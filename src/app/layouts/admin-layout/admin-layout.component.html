@@ -50,13 +50,13 @@
             >notifications</mat-icon
           >
           <img
-            *ngIf="appComponent.loggedInUser.userProfile"
-            src="{{ appComponent.loggedInUser.userProfile }}"
+            *ngIf="appComponent.profile.length>0"
+            [src]="appComponent.profile"
             class="img-fluid w-10 mr-2 rounded-circle"
-            style="width: 35px; max-width: 50px"
+            style="width: 50px;max-width: 50px;height: 50px;object-fit: cover;"
           />
           <img
-            *ngIf="!appComponent.loggedInUser.userProfile"
+            *ngIf="appComponent.profile.length===0"
             src="./assets/img/avatar.svg"
             class="img-fluid w-10 mr-2 rounded-circle"
             style="width: 35px"

@@ -214,7 +214,7 @@ export class ReportPreviewComponent implements OnInit {
         wfModel.report.grant.isInternal = this.appComp.grantTypes.filter(gt => this.currentReport.grant.grantTypeId)[0].internal;
         wfModel.canManage = this.currentReport.flowAuthorities && this.currentReport.canManage;
         const dialogRef = this.dialog.open(WfassignmentComponent, {
-            data: { model: wfModel, userId: this.appComp.loggedInUser.id },
+            data: { model: wfModel, userId: this.appComp.loggedInUser.id, appComp: this.appComp },
             panelClass: 'wf-assignment-class'
         });
 

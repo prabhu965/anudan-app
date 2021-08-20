@@ -18,6 +18,8 @@ export class Disbursement {
   approvedActualsDibursements: ActualDisbursement[];
   disabledByAmendment: boolean;
   disbursementDocuments: any[];
+  ownerId: number;
+  ownerName: string;
 }
 
 export class ActualDisbursement {

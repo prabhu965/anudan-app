@@ -235,7 +235,7 @@ export class AdminLayoutComponent implements OnInit {
                 }
               }
 
-              for (let i = 0; i < notifications.length; i++) {
+              for (let i = 0; i < 1; i++) {
                 if (
                   !notifications[i].read &&
                   notifications[i].notificationFor === "REPORT"
@@ -473,7 +473,7 @@ export class AdminLayoutComponent implements OnInit {
           this.appComponent.loggedInUser.organization.organizationType !==
           "GRANTEE";
       const dialogRef = this.dialog.open(WfassignmentComponent, {
-        data: { model: wfModel, userId: this.appComponent.loggedInUser.id },
+        data: { model: wfModel, userId: this.appComponent.loggedInUser.id, appComp: this.appComponent },
         panelClass: "wf-assignment-class",
       });
 
@@ -569,7 +569,7 @@ export class AdminLayoutComponent implements OnInit {
           ? false
           : this.currentReport.flowAuthorities && this.currentReport.canManage;
       const dialogRef = this.dialog.open(WfassignmentComponent, {
-        data: { model: wfModel, userId: this.appComponent.loggedInUser.id },
+        data: { model: wfModel, userId: this.appComponent.loggedInUser.id, appComp: this.appComponent },
         panelClass: "wf-assignment-class",
       });
 
@@ -661,7 +661,7 @@ export class AdminLayoutComponent implements OnInit {
           }
           wfModel.canManage = this.currentDisbursement.canManage;
           const dialogRef = this.dialog.open(WfassignmentComponent, {
-            data: { model: wfModel, userId: this.appComponent.loggedInUser.id },
+            data: { model: wfModel, userId: this.appComponent.loggedInUser.id, appComp: this.appComponent },
             panelClass: "wf-assignment-class",
           });
 

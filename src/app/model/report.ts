@@ -30,6 +30,8 @@ export class Report {
     forGranteeUse: boolean;
     futureReportsCount: number;
     disabledByAmendment: boolean;
+    ownerId: number;
+    ownerName: string;
 }
 
 export class ReportHistory {

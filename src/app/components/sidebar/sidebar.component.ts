@@ -223,7 +223,7 @@ export class SidebarComponent implements OnInit {
     this.disbursementDataService.currentMessage.subscribe((d) => this.currentDisbursement = d);
 
     const tenantCode = localStorage.getItem('X-TENANT-CODE');
-    this.logoUrl = "/api/public/images/" + tenantCode + "/logo";
+    this.logoUrl = this.appComponent.logo;
 
 
     /*if(this.currentGrant && (this.currentGrant.grantStatus.internalStatus=='ACTIVE' || this.currentGrant.grantStatus.internalStatus=='CLOSED')){

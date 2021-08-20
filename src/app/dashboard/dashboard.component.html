@@ -34,7 +34,7 @@
         </mat-card>
     </div>
 </div-->
-<div class="main-content no-top-margin" style="margin-top: 40px;">
+<div class="main-content no-top-margin5" style="margin-top: 40px;">
     <div class="container-fluid">
 
         <mat-tab-group (selectedTabChange)="tabSelectionChange($event)" #DashboardTabGroup *ngIf="this.appComponent.loggedInUser.organization.type==='GRANTER'" class="mt-4">
@@ -101,6 +101,26 @@
                             <app-myportfolio-summary [data]="myCategory.filters" [display]="false" name="My Grant Portfolio"></app-myportfolio-summary>
                         </div>
 
+                    </div>
+
+                </div>
+
+            </mat-tab>
+        </mat-tab-group>
+        <mat-tab-group (selectedTabChange)="tabSelectionChange($event)" #DashboardTabGroup *ngIf="this.appComponent.loggedInUser.organization.type==='GRANTEE'" class="mt-4">
+            <mat-tab label="{{this.appComponent.loggedInUser.organization.name}}">
+                <div class="anu-container text-left pt-3 mx-0 px-4">
+    
+                    <div *ngIf="portfolioData && portfolioData.length>0" class="row mx-0 mt-4">
+                        <div class="col-12 px-2">
+                            <app-granteeportfolio-summary [data]="portfolioData" [display]="false" name="Grants Awarded"></app-granteeportfolio-summary>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="row mx-0">
+                        <div class="col-4"><app-summary [borderWidth]="'4px'" heading="-" caption="RFPs" disabled="true"></app-summary></div>
+                        <div class="col-4"><app-summary [borderWidth]="'4px'" heading="-" caption="Applications" disabled="true"></app-summary></div>
                     </div>
 
                 </div>
