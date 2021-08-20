@@ -107,7 +107,7 @@ export class GranteeChartSummaryComponent implements OnInit, OnChanges, AfterVie
         for (let s of this.selected.summary.approvedSummary) {
             labelsStatus.push(s.name);
             dataStatus.push(s.value);
-            if (Number(s.value) > maxTick) {
+            if (Number(s.value) > maxStatusTick) {
                 maxStatusTick = Number(s.value);
             }
         }

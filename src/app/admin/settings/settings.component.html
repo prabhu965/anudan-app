@@ -17,7 +17,6 @@
                     
                     <input matInput class="anu-input" [(ngModel)]="setting.scheduledTaskConfiguration.time" placeholder="HH:mi">
                 </mat-form-field>
-                <span *ngIf="setting.configName==='DUE_REPORTS_REMINDER_SETTINGS'" class="text-subheader">*Applicable to unsubmitted reports</span>
             </div>
             <div class="col-7" align="left">
                     <ng-container *ngIf="setting.configName==='DUE_REPORTS_REMINDER_SETTINGS'">
