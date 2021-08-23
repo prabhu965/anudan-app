@@ -57,7 +57,7 @@
           />
           <img
             *ngIf="appComponent.profile.length===0"
-            src="./assets/img/avatar.svg"
+            src="./assets/img/profile-avatar.png"
             class="img-fluid w-10 mr-2 rounded-circle"
             style="width: 35px"
           />{{ appComponent.loggedInUser.lastName }},
@@ -104,7 +104,7 @@
           />
           <img
             *ngIf="!appComponent.loggedInUser.userProfile"
-            src="./assets/img/avatar.svg"
+            src="./assets/img/profile-avatar.png"
             class="img-fluid w-10 mr-2 rounded-circle"
             style="width: 35px"
           />{{ appComponent.loggedInUser.lastName }},
