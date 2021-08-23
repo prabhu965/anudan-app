@@ -474,12 +474,13 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
     this.adminComp.manageGrant(null, this.currentDisbursement.grant.id);
   }
 
-  openDate(actual: ActualDisbursement, ev: MouseEvent) {
+  openDate(actual: ActualDisbursement, ev: MouseEvent, indx: number) {
     if (this.currentDisbursement.disabledByAmendment) {
       return;
     }
+    const el = document.querySelector('#actual_' + indx);
     const stDateElem = this.datePicker;
-    this.selectedDateField = ev;
+    this.selectedDateField = el;
     this.selectedField = actual;
     if (!stDateElem.opened) {
       stDateElem.open();
@@ -490,17 +491,19 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
 
   setDate(ev: MatDatepickerInputEvent<any>) {
     const trgt = ev.target;
-    this.selectedDateField.target.value = this.datepipe.transform(
+    this.selectedDateField.value = this.datepipe.transform(
       trgt.value,
       "dd-MMM-yyyy"
     );
-    this.selectedField.disbursementDate = this.selectedDateField.target.value;
+    this.selectedField.disbursementDate = this.selectedDateField.value;
     this.disbursementService.saveDisbursement(this.currentDisbursement);
 
   }
 
-  clearDate(actual: ActualDisbursement) {
+  clearDate(actual: ActualDisbursement, i) {
     actual.disbursementDate = null;
+    const el = document.querySelector('#actual_' + i);
+    (el as HTMLInputElement).value = null;
   }
 
   showAmountInput(evt: any) {

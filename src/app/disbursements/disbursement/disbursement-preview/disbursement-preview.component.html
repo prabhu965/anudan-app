@@ -628,11 +628,12 @@
                   <td style="border: 1px solid #e4e4e4">
                     <mat-form-field>
                       <input
+                        [id]="'actual_'+i"
                         matInput
                         class="anu-input"
                         readonly
                         [(ngModel)]="actual.stDisbursementDate"
-                        (click)="openDate(actual, $event)"
+                        (click)="openDate(actual, $event,i)"
                         style="cursor: pointer"
                         [disabled]="currentDisbursement.disabledByAmendment"
                       />
@@ -641,7 +642,7 @@
                           actual.disbursementDate !== undefined &&
                           actual.disbursementDate !== null
                         "
-                        (click)="clearDate(actual)"
+                        (click)="clearDate(actual,i)"
                         style="
                           transform: scale(0.65);
                           position: absolute;
@@ -653,7 +654,7 @@
                         >clear</mat-icon
                       >
                       <mat-icon
-                        (click)="openDate(actual, $event)"
+                        (click)="openDate(actual, $event,i)"
                         [ngStyle]="
                           actual.disbursementDate !== undefined &&
                           actual.disbursementDate !== null
