@@ -40,7 +40,7 @@
           
                            <div class="mt-1">
                             <span>{{currencyService.getFormattedAmount(disbursement.grant.amount)}}</span>
-                              &nbsp;&nbsp;<span>({{currencyService.getAmountInWords(disbursement.grant.amount)}})</span>
+                              &nbsp;&nbsp;<span class="text-subheader"><small>({{currencyService.getAmountInWords(disbursement.grant.amount)}})</small></span>
                             </div>
                           </div>
                         </div>
@@ -63,12 +63,12 @@
                                   currencyService.getFormattedAmount(
                                     disbursement.requestedAmount
                                   )
-                                }}</span>&nbsp;&nbsp;<span class="text-subheader ml-3">
+                                }}</span>&nbsp;&nbsp;<span class="text-subheader ml-3"><small>
                               {{
                                 currencyService.getAmountInWords(
                                   disbursement.requestedAmount
                                 )
-                              }}</span>
+                              }}</small></span>
                             </div>
                             </div>
                             <div class="col-6">
@@ -77,12 +77,12 @@
                                   currencyService.getFormattedAmount(
                                     getActualDisbursements(disbursement)
                                   )
-                                }}</span>&nbsp;&nbsp;<span class="text-subheader ml-3">
+                                }}</span>&nbsp;&nbsp;<span class="text-subheader ml-3"><small>
                               {{
                                 currencyService.getAmountInWords(
                                   getActualDisbursements(disbursement)
                                 )
-                              }}</span>
+                              }}</small></span>
                             </div>
                             </div>
                           </div>
