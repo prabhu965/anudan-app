@@ -28,10 +28,10 @@
                         (click)="manageDisbursement(disbursement)"
                       >
                         <div class="col-9 mb-1 search-context px-0">
-                          <div *ngIf="disbursement.disabledByAmendment" class="mb-0 text-red text-left mt-2" style="font-weight: 600; font-size: 12px">
+                          <!-- <div *ngIf="disbursement.disabledByAmendment" class="mb-0 text-red text-left mt-2" style="font-weight: 600; font-size: 12px">
                             Underlying grant has been amended. Please check if this
                             disbursement is still valid
-                          </div>
+                          </div> -->
                           
                           <div class="text-subheader text-left mb-0 mt-2 ml-3">
                            <div class="mb-1"><span>{{ (disbursement.grant.referenceNo? disbursement.grant.referenceNo + " | ": "") + disbursement.grant.name}}</span></div>

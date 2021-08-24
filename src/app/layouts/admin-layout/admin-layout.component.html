@@ -239,6 +239,11 @@
       <span style="color: #f4f4f4"> > </span>
       <ng-container *ngIf="currentReport">
         <div class="m-1" style="color: #fff; max-width: 500px">
+          <ng-container *ngIf="currentReport.status.internalStatus!=='CLOSED' && currentReport.disabledByAmendment">
+            <p class="mb-0 text-red text-left"
+            style="font-weight: 600; font-size: 12px">
+            Underlying grant has been amended. Please check if this report is still valid.</p>
+          </ng-container>
           {{ currentReport.name }}
         </div>
       </ng-container>
@@ -298,7 +303,7 @@
       >
         <div class="m-1" style="color: #fff; max-width: 500px">
           <p
-            *ngIf="currentDisbursement.disabledByAmendment"
+            *ngIf="currentDisbursement.disabledByAmendment && currentDisbursement.status.internalStatus!=='CLOSED'"
             class="mb-0 text-red text-left"
             style="font-weight: 600; font-size: 12px"
           >
@@ -317,7 +322,7 @@
       >
         <div class="m-1" style="color: #fff; max-width: 500px">
           <p
-            *ngIf="currentDisbursement.disabledByAmendment"
+            *ngIf="currentDisbursement.disabledByAmendment && currentDisbursement.status.internalStatus!=='CLOSED'"
             class="mb-0 text-red text-left"
             style="font-weight: 600; font-size: 12px"
           >
