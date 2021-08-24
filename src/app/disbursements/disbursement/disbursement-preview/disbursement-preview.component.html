@@ -560,17 +560,17 @@
             class="col-12 px-0 mx-2 mt-3 mb-2"
           >
             <p class="text-header">Record Disbursement</p>
-            <p
+            <!-- <p
               *ngIf="currentDisbursement.disabledByAmendment"
               class="mb-0 text-red text-left"
               style="font-weight: 400; font-size: 12px"
             >
               Cannot record actual disbursements because the reference Grant has
               been amended or closed.
-            </p>
+            </p> -->
             <table
               #tablePlaceholder
-              *ngIf="!currentDisbursement.disabledByAmendment"
+              
               width="100%"
               class="disbursements-class"
             >
@@ -635,7 +635,7 @@
                         [(ngModel)]="actual.stDisbursementDate"
                         (click)="openDate(actual, $event,i)"
                         style="cursor: pointer"
-                        [disabled]="currentDisbursement.disabledByAmendment"
+                        
                       />
                       <mat-icon
                         *ngIf="
@@ -690,7 +690,7 @@
                         (blur)="showFormattedAmount($event)"
                         type="number"
                         (keypress)="amountValidator.validatePositive($event)"
-                        [disabled]="currentDisbursement.disabledByAmendment"
+                        
                       />
                       <p
                         [id]="'label_' + actual.id"
@@ -712,7 +712,7 @@
                         matInput
                         class="anu-input"
                         [(ngModel)]="actual.note"
-                        [disabled]="currentDisbursement.disabledByAmendment"
+                        
                       />
                     </mat-form-field>
                   </td>
@@ -738,8 +738,7 @@
           </div>
           <div
             *ngIf="
-              currentDisbursement.canRecordActuals &&
-              !currentDisbursement.disabledByAmendment
+              currentDisbursement.canRecordActuals 
             "
             class="col-12 mt-2"
           >
@@ -753,8 +752,7 @@
 
           <div
             *ngIf="
-              currentDisbursement.canRecordActuals &&
-              !currentDisbursement.disabledByAmendment
+              currentDisbursement.canRecordActuals 
             "
             class="col-12 text-left mt-4"
           >
