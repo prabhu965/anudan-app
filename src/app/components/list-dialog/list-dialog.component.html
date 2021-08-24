@@ -80,7 +80,7 @@
                         ₹
                         <span class="text-header mr-4 search-context">{{
                           getFormattedGrantAmount(grant.amount)
-                        }}</span><span class="text-subheader">{{getGrantAmountInWords(grant.amount)}}</span>
+                        }}</span><span class="text-subheader"><small>{{getGrantAmountInWords(grant.amount)}}</small></span>
                       </div>
                     </div>
                   </div>
@@ -199,9 +199,9 @@
             <span
             >{{ getFormattedGrantAmount(report.grant.amount) }}
           </span>
-          &nbsp;&nbsp;<span>({{
+          &nbsp;&nbsp;<span class="text-subheader"><small>({{
             getGrantAmountInWords(report.grant.amount)
-          }})</span>
+          }})</small></span>
           </div>
           
         </div>
@@ -305,7 +305,7 @@
 
                  <div class="mt-1">
                   <span>{{currenyService.getFormattedAmount(disbursement.grant.amount)}}</span>
-                    &nbsp;&nbsp;<span>({{currenyService.getAmountInWords(disbursement.grant.amount)}})</span>
+                    &nbsp;&nbsp;<span class="text-subheader"><small>({{currenyService.getAmountInWords(disbursement.grant.amount)}})</small></span>
                   </div>
                 </div>
               </div>
@@ -328,12 +328,12 @@
                         currenyService.getFormattedAmount(
                           disbursement.requestedAmount
                         )
-                      }}</span>&nbsp;&nbsp;<span class="text-subheader ml-3">
+                      }}</span>&nbsp;&nbsp;<span class="text-subheader ml-3"><small>
                     {{
                       currenyService.getAmountInWords(
                         disbursement.requestedAmount
                       )
-                    }}</span>
+                    }}</small></span>
                   </div>
                   </div>
                 </div>

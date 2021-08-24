@@ -98,7 +98,7 @@
                         ₹
                         <span class="text-header mr-4 search-context">{{
                           getFormattedGrantAmount(grant.amount)
-                        }}</span><span class="text-subheader">{{getGrantAmountInWords(grant.amount)}}</span>
+                        }}</span><span class="text-subheader"><small>{{getGrantAmountInWords(grant.amount)}}</small></span>
                       </div>
                     </div>
                   </div>
@@ -110,7 +110,7 @@
                       {{ grant.startDate | date: "dd-MMM-yyyy" }}
                       -
                       {{ grant.endDate | date: "dd-MMM-yyyy" }}
-                      <small class="ml-2 text subheader">({{ data.getDateDuration(grant) }})</small>
+                      <span class="text-subheader"><small class="ml-2">({{ data.getDateDuration(grant) }})</small></span>
                     </p>
                     
                   </div>

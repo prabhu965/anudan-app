@@ -351,7 +351,7 @@ body {
   background: #fff;
   border-radius: 4px;
   border: 1px solid #acacac;
-  margin-top: 20px;
+  margin-top: 25px;
   border-radius: 8px;
   position: relative;
 }
@@ -1241,4 +1241,12 @@ mat-icon:hover{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.closed-state-owner{
+  font-size: 14px !important;
+  font-weight: normal;
+  text-transform: capitalize;
+  background: #d4d4d4 !important;
+  text-align: left;
 }

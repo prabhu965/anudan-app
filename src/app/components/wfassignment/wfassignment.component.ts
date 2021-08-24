@@ -1,3 +1,4 @@
+import { Grant } from './../../model/dahsboard';
 import { Report } from './../../model/report';
 import { Component, Inject, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatButtonModule, MatDialog } from '@angular/material';
@@ -210,12 +211,33 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         const node = this.renderer.createElement('div');
                         const nodeStateName = this.renderer.createText(transition._to);
                         const stateNode = this.renderer.createElement('div');
-                        this.renderer.addClass(stateNode, 'col-12');
+
+
+
+
+                        this.renderer.addClass(stateNode, 'col-6');
                         this.renderer.addClass(stateNode, 'p-0');
-                        this.renderer.addClass(stateNode, 'text-center');
+                        this.renderer.addClass(stateNode, 'text-right');
                         this.renderer.addClass(node, this.getColorCodeByStatus(this.data.model.workflowStatuses.filter((status) => status.id === transition.toStateId)[0].internalStatus));
                         this.renderer.appendChild(stateNode, nodeStateName);
                         this.renderer.appendChild(node, stateNode);
+
+                        if (this.data.model.grant.grantStatus.internalStatus === 'CLOSED') {
+                            const ass = this.data.model.workflowAssignment.filter((assignment) => assignment.stateId === this.data.model.grant.grantStatus.id);
+                            const ownerNodeHolder = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNodeHolder, 'col-6');
+                            const ownerNode = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNode, 'px-2');
+                            this.renderer.addClass(ownerNode, 'anu-input');
+                            this.renderer.addClass(ownerNode, 'closed-state-owner');
+                            this.renderer.addClass(ownerNodeHolder, 'text-center');
+                            const ownerName = this.renderer.createText(ass[0].assignmentUser.firstName + " " + ass[0].assignmentUser.lastName);
+                            this.renderer.appendChild(ownerNode, ownerName);
+                            this.renderer.appendChild(ownerNodeHolder, ownerNode);
+                            this.renderer.appendChild(node, ownerNodeHolder);
+                        }
+
+
                         this.renderer.setAttribute(node, 'id', nodeId);
                         this.renderer.addClass(node, 'state-node');
                         this.renderer.addClass(node, 'my-5');
@@ -429,12 +451,27 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         const node = this.renderer.createElement('div');
                         const nodeStateName = this.renderer.createText(transition._to);
                         const stateNode = this.renderer.createElement('div');
-                        this.renderer.addClass(stateNode, 'col-12');
+                        this.renderer.addClass(stateNode, 'col-6');
                         this.renderer.addClass(stateNode, 'p-0');
-                        this.renderer.addClass(stateNode, 'text-center');
+                        this.renderer.addClass(stateNode, 'text-right');
                         this.renderer.addClass(node, this.getColorCodeByStatus(this.data.model.workflowStatuses.filter((status) => status.id === transition.toStateId)[0].internalStatus));
                         this.renderer.appendChild(stateNode, nodeStateName);
+
                         this.renderer.appendChild(node, stateNode);
+                        if (this.data.model.report.status.internalStatus === 'CLOSED') {
+                            const ass = this.data.model.workflowAssignments.filter((assignment) => assignment.stateId === this.data.model.report.status.id);
+                            const ownerNodeHolder = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNodeHolder, 'col-6');
+                            const ownerNode = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNode, 'px-2');
+                            this.renderer.addClass(ownerNode, 'anu-input');
+                            this.renderer.addClass(ownerNode, 'closed-state-owner');
+                            this.renderer.addClass(ownerNodeHolder, 'text-center');
+                            const ownerName = this.renderer.createText(ass[0].assignmentUser.firstName + " " + ass[0].assignmentUser.lastName);
+                            this.renderer.appendChild(ownerNode, ownerName);
+                            this.renderer.appendChild(ownerNodeHolder, ownerNode);
+                            this.renderer.appendChild(node, ownerNodeHolder);
+                        }
                         this.renderer.setAttribute(node, 'id', nodeId);
                         this.renderer.addClass(node, 'state-node');
                         this.renderer.addClass(node, 'my-5');
@@ -597,12 +634,27 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         const node = this.renderer.createElement('div');
                         const nodeStateName = this.renderer.createText(transition._to);
                         const stateNode = this.renderer.createElement('div');
-                        this.renderer.addClass(stateNode, 'col-12');
+                        this.renderer.addClass(stateNode, 'col-6');
                         this.renderer.addClass(stateNode, 'p-0');
-                        this.renderer.addClass(stateNode, 'text-center');
+                        this.renderer.addClass(stateNode, 'text-right');
                         this.renderer.addClass(node, this.getColorCodeByStatus(this.data.model.workflowStatuses.filter((status) => status.id === transition.toStateId)[0].internalStatus));
                         this.renderer.appendChild(stateNode, nodeStateName);
                         this.renderer.appendChild(node, stateNode);
+
+                        if (this.data.model.disbursement.status.internalStatus === 'CLOSED') {
+                            const ass = this.data.model.workflowAssignments.filter((assignment) => assignment.stateId === this.data.model.disbursement.status.id);
+                            const ownerNodeHolder = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNodeHolder, 'col-6');
+                            const ownerNode = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNode, 'px-2');
+                            this.renderer.addClass(ownerNode, 'anu-input');
+                            this.renderer.addClass(ownerNode, 'closed-state-owner');
+                            this.renderer.addClass(ownerNodeHolder, 'text-center');
+                            const ownerName = this.renderer.createText(ass[0].assignmentUser.firstName + " " + ass[0].assignmentUser.lastName);
+                            this.renderer.appendChild(ownerNode, ownerName);
+                            this.renderer.appendChild(ownerNodeHolder, ownerNode);
+                            this.renderer.appendChild(node, ownerNodeHolder);
+                        }
                         this.renderer.setAttribute(node, 'id', nodeId);
                         this.renderer.addClass(node, 'state-node');
                         this.renderer.addClass(node, 'my-5');
