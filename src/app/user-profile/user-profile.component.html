@@ -6,13 +6,13 @@
       </div>
       <div class="col-5 px-0 text-left">
           <label class="profile-pic-class" for="profilePic" style="cursor: pointer;">
-            <img *ngIf="user.userProfile!==null" (click)="loadImage()" class="img-fluid profile-pic-area"
+            <img *ngIf="appComp.profile!==null" (click)="loadImage()" class="img-fluid profile-pic-area"
               [src]="appComp.profile">
-              <img style="max-width: 100px;" *ngIf="user.userProfile===undefined || user.userProfile===null"
+              <img *ngIf="appComp.profile===undefined ||appComp.profile===null"
               (click)="loadImage()" class="img-fluid profile-pic-area" src="./assets/img/profile-avatar.png" style="width: 100%;height: 100%;">
           </label>
           <label for="profilePic" style="cursor: pointer;">
-            <img style="max-width: 100px;" *ngIf="user.userProfile===undefined || user.userProfile===null"
+            <img *ngIf="appComp.profile===undefined || appComp.profile===null"
               (click)="loadImage()" class="img-fluid profile-pic-area" src="./assets/img/profile-avatar.png">
           </label>
           <input id="profilePic" type="file" accept=".png,.jpg,.jpeg" (change)="processProfilePic($event)"
@@ -27,12 +27,12 @@
           <input class="anu-input" [ngModelOptions]="{standAlone: true}" [(ngModel)]="user.lastName" id="userLName"
             matInput placeholder="Last Name" type="text" value="{{user.lastName}}" (keyup)='updateProfile()'>
         </mat-form-field>
-        <div class="text-left"><label>Email Id:</label>
+        <div class="text-left"><label>Email Address</label>
         <p class="anu-input mb-0" style="background:#f4f4f4 !important;">{{user.emailId}}</p>
         <a href="#" class="text-green" style="font-weight: 500; text-decoration: underline;" data-toggle="modal" data-target="#changePwdModal">Change Password</a>
       </div>
         
-        <div class="text-left mt-4"><label>Roles:</label>
+        <div class="text-left mt-4"><label>Role(s)</label>
         <p class="anu-input" style="background:#f4f4f4 !important;">
           <ng-container *ngFor="let userRole of user.userRoles; let i = index">
             <span>{{userRole.role.name}}</span>

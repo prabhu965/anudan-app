@@ -97,14 +97,14 @@
             >notifications_none</mat-icon
           >
           <img
-            *ngIf="appComponent.loggedInUser.userProfile"
-            src="{{ appComponent.loggedInUser.userProfile }}"
+          *ngIf="appComponent.profile.length>0"
+          [src]="appComponent.profile"
             class="img-fluid w-10 mr-2 rounded-circle"
             style="width: 35px"
           />
           <img
-            *ngIf="!appComponent.loggedInUser.userProfile"
-            src="./assets/img/profile-avatar.png"
+          *ngIf="appComponent.profile.length===0"
+          src="./assets/img/profile-avatar.png"
             class="img-fluid w-10 mr-2 rounded-circle"
             style="width: 35px"
           />{{ appComponent.loggedInUser.lastName }},
