@@ -76,43 +76,23 @@
                 
               </div>
             
-              <div class="col-4 text-left"
+              <div class="col-9 text-left"
                 style="border-right: 1px solid #d4d4d4">
                 <div class="row">
-                  <div class="col-12 mt-1">
+                  <div class="col-12 mt-0">
                     <div class="row">
-                      <div class="col-12 mb-0 pr-0">
+                      <div class="col-6 mb-0 pr-0" style="border-right: 1px solid #d4d4d4">
                         ₹
-                        <span class="text-header mr-4 search-context">{{
+                        <span class="text-header mr-2 search-context">{{
                           getFormattedGrantAmount(grant.amount)
                         }}</span><span class="text-subheader"><small>{{getGrantAmountInWords(grant.amount)}}</small></span>
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-12 mt-4">
-                    <p class="mb-0 text-header">
-                      <mat-icon [inline]="true" class="mr-1"
-                        >calendar_today</mat-icon
-                      >
-                      {{ grant.startDate | date: "dd-MMM-yyyy" }}
-                      -
-                      {{ grant.endDate | date: "dd-MMM-yyyy" }}
-                      <span class="text-subheader"><small class="ml-2">({{ data.getDateDuration(grant) }})</small></span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-5">
-                <div class="row">
-                  <div class="col-12 mt-2 text-left">
-                    <div class="row">
                       <div
-                        class="col-12 text-subheader">
-                        Disbursed <small>(till date)</small>:<span class="text-header">
+                        class="col-6 text-subheader">
+                        Disbursed <small>(till date)</small>:&nbsp;&nbsp;<span class="text-header">
                           {{
                             grant.approvedDisbursementsTotal === 0
-                              ? "none"
+                              ? "None"
                               : currencyService.getFormattedAmount(
                                   grant.approvedDisbursementsTotal
                                 )
@@ -129,26 +109,35 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 mt-2 text-left">
+                  <div class="col-12 mt-0">
                     <div class="row">
-                      <div class="col-12 text-subheader" style="">
-                        Approved Reports :<span class="text-header">
-                          {{
-                            grant.approvedReportsForGrant === 0
-                              ? "none"
-                              : grant.approvedReportsForGrant
-                          }}</span>
-                      </div>
-    
+                      <div class="col-6 mb-0 pr-0" style="border-right: 1px solid #d4d4d4">&nbsp;</div>
+                      <div class="col-6 mb-0 pr-0 text-subheader">Approved Reports:&nbsp;&nbsp;<span class="text-header">
+                        {{
+                          grant.approvedReportsForGrant === 0
+                            ? "None"
+                            : grant.approvedReportsForGrant
+                        }}</span></div>
                     </div>
                   </div>
-                  <div class="col-12 mt-2 text-left">
+                  <div class="col-12 mt-0">
                     <div class="row">
-                      <div class="col-12 text-subheader" style="">
+                      <div class="col-6 mb-0 pr-0" style="border-right: 1px solid #d4d4d4">
+                        <p class="mb-0 text-header">
+                          <mat-icon [inline]="true" class="mr-1"
+                            >calendar_today</mat-icon
+                          >
+                          {{ grant.startDate | date: "dd-MMM-yyyy" }}
+                          -
+                          {{ grant.endDate | date: "dd-MMM-yyyy" }}
+                          <span class="text-subheader"><small class="ml-2">({{ data.getDateDuration(grant) }})</small></span>
+                        </p>
+                      </div>
+                      <div class="col-6 mb-0 pr-0 text-subheader">
                         Project Documents:<span class="text-header">
                           {{
                             grant.projectDocumentsCount === 0
-                              ? "none"
+                              ? "None"
                               : grant.projectDocumentsCount
                           }}</span>
                       </div>

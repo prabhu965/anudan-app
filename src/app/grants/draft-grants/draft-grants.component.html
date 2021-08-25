@@ -88,57 +88,48 @@
                 </div>
               </div>
               <div
-                class="col-4 text-left"
-                style="border-right: 1px solid #d4d4d4"
+                class="col-9 text-left"
               >
                 <div class="row">
                   <div class="col-12 mt-1">
                     <div class="row">
-                      <div class="col-12 mb-0 pr-0">
+                      <div class="col-6 mb-0 pr-0" style="border-right: 1px solid #d4d4d4">
                         ₹
-                        <span class="text-header mr-4 search-context">{{
+                        <span class="text-header mr-2 search-context">{{
                           getFormattedGrantAmount(grant.amount)
                         }}</span><span class="text-subheader"><small>{{getGrantAmountInWords(grant.amount)}}</small></span>
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-12 mt-4">
-                    <p class="mb-0 text-header">
-                      <mat-icon [inline]="true" class="mr-1"
-                        >calendar_today</mat-icon
-                      >
-                      {{ grant.startDate | date: "dd-MMM-yyyy" }}
-                      -
-                      {{ grant.endDate | date: "dd-MMM-yyyy" }}
-                      <span class="text-subheader"><small class="ml-2">({{ data.getDateDuration(grant) }})</small></span>
-                    </p>
-                    
-                  </div>
-                </div>
-              </div>
-              <div class="col-5">
-                <div class="row">
-                  <div class="col-12 mt-2 text-left">
-                    <div class="row">
-                      <div
-                        class="col-12 text-subheader">
-                        Disbursed <small>(till date)</small>:<span class="text-header">
-                          Applicable to Active grants only</span>
+                      <div class="col-6 mt-1 text-left">
+                        <div class="row">
+                          <div
+                            class="col-12 mb-0 pr-0 text-subheader">
+                           <span class="text-header">
+                              &nbsp;</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 mt-2 text-left">
+                  <div class="col-12 mt-0">
                     <div class="row">
-                      <div class="col-12 text-subheader" style="">
-                        Approved Reports :<span class="text-header">
-                          Applicable to Active grants only</span>
-                      </div>
-    
+                      <div class="col-6 mb-0 pr-0" style="border-right: 1px solid #d4d4d4">&nbsp;</div>
+                      <div class="col-6 mb-0 pr-0">&nbsp;</div>
                     </div>
                   </div>
-                  <div class="col-12 mt-2 text-left">
+                  <div class="col-12 mt-0">
                     <div class="row">
-                      <div class="col-12 text-subheader" style="">
+                      <div class="col-6 mb-0 pr-0" style="border-right: 1px solid #d4d4d4">
+                        <p class="mb-0 text-header">
+                          <mat-icon [inline]="true" class="mr-1"
+                            >calendar_today</mat-icon
+                          >
+                          {{ grant.startDate | date: "dd-MMM-yyyy" }}
+                          -
+                          {{ grant.endDate | date: "dd-MMM-yyyy" }}
+                          <span class="text-subheader"><small class="ml-2">({{ data.getDateDuration(grant) }})</small></span>
+                        </p>
+                      </div>
+                      <div class="col-6 mb-0 pr-0  text-subheader">
                         Project Documents:<span class="text-header">
                           {{
                             grant.projectDocumentsCount === 0
@@ -148,9 +139,11 @@
                       </div>
                     </div>
                     
+                    
                   </div>
                 </div>
               </div>
+              
               <div class="col-3 text-left">
                 <div class="status-indicator2">
                   <div [class]="'text-center status-icon state-'+grant.grantStatus.internalStatus.toLowerCase()">
