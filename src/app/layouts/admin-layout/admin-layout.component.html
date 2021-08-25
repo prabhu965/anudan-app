@@ -59,7 +59,7 @@
             *ngIf="appComponent.profile.length===0"
             src="./assets/img/profile-avatar.png"
             class="img-fluid w-10 mr-2 rounded-circle"
-            style="width: 35px"
+            style="width: 50px;max-width: 50px;height: 50px;object-fit: cover;"
           />{{ appComponent.loggedInUser.lastName }},
           {{ appComponent.loggedInUser.firstName }}
           <mat-icon mat-button [matMenuTriggerFor]="profilemenu"
@@ -100,13 +100,13 @@
           *ngIf="appComponent.profile.length>0"
           [src]="appComponent.profile"
             class="img-fluid w-10 mr-2 rounded-circle"
-            style="width: 35px"
+            style="width: 50px;max-width: 50px;height: 50px;object-fit: cover;"
           />
           <img
           *ngIf="appComponent.profile.length===0"
           src="./assets/img/profile-avatar.png"
             class="img-fluid w-10 mr-2 rounded-circle"
-            style="width: 35px"
+            style="width: 50px;max-width: 50px;height: 50px;object-fit: cover;"
           />{{ appComponent.loggedInUser.lastName }},
           {{ appComponent.loggedInUser.firstName }}
           <mat-icon mat-button [matMenuTriggerFor]="profilemenu"
