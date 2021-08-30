@@ -47,6 +47,18 @@
             <mat-icon class="ml-1">assignment</mat-icon>View Previous Active
             Grant
           </button>
+          <button
+            mat-menu-item
+            *ngIf="
+              
+              this.appComp.loggedInUser.organization.organizationType !==
+                'GRANTEE' && currentGrant.origGrantId
+            "
+            (click)="compareGrants(currentGrant.id,currentGrant.origGrantId)"
+            
+          >
+            <mat-icon class="ml-1">compare_arrows</mat-icon>Compare with Amended Grant
+          </button>
         </mat-menu>
       </div>
     </div>

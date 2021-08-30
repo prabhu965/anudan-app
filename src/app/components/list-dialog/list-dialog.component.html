@@ -139,7 +139,7 @@
                   <div [class]="'text-center status-icon state-'+grant.grantStatus.internalStatus.toLowerCase()">
                   </div>{{grant.grantStatus.name | uppercase}}
                 </div>
-                <div class="text-center text-subheader pl-3 mt-2">{{grant.ownerName}}</div>
+                <div class="text-center text-subheader pl-3 mt-2 search-context">{{grant.ownerName}}</div>
               </div>
               <div class="col-9"></div>
               <div *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
@@ -275,7 +275,7 @@
               <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
               </div>{{report.status.name | uppercase}}
             </div>
-            <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
+            <div class="text-center text-subheader pl-3 mt-2 search-context">{{report.ownerName}}</div>
           </div>
         </div>
       </div>
@@ -316,7 +316,7 @@
                       <div [class]="'text-center status-icon state-'+disbursement.status.internalStatus.toLowerCase()">
                       </div>{{disbursement.status.name | uppercase}}
                     </div>
-                    <div class="text-center text-subheader pl-3 mt-2">{{disbursement.ownerName}}</div>
+                    <div class="text-center text-subheader pl-3 mt-2 search-context">{{disbursement.ownerName}}</div>
                   </div>
                 </div>
               </div>

@@ -149,7 +149,7 @@
                   <div [class]="'text-center status-icon state-'+grant.grantStatus.internalStatus.toLowerCase()">
                   </div>{{grant.grantStatus.name | uppercase}}
                 </div>
-                <div class="text-center text-subheader pl-3 mt-2">{{grant.ownerName}}</div>
+                <div class="text-center text-subheader pl-3 mt-2 search-context">{{grant.ownerName}}</div>
               </div>
               <div class="col-9"></div>
               <div *ngIf="appComponent.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">

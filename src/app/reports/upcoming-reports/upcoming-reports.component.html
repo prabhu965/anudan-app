@@ -152,7 +152,7 @@
                         <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
                         </div>{{report.status.name | uppercase}}
                       </div>
-                      <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
+                      <div class="text-center text-subheader pl-3 mt-2 search-context">{{report.ownerName}}</div>
                     </div>
                   </div>
                 </div>
@@ -286,7 +286,7 @@
                       <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
                       </div>{{report.status.name | uppercase}}
                     </div>
-                    <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
+                    <div class="text-center text-subheader pl-3 mt-2 search-context">{{report.ownerName}}</div>
                   </div>
                 </div>
               </div>
@@ -417,7 +417,7 @@
                       <div [class]="'text-center status-icon state-'+(isExternalGrant(report.grant)?'ext-':'')+report.status.internalStatus.toLowerCase()">
                       </div>{{report.status.name | uppercase}}
                     </div>
-                    <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
+                    <div class="text-center text-subheader pl-3 mt-2 search-context">{{report.ownerName}}</div>
                   </div>
                 </div>
               </div>
@@ -545,7 +545,7 @@
                       <div [class]="'text-center status-icon state-'+(isExternalGrant(report.grant)?'ext-':'')+report.status.internalStatus.toLowerCase()">
                       </div>{{report.status.name | uppercase}}
                     </div>
-                    <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
+                    <div class="text-center text-subheader pl-3 mt-2 search-context">{{report.ownerName}}</div>
                   </div>
                   <div
                     class="col-12"
@@ -689,7 +689,7 @@
                       <div [class]="'text-center status-icon state-'+report.status.internalStatus.toLowerCase()">
                       </div>{{report.status.name | uppercase}}
                     </div>
-                    <div class="text-center text-subheader pl-3 mt-2">{{report.ownerName}}</div>
+                    <div class="text-center text-subheader pl-3 mt-2 search-context">{{report.ownerName}}</div>
                   </div>
                 </div>
               </div>

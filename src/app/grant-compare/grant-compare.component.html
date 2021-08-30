@@ -1,0 +1,238 @@
+<span class="" style="position:absolute; right: 20px; left: auto;top: 10px;" (click)="onNoClick()">
+  <mat-icon>close</mat-icon>
+</span>
+<h4 mat-dialog-title class="text-center" style="font-size:18px;">Comparing Grants <strong>{{newGrant.name}}</strong> and <strong>{{oldGrant.name}}</strong></h4>
+<h5 *ngIf="!grantDiff" class="text-center mt-5">There are no differences between the two grants</h5>
+<div *ngIf="grantDiff" style="background:#fff;padding:5px;overflow:none;">
+  <div *ngIf="grantDiff.oldGrantName || grantDiff.newGrantName" class="mb-2 change-box">
+    <span class="change-title">Grant name changed</span>
+    <div class="change-new" *ngIf="grantDiff.newGrantName">{{grantDiff.newGrantName}}</div>
+    <div *ngIf="grantDiff.newGrantName && !grantDiff.oldGrantName" class="text-danger"><i><small>Currently has no
+          value</small></i></div>
+    <div class="change-old" *ngIf="grantDiff.oldGrantName">{{grantDiff.oldGrantName}}</div>
+    <div *ngIf="grantDiff.oldGrantName && !grantDiff.newGrantName" class="text-white"><i><small>Previously had no
+          value</small></i></div>
+  </div>
+  <div *ngIf="grantDiff.oldGrantStartDate || grantDiff.newGrantStartDate" class="mb-2 change-box">
+    <span class="change-title">Grant start date changed</span>
+    <div class="change-new" *ngIf="grantDiff.newGrantStartDate">{{grantDiff.newGrantStartDate | date:'dd-MMM-yyyy'}}
+    </div>
+    <div *ngIf="!grantDiff.newGrantStartDate && grantDiff.oldGrantStartDate" class="text-danger"><i><small>Currently
+          has no value</small></i></div>
+    <div class="change-old" *ngIf="grantDiff.oldGrantStartDate">{{grantDiff.oldGrantStartDate | date:'dd-MMM-yyyy'}}
+    </div>
+    <div *ngIf="!grantDiff.oldGrantStartDate && grantDiff.newGrantStartDate" class="text-white"><i><small>Previously
+          had no value</small></i></div>
+  </div>
+  <div *ngIf="grantDiff.oldGrantEndDate || grantDiff.newGrantEndDate" class="mb-2 change-box">
+    <span class="change-title">Grant end date changed</span>
+    <div class="change-new" *ngIf="grantDiff.newGrantEndDate">{{grantDiff.newGrantEndDate | date:'dd-MMM-yyyy'}}
+    </div>
+    <div *ngIf="!grantDiff.newGrantEndDate && grantDiff.oldGrantEndDate" class="text-danger"><i><small>Currently has
+          no value</small></i></div>
+    <div class="change-old" *ngIf="grantDiff.oldGrantEndDate">{{grantDiff.oldGrantEndDate | date:'dd-MMM-yyyy'}}
+    </div>
+    <div *ngIf="!grantDiff.oldGrantEndDate && grantDiff.newGrantEndDate" class="text-white"><i><small>Previously had
+          no value</small></i></div>
+  </div>
+  <div *ngIf="grantDiff.oldGrantAmount || grantDiff.newGrantAmount" class="mb-2 change-box">
+    <span class="change-title">Grant amount changed</span>
+    <div class="change-new" *ngIf="grantDiff.newGrantAmount">{{grantDiff.newGrantAmount}}</div>
+    <div *ngIf="!grantDiff.newGrantAmount && grantDiff.oldGrantAmount" class="text-danger"><i><small>Currently has
+          no value</small></i></div>
+    <div class="change-old" *ngIf="grantDiff.oldGrantAmount">{{grantDiff.oldGrantAmount}}</div>
+    <div *ngIf="!grantDiff.oldGrantAmount && grantDiff.newGrantAmount" class="text-white"><i><small>Previously had
+          no value</small></i></div>
+  </div>
+  <div *ngIf="grantDiff.oldGrantee || grantDiff.newGrantee" class="mb-2 change-box">
+    <span class="change-title">Grantee changed</span>
+    <div class="change-new" *ngIf="grantDiff.newGrantee">{{grantDiff.newGrantee}}</div>
+    <div *ngIf="!grantDiff.newGrantee && grantDiff.oldGrantee" class="text-danger"><i><small>Currently has no
+          value</small></i></div>
+    <div class="change-old" *ngIf="grantDiff.oldGrantee">{{grantDiff.oldGrantee}}</div>
+    <div *ngIf="!grantDiff.oldGrantee && grantDiff.newGrantee" class="text-white"><i><small>Previously had no
+          value</small></i></div>
+  </div>
+  <div *ngIf="grantDiff.oldRep || grantDiff.newRep" class="mb-2 change-box">
+    <span class="change-title">Grantee Representative changed</span>
+    <div class="change-new" *ngIf="grantDiff.newRep">{{grantDiff.newRep}}</div>
+    <div *ngIf="!grantDiff.newRep && grantDiff.oldRep" class="text-danger"><i><small>Currently has no
+          value</small></i></div>
+    <div class="change-old" *ngIf="grantDiff.oldRep">{{grantDiff.oldRep}}</div>
+    <div *ngIf="!grantDiff.oldRep && grantDiff.newRep" class="text-white"><i><small>Previously had no
+          value</small></i></div>
+  </div>
+  <ng-container *ngIf="grantDiff.sectionDiffs">
+    <ng-container *ngFor="let sectionDiff of grantDiff.sectionDiffs">
+      <ng-container *ngIf="sectionDiff.hasSectionLevelChanges">
+        <div *ngIf="sectionDiff.oldSection && sectionDiff.newSection" class="mb-2 change-box">
+          <span class="change-title">Section name changed</span>
+          <div class="change-new">{{sectionDiff.newSection.name}}</div>
+          <div class="change-old">{{sectionDiff.oldSection.name}}</div>
+        </div>
+        <div *ngIf="sectionDiff.oldSection && !sectionDiff.newSection" class="mb-2 change-box">
+          <span class="change-title">Existing section deleted</span>
+          <div class="change-delete">{{sectionDiff.oldSection.name}}</div>
+        </div>
+        <div *ngIf="!sectionDiff.oldSection && sectionDiff.newSection" class="mb-2 change-box">
+          <span class="change-title">New section added:</span>
+          <div class="change-new">{{sectionDiff.newSection.name}}</div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!sectionDiff.hasSectionLevelChanges">
+        <ng-container *ngIf="sectionDiff.attributesDiffs">
+          <ng-container *ngFor="let attrDiff of sectionDiff.attributesDiffs">
+            <div *ngIf="attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
+              <span class="change-title">Field changes in section <b>{{attrDiff.section}}</b></span>
+              <div class="row change-new m-0" style="display: flex;">
+                <div class="col-4"><label class="mb-0">Title:</label>
+                  <p>{{attrDiff.newAttribute.name}}</p>
+                </div>
+                <div class="col-2"><label class="mb-0">Type:</label>
+                  <p>{{getType(attrDiff.newAttribute.type)}}</p>
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='multiline'" class="col-6"><label class="mb-0">Field Value:</label>
+                  <pre>{{attrDiff.newAttribute.value}}</pre>
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='kpi'" class="col-3">
+                  <label class="mb-0">Target/Goal:</label>
+                  <p>{{attrDiff.newAttribute.target}}</p>
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='kpi'" class="col-3">
+                  <label class="mb-0">Frequency:</label>
+                  <p *ngIf="attrDiff.newAttribute.frequency!=='half-yearly'">
+                    {{attrDiff.newAttribute.frequency | titlecase}}</p>
+                  <p *ngIf="attrDiff.newAttribute.frequency==='half-yearly'">Half Yearly</p>
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='table'" class="col-12"
+                  [innerHTML]="getTabularData(attrDiff.newAttribute.tableValue)">
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='disbursement'" class="col-12"
+                  [innerHTML]="getDisbursementTabularData(attrDiff.newAttribute.tableValue)">
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='document'" class="col-12">
+                  <ul>
+                    <li *ngFor="let doc of getDocumentName(attrDiff.newAttribute.value)">
+                      {{doc.name}}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="row change-old m-0" style="display: flex;">
+                <div class="col-4"><label class="mb-0">Title:</label>
+                  <p>{{attrDiff.oldAttribute.name}}</p>
+                </div>
+                <div class="col-2"><label class="mb-0">Type:</label>
+                  <p>{{getType(attrDiff.oldAttribute.type)}}</p>
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='multiline'" class="col-6"><label class="mb-0">Field Value:</label>
+                  <pre>{{attrDiff.oldAttribute.value}}</pre>
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='kpi'" class="col-3">
+                  <label class="mb-0">Target/Goal:</label>
+                  <p>{{attrDiff.oldAttribute.target}}</p>
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='kpi'" class="col-3">
+                  <label class="mb-0">Frequency:</label>
+                  <p *ngIf="attrDiff.oldAttribute.frequency!=='half-yearly'">
+                    {{attrDiff.oldAttribute.frequency | titlecase}}</p>
+                  <p *ngIf="attrDiff.oldAttribute.frequency==='half-yearly'">Half Yearly</p>
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='table'" class="col-12"
+                  [innerHTML]="getTabularData(attrDiff.oldAttribute.tableValue)">
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='disbursement'" class="col-12"
+                  [innerHTML]="getDisbursementTabularData(attrDiff.oldAttribute.tableValue)">
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='document'" class="col-12">
+                  <ul>
+                    <li *ngFor="let doc of getDocumentName(attrDiff.oldAttribute.value)">
+                      {{doc.name}}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="attrDiff.oldAttribute && !attrDiff.newAttribute" class="mb-2 change-box">
+              <span class="change-title">Field deleted in section <b>{{attrDiff.section}}</b></span>
+              <div class="row change-delete m-0" style="display: flex;">
+                <div class="col-4"><label class="mb-0">Title:</label>
+                  <p>{{attrDiff.oldAttribute.name}}</p>
+                </div>
+                <div class="col-2"><label class="mb-0">Type:</label>
+                  <p>{{getType(attrDiff.oldAttribute.type)}}</p>
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='multiline'" class="col-6"><label class="mb-0">Field Value:</label>
+                  <pre>{{attrDiff.oldAttribute.value}}</pre>
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='kpi'" class="col-3">
+                  <label class="mb-0">Target/Goal:</label>
+                  <p>{{attrDiff.oldAttribute.target}}</p>
+                </div>
+                <div *ngIf="attrDiff && attrDiff.oldAttribute && attrDiff.oldAttribute.type==='kpi'" class="col-3">
+                  <label class="mb-0">Frequency:</label>
+                  <p *ngIf="attrDiff.newAttribute && attrDiff.newAttribute.frequency!=='half-yearly'">
+                    {{attrDiff.newAttribute.frequency | titlecase}}</p>
+                  <p *ngIf="attrDiff.newAttribute && attrDiff.newAttribute.frequency==='half-yearly'">Half Yearly</p>
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='table'" class="col-12"
+                  [innerHTML]="getTabularData(attrDiff.oldAttribute.tableValue)">
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='disbursement'" class="col-12"
+                  [innerHTML]="getDisbursementTabularData(attrDiff.oldAttribute.tableValue)">
+                </div>
+                <div *ngIf="attrDiff.oldAttribute.type==='document'" class="col-12">
+                  <ul>
+                    <li *ngFor="let doc of getDocumentName(attrDiff.oldAttribute.value)">
+                      {{doc.name}}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
+              <span class="change-title">Field added in section <b>{{attrDiff.section}}</b></span>
+              <div class="row change-new m-0" style="display: flex;">
+                <div class="col-4"><label class="mb-0">Field Name:</label>
+                  <p>{{attrDiff.newAttribute.name}}</p>
+                </div>
+                <div class="col-2"><label class="mb-0">Field Type:</label>
+                  <p>{{getType(attrDiff.newAttribute.type)}}</p>
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='multiline'" class="col-6"><label class="mb-0">Field Value:</label>
+                  <pre>{{attrDiff.newAttribute.value}}</pre>
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='kpi'" class="col-3">
+                  <label class="mb-0">Target/Goal:</label>
+                  <p>{{attrDiff.newAttribute.target}}</p>
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='kpi'" class="col-3">
+                  <label class="mb-0">Frequency:</label>
+                  <p *ngIf="attrDiff.newAttribute.frequency!=='half-yearly'">
+                    {{attrDiff.newAttribute.frequency | titlecase}}</p>
+                  <p *ngIf="attrDiff.newAttribute.frequency==='half-yearly'">Half Yearly</p>
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='table'" class="col-12"
+                  [innerHTML]="getTabularData(attrDiff.newAttribute.tableValue)">
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='disbursement'" class="col-12"
+                  [innerHTML]="getDisbursementTabularData(attrDiff.newAttribute.tableValue)">
+                </div>
+                <div *ngIf="attrDiff.newAttribute.type==='document'" class="col-12">
+                  <ul>
+                    <li *ngFor="let doc of getDocumentName(attrDiff.newAttribute.value)">
+                      {{doc.name}}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+
+
+</div>

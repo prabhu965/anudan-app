@@ -50,6 +50,8 @@ import { OwnersPopupComponent } from './components/owners-popup/owners-popup.com
 import { ProjectDocumentsComponent } from './components/project-documents/project-documents.component';
 import { NocookieComponent } from './nocookie/nocookie.component';
 import { NgxMarkjsModule } from 'ngx-markjs';
+import { GrantCompareComponent } from './grant-compare/grant-compare.component';
+
 
 export class AnudanErrorHandler implements ErrorHandler {
   constructor() { }
@@ -97,6 +99,7 @@ export function provideConfig() {
     OwnersPopupComponent,
     NotificationspopupComponent,
     NocookieComponent,
+    GrantCompareComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -160,7 +163,7 @@ export function provideConfig() {
     MatMenuModule,
     { provide: ErrorHandler, useClass: AnudanErrorHandler }
   ],
-  entryComponents: [WfassignmentComponent, GranthistoryComponent, NotificationspopupComponent, MessagingComponent, FieldDialogComponent, OwnersPopupComponent, ProjectDocumentsComponent],
+  entryComponents: [WfassignmentComponent, GranthistoryComponent, NotificationspopupComponent, MessagingComponent, FieldDialogComponent, OwnersPopupComponent, ProjectDocumentsComponent, GrantCompareComponent],
   schemas: [NO_ERRORS_SCHEMA],
   bootstrap: [AppComponent]
 })

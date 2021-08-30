@@ -1,3 +1,5 @@
+import { GrantCompareComponent } from './../../grant-compare/grant-compare.component';
+import { GrantApiService } from './../../grant-api.service';
 import { GrantTag, OrgTag } from './../../model/dahsboard';
 import { AdminService } from './../../admin.service';
 import { GrantTagsComponent } from './../../grant-tags/grant-tags.component';
@@ -192,7 +194,9 @@ export class BasicComponent implements OnInit {
     private sectionsRef: SectionsComponent,
     private titlecasePipe: TitleCasePipe,
     public amountValidator: AmountValidator,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private grantApiService: GrantApiService,
+
   ) {
     this.colors = new Colors();
     this.route.params.subscribe((p) => {
@@ -1684,5 +1688,15 @@ export class BasicComponent implements OnInit {
         panelClass: "center-class",
       });
     }
+  }
+
+  compareGrants(currentGrantId, origGrantId) {
+    this.grantApiService.compareGrants(currentGrantId, origGrantId, this.appComp.loggedInUser.id).then((grantsToCompare: any[]) => {
+      console.log(grantsToCompare);
+      const dg = this.dialog.open(GrantCompareComponent, {
+        data: grantsToCompare,
+        panelClass: "wf-assignment-class",
+      });
+    });
   }
 }

@@ -648,34 +648,40 @@ font-white {
 }
 
 .change-box {
-  border: 1px solid #d8d8d8 !important;
+  /* border: 1px solid #d8d8d8 !important; */
   padding: 5px;
-  background: #404450 !important;
+  color: #404450 !important;
+  background: #fff;
 }
 
 .change-title {
-  color: #fff;
+  color: #404450;
   font-style: italic;
 }
 
 .change-new {
-  border-left: 6px solid #009900 !important;
+  border-left: 10px solid #009900 !important;
   padding-left: 5px;
-  margin-bottom: 5px !important;
+  margin-bottom: 0 !important;
   background: #f7fff4 !important;
   padding-bottom: 5px;
+  border-right: 1px solid #d8d8d8 !important;
+  border-top: 1px solid #d8d8d8 !important;
 }
 
 .change-old {
-  border-left: 6px solid #dbdb70 !important;
+  border-left: 10px solid #dbdb70 !important;
   padding-left: 5px;
-  margin-top: 5px !important;
-  background: #fffeed !important;
+  margin-top: 0 !important;
+  background: #f1f1f1 !important;
   padding-bottom: 5px;
+  padding-top: 5px;
+  border-right: 1px solid #d8d8d8 !important;
+  border-bottom: 1px solid #d8d8d8 !important;
 }
 
 .change-delete {
-  border-left: 6px solid #dc143c !important;
+  border-left: 10px solid #dc143c !important;
   padding-left: 5px;
   background: #ffeff2 !important;
   padding-bottom: 5px;
