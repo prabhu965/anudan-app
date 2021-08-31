@@ -193,6 +193,10 @@ export class GrantCompareComponent implements OnInit {
                           }
 
                         }
+
+              if (oldAttr.order !== attr.order) {
+
+              }
             } else if (!oldAttr) {
               this._getGrantDiffSections();
               const attrDiff = new AttributeDiff();
@@ -240,6 +244,11 @@ export class GrantCompareComponent implements OnInit {
           secDiff.hasSectionLevelChanges = true;
           this.grantDiff.sectionDiffs.push(secDiff);
         }
+
+        if (oldSection.order !== section.order) {
+          this._getGrantSectionOrderDiffs();
+          this.grantDiff.orderDiffs.push({ name: section.name, type: 'new', order: section.order });
+        }
       } else {
         //resultSections.push({'order':2,'category':'Grant Details','name':'Section deleted','change':[{'old': section.sectionName,'new':''}]});
         this._getGrantDiffSections();
@@ -266,6 +275,11 @@ export class GrantCompareComponent implements OnInit {
       }
     }
 
+    if (this.grantDiff.orderDiffs && this.grantDiff.orderDiffs.length > 0) {
+      for (let sec of oldGrant.sections) {
+        this.grantDiff.orderDiffs.push({ name: sec.name, type: 'old', order: sec.order })
+      }
+    }
     this.changes.push(resultHeader);
     this.changes.push(resultSections);
     if (this.grantDiff && this.grantDiff.sectionDiffs) {
@@ -284,6 +298,14 @@ export class GrantCompareComponent implements OnInit {
     this._getGrantDiff();
     if (!this.grantDiff.sectionDiffs) {
       this.grantDiff.sectionDiffs = [];
+    }
+
+  }
+
+  _getGrantSectionOrderDiffs() {
+    this._getGrantDiff();
+    if (!this.grantDiff.orderDiffs) {
+      this.grantDiff.orderDiffs = [];
     }
 
   }

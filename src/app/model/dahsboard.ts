@@ -523,6 +523,7 @@ export class GrantDiff {
   oldRep: string;
   newRep: string;
   sectionDiffs: SectionDiff[];
+  orderDiffs: any[];
 }
 
 export class SectionDiff {
@@ -531,6 +532,7 @@ export class SectionDiff {
   oldSection: any;
   newSection: any;
   attributesDiffs: AttributeDiff[];
+  attributeOrderDiffs: any[];
 }
 export class AttributeDiff {
   section: string;

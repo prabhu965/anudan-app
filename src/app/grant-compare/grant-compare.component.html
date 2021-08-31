@@ -11,7 +11,7 @@
 <h5 *ngIf="!grantDiff" class="text-center mt-5">There are no differences between the two grants</h5>
 <div *ngIf="grantDiff" style="background: rgb(255, 255, 255);padding: 5px;overflow-y: scroll;height: calc(100vh - 248px);">
   <div *ngIf="grantDiff.oldGrantName || grantDiff.newGrantName" class="mb-2 change-box">
-    <span class="change-title"><span>Grant Header Change | </span>Name changed</span>
+    <span class="change-title"><span>Grant Header | </span>Name changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantName">{{grantDiff.newGrantName}}</div>
     <div *ngIf="grantDiff.newGrantName && !grantDiff.oldGrantName" class="text-danger"><i><small>Currently has no
           value</small></i></div>
@@ -20,7 +20,7 @@
           value</small></i></div>
   </div>
   <div *ngIf="grantDiff.oldGrantStartDate || grantDiff.newGrantStartDate" class="mb-2 change-box">
-    <span class="change-title"><span>Grant Header Change | </span>Start date changed</span>
+    <span class="change-title"><span>Grant Header | </span>Start date changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantStartDate">{{grantDiff.newGrantStartDate | date:'dd-MMM-yyyy'}}
     </div>
     <div *ngIf="!grantDiff.newGrantStartDate && grantDiff.oldGrantStartDate" class="text-danger"><i><small>Currently
@@ -31,7 +31,7 @@
           had no value</small></i></div>
   </div>
   <div *ngIf="grantDiff.oldGrantEndDate || grantDiff.newGrantEndDate" class="mb-2 change-box">
-    <span class="change-title"><span>Grant Header Change | </span>End date changed</span>
+    <span class="change-title"><span>Grant Header | </span>End date changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantEndDate">{{grantDiff.newGrantEndDate | date:'dd-MMM-yyyy'}}
     </div>
     <div *ngIf="!grantDiff.newGrantEndDate && grantDiff.oldGrantEndDate" class="text-danger"><i><small>Currently has
@@ -42,7 +42,7 @@
           no value</small></i></div>
   </div>
   <div *ngIf="grantDiff.oldGrantAmount || grantDiff.newGrantAmount" class="mb-2 change-box">
-    <span class="change-title"><span>Grant Header Change | </span>Amount changed</span>
+    <span class="change-title"><span>Grant Header | </span>Amount changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantAmount">{{currencyService.getFormattedAmount(grantDiff.newGrantAmount)}}</div>
     <div *ngIf="!grantDiff.newGrantAmount && grantDiff.oldGrantAmount" class="text-danger"><i><small>Currently has
           no value</small></i></div>
@@ -51,7 +51,7 @@
           no value</small></i></div>
   </div>
   <div *ngIf="grantDiff.oldGrantee || grantDiff.newGrantee" class="mb-2 change-box">
-    <span class="change-title"><span>Grant Header Change | </span>Implementing organization changed</span>
+    <span class="change-title"><span>Grant Header | </span>Implementing organization changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantee">{{grantDiff.newGrantee}}</div>
     <div *ngIf="!grantDiff.newGrantee && grantDiff.oldGrantee" class="text-danger"><i><small>Currently has no
           value</small></i></div>
@@ -60,7 +60,7 @@
           value</small></i></div>
   </div>
   <div *ngIf="grantDiff.oldRep || grantDiff.newRep" class="mb-2 change-box">
-    <span class="change-title"><span>Grant Header Change | </span>Implementing Organization Representative changed</span>
+    <span class="change-title"><span>Grant Header | </span>Implementing Organization Representative changed</span>
     <div class="change-new" *ngIf="grantDiff.newRep">{{grantDiff.newRep}}</div>
     <div *ngIf="!grantDiff.newRep && grantDiff.oldRep" class="text-danger"><i><small>Currently has no
           value</small></i></div>
@@ -68,20 +68,41 @@
     <div *ngIf="!grantDiff.oldRep && grantDiff.newRep" class="text-white"><i><small>Previously had no
           value</small></i></div>
   </div>
+
+  <ng-container *ngIf="grantDiff.orderDiffs && grantDiff.orderDiffs.length>0">
+    <div class="mb-2 change-box">
+      <span class="change-title"><span>Grant Details | </span>Section order changes</span>
+      <div class="change-new">
+        <ng-container *ngFor="let diff of grantDiff.orderDiffs;let i=index;">
+            <ng-container *ngIf="diff.type==='new'">
+            <p class="mb-0">{{diff.name}}</p>
+          </ng-container>
+      </ng-container>
+      </div>
+      <div class="change-old">
+        <ng-container *ngFor="let diff of grantDiff.orderDiffs;let j=index">
+            <ng-container *ngIf="diff.type==='old'">
+            <p class="mb-0">{{diff.name}}</p>
+          </ng-container>
+      </ng-container>
+      </div>
+    </div>
+  </ng-container>
+
   <ng-container *ngIf="grantDiff.sectionDiffs">
     <ng-container *ngFor="let sectionDiff of grantDiff.sectionDiffs">
       <ng-container *ngIf="sectionDiff.hasSectionLevelChanges">
         <div *ngIf="sectionDiff.oldSection && sectionDiff.newSection" class="mb-2 change-box">
-          <span class="change-title"><span>Grant Details Change | </span>Name changed</span>
+          <span class="change-title"><span>Grant Details | </span>Name changed</span>
           <div class="change-new">{{sectionDiff.newSection.name}}</div>
           <div class="change-old">{{sectionDiff.oldSection.name}}</div>
         </div>
         <div *ngIf="sectionDiff.oldSection && !sectionDiff.newSection" class="mb-2 change-box">
-          <span class="change-title"><span>Grant Details Change | </span>Existing section deleted</span>
+          <span class="change-title"><span>Grant Details | </span>Existing section deleted</span>
           <div class="change-delete">{{sectionDiff.oldSection.name}}</div>
         </div>
         <div *ngIf="!sectionDiff.oldSection && sectionDiff.newSection" class="mb-2 change-box">
-          <span class="change-title"><span>Grant Details Change | </span>New section added</span>
+          <span class="change-title"><span>Grant Details | </span>New section added</span>
           <div class="change-new">{{sectionDiff.newSection.name}}</div>
         </div>
       </ng-container>
@@ -89,7 +110,7 @@
         <ng-container *ngIf="sectionDiff.attributesDiffs">
           <ng-container *ngFor="let attrDiff of sectionDiff.attributesDiffs">
             <div *ngIf="attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details Change | </span>Changes in section <b>{{attrDiff.section}}</b></span>
+              <span class="change-title"><span>Grant Details | </span>Changes in section <b>{{attrDiff.section}}</b></span>
               <div class="row change-new m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.newAttribute.name}}</p>
@@ -160,7 +181,7 @@
               </div>
             </div>
             <div *ngIf="attrDiff.oldAttribute && !attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details Change | </span>Deleted in section <b>{{attrDiff.section}}</b></span>
+              <span class="change-title"><span>Grant Details | </span>Deleted in section <b>{{attrDiff.section}}</b></span>
               <div class="row change-delete m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.oldAttribute.name}}</p>
@@ -197,7 +218,7 @@
               </div>
             </div>
             <div *ngIf="!attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details Change | </span>Added in section <b>{{attrDiff.section}}</b></span>
+              <span class="change-title"><span>Grant Details | </span>Added in section <b>{{attrDiff.section}}</b></span>
               <div class="row change-new m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.newAttribute.name}}</p>
