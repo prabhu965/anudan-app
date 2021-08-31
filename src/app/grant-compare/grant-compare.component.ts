@@ -1,3 +1,4 @@
+import { CurrencyService } from './../currency-service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Grant, GrantDiff, SectionDiff, AttributeDiff } from './../model/dahsboard';
 import { Component, Input, OnInit, Inject } from '@angular/core';
@@ -17,10 +18,9 @@ export class GrantCompareComponent implements OnInit {
   grantDiff: GrantDiff;
 
   constructor(public dialogRef: MatDialogRef<GrantCompareComponent>
-    , @Inject(MAT_DIALOG_DATA) public grantsToCompare: Grant[]) {
+    , @Inject(MAT_DIALOG_DATA) public grantsToCompare: Grant[], public currencyService: CurrencyService) {
     this.newGrant = grantsToCompare[0];
     this.oldGrant = grantsToCompare[1];
-    debugger;
     const difference = deepDiff.detailedDiff(this.oldGrant, this.newGrant);
     console.log(difference);
   }

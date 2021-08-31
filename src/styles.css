@@ -659,21 +659,28 @@ font-white {
   font-style: italic;
 }
 
+.change-title > span{
+  font-weight: 400;
+  text-transform: none;
+  text-decoration: blink;
+  font-style: normal;
+}
+
 .change-new {
   border-left: 10px solid #009900 !important;
   padding-left: 5px;
   margin-bottom: 0 !important;
-  background: #f7fff4 !important;
+  background: #fff !important;
   padding-bottom: 5px;
   border-right: 1px solid #d8d8d8 !important;
   border-top: 1px solid #d8d8d8 !important;
 }
 
 .change-old {
-  border-left: 10px solid #dbdb70 !important;
+  border-left: 10px solid #4b4b4b !important;
   padding-left: 5px;
   margin-top: 0 !important;
-  background: #f1f1f1 !important;
+  background: rgb(240, 240, 240) !important;
   padding-bottom: 5px;
   padding-top: 5px;
   border-right: 1px solid #d8d8d8 !important;
