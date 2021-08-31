@@ -8,7 +8,12 @@ import * as inf from 'indian-number-format';
 @Component({
   selector: 'app-grant-compare',
   templateUrl: './grant-compare.component.html',
-  styleUrls: ['./grant-compare.component.scss']
+  styleUrls: ['./grant-compare.component.scss'],
+  styles: [`
+    ::ng-deep .wf-assignment-class .mat-dialog-container{
+      overflow: hidden !important;
+    }
+  `]
 })
 export class GrantCompareComponent implements OnInit {
 
@@ -309,7 +314,7 @@ export class GrantCompareComponent implements OnInit {
   }
 
   getTabularData(data) {
-    let html = '<table width="100%" border="1"><tr>';
+    let html = '<table width="100%" border="1" class="bg-white"><tr>';
     const tabData = data;
     html += '<td>' + (tabData[0].header ? tabData[0].header : '') + '</td>';
     for (let i = 0; i < tabData[0].columns.length; i++) {
@@ -338,7 +343,7 @@ export class GrantCompareComponent implements OnInit {
   }
 
   getDisbursementTabularData(data) {
-    let html = '<table width="100%" border="1"><tr>';
+    let html = '<table width="100%" border="1" class="bg-white"><tr>';
     const tabData = data;
     html += '<td>' + (tabData[0].header ? tabData[0].header : '') + '</td>';
     for (let i = 0; i < tabData[0].columns.length; i++) {

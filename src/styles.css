@@ -407,6 +407,10 @@ input:-internal-autofill-selected {
   background-color: #39743c !important;
 }
 
+.bg-white{
+  background: #fff;
+}
+
 font-white {
   color: #fff !important;
 }
