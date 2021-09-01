@@ -89,6 +89,30 @@
     </div>
   </ng-container>
 
+  <ng-container *ngIf="grantDiff.attributeOrderDiffs && grantDiff.attributeOrderDiffs.length>0">
+    
+      <ng-container *ngFor="let diff of grantDiff.attributeOrderDiffs">
+        <div class="mb-2 change-box">
+      <span class="change-title"><span>Grant Details | </span>Field order changes in section <strong>{{diff.name}}</strong></span>
+      <div class="change-new">
+        <ng-container *ngFor="let attrDiff of diff.attributes;let i=index;">
+            <ng-container *ngIf="attrDiff.type==='new'">
+            <p class="mb-0">{{attrDiff.name}}</p>
+          </ng-container>
+      </ng-container>
+      </div>
+      <div class="change-old">
+        <ng-container *ngFor="let attrDiff of diff.attributes;let j=index">
+            <ng-container *ngIf="attrDiff.type==='old'">
+            <p class="mb-0">{{attrDiff.name}}</p>
+          </ng-container>
+      </ng-container>
+      </div>
+    </div>
+    </ng-container>
+    
+  </ng-container>
+
   <ng-container *ngIf="grantDiff.sectionDiffs">
     <ng-container *ngFor="let sectionDiff of grantDiff.sectionDiffs">
       <ng-container *ngIf="sectionDiff.hasSectionLevelChanges">

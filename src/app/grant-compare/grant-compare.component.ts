@@ -179,7 +179,7 @@ export class GrantCompareComponent implements OnInit {
                                   if (oldAttr.tableValue[i].columns[j].name !== attr.tableValue[i].columns[j].name) {
                                     hasDifferences = true;
                                   }
-                                  if (((!oldAttr.tableValue[i].columns[j].value || oldAttr.tableValue[i].columns[j].value === null) ? "" : oldAttr.tableValue[i].columns[j].value) !== ((!attr.tableValue[i].columns[j].value || attr.tableValue[i].columns[j].value === null) ? "" : attr.tableValue[i].columns[j].value)) {
+                                  if (((!oldAttr.tableValue[i].columns[j].value || oldAttr.tableValue[i].columns[j].value === null) ? "" : oldAttr.tableValue[i].columns[j].value) !== ((!attr.tableValue[i].columns[j].value || attr.tableValue[i].columns[j].value === null || attr.tableValue[i].columns[j].value === "0") ? "" : attr.tableValue[i].columns[j].value)) {
                                     hasDifferences = true;
                                   }
                                 }
@@ -194,9 +194,6 @@ export class GrantCompareComponent implements OnInit {
 
                         }
 
-              if (oldAttr.order !== attr.order) {
-
-              }
             } else if (!oldAttr) {
               this._getGrantDiffSections();
               const attrDiff = new AttributeDiff();
@@ -211,6 +208,8 @@ export class GrantCompareComponent implements OnInit {
               this.grantDiff.sectionDiffs.push(sectionDiff);
             }
           }
+
+
 
           if (oldSection.attributes) {
             for (let attr of oldSection.attributes) {
@@ -245,9 +244,36 @@ export class GrantCompareComponent implements OnInit {
           this.grantDiff.sectionDiffs.push(secDiff);
         }
 
-        if (oldSection.order !== section.order) {
+        /* if (oldSection.order !== section.order) {
           this._getGrantSectionOrderDiffs();
           this.grantDiff.orderDiffs.push({ name: section.name, type: 'new', order: section.order });
+        } */
+
+
+        let hasDifferences = false;
+        if (section.attributes) {
+          for (let i = 0; i < section.attributes.length; i++) {
+            if (oldSection.attributes.findIndex(f => f.name === section.attributes[i].name) !== i) {
+              hasDifferences = true;
+              break;
+            }
+          }
+        }
+
+        let attrDiff = [];
+        if (hasDifferences) {
+          for (let a of section.attributes) {
+            this._getGrantSectionAttributeOrderDiffs();
+            attrDiff.push({ name: a.name, type: 'new', order: a.order });
+          }
+
+        }
+
+        if (attrDiff.length > 0) {
+          for (let oldattr of oldSection.attributes) {
+            attrDiff.push({ name: oldattr.name, type: 'old', order: oldattr.order });
+          }
+          this.grantDiff.attributeOrderDiffs.push({ name: section.name, attributes: attrDiff });
         }
       } else {
         //resultSections.push({'order':2,'category':'Grant Details','name':'Section deleted','change':[{'old': section.sectionName,'new':''}]});
@@ -275,11 +301,43 @@ export class GrantCompareComponent implements OnInit {
       }
     }
 
-    if (this.grantDiff.orderDiffs && this.grantDiff.orderDiffs.length > 0) {
+    let hasSectionDifferences = false;
+    if (newGrant.sections) {
+      for (let i = 0; i < newGrant.sections.length; i++) {
+        if (oldGrant.sections.findIndex(f => f.name === newGrant.sections[i].name) !== i) {
+          hasSectionDifferences = true;
+          break;
+        }
+      }
+    }
+
+    let secDiff = [];
+    if (hasSectionDifferences) {
+      for (let a of newGrant.sections) {
+        this._getGrantSectionOrderDiffs();
+
+        //secDiff.push({ name: a.name, type: 'new', order: a.order });
+        this.grantDiff.orderDiffs.push({ name: a.name, type: 'new', order: a.order })
+      }
+
+    }
+
+    if (this.grantDiff.orderDiffs.length > 0) {
+      for (let oldSec of oldGrant.sections) {
+        //secDiff.push({ name: oldSec.name, type: 'old', order: oldSec.order });
+        this.grantDiff.orderDiffs.push({ name: oldSec.name, type: 'old', order: oldSec.order })
+      }
+
+    }
+
+    /* if (this.grantDiff.orderDiffs && this.grantDiff.orderDiffs.length > 0) {
       for (let sec of oldGrant.sections) {
         this.grantDiff.orderDiffs.push({ name: sec.name, type: 'old', order: sec.order })
       }
-    }
+    } */
+
+
+
     this.changes.push(resultHeader);
     this.changes.push(resultSections);
     if (this.grantDiff && this.grantDiff.sectionDiffs) {
@@ -307,8 +365,15 @@ export class GrantCompareComponent implements OnInit {
     if (!this.grantDiff.orderDiffs) {
       this.grantDiff.orderDiffs = [];
     }
-
   }
+
+  _getGrantSectionAttributeOrderDiffs() {
+    this._getGrantDiff();
+    if (!this.grantDiff.attributeOrderDiffs) {
+      this.grantDiff.attributeOrderDiffs = [];
+    }
+  }
+
   saveDifferences(oldSection, oldAttr, section, attr) {
     const attrDiff = new AttributeDiff();
     attrDiff.section = section.name;
