@@ -1,3 +1,8 @@
+import { HttpHeaders } from '@angular/common/http';
+import { WfvalidationService } from './../../../wfvalidation.service';
+import { AdminService } from './../../../admin.service';
+import { GrantTagsComponent } from './../../../grant-tags/grant-tags.component';
+import { Grant, OrgTag, ColumnData } from './../../../model/dahsboard';
 import {
   Component,
   OnInit,
@@ -99,10 +104,11 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
   originalDisbursement: any;
   selectedDateField: any;
   selectedField: ActualDisbursement;
+  disableRecordButton = false;
 
   constructor(
     public disbursementService: DisbursementDataService,
-    private appComponent: AppComponent,
+    public appComponent: AppComponent,
     private titlecasePipe: TitleCasePipe,
     private adminComp: AdminLayoutComponent,
     private router: Router,
@@ -111,7 +117,9 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
     private workflowDataService: WorkflowDataService,
     private datepipe: DatePipe,
     public currencyService: CurrencyService,
-    public amountValidator: AmountValidator
+    public amountValidator: AmountValidator,
+    private adminService: AdminService,
+    private wfValidationService: WfvalidationService
   ) {
     this.disbursementService.currentMessage.subscribe(
       (disbursement) => (this.currentDisbursement = disbursement)
@@ -197,7 +205,7 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
       this.currentDisbursement.approvedActualsDibursements.length > 0
     ) {
       for (let ad of this.currentDisbursement.approvedActualsDibursements) {
-        total += ad.actualAmount;
+        total += ad.actualAmount === undefined ? 0 : ad.actualAmount;
       }
     }
     return total;
@@ -209,7 +217,7 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
       let i = 0;
       for (let col of row.columns) {
         if (i === idx) {
-          total += Number(col.value);
+          total += Number(col.value === undefined ? 0 : col.value);
         }
         i++;
       }
@@ -246,9 +254,10 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
         wfModel.workflowAssignments = this.currentDisbursement.assignments;
         wfModel.type = this.appComponent.currentView;
         wfModel.disbursement = this.currentDisbursement;
+        wfModel.disbursement.grant.isInternal = this.appComponent.grantTypes.filter(gt => this.currentDisbursement.grant.grantTypeId)[0].internal;
         wfModel.canManage = this.currentDisbursement.canManage;
         const dialogRef = this.dialog.open(WfassignmentComponent, {
-          data: { model: wfModel, userId: this.appComponent.loggedInUser.id },
+          data: { model: wfModel, userId: this.appComponent.loggedInUser.id, appComp: this.appComponent },
           panelClass: "wf-assignment-class",
         });
 
@@ -280,7 +289,8 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
   }
 
   submitDisbursement(toState: number) {
-    if (this.currentDisbursement.requestedAmount < this.getTotals()) {
+    this.disableRecordButton = true;
+    /* if (this.currentDisbursement.requestedAmount < this.getTotals()) {
       this.dialog.open(FieldDialogComponent, {
         data: {
           title:
@@ -292,10 +302,11 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
         },
         panelClass: "center-class",
       });
+      this.disableRecordButton = false;
       return;
-    }
+    } */
 
-    this.workflowDataService
+    /* this.workflowDataService
       .getDisbursementWorkflowStatuses(this.currentDisbursement)
       .then((workflowStatuses) => {
         this.appComponent.disbursementWorkflowStatuses = workflowStatuses;
@@ -316,21 +327,29 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
             data: "Approval Request has missing header information.",
             panelClass: "center-class",
           });
+          this.disableRecordButton = false;
           return;
-        }
+        } */
+
+    this.workflowDataService
+      .getDisbursementWorkflowStatuses(this.currentDisbursement)
+      .then((workflowStatuses) => {
+        this.appComponent.disbursementWorkflowStatuses = workflowStatuses;
 
         for (let assignment of this.currentDisbursement.assignments) {
           const status1 = this.appComponent.disbursementWorkflowStatuses.filter(
             (status) => status.id === assignment.stateId
           );
           if (
-            assignment.owner === null ||
-            assignment.owner === undefined ||
-            (assignment.owner === 0 && !status1[0].terminal)
+            (assignment.owner === null ||
+              assignment.owner === undefined ||
+              (assignment.owner === 0 && !status1[0].terminal) || (assignment.assignmentUser.deleted))
           ) {
             const dialogRef = this.dialog.open(FieldDialogComponent, {
               data: {
-                title: "Would you like to carry out workflow assignments?",
+                title: "Would you like to assign users responsible for this workflow?",
+                btnMain: "Assign Users",
+                btnSecondary: "Not Now"
               },
               panelClass: "center-class",
             });
@@ -339,43 +358,71 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
                 this.showWorkflowAssigmentAndSubmit(toState);
               }
             });
+            this.disableRecordButton = false;
             return;
           }
         }
 
-        this.openBottomSheetForReportNotes(toState);
-        this.wfDisabled = true;
-        return;
+
+        const params = new ColumnData();
+        params.name = "amount_to_record";
+        params.value = String(this.getTotals());
+
+        const paramsList: ColumnData[] = [];
+        paramsList.push(params);
+
+        this.wfValidationService.validateGrantWorkflow(this.currentDisbursement.id, 'DISBURSEMENT', this.appComponent.loggedInUser.id, this.currentDisbursement.status.id, toState, paramsList).then(result => {
+          this.openBottomSheetForReportNotes(toState, result);
+          this.wfDisabled = true;
+        });
       });
+
+
+
+    /* for (let i = 0; i < this.appComponent.disbursementWorkflowStatuses.length; i++) {
+      if (i < this.appComponent.disbursementWorkflowStatuses.length - 1) {
+        const prev = this.currentDisbursement.assignments.filter(a => (a.stateId === this.appComponent.disbursementWorkflowStatuses[i].id))[0];
+        const next = this.currentDisbursement.assignments.filter(a => (a.stateId === this.appComponent.disbursementWorkflowStatuses[i + 1].id))[0];
+        if (prev && next && (prev.owner === next.owner)) {
+          const dialogRef = this.dialog.open(MessagingComponent, {
+            data: "Workflow Assignemnts do not look right. Please review and fix before proceeding.",
+            panelClass: "center-class",
+          });
+          return;
+        }
+      }
+    } */
   }
 
-  openBottomSheetForReportNotes(toStateId: number): void {
-    if (
+  openBottomSheetForReportNotes(toStateId: number, result): void {
+    /* if(
       this.workflowValidationService.getStatusByStatusIdForDisbursement(
         toStateId,
         this.appComponent
       ).internalStatus === "ACTIVE" &&
-      this.currentDisbursement.requestedAmount +
+        this.currentDisbursement.requestedAmount +
         this.getApprovedActualTotals() >
         this.currentDisbursement.grant.amount
-    ) {
-      const dialogRef = this.dialog.open(MessagingComponent, {
-        data:
-          "Total requested funds for grant cannot exceed " +
-          this.currencyService.getFormattedAmount(
-            this.currentDisbursement.grant.amount
-          ),
-        panelClass: "center-class",
-      });
-      return;
-    }
+      ) {
+    const dialogRef = this.dialog.open(MessagingComponent, {
+      data:
+        "Total requested funds for grant cannot exceed " +
+        this.currencyService.getFormattedAmount(
+          this.currentDisbursement.grant.amount
+        ),
+      panelClass: "center-class",
+    });
+    this.disableRecordButton = false;
+    return;
+  } */
 
     const _bSheet = this.dialog.open(DisbursementNotesComponent, {
-      hasBackdrop: false,
+      hasBackdrop: true,
       data: {
         canManage: true,
         currentDisbursement: this.currentDisbursement,
         originalDisbursement: this.originalDisbursement,
+        validationResult: result
       },
       panelClass: "grant-notes-class",
     });
@@ -386,6 +433,7 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
       } else {
         this.wfDisabled = false;
       }
+      this.disableRecordButton = false;
     });
   }
 
@@ -426,9 +474,13 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
     this.adminComp.manageGrant(null, this.currentDisbursement.grant.id);
   }
 
-  openDate(actual: ActualDisbursement, ev: MouseEvent) {
+  openDate(actual: ActualDisbursement, ev: MouseEvent, indx: number) {
+    /* if (this.currentDisbursement.disabledByAmendment) {
+      return;
+    } */
+    const el = document.querySelector('#actual_' + indx);
     const stDateElem = this.datePicker;
-    this.selectedDateField = ev;
+    this.selectedDateField = el;
     this.selectedField = actual;
     if (!stDateElem.opened) {
       stDateElem.open();
@@ -439,18 +491,25 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
 
   setDate(ev: MatDatepickerInputEvent<any>) {
     const trgt = ev.target;
-    this.selectedDateField.target.value = this.datepipe.transform(
+    this.selectedDateField.value = this.datepipe.transform(
       trgt.value,
       "dd-MMM-yyyy"
     );
-    this.selectedField.disbursementDate = this.selectedDateField.target.value;
+    this.selectedField.disbursementDate = this.selectedDateField.value;
+    this.disbursementService.saveDisbursement(this.currentDisbursement);
+
   }
 
-  clearDate(actual: ActualDisbursement) {
+  clearDate(actual: ActualDisbursement, i) {
     actual.disbursementDate = null;
+    const el = document.querySelector('#actual_' + i);
+    (el as HTMLInputElement).value = null;
   }
 
   showAmountInput(evt: any) {
+    /* if (this.currentDisbursement.disabledByAmendment) {
+      return;
+    } */
     evt.currentTarget.style.visibility = "hidden";
     const id = evt.target.attributes.id.value.replace("label_", "");
     const inputElem = this.tablePlaceholder.nativeElement.querySelectorAll(
@@ -491,4 +550,47 @@ export class DisbursementPreviewComponent implements OnInit, OnDestroy {
       day <= today && day >= new Date(this.currentDisbursement.grant.startDate)
     );
   };
+
+  public getGrantTypeName(typeId): string {
+    return this.appComponent.grantTypes.filter(t => t.id === typeId)[0].name;
+  }
+
+  public getGrantTypeColor(typeId): any {
+    return this.appComponent.grantTypes.filter(t => t.id === typeId)[0].colorCode;
+  }
+
+  isExternalGrant(grant: Grant): boolean {
+    const grantType = this.appComponent.grantTypes.filter(gt => gt.id === grant.grantTypeId)[0];
+    if (!grantType.internal) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  showGrantTags() {
+    this.adminService.getOrgTags(this.appComponent.loggedInUser).then((tags: OrgTag[]) => {
+
+      const dg = this.dialog.open(GrantTagsComponent, {
+        data: { orgTags: tags, grantTags: this.currentDisbursement.grant.tags, grant: this.currentDisbursement.grant, appComp: this.appComponent, type: 'disbursement' },
+        panelClass: "grant-template-class"
+      });
+
+    });
+
+  }
+
+  downloadAttachment(
+    disbursementId: number,
+    docId: number,
+    docName: string,
+    docLoc: string
+  ) {
+
+    this.disbursementService.downloadAttachment(this.appComponent.loggedInUser.id,
+      this.currentDisbursement.id,
+      docName,
+      docId, docLoc
+    );
+  }
 }

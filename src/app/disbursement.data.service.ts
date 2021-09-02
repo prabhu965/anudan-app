@@ -1,5 +1,6 @@
+import { takeUntil } from 'rxjs/operators';
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import {
   Disbursement,
   DisbursementWorkflowAssignment,
@@ -12,12 +13,15 @@ import { UserService } from "./user.service";
 import { User } from "./model/user";
 import { CurrencyService } from "./currency-service";
 import { Report } from "./model/report";
+import { DatePipe } from "@angular/common";
+import { saveAs } from "file-saver";
 
 @Injectable({
   providedIn: "root",
 })
 export class DisbursementDataService {
   private messageSource = new BehaviorSubject<Disbursement>(null);
+  private ngUnsubscribe = new Subject();
   url: string = "/api/user/%USERID%/disbursements";
   months: string[] = [
     "Jan",
@@ -39,12 +43,19 @@ export class DisbursementDataService {
   constructor(
     private httpClient: HttpClient,
     public userService: UserService,
-    public currencyService: CurrencyService
-  ) {}
+    public currencyService: CurrencyService,
+    private dp: DatePipe,
+  ) { }
 
   changeMessage(message: Disbursement) {
-    if (message !== undefined) {
+    if (message !== undefined && message !== null) {
       this.setPermission(message);
+
+      if (message.actualDisbursements && message.actualDisbursements.length > 0) {
+        for (let ad of message.actualDisbursements) {
+          ad.stDisbursementDate = this.dp.transform(ad.disbursementDate, 'dd-MMM-yyyy');
+        }
+      }
       this.messageSource.next(message);
     }
   }
@@ -68,12 +79,35 @@ export class DisbursementDataService {
   }
 
   saveDisbursement(currentDisbursement: Disbursement): Promise<Disbursement> {
-    if (currentDisbursement !== undefined && currentDisbursement !== null) {
-      if (currentDisbursement.approvedActualsDibursements) {
-        currentDisbursement.approvedActualsDibursements = null;
+    const tmpDisbursement = JSON.parse(JSON.stringify(currentDisbursement));
+    if (tmpDisbursement !== undefined && tmpDisbursement !== null) {
+      if (tmpDisbursement.approvedActualsDibursements) {
+        tmpDisbursement.approvedActualsDibursements = null;
+      }
+
+      if (tmpDisbursement.actualDisbursements) {
+        for (let ad of tmpDisbursement.actualDisbursements) {
+          if (ad.disbursementDate && (typeof ad.disbursementDate === 'string') && !String(ad.disbursementDate).includes('T')) {
+            const dateParts = String(ad.disbursementDate).split("-");
+            const dt = new Date();
+            dt.setFullYear(Number(dateParts[2]));
+            const idx = this.months.indexOf(dateParts[1]);
+            dt.setMonth(idx != -1 ? idx : Number(dateParts[1]));
+            dt.setDate(Number(dateParts[0].substring(0, 2)));
+            ad.disbursementDate = dt;
+          } else if (ad.disbursementDate && (typeof ad.disbursementDate === 'string') && String(ad.disbursementDate).includes('T')) {
+            const dateParts = String(ad.disbursementDate).split("-");
+            const dt = new Date();
+            dt.setFullYear(Number(dateParts[0]));
+            const idx = this.months.indexOf(dateParts[1]);
+            dt.setMonth(idx != -1 ? idx : Number(dateParts[1]) - 1);
+            dt.setDate(Number(dateParts[2].substring(0, 2)));
+            ad.disbursementDate = dt;
+          }
+        }
       }
       return this.httpClient
-        .post(this.getUrl() + "/", currentDisbursement, this.getHeader())
+        .post(this.getUrl() + "/", tmpDisbursement, this.getHeader())
         .toPromise()
         .then<Disbursement>()
         .catch((err) => {
@@ -288,7 +322,7 @@ export class DisbursementDataService {
     }
   }
 
-  getHistory(disbursement: Disbursement): Promise<DisbursementSnapshot> {
+  getHistory(disbursement: Disbursement): Promise<any> {
     if (disbursement !== undefined && disbursement !== null) {
       return this.httpClient
         .get(
@@ -296,9 +330,28 @@ export class DisbursementDataService {
           this.getHeader()
         )
         .toPromise()
-        .then<DisbursementSnapshot>()
+        .then<any>()
         .catch((err) => {
-          return Promise.reject<DisbursementSnapshot>(
+          return Promise.reject<any>(
+            "Could not retieve Disbursement snapshot"
+          );
+        });
+    } else {
+      return Promise.resolve(null);
+    }
+  }
+
+  getPlainDisbursement(disbursement: Disbursement): Promise<any> {
+    if (disbursement !== undefined && disbursement !== null) {
+      return this.httpClient
+        .get(
+          this.getUrl() + "/compare/" + disbursement.id,
+          this.getHeader()
+        )
+        .toPromise()
+        .then<any>()
+        .catch((err) => {
+          return Promise.reject<any>(
             "Could not retieve Disbursement snapshot"
           );
         });
@@ -332,12 +385,12 @@ export class DisbursementDataService {
       return this.httpClient
         .post(
           this.getUrl() +
-            "/" +
-            disbursement.id +
-            "/flow/" +
-            fromStateId +
-            "/" +
-            toStateId,
+          "/" +
+          disbursement.id +
+          "/flow/" +
+          fromStateId +
+          "/" +
+          toStateId,
           { disbursement: disbursement, note: message },
           this.getHeader()
         )
@@ -383,10 +436,10 @@ export class DisbursementDataService {
       return this.httpClient
         .delete(
           this.getUrl() +
-            "/" +
-            disbursement.id +
-            "/actual/" +
-            actualDisbursement.id,
+          "/" +
+          disbursement.id +
+          "/actual/" +
+          actualDisbursement.id,
           this.getHeader()
         )
         .toPromise()
@@ -433,6 +486,7 @@ export class DisbursementDataService {
           d.disbursementDate === null ||
           String(d.disbursementDate).trim() === ""
         ) {
+
           return false;
         }
       }
@@ -442,8 +496,10 @@ export class DisbursementDataService {
 
   getActualDisbursementsTotal(disbursement: Disbursement): number {
     let total = 0;
-    for (let ad of disbursement.approvedActualsDibursements) {
-      total += ad.actualAmount;
+    if (disbursement.approvedActualsDibursements) {
+      for (let ad of disbursement.approvedActualsDibursements) {
+        total += ad.actualAmount === undefined ? 0 : ad.actualAmount;
+      }
     }
     return total;
   }
@@ -461,11 +517,11 @@ export class DisbursementDataService {
       return this.httpClient
         .post(
           this.getUrl() +
-            "/grant/" +
-            report.grant.id +
-            "/report/" +
-            report.id +
-            "/record",
+          "/grant/" +
+          report.grant.id +
+          "/report/" +
+          report.id +
+          "/record",
           {},
           this.getHeader()
         )
@@ -493,6 +549,32 @@ export class DisbursementDataService {
         return Promise.reject<void>(
           "Unable to create new actual disbursement entry"
         );
+      });
+  }
+
+  downloadAttachment(userId: number, disbursementId: number, docName: string, docId: number, docLoc: string): void {
+
+    const httpOptions = {
+      responseType: "blob" as "json",
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    let url =
+      "/api/user/" +
+      userId +
+      "/disbursements/" +
+      disbursementId +
+      "/file/" + docId;
+
+    this.httpClient
+      .get(url, httpOptions)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data) => {
+        saveAs(data, docName + '.' + docLoc.substring(docLoc.lastIndexOf(".") + 1));
       });
   }
 }

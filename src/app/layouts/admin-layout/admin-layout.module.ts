@@ -1,3 +1,13 @@
+import { GrantCompareComponent } from './../../grant-compare/grant-compare.component';
+import { GranteeProgressSummaryComponent } from './../../dashboard/grantee-progress-summary/grantee-progress-summary.component';
+import { GranteeSummaryCenteredComponent } from './../../dashboard/grantee-summary-centered/grantee-summary-centered.component';
+import { GranteeChartSummaryComponent } from './../../dashboard/grantee-chart-summary/grantee-chart-summary.component';
+import { GranteePortfolioSummaryComponent } from '../../dashboard/grantee-portfolio-summary/grantee-portfolio-summary.component';
+import { ListDialogComponent } from './../../components/list-dialog/list-dialog.component';
+import { MyChartSummaryComponent } from './../../dashboard/mychart-summary/mychart-summary.component';
+import { MyPortfolioSummaryComponent } from './../../dashboard/myportfolio-summary/myportfolio-summary.component';
+import { OrgTagsComponent } from './../../org-tags/org-tags.component';
+import { GrantTagsComponent } from './../../grant-tags/grant-tags.component';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -42,7 +52,8 @@ import {
     MatAutocompleteModule,
     MatMenuModule,
     MatProgressBarModule,
-    MatListModule
+    MatListModule,
+    MAT_FORM_FIELD_DEFAULT_OPTIONS
 } from '@angular/material';
 import { MatTabsModule } from '@angular/material/tabs';
 import { WelcomePopupComponent } from '../../components/welcome-popup/welcome-popup.component';
@@ -51,6 +62,7 @@ import { InviteDialogComponent } from '../../components/invite-dialog/invite-dia
 import { GrantTemplateDialogComponent } from '../../components/grant-template-dialog/grant-template-dialog.component';
 import { ReportTemplateDialogComponent } from '../../components/report-template-dialog/report-template-dialog.component';
 import { GrantSelectionDialogComponent } from '../../components/grant-selection-dialog/grant-selection-dialog.component';
+import { GranttypeSelectionDialogComponent } from '../../components/granttype-selection-dialog/granttype-selection-dialog.component';
 import { TemplateDialogComponent } from '../../components/template-dialog/template-dialog.component';
 import { BottomsheetComponent } from '../../components/bottomsheet/bottomsheet.component';
 import { BottomsheetAttachmentsComponent } from '../../components/bottomsheetAttachments/bottomsheetAttachments.component';
@@ -94,6 +106,8 @@ import { ClosedDisbursementsComponent } from 'app/disbursements/closed-disbursem
 import { DisbursementComponent } from 'app/disbursements/disbursement/disbursement.component';
 import { DisbursementPreviewComponent } from 'app/disbursements/disbursement/disbursement-preview/disbursement-preview.component';
 import { DisbursementNotesComponent } from 'app/components/disbursementNotes/disbursementNotes.component';
+import { DataApiComponent } from 'app/data-api/data-api.component';
+import { SearchFilterComponent } from './search-filter/search-filter.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -132,9 +146,15 @@ import { DisbursementNotesComponent } from 'app/components/disbursementNotes/dis
         DashboardComponent,
         SummaryComponent,
         SummaryCenteredComponent,
+        GranteeSummaryCenteredComponent,
         ProgressSummaryComponent,
+        GranteeProgressSummaryComponent,
         ChartSummaryComponent,
         PortfolioSummaryComponent,
+        MyPortfolioSummaryComponent,
+        GranteePortfolioSummaryComponent,
+        MyChartSummaryComponent,
+        GranteeChartSummaryComponent,
         GrantsComponent,
         DraftGrantsComponent,
         ActiveGrantsComponent,
@@ -159,6 +179,8 @@ import { DisbursementNotesComponent } from 'app/components/disbursementNotes/dis
         GrantTemplateDialogComponent,
         ReportTemplateDialogComponent,
         GrantSelectionDialogComponent,
+        ListDialogComponent,
+        GranttypeSelectionDialogComponent,
         TemplateDialogComponent,
         BottomsheetComponent,
         BottomsheetAttachmentsComponent,
@@ -189,10 +211,16 @@ import { DisbursementNotesComponent } from 'app/components/disbursementNotes/dis
         ApprovedDisbursementsComponent,
         ClosedDisbursementsComponent,
         DisbursementComponent,
-        DisbursementPreviewComponent
+        DisbursementPreviewComponent,
+        DataApiComponent,
+        GrantTagsComponent,
+        OrgTagsComponent,
+        SearchFilterComponent,
+        GrantCompareComponent
     ],
-    entryComponents: [WelcomePopupComponent, AddnlreportsDialogComponent, InviteDialogComponent, BottomsheetComponent, BottomsheetAttachmentsComponent, BottomsheetNotesComponent, GrantTemplateDialogComponent, ReportTemplateDialogComponent, GrantSelectionDialogComponent, TemplateDialogComponent, GrantNotesComponent, SectionEditComponent, ReportNotesComponent, DisbursementNotesComponent],
-    schemas: [NO_ERRORS_SCHEMA]
+    entryComponents: [WelcomePopupComponent, AddnlreportsDialogComponent, InviteDialogComponent, BottomsheetComponent, BottomsheetAttachmentsComponent, BottomsheetNotesComponent, GrantTemplateDialogComponent, ReportTemplateDialogComponent, GrantSelectionDialogComponent, ListDialogComponent, TemplateDialogComponent, GrantNotesComponent, SectionEditComponent, ReportNotesComponent, DisbursementNotesComponent, GranttypeSelectionDialogComponent, GrantTagsComponent, GrantCompareComponent],
+    schemas: [NO_ERRORS_SCHEMA],
+
 })
 
 export class AdminLayoutModule {

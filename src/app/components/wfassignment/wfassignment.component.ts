@@ -1,3 +1,5 @@
+import { Grant } from './../../model/dahsboard';
+import { Report } from './../../model/report';
 import { Component, Inject, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatButtonModule, MatDialog } from '@angular/material';
 import { WorkflowAssignmentModel } from '../../model/dahsboard';
@@ -17,7 +19,12 @@ declare var jsPlumb: any;
 @Component({
     selector: 'app-wfassignment-dialog',
     templateUrl: './wfassignment.component.html',
-    styleUrls: ['./wfassignment.component.scss']
+    styleUrls: ['./wfassignment.component.scss'],
+    styles: [`
+        ::ng-deep .wf-assignment-class .mat-dialog-container{
+            overflow: hidden !important;
+        }
+    `]
 })
 export class WfassignmentComponent implements OnInit, AfterViewInit {
 
@@ -31,6 +38,7 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
     title: string;
     previousUser;
     previousNodeOwner;
+    activeStateOwnerChanged: boolean;
 
     constructor(
         public dialogRef: MatDialogRef<WfassignmentComponent>
@@ -53,7 +61,15 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
             this.data.model.users.sort(function (a, b) { return (a.firstName.toLowerCase() > b.firstName.toLowerCase()) ? 1 : ((b.firstName.toLowerCase() > a.firstName.toLowerCase()) ? -1 : 0); });
         }
         if (this.data.model.granteeUsers) {
-            this.data.model.granteeUsers.sort(function (a, b) { return (a.firstName.toLowerCase() > b.firstName.toLowerCase()) ? 1 : ((b.firstName.toLowerCase() > a.firstName.toLowerCase()) ? -1 : 0); });
+            this.data.model.granteeUsers.sort(function (a, b) {
+                if (!a.firstName) {
+                    a.firstName = 'Un-registered';
+                }
+                if (!b.firstName) {
+                    b.firstName = 'Un-registered';
+                }
+                return (a.firstName.toLowerCase() > b.firstName.toLowerCase()) ? 1 : ((b.firstName.toLowerCase() > a.firstName.toLowerCase()) ? -1 : 0);
+            });
         }
 
         window.addEventListener('scroll', this.redrawOnScroll.bind(this), true);
@@ -114,14 +130,15 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                             isAdminRole = true;
                         }
 
-                        if (((currentUserAssignment.length > 0 || (ownerUser.length > 0) || isAdminRole) && this.data.model.grant.grantStatus.internalStatus !== 'ACTIVE' && this.data.model.grant.grantStatus.internalStatus !== 'CLOSED')) {
+                        const loggedInUser: User = JSON.parse(localStorage.getItem('USER'));
+                        if (((currentUserAssignment.length > 0 || (ownerUser.length > 0) || isAdminRole) && this.data.model.grant.grantStatus.internalStatus !== 'ACTIVE' && this.data.model.grant.grantStatus.internalStatus !== 'CLOSED') && loggedInUser.organization.organizationType !== 'GRANTEE') {
                         } else {
 
 
                             this.canManage = false;
                             this.renderer.setAttribute(nodeOwner, 'disabled', 'disabled');
 
-                            if ((currentUserAssignment.length > 0 || isAdminRole) && this.data.model.grant.grantStatus.internalStatus === 'ACTIVE' && transition.internalStatus == 'ACTIVE') {
+                            if ((currentUserAssignment.length > 0 || isAdminRole) && this.data.model.grant.grantStatus.internalStatus === 'ACTIVE' && transition.internalStatus == 'ACTIVE' && loggedInUser.organization.organizationType !== 'GRANTEE') {
                                 this.canManage = true;
                                 this.renderer.removeAttribute(nodeOwner, 'disabled');
                             }
@@ -176,8 +193,8 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         this.renderer.addClass(node, 'state-node');
                         if (transition.fromStateId === this.data.model.grant.grantStatus.id) {
                             const indicator = this.renderer.createElement('i');
-                            this.renderer.addClass(indicator, 'fa');
-                            this.renderer.addClass(indicator, 'fa-arrow-circle-right');
+                            this.renderer.addClass(indicator, 'far');
+                            this.renderer.addClass(indicator, 'fa-user');
                             this.renderer.addClass(indicator, 'status-indicator');
                             this.renderer.addClass(node, 'node-highight');
                             this.renderer.appendChild(node, indicator);
@@ -194,12 +211,33 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         const node = this.renderer.createElement('div');
                         const nodeStateName = this.renderer.createText(transition._to);
                         const stateNode = this.renderer.createElement('div');
-                        this.renderer.addClass(stateNode, 'col-12');
+
+
+
+
+                        this.renderer.addClass(stateNode, 'col-6');
                         this.renderer.addClass(stateNode, 'p-0');
-                        this.renderer.addClass(stateNode, 'text-center');
+                        this.renderer.addClass(stateNode, 'text-right');
                         this.renderer.addClass(node, this.getColorCodeByStatus(this.data.model.workflowStatuses.filter((status) => status.id === transition.toStateId)[0].internalStatus));
                         this.renderer.appendChild(stateNode, nodeStateName);
                         this.renderer.appendChild(node, stateNode);
+
+                        if (this.data.model.grant.grantStatus.internalStatus === 'CLOSED') {
+                            const ass = this.data.model.workflowAssignment.filter((assignment) => assignment.stateId === this.data.model.grant.grantStatus.id);
+                            const ownerNodeHolder = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNodeHolder, 'col-6');
+                            const ownerNode = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNode, 'px-2');
+                            this.renderer.addClass(ownerNode, 'anu-input');
+                            this.renderer.addClass(ownerNode, 'closed-state-owner');
+                            this.renderer.addClass(ownerNodeHolder, 'text-center');
+                            const ownerName = this.renderer.createText(ass[0].assignmentUser.firstName + " " + ass[0].assignmentUser.lastName);
+                            this.renderer.appendChild(ownerNode, ownerName);
+                            this.renderer.appendChild(ownerNodeHolder, ownerNode);
+                            this.renderer.appendChild(node, ownerNodeHolder);
+                        }
+
+
                         this.renderer.setAttribute(node, 'id', nodeId);
                         this.renderer.addClass(node, 'state-node');
                         this.renderer.addClass(node, 'my-5');
@@ -254,7 +292,7 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                     const nodeId = 'state_' + transition.fromStateId;
                     if (this.elemRef.nativeElement.querySelector('#' + nodeId) === null) {
                         const node = this.renderer.createElement('div');
-                        this.renderer.addClass(node, this.getColorCodeByStatus(this.data.model.workflowStatuses.filter((status) => status.id === transition.fromStateId)[0].internalStatus));
+                        this.renderer.addClass(node, this.getColorCodeByStatusForReport(this.data.model.workflowStatuses.filter((status) => status.id === transition.fromStateId)[0].internalStatus, this.data.model.report));
 
                         const historyNode = this.renderer.createElement('div');
                         this.renderer.addClass(historyNode, 'col-3');
@@ -282,7 +320,7 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         if (transition.internalStatus !== 'ACTIVE') {
                             nodeStateName = this.renderer.createText(transition._from);
                         } else {
-                            nodeStateName = this.renderer.createText(this.data.model.report.grant.organization.name);
+                            nodeStateName = this.renderer.createText(this.data.model.report.grant.isInternal ? transition._from : this.data.model.report.grant.organization.name);
                         }
                         this.renderer.appendChild(stateNode, nodeStateName);
                         this.renderer.appendChild(node, stateNode);
@@ -396,8 +434,8 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         this.renderer.addClass(node, 'state-node');
                         if (transition.fromStateId === this.data.model.report.status.id) {
                             const indicator = this.renderer.createElement('i');
-                            this.renderer.addClass(indicator, 'fa');
-                            this.renderer.addClass(indicator, 'fa-arrow-circle-right');
+                            this.renderer.addClass(indicator, 'far');
+                            this.renderer.addClass(indicator, 'fa-user');
                             this.renderer.addClass(indicator, 'status-indicator');
                             this.renderer.addClass(node, 'node-highight');
                             this.renderer.appendChild(node, indicator);
@@ -413,12 +451,27 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         const node = this.renderer.createElement('div');
                         const nodeStateName = this.renderer.createText(transition._to);
                         const stateNode = this.renderer.createElement('div');
-                        this.renderer.addClass(stateNode, 'col-12');
+                        this.renderer.addClass(stateNode, 'col-6');
                         this.renderer.addClass(stateNode, 'p-0');
-                        this.renderer.addClass(stateNode, 'text-center');
+                        this.renderer.addClass(stateNode, 'text-right');
                         this.renderer.addClass(node, this.getColorCodeByStatus(this.data.model.workflowStatuses.filter((status) => status.id === transition.toStateId)[0].internalStatus));
                         this.renderer.appendChild(stateNode, nodeStateName);
+
                         this.renderer.appendChild(node, stateNode);
+                        if (this.data.model.report.status.internalStatus === 'CLOSED') {
+                            const ass = this.data.model.workflowAssignments.filter((assignment) => assignment.stateId === this.data.model.report.status.id);
+                            const ownerNodeHolder = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNodeHolder, 'col-6');
+                            const ownerNode = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNode, 'px-2');
+                            this.renderer.addClass(ownerNode, 'anu-input');
+                            this.renderer.addClass(ownerNode, 'closed-state-owner');
+                            this.renderer.addClass(ownerNodeHolder, 'text-center');
+                            const ownerName = this.renderer.createText(ass[0].assignmentUser.firstName + " " + ass[0].assignmentUser.lastName);
+                            this.renderer.appendChild(ownerNode, ownerName);
+                            this.renderer.appendChild(ownerNodeHolder, ownerNode);
+                            this.renderer.appendChild(node, ownerNodeHolder);
+                        }
                         this.renderer.setAttribute(node, 'id', nodeId);
                         this.renderer.addClass(node, 'state-node');
                         this.renderer.addClass(node, 'my-5');
@@ -427,8 +480,8 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
 
                         if (transition.toStateId === this.data.model.report.status.id) {
                             const indicator = this.renderer.createElement('i');
-                            this.renderer.addClass(indicator, 'fa');
-                            this.renderer.addClass(indicator, 'fa-arrow-circle-right');
+                            this.renderer.addClass(indicator, 'far');
+                            this.renderer.addClass(indicator, 'fa-user');
                             this.renderer.addClass(indicator, 'status-indicator');
                             this.renderer.addClass(node, 'node-highight');
                             this.renderer.appendChild(node, indicator);
@@ -564,8 +617,8 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         this.renderer.addClass(node, 'state-node');
                         if (transition.fromStateId === this.data.model.disbursement.status.id) {
                             const indicator = this.renderer.createElement('i');
-                            this.renderer.addClass(indicator, 'fa');
-                            this.renderer.addClass(indicator, 'fa-arrow-circle-right');
+                            this.renderer.addClass(indicator, 'far');
+                            this.renderer.addClass(indicator, 'fa-user');
                             this.renderer.addClass(indicator, 'status-indicator');
                             this.renderer.addClass(node, 'node-highight');
                             this.renderer.appendChild(node, indicator);
@@ -581,12 +634,27 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                         const node = this.renderer.createElement('div');
                         const nodeStateName = this.renderer.createText(transition._to);
                         const stateNode = this.renderer.createElement('div');
-                        this.renderer.addClass(stateNode, 'col-12');
+                        this.renderer.addClass(stateNode, 'col-6');
                         this.renderer.addClass(stateNode, 'p-0');
-                        this.renderer.addClass(stateNode, 'text-center');
+                        this.renderer.addClass(stateNode, 'text-right');
                         this.renderer.addClass(node, this.getColorCodeByStatus(this.data.model.workflowStatuses.filter((status) => status.id === transition.toStateId)[0].internalStatus));
                         this.renderer.appendChild(stateNode, nodeStateName);
                         this.renderer.appendChild(node, stateNode);
+
+                        if (this.data.model.disbursement.status.internalStatus === 'CLOSED') {
+                            const ass = this.data.model.workflowAssignments.filter((assignment) => assignment.stateId === this.data.model.disbursement.status.id);
+                            const ownerNodeHolder = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNodeHolder, 'col-6');
+                            const ownerNode = this.renderer.createElement('div');
+                            this.renderer.addClass(ownerNode, 'px-2');
+                            this.renderer.addClass(ownerNode, 'anu-input');
+                            this.renderer.addClass(ownerNode, 'closed-state-owner');
+                            this.renderer.addClass(ownerNodeHolder, 'text-center');
+                            const ownerName = this.renderer.createText(ass[0].assignmentUser.firstName + " " + ass[0].assignmentUser.lastName);
+                            this.renderer.appendChild(ownerNode, ownerName);
+                            this.renderer.appendChild(ownerNodeHolder, ownerNode);
+                            this.renderer.appendChild(node, ownerNodeHolder);
+                        }
                         this.renderer.setAttribute(node, 'id', nodeId);
                         this.renderer.addClass(node, 'state-node');
                         this.renderer.addClass(node, 'my-5');
@@ -623,6 +691,17 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
     handleSelection(event: any): boolean | void {
 
         this.updateGrantAndDisbursementUsers();
+
+
+        if (this.data.model.type === 'grant' && this.data.model.grant.grantStatus.internalStatus === 'ACTIVE') {
+            const val = event.currentTarget.value;
+            const orgAss = this.data.model.workflowAssignment.filter(a => a.stateId === this.data.model.grant.grantStatus.id)[0];
+            if (orgAss.assignments !== Number(val)) {
+                this.activeStateOwnerChanged = true;
+            } else {
+                this.activeStateOwnerChanged = false;
+            }
+        }
         /* if (!environment.production) {
             return;
         } */
@@ -677,7 +756,7 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
         this.jsPlumbInstance.Defaults.Overlays = [];
         for (let transition of transitions) {
 
-            if (Number(transition.seqOrder) === 0) {
+            if (Number(transition.seqOrder) < 50) {
                 setTimeout(() => {
                     this.jsPlumbInstance.connect({
                         connector: ["Flowchart"],
@@ -728,7 +807,7 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
     onNoClick(): void {
         if (this.verifyChanges()) {
             const d = this.dialog.open(FieldDialogComponent, {
-                data: { title: "Assignments have changed.", btnMain: "Save Assignments", btnSecondary: "Discard Changes" },
+                data: { title: "Would you like to save the assignment changes?", btnMain: "Save Assignments", btnSecondary: "Not Now", subTitle: ((this.activeStateOwnerChanged && this.activeStateOwnerChanged === true) ? "<strong class='text-red'>Warning!</strong> Changing the Active State owner of this grant is likely to impact the workflow assignments for associated reports and disbursements.\nPlease review the workdlowflow assignments of the associated Reports and Disbursements." : "") },
                 panelClass: "center-class"
             });
 
@@ -750,6 +829,10 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
 
     onYesClick(): void {
         if (this.data.model.type === 'grant') {
+            /* const dg = this.dialog.open(FieldDialogComponent, {
+                data: { title: "Would you like to save the assignment changes?", btnMain: "Save Assignments", btnSecondary: "Not Now" },
+                panelClass: "center-class"
+            }); */
             this.processGrantAssignments();
 
         } else if (this.data.model.type === 'report') {
@@ -768,10 +851,14 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                 const assignMentResult = [];
                 for (let i = 0; i < assignmentElems.length; i++) {
                     var assignmentTokens = $(assignmentElems[i]).attr('id').split('_');
+                    let uid = $(assignmentElems[i]).val();
+                    if (uid === null) {
+                        uid = $(assignmentElems[i])[0].value;
+                    }
                     if (assignmentTokens.length === 4) {
-                        assignMentResult.push({ 'id': assignmentTokens[1], 'stateId': assignmentTokens[2], 'userId': $(assignmentElems[i]).val(), 'reportId': assignmentTokens[3], 'customAssignments': $(customAssignmentElem).val() });
+                        assignMentResult.push({ 'id': assignmentTokens[1], 'stateId': assignmentTokens[2], 'userId': uid, 'reportId': assignmentTokens[3], 'customAssignments': $(customAssignmentElem).val() });
                     } else {
-                        assignMentResult.push({ 'id': '', 'stateId': assignmentTokens[1], 'userId': $(assignmentElems[i]).val(), 'reportId': assignmentTokens[2], 'customAssignments': $(customAssignmentElem).val() });
+                        assignMentResult.push({ 'id': '', 'stateId': assignmentTokens[1], 'userId': uid, 'reportId': assignmentTokens[2], 'customAssignments': $(customAssignmentElem).val() });
                     }
                 }
                 this.dialogRef.close({ 'result': true, data: assignMentResult });
@@ -782,10 +869,14 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
             const assignMentResult = [];
             for (let i = 0; i < assignmentElems.length; i++) {
                 var assignmentTokens = $(assignmentElems[i]).attr('id').split('_');
+                let uid = $(assignmentElems[i]).val();
+                if (uid === null) {
+                    uid = $(assignmentElems[i])[0].value;
+                }
                 if (assignmentTokens.length === 4) {
-                    assignMentResult.push({ 'id': assignmentTokens[1], 'stateId': assignmentTokens[2], 'userId': $(assignmentElems[i]).val(), 'disbursementId': assignmentTokens[3] });
+                    assignMentResult.push({ 'id': assignmentTokens[1], 'stateId': assignmentTokens[2], 'userId': uid, 'disbursementId': assignmentTokens[3] });
                 } else {
-                    assignMentResult.push({ 'id': '', 'stateId': assignmentTokens[1], 'userId': $(assignmentElems[i]).val(), 'disbursementId': assignmentTokens[2] });
+                    assignMentResult.push({ 'id': '', 'stateId': assignmentTokens[1], 'userId': uid, 'disbursementId': assignmentTokens[2] });
                 }
             }
             this.dialogRef.close({ 'result': true, data: assignMentResult });
@@ -797,10 +888,14 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
         const assignMentResult = [];
         for (let i = 0; i < assignmentElems.length; i++) {
             var assignmentTokens = $(assignmentElems[i]).attr('id').split('_');
+            let uid = $(assignmentElems[i]).val();
+            if (uid === null) {
+                uid = $(assignmentElems[i])[0].value;
+            }
             if (assignmentTokens.length === 4) {
-                assignMentResult.push({ 'id': assignmentTokens[1], 'stateId': assignmentTokens[2], 'userId': $(assignmentElems[i]).val(), 'grantId': assignmentTokens[3] });
+                assignMentResult.push({ 'id': assignmentTokens[1], 'stateId': assignmentTokens[2], 'userId': uid, 'grantId': assignmentTokens[3] });
             } else {
-                assignMentResult.push({ 'id': '', 'stateId': assignmentTokens[1], 'userId': $(assignmentElems[i]).val(), 'grantId': assignmentTokens[2] });
+                assignMentResult.push({ 'id': '', 'stateId': assignmentTokens[1], 'userId': uid, 'grantId': assignmentTokens[2] });
             }
         }
         this.dialogRef.close({ 'result': true, data: assignMentResult });
@@ -818,6 +913,24 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
         if (status === 'DRAFT') {
             return 'state-draft';
         } else if (status === 'ACTIVE') {
+            return 'state-active';
+        } else if (status === 'REVIEW') {
+            return 'state-review';
+        }
+        return 'state-closed';
+    }
+
+    getColorCodeByStatusForReport(status, report: Report): string {
+        if (status === 'DRAFT') {
+            return 'state-draft';
+        } else if (status === 'ACTIVE') {
+            if (this.data.appComp.loggedInUser.organization.organizationType === 'GRANTER' && this.data.appComp.grantTypes.filter(gt => Number(gt.id) === Number(report.grant.grantTypeId))[0].internal) {
+                return 'state-active';
+            } else if (this.data.appComp.loggedInUser.organization.organizationType === 'GRANTEE') {
+                return 'state-ext-active';
+            } else {
+                return 'state-ext-active';
+            }
             return 'state-active';
         } else if (status === 'REVIEW') {
             return 'state-review';
@@ -953,10 +1066,11 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
                 const assTokens = ass.id.split("_");
                 const assId = assTokens[1];
                 const orgAss = this.data.model.workflowAssignments.filter(a => a.id === Number(assId))[0];
-                if (orgAss.assignmentId == undefined) {
+                if (orgAss !== undefined && orgAss.assignmentId == undefined) {
                     orgAss.assignmentId = 0;
                 }
-                if (orgAss.assignmentId !== undefined && orgAss.assignmentId !== null && orgAss.assignmentId !== Number(ass.value)) {
+
+                if (orgAss !== undefined && orgAss.assignmentId !== undefined && orgAss.assignmentId !== null && orgAss.assignmentId !== Number(ass.value)) {
                     return true;
                 }
             }

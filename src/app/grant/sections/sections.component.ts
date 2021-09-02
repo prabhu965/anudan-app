@@ -1,5 +1,9 @@
-import { MessagingComponent } from 'app/components/messaging/messaging.component';
-import { AdminService } from './../../admin.service';
+import { GrantCompareComponent } from './../../grant-compare/grant-compare.component';
+import { GrantApiService } from './../../grant-api.service';
+import { GrantTag, OrgTag } from './../../model/dahsboard';
+import { GrantTagsComponent } from './../../grant-tags/grant-tags.component';
+import { MessagingComponent } from "app/components/messaging/messaging.component";
+import { AdminService } from "./../../admin.service";
 import {
   Component,
   ElementRef,
@@ -165,6 +169,7 @@ export class SectionsComponent
   @ViewChild("otherSourcesAmountFormatted")
   otherSourcesAmountFormatted: ElementRef;
   @ViewChild("dataColumns") dataColumns: ElementRef;
+  orgTags: OrgTag[] = [];
 
   constructor(
     private grantData: GrantDataService,
@@ -186,7 +191,8 @@ export class SectionsComponent
     private cdr: ChangeDetectorRef,
     private attributeService: AttributeService,
     public amountValidator: AmountValidator,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private grantApiService: GrantApiService
   ) {
     this.colors = new Colors();
 
@@ -220,15 +226,17 @@ export class SectionsComponent
     });
 
     this.myControl = new FormControl();
-    this.adminService.getLibraryDocs(this.appComp.loggedInUser).then((data: TemplateLibrary[]) => {
-      this.options = data;
-      const docs = this.options ? this.options.slice() : [];
-      this.filteredOptions = this.myControl.valueChanges.pipe(
-        startWith(""),
-        map((value) => (typeof value === "string" ? value : value)),
-        map((name) => (name ? this._filter(name) : docs))
-      );
-    });
+    this.adminService
+      .getLibraryDocs(this.appComp.loggedInUser)
+      .then((data: TemplateLibrary[]) => {
+        this.options = data;
+        const docs = this.options ? this.options.slice() : [];
+        this.filteredOptions = this.myControl.valueChanges.pipe(
+          startWith(""),
+          map((value) => (typeof value === "string" ? value : value)),
+          map((name) => (name ? this._filter(name) : docs))
+        );
+      });
   }
 
   ngOnDestroy() {
@@ -251,8 +259,6 @@ export class SectionsComponent
         this.appComp.createNewSection.next(false);
       }
     });
-
-
 
     this.subscribers.name = this.router.events.subscribe((val) => {
       if (val instanceof NavigationStart && val.url === "/grant/preview") {
@@ -294,7 +300,6 @@ export class SectionsComponent
       }
     }
 
-
     this.originalGrant = JSON.parse(JSON.stringify(this.currentGrant));
     this.submissionData.currentMessage.subscribe(
       (submission) => (this.currentSubmission = submission)
@@ -322,6 +327,10 @@ export class SectionsComponent
     $("#createKpiModal").on("shown.bs.modal", function (event) {
       $("#kpiDescription").focus();
     });
+
+    this.adminService.getOrgTags(this.appComp.loggedInUser).then((tags: OrgTag[]) => {
+      this.orgTags = tags;
+    });
   }
 
   ngAfterViewChecked() {
@@ -332,7 +341,7 @@ export class SectionsComponent
 
   private checkGrantPermissions() {
     if (
-      this.currentGrant.workflowAssignment.filter(
+      this.currentGrant.workflowAssignments.filter(
         (wf) =>
           wf.stateId === this.currentGrant.grantStatus.id &&
           wf.assignments === this.appComp.loggedInUser.id
@@ -396,107 +405,70 @@ export class SectionsComponent
     $(editFieldModal).modal("show");
   }
 
-  confirm(
-    sectionId: number,
-    attributeId: number,
-    submissios: Submission[],
-    kpiId: number,
-    func: string,
-    title: string
-  ) {
-    this.appComp.sectionInModification = true;
 
-    if (func === 'section' && this.currentGrant.grantDetails.sections.length === 1) {
-      const dg = this.dialog.open(MessagingComponent, {
-        data: "<p>At least one section is required for a grant.</p><p><small>Please rename the current section or create an additional section before deleteing this one.</small></p>",
-        panelClass: "center-class"
-      });
-      return;
-    }
+
+  deleteFieldEntry(sectionId: number, attributeId: number, title: string) {
+
     const dialogRef = this.dialog.open(FieldDialogComponent, {
-      data: { title: title },
-      panelClass: "center-class",
+      data: { title: title, btnMain: "Delete Field", btnSecondary: "Not Now" },
+      panelClass: "grant-template-class",
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        switch (func) {
-          case "field":
-            this.deleteFieldEntry(sectionId, attributeId);
-            break;
-          case "section":
-            this.deleteSection(Number(sectionId));
-            break;
-          case "clearSubmissions":
-            this.clearSubmissions();
-            break;
-          case "row":
-            this.deleteRow(sectionId, attributeId, kpiId);
-            break;
-          case "col":
-            this.deleteColumn(sectionId, attributeId, kpiId);
-            break;
-          case "kpi":
-            this.deleteKpi(kpiId);
-            break;
-        }
+        const httpOptions = {
+          headers: new HttpHeaders({
+            "Content-Type": "application/json",
+            "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+            Authorization: localStorage.getItem("AUTH_TOKEN"),
+          }),
+        };
+
+        const url =
+          "/api/user/" +
+          this.appComp.loggedInUser.id +
+          "/grant/" +
+          this.currentGrant.id +
+          "/section/" +
+          sectionId +
+          "/field/" +
+          attributeId;
+
+        this.http.post<Grant>(url, this.currentGrant, httpOptions).subscribe(
+          (grant: Grant) => {
+            this.grantData.changeMessage(grant, this.appComp.loggedInUser.id);
+            const path = this.sidebar.buildSectionsSideNav(null);
+            //this.router.navigate([path]);
+          },
+          (error) => {
+            const errorMsg = error as HttpErrorResponse;
+            console.log(error);
+            const x = { enableHtml: true, preventDuplicates: true } as Partial<
+              IndividualConfig
+            >;
+            const config: Partial<IndividualConfig> = x;
+            if (errorMsg.error.message === "Token Expired") {
+              this.toastr.error(
+                "Your session has expired",
+                "Logging you out now...",
+                config
+              );
+              setTimeout(() => {
+                this.appComp.logout();
+              }, 4000);
+            } else {
+              this.toastr.error(
+                errorMsg.error.message,
+                "8 We encountered an error",
+                config
+              );
+            }
+          }
+        );
       } else {
         dialogRef.close();
       }
-      this.appComp.sectionInModification = false;
     });
-  }
-
-  deleteFieldEntry(sectionId: number, attributeId: number) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json",
-        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
-        Authorization: localStorage.getItem("AUTH_TOKEN"),
-      }),
-    };
-
-    const url =
-      "/api/user/" +
-      this.appComp.loggedInUser.id +
-      "/grant/" +
-      this.currentGrant.id +
-      "/section/" +
-      sectionId +
-      "/field/" +
-      attributeId;
-
-    this.http.post<Grant>(url, this.currentGrant, httpOptions).subscribe(
-      (grant: Grant) => {
-        this.grantData.changeMessage(grant, this.appComp.loggedInUser.id);
-        const path = this.sidebar.buildSectionsSideNav(null);
-        //this.router.navigate([path]);
-      },
-      (error) => {
-        const errorMsg = error as HttpErrorResponse;
-        console.log(error);
-        const x = { enableHtml: true, preventDuplicates: true } as Partial<
-          IndividualConfig
-        >;
-        const config: Partial<IndividualConfig> = x;
-        if (errorMsg.error.message === "Token Expired") {
-          this.toastr.error(
-            "Your session has expired",
-            "Logging you out now...",
-            config
-          );
-          setTimeout(() => {
-            this.appComp.logout();
-          }, 4000);
-        } else {
-          this.toastr.error(
-            errorMsg.error.message,
-            "8 We encountered an error",
-            config
-          );
-        }
-      }
-    );
   }
 
   deleteKpi(kpiId: number) {
@@ -632,7 +604,7 @@ export class SectionsComponent
         //this.dataService.changeMessage(grant.id);
         //this.currentGrant = grant;
         if (
-          this.currentGrant.workflowAssignment.filter(
+          this.currentGrant.workflowAssignments.filter(
             (wf) =>
               wf.stateId === this.currentGrant.grantStatus.id &&
               wf.assignments === this.appComp.loggedInUser.id
@@ -1322,120 +1294,8 @@ export class SectionsComponent
     $(scheduleModal).modal("show");
   }
 
-  createGrant() {
-    const grant = new Grant();
-    grant.submissions = new Array<Submission>();
-    grant.actionAuthorities = new ActionAuthorities();
-    grant.actionAuthorities.permissions = [];
-    grant.actionAuthorities.permissions.push("MANAGE");
-    grant.organization = this.appComp.appConfig.granteeOrgs[0];
-    grant.grantStatus = this.appComp.appConfig.grantInitialStatus;
-    grant.substatus = this.appComp.appConfig.submissionInitialStatus;
 
-    grant.id = 0 - Math.round(Math.random() * 10000000000);
 
-    const st = new Date();
-    grant.startDate = st;
-    grant.stDate = this.datepipe.transform(st, "yyyy-MM-dd");
-    let et = new Date();
-    et = new Date(et.setFullYear(et.getFullYear() + 1));
-    grant.endDate = et;
-    grant.enDate = this.datepipe.transform(et, "yyyy-MM-dd");
-
-    grant.kpis = new Array<Kpi>();
-    grant.grantDetails = new GrantDetails();
-    grant.grantDetails.sections = new Array<Section>();
-    for (const defaultSection of this.appComp.appConfig.defaultSections) {
-      defaultSection.id = 0 - Math.round(Math.random() * 10000000000);
-      for (const attr of defaultSection.attributes) {
-        attr.id = 0 - Math.round(Math.random() * 10000000000);
-        attr.fieldValue = "";
-      }
-      grant.grantDetails.sections.push(defaultSection);
-    }
-
-    /*grant.submissions = new Array<Submission>();
-    const tmpDt = new Date();
-    for (let i = 0; i < 4; i++) {
-        // sub.grant = grant;
-        // sub.actionAuthorities = new ActionAuthorities();
-
-        const mnth = tmpDt.getMonth()+ (3*i);
-        const dt = new Date(tmpDt.getFullYear(),mnth ,tmpDt.getDate());
-        const sub = this._createNewSubmissionAndReturn('Quarter' + (i + 1), dt);
-        // sub.grant = grant;
-        grant.submissions.push(sub);
-    }*/
-
-    this.currentGrant = grant;
-    this.grantData.changeMessage(grant, this.appComp.loggedInUser.id);
-    this.router.navigate(["grant"]);
-  }
-
-  private _createNewSubmissionAndReturn(title: string, dt1: Date): Submission {
-    const sub = new Submission();
-    sub.id = 0 - Math.round(Math.random() * 10000000000);
-    sub.documentKpiSubmissions = [];
-    sub.qualitativeKpiSubmissions = [];
-    sub.quantitiaveKpisubmissions = [];
-    sub.flowAuthorities = [];
-    sub.submissionStatus = this.appComp.appConfig.submissionInitialStatus;
-    sub.title = title;
-
-    sub.submitBy = dt1;
-    sub.submitDateStr = this.datepipe.transform(dt1, "yyyy-MM-dd");
-    return sub;
-  }
-
-  private _addExistingKpisToSubmission(submission: Submission): Submission {
-    const quantKpis = new Array<QuantitiaveKpisubmission>();
-    const qualKpis = new Array<QualitativeKpiSubmission>();
-    const docKpis = new Array<DocumentKpiSubmission>();
-
-    for (const kpi of this.currentGrant.kpis) {
-      if (kpi.kpiType === "QUANTITATIVE") {
-        const newQuantKpi = new QuantitiaveKpisubmission();
-        newQuantKpi.id = 0 - Math.round(Math.random() * 10000000000);
-        newQuantKpi.goal = 0;
-        newQuantKpi.grantKpi = kpi;
-        newQuantKpi.actuals = 0;
-        newQuantKpi.toReport = true;
-        newQuantKpi.submissionDocs = [];
-        // newQuantKpi.submission = JSON.parse(JSON.stringify(submission));
-        newQuantKpi.notesHistory = [];
-        newQuantKpi.note = "";
-        quantKpis.push(newQuantKpi);
-      } else if (kpi.kpiType === "QUALITATIVE") {
-        const newQualKpi = new QualitativeKpiSubmission();
-        newQualKpi.id = 0 - Math.round(Math.random() * 10000000000);
-        newQualKpi.goal = "";
-        newQualKpi.grantKpi = kpi;
-        newQualKpi.actuals = "";
-        newQualKpi.toReport = true;
-        newQualKpi.submissionDocs = [];
-        // newQualKpi.submission = JSON.parse(JSON.stringify(submission));
-        newQualKpi.notesHistory = [];
-        newQualKpi.note = "";
-        qualKpis.push(newQualKpi);
-      } else if (kpi.kpiType === "DOCUMENT") {
-        const newDocKpi = new DocumentKpiSubmission();
-        newDocKpi.id = 0 - Math.round(Math.random() * 10000000000);
-        newDocKpi.goal = "";
-        newDocKpi.grantKpi = kpi;
-        newDocKpi.actuals = "";
-        newDocKpi.toReport = true;
-        newDocKpi.submissionDocs = [];
-        // newDocKpi.submission = JSON.parse(JSON.stringify(submission));
-        newDocKpi.notesHistory = [];
-        newDocKpi.note = "";
-        docKpis.push(newDocKpi);
-      }
-    }
-    submission.quantitiaveKpisubmissions = quantKpis;
-    submission.qualitativeKpiSubmissions = qualKpis;
-    submission.documentKpiSubmissions = docKpis;
-    return submission;
-  }
 
   private _adjustHeights() {
     /*for (const elem of $('[data-id]')) {
@@ -1530,9 +1390,9 @@ export class SectionsComponent
       const dialogRef = this.dialog.open(FieldDialogComponent, {
         data: {
           title:
-            "You will lose all data for " + attr.fieldName + " Are you sure?",
+            "You will lose all data for " + attr.fieldName + " Are you sure?", btnMain: 'Change Field Type', btnSecondary: 'Not Now'
         },
-        panelClass: "center-class",
+        panelClass: "grant-template-class",
       });
 
       dialogRef.afterClosed().subscribe((result) => {
@@ -1707,25 +1567,38 @@ export class SectionsComponent
     attr.fieldTableValue.push(row);
   }
 
-  deleteRow(sectionId, attributeId, rowIndex) {
-    console.log(sectionId + " " + attributeId + " " + rowIndex);
-    for (let section of this.currentGrant.grantDetails.sections) {
-      if (section.id === sectionId) {
-        for (let attrib of section.attributes) {
-          if (attrib.id == attributeId) {
-            console.log(attrib.fieldTableValue);
-            const tableData = attrib.fieldTableValue;
-            tableData.splice(rowIndex, 1);
+  deleteRow(sectionId, attributeId, rowIndex, msg: string) {
+
+    const dg = this.dialog.open(FieldDialogComponent, {
+      data: { title: msg, btnMain: "Delete Row", btnSecondary: "Not Now" },
+      panelClass: "grant-template-class"
+    });
+
+    dg.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(sectionId + " " + attributeId + " " + rowIndex);
+        for (let section of this.currentGrant.grantDetails.sections) {
+          if (section.id === sectionId) {
+            for (let attrib of section.attributes) {
+              if (attrib.id == attributeId) {
+                console.log(attrib.fieldTableValue);
+                const tableData = attrib.fieldTableValue;
+                tableData.splice(rowIndex, 1);
+              }
+            }
           }
         }
+      } else {
+        dg.close();
       }
-    }
+    });
+
   }
 
   deleteDisbursementRow(sectionId, attributeId, rowIndex) {
     const dialogRef = this.dialog.open(FieldDialogComponent, {
-      data: { title: "Delete row?" },
-      panelClass: "center-class",
+      data: { title: "Delete the selected planned disbursement row?", btnMain: "Delete Planned Disbursement", btnSecondary: "Not Now" },
+      panelClass: "grant-template-class",
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -1750,19 +1623,30 @@ export class SectionsComponent
     });
   }
 
-  deleteColumn(sectionId, attributeId, colIndex) {
-    for (let section of this.currentGrant.grantDetails.sections) {
-      if (section.id === sectionId) {
-        for (let attrib of section.attributes) {
-          if (attrib.id == attributeId) {
-            console.log(attrib.fieldTableValue);
-            for (let row of attrib.fieldTableValue) {
-              row.columns.splice(colIndex, 1);
+  deleteColumn(sectionId, attributeId, colIndex, msg: string) {
+    const dg = this.dialog.open(FieldDialogComponent, {
+      data: { title: msg, btnMain: "Delete Column", btnSecondary: "Not Now" },
+      panelClass: "grant-template-class"
+    });
+
+    dg.afterClosed().subscribe((result) => {
+      if (result) {
+        for (let section of this.currentGrant.grantDetails.sections) {
+          if (section.id === sectionId) {
+            for (let attrib of section.attributes) {
+              if (attrib.id == attributeId) {
+                console.log(attrib.fieldTableValue);
+                for (let row of attrib.fieldTableValue) {
+                  row.columns.splice(colIndex, 1);
+                }
+              }
             }
           }
         }
+      } else {
+        dg.close();
       }
-    }
+    });
   }
 
   openBottomSheet(
@@ -1844,49 +1728,6 @@ export class SectionsComponent
     });
   }
 
-  performAction(event: any) {
-    const selectedOption = event.value;
-    switch (selectedOption) {
-      case "1":
-        let newSubmission = this._createNewSubmissionAndReturn(
-          "Submission Title",
-          new Date()
-        );
-        // newSubmission.grant = this.currentGrant;
-        newSubmission = this._addExistingKpisToSubmission(newSubmission);
-        this.currentGrant.submissions.splice(0, 0, newSubmission);
-        this.toastr.info(
-          "New submission period appended to existing list",
-          "Submission Period Added"
-        );
-        break;
-      case "2":
-        const tmpDt = new Date();
-        for (let i = 0; i < 4; i++) {
-          // sub.grant = grant;
-          // sub.actionAuthorities = new ActionAuthorities();
-
-          const mnth = tmpDt.getMonth() + 3 * i;
-          const dt = new Date(tmpDt.getFullYear(), mnth, tmpDt.getDate());
-          let sub = this._createNewSubmissionAndReturn("Quarter" + (i + 1), dt);
-          sub = this._addExistingKpisToSubmission(sub);
-          // sub.grant = grant;
-          this.currentGrant.submissions.push(sub);
-        }
-        this.toastr.info(
-          "Quarterly Submissions added",
-          "Submission Periods Added"
-        );
-        break;
-      case "3":
-        this.confirm(0, 0, [], 0, "clearSubmissions", " all Submissions");
-        break;
-    }
-
-    this.checkGrant(null);
-    event.source.value = "";
-  }
-
   clearSubmissions() {
     this.currentGrant.submissions = [];
   }
@@ -1904,57 +1745,70 @@ export class SectionsComponent
     console.log(event);
   }
 
-  deleteSection(secId: number) {
+  deleteSection(secId: number, title: string) {
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json",
-        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
-        Authorization: localStorage.getItem("AUTH_TOKEN"),
-      }),
-    };
+    const dialogRef = this.dialog.open(FieldDialogComponent, {
+      data: { title: title, btnMain: "Delete Section", btnSecondary: "Not Now" },
+      panelClass: "grant-template-class",
+    });
 
-    const url =
-      "/api/user/" +
-      this.appComp.loggedInUser.id +
-      "/grant/" +
-      this.currentGrant.id +
-      "/template/" +
-      this.currentGrant.templateId +
-      "/section/" +
-      secId;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            "Content-Type": "application/json",
+            "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+            Authorization: localStorage.getItem("AUTH_TOKEN"),
+          }),
+        };
 
-    this.http.put<Grant>(url, this.currentGrant, httpOptions).subscribe(
-      (grant: Grant) => {
-        this.grantData.changeMessage(grant, this.appComp.loggedInUser.id);
-        const path = this.sidebar.buildSectionsSideNav(null);
-        this.router.navigate([path]);
-      },
-      (error) => {
-        const errorMsg = error as HttpErrorResponse;
-        console.log(error);
-        const x = { enableHtml: true, preventDuplicates: true } as Partial<
-          IndividualConfig
-        >;
-        const config: Partial<IndividualConfig> = x;
-        if (errorMsg.error.message === "Token Expired") {
-          this.toastr.error(
-            "Your session has expired",
-            "Logging you out now...",
-            config
-          );
-          setTimeout(() => {
-            this.appComp.logout();
-          }, 4000);
-        } else {
-          this.toastr.error(
-            errorMsg.error.message,
-            "14 We encountered an error",
-            config
-          );
-        }
+        const url =
+          "/api/user/" +
+          this.appComp.loggedInUser.id +
+          "/grant/" +
+          this.currentGrant.id +
+          "/template/" +
+          this.currentGrant.templateId +
+          "/section/" +
+          secId;
+
+        this.http.put<Grant>(url, this.currentGrant, httpOptions).subscribe(
+          (grant: Grant) => {
+            this.grantData.changeMessage(grant, this.appComp.loggedInUser.id);
+            const path = this.sidebar.buildSectionsSideNav(null);
+            this.router.navigate([path]);
+          },
+          (error) => {
+            const errorMsg = error as HttpErrorResponse;
+            console.log(error);
+            const x = { enableHtml: true, preventDuplicates: true } as Partial<
+              IndividualConfig
+            >;
+            const config: Partial<IndividualConfig> = x;
+            if (errorMsg.error.message === "Token Expired") {
+              this.toastr.error(
+                "Your session has expired",
+                "Logging you out now...",
+                config
+              );
+              setTimeout(() => {
+                this.appComp.logout();
+              }, 4000);
+            } else {
+              this.toastr.error(
+                errorMsg.error.message,
+                "14 We encountered an error",
+                config
+              );
+            }
+          }
+        );
+      } else {
+        dialogRef.close();
       }
-    );
+    });
+
+
     /* const index = this.currentGrant.grantDetails.sections.findIndex(section => section.id === Number(secId));
     this.currentGrant.grantDetails.sections.splice(index, 1);
     this.grantData.changeMessage(this.currentGrant);
@@ -2221,14 +2075,17 @@ export class SectionsComponent
     }
   }
 
-  deleteSelection(attribId) {
-
+  deleteSelection(attribId, msg: string) {
     const dReg = this.dialog.open(FieldDialogComponent, {
-      data: { title: 'Are you sure you want to delete the selected document(s)?' },
-      panelClass: 'center-class'
+      data: {
+        title: "Are you sure you want to delete the selected document(s)?",
+        btnMain: "Delete Document(s)",
+        btnSecondary: "Not Now"
+      },
+      panelClass: "grant-template-class",
     });
 
-    dReg.afterClosed().subscribe(result => {
+    dReg.afterClosed().subscribe((result) => {
       if (result) {
         const elems = this.elem.nativeElement.querySelectorAll(
           '[id^="attriute_' + attribId + '_attachment_"]'
@@ -2238,7 +2095,9 @@ export class SectionsComponent
           selectedAttachments.attachmentIds = [];
           for (let singleElem of elems) {
             if (singleElem.checked) {
-              selectedAttachments.attachmentIds.push(singleElem.id.split("_")[3]);
+              selectedAttachments.attachmentIds.push(
+                singleElem.id.split("_")[3]
+              );
             }
           }
         }
@@ -2249,7 +2108,6 @@ export class SectionsComponent
         dReg.close();
       }
     });
-
   }
 
   deleteAttachment(attributeId, attachmentId) {
@@ -2437,7 +2295,7 @@ export class SectionsComponent
   editSection(section) {
     const dialogRef = this.dialog.open(SectionEditComponent, {
       data: section,
-      panelClass: "center-class",
+      panelClass: "grant-template-class",
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -2507,7 +2365,7 @@ export class SectionsComponent
       let i = 0;
       for (let col of row.columns) {
         if (i === idx) {
-          total += Number(col.value);
+          total += col.value ? Number(col.value) : 0;
         }
         i++;
       }
@@ -2545,8 +2403,38 @@ export class SectionsComponent
 
   showProjectDocuments() {
     const dgRef = this.dialog.open(ProjectDocumentsComponent, {
-      data: { title: 'Project Documents', loggedInUser: this.appComp.loggedInUser, currentGrant: this.currentGrant },
-      panelClass: 'wf-assignment-class'
+      data: {
+        title: "Project Documents",
+        loggedInUser: this.appComp.loggedInUser,
+        currentGrant: this.currentGrant,
+      },
+      panelClass: "wf-assignment-class",
+    });
+  }
+
+  manageGrant() {
+    this.adminComp.manageGrant(null, this.currentGrant.origGrantId);
+  }
+
+  showGrantTags() {
+    this.adminService.getOrgTags(this.appComp.loggedInUser).then((tags: OrgTag[]) => {
+
+      const dg = this.dialog.open(GrantTagsComponent, {
+        data: { orgTags: tags, grantTags: this.currentGrant.tags, grant: this.currentGrant, appComp: this.appComp, type: 'grant' },
+        panelClass: "grant-template-class"
+      });
+
+    });
+
+  }
+
+  compareGrants(currentGrantId, origGrantId) {
+    this.grantApiService.compareGrants(currentGrantId, origGrantId, this.appComp.loggedInUser.id).then((grantsToCompare: any[]) => {
+      console.log(grantsToCompare);
+      const dg = this.dialog.open(GrantCompareComponent, {
+        data: grantsToCompare,
+        panelClass: "wf-assignment-class",
+      });
     });
   }
 }

@@ -1,4 +1,4 @@
-import { TemplateLibrary } from './../../model/dahsboard';
+import { OrgTag, TemplateLibrary } from './../../model/dahsboard';
 import { AdminService } from './../../admin.service';
 import { Role, User } from './../../model/user';
 import { Component, OnInit } from '@angular/core';
@@ -9,13 +9,26 @@ import { MatTabChangeEvent } from '@angular/material';
 @Component({
     selector: 'organization-admin-dashboard',
     templateUrl: './orgadmin.component.html',
-    styleUrls: ['./orgadmin.component.css']
+    styleUrls: ['./orgadmin.component.css'],
+    styles: [`
+        ::ng-deep .org-tab .mat-tab-header{
+            position: static;
+            top: 80px;
+            z-index: 1040;
+            background: #fff;
+        },
+
+        :: ng-deep .org-tab .mat-tab-body-content{
+            overflow: hidden !important;
+        }
+    `]
 })
 export class OrgadminComponent implements OnInit {
 
     roles: Role[];
     users: User[];
     docs: TemplateLibrary[];
+    tags: OrgTag[];
     constructor(
         public appComp: AppComponent,
         private adminService: AdminService
@@ -43,7 +56,12 @@ export class OrgadminComponent implements OnInit {
         } else if (ev.tab.textLabel === 'Library') {
             this.adminService.getLibraryDocs(this.appComp.loggedInUser).then((data: TemplateLibrary[]) => {
                 this.docs = data;
-                this.appComp.currentTenant.templateLibrary = this.docs;
+                //this.appComp.currentTenant.templateLibrary = this.docs;
+            });
+        } else if (ev.tab.textLabel === 'Tags') {
+            this.adminService.getOrgTags(this.appComp.loggedInUser).then((data: OrgTag[]) => {
+                this.tags = data;
+                //this.appComp.currentTenant.templateLibrary = this.docs;
             });
         }
     }

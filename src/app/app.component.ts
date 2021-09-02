@@ -7,7 +7,7 @@ import { Report } from './model/report';
 import { Release } from './model/release';
 import { ToastrService, IndividualConfig } from 'ngx-toastr';
 import { AppConfig } from './model/app-config';
-import { WorkflowStatus, Notifications, Organization, Tenant, GrantTemplate, Grant, TemplateLibrary } from "./model/dahsboard";
+import { WorkflowStatus, Notifications, Organization, Tenant, GrantTemplate, Grant, TemplateLibrary, GrantType } from "./model/dahsboard";
 import { ReportTemplate } from "./model/report";
 import { WorkflowTransition } from "./model/workflow-transition";
 import { Time } from "@angular/common";
@@ -38,6 +38,8 @@ export class AppComponent implements AfterViewChecked {
   cookieEnabled: boolean;
 
   title = 'anudan.org';
+  profile = "";
+  public logo = "";
   loggedInUser: User;
   autosave: boolean = false;
   autosaveDisplay = '';
@@ -55,6 +57,7 @@ export class AppComponent implements AfterViewChecked {
   grantSaved = false;
   reportSaved = true;
   confgSubscription: any;
+  public grantTypes: GrantType[];
   originalGrant: Grant;
   originalReport: Report;
   action: string;
@@ -76,8 +79,7 @@ export class AppComponent implements AfterViewChecked {
     navbarTextColor: '#222',
     tenantCode: '',
     defaultSections: [],
-    grantInitialStatus: new WorkflowStatus(),
-    submissionInitialStatus: new WorkflowStatus(),
+    //submissionInitialStatus: new WorkflowStatus(),
     granteeOrgs: [],
     workflowStatuses: [],
     reportWorkflowStatuses: [],
@@ -89,10 +91,13 @@ export class AppComponent implements AfterViewChecked {
     templateLibrary: []
   };
 
+  reportUpdated = new BehaviorSubject<any>({ status: false, reportId: 0 });
+
   subMenu = {};
 
   org: string;
   public defaultClass = '';
+  currentDashboard: number;
 
   constructor(private toastr: ToastrService,
     private httpClient: HttpClient,
@@ -168,8 +173,39 @@ export class AppComponent implements AfterViewChecked {
       }
     });
 
+    this.getGrantTypes();
 
+    if (this.loggedInUser) {
+      this.profile = "/api/public/images/profile/" + this.loggedInUser.id + "?" + (new Date().getTime()).toString();
+    }
+
+    if (this.loggedInUser && this.loggedInUser.organization.organizationType === 'GRANTER') {
+      this.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+    } else if (this.loggedInUser && this.loggedInUser.organization.organizationType === 'GRANTEE') {
+      this.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/' + this.loggedInUser.organization.id + '/logo?' + (new Date().getTime()).toString();
+    } else {
+      this.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+    }
   }
+
+  getGrantTypes() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    if (this.loggedInUser) {
+      const url = "/api/user/" + this.loggedInUser.id + "/grant/grantTypes";
+      this.httpClient.get(url, httpOptions).subscribe((result: GrantType[]) => {
+        this.grantTypes = result;
+      });
+    }
+  }
+
+
 
   ngAfterViewChecked(): void {
     this.cdRef.detectChanges();
@@ -200,9 +236,9 @@ export class AppComponent implements AfterViewChecked {
       const arr = hostName.split('.');
       if (arr.length === 4) {
         subDomain = arr[0];
-      } else if (arr.length === 3 && (arr[0] === 'dev' || arr[0] === 'qa' || arr[0] === 'uat')) {
+      } else if (arr.length === 3 && (arr[0] === 'dev' || arr[0] === 'qa' || arr[0] === 'uat' || arr[0] === 'hotfix')) {
         subDomain = arr[1];
-      } else if (arr.length === 3 && (arr[0] !== 'dev' && arr[0] !== 'qa' && arr[0] !== 'uat')) {
+      } else if (arr.length === 3 && (arr[0] !== 'dev' && arr[0] !== 'qa' && arr[0] !== 'uat' && arr[0] !== 'hotfix')) {
         subDomain = arr[0];
       }
     }

@@ -73,5 +73,4 @@ export class GranthistoryComponent implements OnInit {
   ngAfterViewInit() {
     //Added new comment again
   }
-
 }

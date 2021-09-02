@@ -24,13 +24,13 @@ declare interface RouteInfo {
 
 export const ROUTES: RouteInfo[] = [
   { path: '/dashboard', title: 'Dashboard', icon: 'dashboard.png', class: '', divide: false },
-  { path: '/rfps', title: 'RFPs', icon: 'rfp.svg', class: '', divide: false },
-  { path: '/applications', title: 'Applications', icon: 'proposal.svg', class: '', divide: false },
   { path: '/grants', title: 'Grants', icon: 'grant.svg', class: '', divide: false },
   { path: '/reports', title: 'Reports', icon: 'report.svg', class: '', divide: false },
   { path: '/disbursements', title: 'Disbursements', icon: 'disbursement.svg', class: '', divide: false },
   /*{ path: '/disbursements', title: 'Disbursements',  icon: 'disbursement.svg', class: '',divide:false },*/
-  { path: '/organization', title: 'Organization', icon: 'organization.svg', class: '', divide: true }
+  { path: '/organization', title: 'Organization', icon: 'organization.svg', class: '', divide: true },
+  { path: '/rfps', title: 'RFPs', icon: 'rfp.svg', class: '', divide: false },
+  { path: '/applications', title: 'Applications', icon: 'proposal.svg', class: '', divide: false }
   /*,
   { path: '/user-profile', title: 'Administration',  icon:'person', class: '' },
   { path: '/table-list', title: 'Table List',  icon:'content_paste', class: '' },
@@ -55,7 +55,7 @@ export const SINGLE_REPORT_ROUTES: RouteInfo[] = [
 
 export const REPORT_ROUTES: RouteInfo[] = [
   { path: '/reports/upcoming', title: 'Upcoming', icon: 'grant.svg', class: '', divide: false },
-  { path: '/reports/submitted', title: 'Submitted', icon: 'view_agenda', class: '', divide: false },
+  { path: '/reports/submitted', title: 'In-Progress', icon: 'view_agenda', class: '', divide: false },
   { path: '/reports/approved', title: 'Approved', icon: 'preview.svg', class: '', divide: false }
 ];
 
@@ -85,6 +85,7 @@ export const PLATFORM_ROUTES: RouteInfo[] = [
 export const ORGANIZATION_ROUTES: RouteInfo[] = [
   { path: '/organization/details', title: 'About', icon: 'stop', class: '', divide: false },
   { path: '/organization/administration', title: 'Administration', icon: 'stop', class: '', divide: false },
+  { path: '/organization/data', title: 'Export', icon: 'stop', class: '', divide: false },
 ];
 export let SECTION_ROUTES: RouteInfo[] = [];
 export let REPORT_SECTION_ROUTES: RouteInfo[] = [];
@@ -150,6 +151,9 @@ export class SidebarComponent implements OnInit {
     private dialog: MatDialog,
     private http: HttpClient,
     private disbursementDataService: DisbursementDataService) {
+    if (appComponent.loggedInUser.organization.organizationType === 'GRANTEE') {
+      REPORT_ROUTES[0].title = 'Submissions Due'
+    }
     if (!this.appComponent.loggedInUser) {
       this.appComponent.logout();
     }
@@ -195,6 +199,10 @@ export class SidebarComponent implements OnInit {
     this.grantMenuItems = GRANT_ROUTES.filter(menuItem => menuItem);
     this.adminMenuItems = ADMIN_ROUTES.filter(menuItem => menuItem);
     this.orgMenuItems = ORGANIZATION_ROUTES.filter(menuItem => menuItem);
+    if (this.appComponent.loggedInUser.organization.organizationType === 'GRANTEE') {
+      const idx = this.orgMenuItems.findIndex(o => o.title === 'Export');
+      this.orgMenuItems.splice(idx, 1);
+    }
     this.platformMenuItems = PLATFORM_ROUTES.filter(menuItem => menuItem);
     this.reportMenuItems = REPORT_ROUTES.filter(menuItem => menuItem);
     this.grantSubMenuItems = GRANT_SUB_ROUTES.filter(menuItem => menuItem);
@@ -215,7 +223,7 @@ export class SidebarComponent implements OnInit {
     this.disbursementDataService.currentMessage.subscribe((d) => this.currentDisbursement = d);
 
     const tenantCode = localStorage.getItem('X-TENANT-CODE');
-    this.logoUrl = "/api/public/images/" + tenantCode + "/logo";
+    this.logoUrl = this.appComponent.logo;
 
 
     /*if(this.currentGrant && (this.currentGrant.grantStatus.internalStatus=='ACTIVE' || this.currentGrant.grantStatus.internalStatus=='CLOSED')){
@@ -266,7 +274,7 @@ export class SidebarComponent implements OnInit {
 
         this.appComponent.selectedTemplate = grant.grantTemplate;
 
-        if ((grant.workflowAssignment.filter(wf => wf.stateId === grant.grantStatus.id && wf.assignments === this.appComponent.loggedInUser.id).length > 0) && this.appComponent.loggedInUser.organization.organizationType !== 'GRANTEE' && (grant.grantStatus.internalStatus !== 'ACTIVE' && grant.grantStatus.internalStatus !== 'CLOSED')) {
+        if ((grant.workflowAssignments.filter(wf => wf.stateId === grant.grantStatus.id && wf.assignments === this.appComponent.loggedInUser.id).length > 0) && this.appComponent.loggedInUser.organization.organizationType !== 'GRANTEE' && (grant.grantStatus.internalStatus !== 'ACTIVE' && grant.grantStatus.internalStatus !== 'CLOSED')) {
           grant.canManage = true;
         } else {
           grant.canManage = false;
@@ -356,6 +364,7 @@ export class SidebarComponent implements OnInit {
       if (thisMenu === 'organization') {
         this.reportsElem.close();
         this.grantsElem.close();
+        this.disbursementsElem.close();
       } else if (thisMenu === 'reports') {
         if (this.organizationElem) {
           this.organizationElem.close();

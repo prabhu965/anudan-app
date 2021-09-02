@@ -1,3 +1,4 @@
+import { GrantType } from './../model/dahsboard';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
@@ -65,7 +66,8 @@ export class LoginComponent implements OnInit {
       this.parameters = params;
     });
     const tenantCode = localStorage.getItem('X-TENANT-CODE');
-    this.logoURL = "/api/public/images/" + tenantCode + "/logo";
+
+
 
     const url = '/api/public/tenant/' + tenantCode;
     this.http.get(url, { responseType: 'text' }).subscribe((orgName) => {
@@ -97,6 +99,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.appComponent.loggedInUser === null) {
+      this.appComponent.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+      this.logoURL = this.appComponent.logo;
+    }
 
     if (this.appComponent.loggedInUser) {
       this.appComponent.logout();
@@ -170,9 +176,24 @@ export class LoginComponent implements OnInit {
           }
         }
       }
+
+
+      this.appComponent.profile = "/api/public/images/profile/" + this.user.id + '?' + (new Date().getTime()).toString();
       localStorage.setItem('USER', '' + JSON.stringify(this.user));
       this.appComponent.loggedInUser = this.user;
+
+      if (this.appComponent.loggedInUser && this.appComponent.loggedInUser.organization.organizationType === 'GRANTER') {
+        this.appComponent.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+      } else if (this.appComponent.loggedInUser && this.appComponent.loggedInUser.organization.organizationType === 'GRANTEE') {
+        this.appComponent.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/' + this.appComponent.loggedInUser.organization.id + '/logo?' + (new Date().getTime()).toString();
+      } else {
+        this.appComponent.logo = "/api/public/images/" + localStorage.getItem("X-TENANT-CODE") + '/logo?' + (new Date().getTime()).toString();
+      }
+
+      this.logoURL = this.appComponent.logo;
       console.log(this.user);
+
+      this.getGrantTypes();
 
       if (this.user.organization.type === 'GRANTEE' || this.user.organization.type === 'GRANTER') {
         if (this.parameters.g || this.parameters.r || this.parameters.d) {
@@ -229,6 +250,23 @@ export class LoginComponent implements OnInit {
 
   requestPasswordReset() {
     this.router.navigate(['/passwordreset'], { queryParams: { mail: this.loginForm.get('emailId').value } });
+  }
+
+  getGrantTypes() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
+
+    if (this.appComponent.loggedInUser) {
+      const url = "/api/user/" + this.appComponent.loggedInUser.id + "/grant/grantTypes";
+      this.http.get(url, httpOptions).subscribe((result: GrantType[]) => {
+        this.appComponent.grantTypes = result;
+      });
+    }
   }
 
 }

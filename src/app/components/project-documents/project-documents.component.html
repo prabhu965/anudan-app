@@ -25,12 +25,11 @@
       <div class="row">
         <div class="col-6">
           <button class="btn btn-sm btn-green w-100" disabled>
-            <img src="./assets/img/library.svg" class="w-10 mr-2" style="width: 24px;" />Browse from library
+            <mat-icon style='display:flex;align-items:center;justify-content: center;'>business</mat-icon>Browse from library
           </button>
         </div>
         <div class="col-6 pl-0 pr-2">
-          <label for="projectDocument" class="btn btn-sm btn-green w-100 ml-0"><img src="./assets/img/computer.svg"
-              class="w-10 mr-2" style="width: 24px;" />Browse from system</label>
+          <label for="projectDocument" class="btn btn-sm btn-green w-100 ml-0"><mat-icon style='display:flex;align-items:center;justify-content: center;'>computer</mat-icon>Browse from system</label>
           <input id="projectDocument" type="file" style="height: 0; visibility: hidden;" multiple (change)="
                                   processSelectedFiles($event)
                                 " accept=".pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx" />
@@ -62,8 +61,7 @@
           </button>
 
           <button id="deleteBtn" class="btn btn-sm btn-blue ml-4" disabled (click)="deleteSelection()">
-            <img src="./assets/img/trash.svg"
-              style="width: 16px; opacity: 1; position: absolute; left: 0; margin-left: 5px; top: 5px;" />Delete
+            <mat-icon style='display:flex;align-items:center;justify-content: center;'>delete_outlined</mat-icon>Delete
             Selected Documents
           </button>
         </mat-list-item>

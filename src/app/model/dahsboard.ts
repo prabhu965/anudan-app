@@ -12,6 +12,12 @@ export class Organization {
   type: string;
   createdAt: Date;
   createdBy: string;
+  description: string;
+  website: string;
+  twitter: string;
+  facebook: string;
+  linkedin: string;
+  instagram: string;
 }
 
 export class GrantorOrganization {
@@ -257,8 +263,9 @@ export class Grant {
   grantTemplate: GrantTemplate;
   createdAt: Date;
   createdBy: string;
-  currentAssignment: User[];
-  workflowAssignment: WorkflowAssignment[];
+  currentAssignment: number;
+  workflowAssignment: WorkflowAssignments[];
+  workflowAssignments: WorkflowAssignments[];
   note: string;
   noteAdded: Date;
   noteAddedBy: string;
@@ -270,6 +277,25 @@ export class Grant {
   hasOngoingDisbursement: boolean;
   projectDocumentsCount: number;
   approvedDisbursementsTotal: number;
+  approvedReportsForGrant: number;
+  origGrantId: number;
+  amendGrantId: number;
+  amended: boolean;
+  origGrantRefNo: string;
+  minEndEndate: Date;
+  grantTypeId: number;
+  isInternal: boolean;
+  grantTags: GrantTag[];
+  tags: GrantTag[];
+  ownerName: string;
+  ownerId: number;
+}
+
+export class GrantTag {
+  id: number;
+  tagName: string;
+  grantId: number;
+  orgTagId: number;
 }
 
 export class GrantSnapshot {
@@ -315,14 +341,14 @@ export class GrantHistory {
   createdAt: Date;
   createdBy: string;
   currentAssignment: User[];
-  workflowAssignment: WorkflowAssignment[];
+  workflowAssignment: WorkflowAssignments[];
   note: string;
   noteAdded: Date;
   noteAddedBy: string;
   noteAddedByUser: User;
 }
 
-export class WorkflowAssignment {
+export class WorkflowAssignments {
   id: number;
   grantId: number;
   stateName: WorkflowStatus;
@@ -389,6 +415,9 @@ export class GrantNote {
   currentGrant: Grant;
   originalGrant: Grant;
   canManage: boolean;
+  canMove: boolean;
+  messages: any;
+  validationResult: any;
 }
 
 export class SerializationHelper {
@@ -435,6 +464,8 @@ export class TableData {
   saved: boolean;
   actualDisbursementId: number;
   disbursementId: number;
+  reportId: number;
+  showForGrantee: boolean;
 }
 
 export class TemplateLibrary {
@@ -467,7 +498,7 @@ export class SectionInfo {
 export class WorkflowAssignmentModel {
   users: User[];
   workflowStatuses: WorkflowStatus[];
-  workflowAssignment: WorkflowAssignment[];
+  workflowAssignment: WorkflowAssignments[];
   grant: Grant;
   type: string;
   canManage: boolean;
@@ -492,19 +523,22 @@ export class GrantDiff {
   oldRep: string;
   newRep: string;
   sectionDiffs: SectionDiff[];
+  orderDiffs: any[];
+  attributeOrderDiffs: any[];
 }
 
 export class SectionDiff {
   hasSectionLevelChanges = false;
   order: number;
-  oldSection: Section;
-  newSection: Section;
+  oldSection: any;
+  newSection: any;
   attributesDiffs: AttributeDiff[];
+  attributeOrderDiffs: any[];
 }
 export class AttributeDiff {
   section: string;
-  oldAttribute: Attribute;
-  newAttribute: Attribute;
+  oldAttribute: any;
+  newAttribute: any;
 }
 
 export class CustomDateAdapter extends NativeDateAdapter {
@@ -519,4 +553,21 @@ export class CustomDateAdapter extends NativeDateAdapter {
       return date.toDateString();
     }
   }
+}
+
+
+export class GrantType {
+  id: number;
+  name: string;
+  description: string;
+  internal: boolean;
+  granterId: number;
+  colorCode: string;
+}
+
+export class OrgTag {
+  id: number;
+  name: string;
+  disabled: boolean;
+  used: boolean;
 }

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { SearchFilterComponent } from './../../layouts/admin-layout/search-filter/search-filter.component';
+import { UiUtilService } from './../../ui-util.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppComponent } from 'app/app.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Grant } from 'app/model/dahsboard';
@@ -21,7 +23,11 @@ export class InprogressDisbursementsComponent implements OnInit {
 
   disbursements: Disbursement[];
   deleteDisbursementEvent: boolean = false;
-
+  filteredDisbursements: Disbursement[] = [];
+  searchClosed = true;
+  filterReady = false;
+  filterCriteria: any;
+  @ViewChild("appSearchFilter") appSearchFilter: SearchFilterComponent;
 
   public constructor(
     public appComponent: AppComponent,
@@ -29,7 +35,8 @@ export class InprogressDisbursementsComponent implements OnInit {
     private dialog: MatDialog,
     public disbursementDataService: DisbursementDataService,
     private router: Router,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    public uiService: UiUtilService
   ) { };
 
 
@@ -42,6 +49,7 @@ export class InprogressDisbursementsComponent implements OnInit {
   fetchInprogressDisbursements() {
     this.disbursementDataService.fetchInprogressDisbursements().then(list => {
       this.disbursements = list;
+      this.filteredDisbursements = this.disbursements;
       console.log(this.disbursements)
     });
   }
@@ -56,7 +64,10 @@ export class InprogressDisbursementsComponent implements OnInit {
             data: ownedGrants,
             panelClass: 'grant-template-class'
           });
-
+          /* this.searchClosed = true;
+          if (this.appSearchFilter) {
+            this.appSearchFilter.closeSearch();
+          } */
           dialogRef.afterClosed().subscribe((result) => {
             if (result.result) {
               this.createDisbursement(result.selectedGrant);
@@ -97,7 +108,7 @@ export class InprogressDisbursementsComponent implements OnInit {
 
     this.deleteDisbursementEvent = true;
     const dialogRef = this.dialog.open(FieldDialogComponent, {
-      data: { title: 'Are you sure you want to delete this disbursement?' },
+      data: { title: 'Are you sure you want to delete this disbursement?', btnMain: "Delete Disbursement", btnSecondary: "Not Now" },
       panelClass: 'center-class'
     });
 
@@ -112,6 +123,63 @@ export class InprogressDisbursementsComponent implements OnInit {
         dialogRef.close();
       }
     });
+  }
+
+  public getGrantTypeName(typeId): string {
+    return this.appComponent.grantTypes.filter(t => t.id === typeId)[0].name;
+  }
+
+  public getGrantTypeColor(typeId): any {
+    return this.appComponent.grantTypes.filter(t => t.id === typeId)[0].colorCode;
+  }
+
+  isExternalGrant(grant: Grant): boolean {
+    if (this.appComponent.loggedInUser.organization.organizationType === 'GRANTEE') {
+      return true;
+    }
+
+    const grantType = this.appComponent.grantTypes.filter(gt => gt.id === grant.grantTypeId)[0];
+    if (!grantType.internal) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /* startFilter(val) {
+    this.filteredDisbursements = this.disbursements.filter(g => ((g.grant.name.toLowerCase().includes(val)) || (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val))));
+  } */
+
+  startFilter(val) {
+    val = val.toLowerCase();
+    this.filterCriteria = val;
+    this.filteredDisbursements = this.disbursements.filter(g => {
+      return (g.grant.name.toLowerCase().includes(val)) ||
+        (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+        (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val)) ||
+        (g.ownerName && g.ownerName.toLowerCase().includes(val))
+    });
+
+    this.filterReady = true;
+
+  }
+
+  resetFilterFlag(val) {
+    this.filterReady = val;
+  }
+
+
+  closeSearch(ev: any) {
+    this.searchClosed = ev;
+  }
+
+  openSearch() {
+    if (this.searchClosed) {
+      this.searchClosed = false;
+    } else {
+      this.searchClosed = true;
+      this.appSearchFilter.closeSearch();
+    }
   }
 
 }

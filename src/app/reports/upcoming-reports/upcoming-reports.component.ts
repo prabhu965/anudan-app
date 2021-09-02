@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { UiUtilService } from './../../ui-util.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportDataService } from '../../report.data.service'
 import { SingleReportDataService } from '../../single.report.data.service'
 import { Report, ReportTemplate } from '../../model/report'
@@ -16,6 +17,8 @@ import * as indianCurrencyInWords from 'indian-currency-in-words';
 import * as inf from 'indian-number-format';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { FieldDialogComponent } from 'app/components/field-dialog/field-dialog.component';
+import { SearchFilterComponent } from 'app/layouts/admin-layout/search-filter/search-filter.component';
+import * as moment from "moment";
 
 
 @Component({
@@ -39,6 +42,21 @@ export class UpcomingReportsComponent implements OnInit {
     otherReportsClicked: boolean = false;
     deleteReportsClicked: boolean = false;
     upcomingSearchCriteria: string;
+    filteredToSetupReports: Report[];
+    filteredToSetupReportD: Report[];
+    filteredToSetupReportDOrig: Report[];
+    filteredToSetupReportOD: Report[];
+    filteredToSetupReportODOrig: Report[];
+    filteredReadyToSubmitReports: Report[];
+    filteredReadyToSubmitReportsD: Report[];
+    filteredReadyToSubmitReportsOD: Report[];
+    filteredReadyToSubmitReportsDOrig: Report[];
+    filteredReadyToSubmitReportsODOrig: Report[];
+    filterAllReports: Report[];
+    searchClosed = true;
+    filterReady = false;
+    filterCriteria: any;
+    @ViewChild("appSearchFilter") appSearchFilter: SearchFilterComponent;
 
     constructor(
         private reportService: ReportDataService,
@@ -48,7 +66,45 @@ export class UpcomingReportsComponent implements OnInit {
         public appComp: AppComponent,
         private dialog: MatDialog,
         public reportComponent: ReportComponent,
-        private titlecasePipe: TitleCasePipe) {
+        private titlecasePipe: TitleCasePipe,
+        public uiService: UiUtilService) {
+        this.appComp.reportUpdated.subscribe((statusUpdate) => {
+            if (statusUpdate.status && statusUpdate.reportId) {
+                let url =
+                    "/api/user/" + this.appComp.loggedInUser.id + "/report/" + statusUpdate.reportId;
+                const httpOptions = {
+                    headers: new HttpHeaders({
+                        "Content-Type": "application/json",
+                        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+                        Authorization: localStorage.getItem("AUTH_TOKEN"),
+                    }),
+                };
+
+                this.http.get(url, httpOptions).subscribe((report: Report) => {
+                    if (report) {
+                        let idx = -1;
+                        if (this.reportsToSetup !== undefined && this.reportsToSetup !== null) {
+                            idx = this.reportsToSetup.findIndex((x) => x.id === Number(report.id));
+                            if (idx >= 0) {
+                                this.reportsToSetup[idx] = report;
+                            }
+                        }
+                        if (this.reportsReadyToSubmit !== undefined && this.reportsReadyToSubmit !== null) {
+                            idx = this.reportsReadyToSubmit.findIndex((x) => x.id === Number(report.id));
+                            if (idx >= 0) {
+                                this.reportsReadyToSubmit[idx] = report;
+                            }
+                        }
+                        if (this.futureReportsToSetup !== undefined && this.futureReportsToSetup !== null) {
+                            idx = this.futureReportsToSetup.findIndex((x) => x.id === Number(report.id));
+                            if (idx >= 0) {
+                                this.futureReportsToSetup[idx] = report;
+                            }
+                        }
+                    }
+                });
+            }
+        });
     }
 
     ngOnInit() {
@@ -84,6 +140,19 @@ export class UpcomingReportsComponent implements OnInit {
             //this.processReports(reports);
             this.reportsToSetup = reports;
             this.reportsToSetupData = reports;
+            this.filteredToSetupReports = this.reportsToSetupData;
+            if (this.filteredToSetupReports && this.filteredToSetupReports.length > 0) {
+                this.filteredToSetupReportD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') <= 0);
+                this.filteredToSetupReportOD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') > 0);
+                this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
+                this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
+            } else {
+                this.filteredToSetupReportD = [];
+                this.filteredToSetupReportOD = [];
+                this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
+                this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
+            }
+
             this.processReports(reports);
         });
 
@@ -99,6 +168,22 @@ export class UpcomingReportsComponent implements OnInit {
         this.http.get<Report[]>(url, httpOptions2).subscribe((reports: Report[]) => {
             //this.processReports(reports);
             this.reportsReadyToSubmit = reports;
+            this.filteredReadyToSubmitReports = this.reportsReadyToSubmit;
+            if (this.appComp.loggedInUser.organization.organizationType === 'GRANTEE') {
+                this.reportsReadyToSubmit.sort((a, b) => (a.dueDate <= b.dueDate) ? -1 : 1);
+            }
+
+            if (this.filteredReadyToSubmitReports && this.filteredReadyToSubmitReports.length > 0) {
+                this.filteredReadyToSubmitReportsD = this.filteredReadyToSubmitReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') <= 0);
+                this.filteredReadyToSubmitReportsOD = this.filteredReadyToSubmitReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') > 0);
+                this.filteredReadyToSubmitReportsDOrig = this.filteredReadyToSubmitReportsD;
+                this.filteredReadyToSubmitReportsODOrig = this.filteredReadyToSubmitReportsOD;
+            } else {
+                this.filteredReadyToSubmitReportsD = [];
+                this.filteredReadyToSubmitReportsOD = [];
+                this.filteredReadyToSubmitReportsDOrig = this.filteredReadyToSubmitReportsD;
+                this.filteredReadyToSubmitReportsODOrig = this.filteredReadyToSubmitReportsOD;
+            }
         });
 
         const queryParams3 = new HttpParams().set('q', 'upcoming-future');
@@ -113,6 +198,7 @@ export class UpcomingReportsComponent implements OnInit {
         this.http.get<Report[]>(url, httpOptions3).subscribe((reports: Report[]) => {
             //this.processReports(reports);
             this.allReports = reports;
+            this.filterAllReports = this.allReports;
         });
     }
 
@@ -156,15 +242,30 @@ export class UpcomingReportsComponent implements OnInit {
         if (this.otherReportsClicked || this.deleteReportsClicked) {
             return;
         }
-        this.appComp.currentView = 'report';
-        this.singleReportService.changeMessage(report);
-        if (report.canManage && report.status.internalStatus != 'CLOSED') {
-            this.appComp.action = 'report';
-            this.router.navigate(['report/report-header']);
-        } else {
-            this.appComp.action = 'report';
-            this.router.navigate(['report/report-preview']);
-        }
+
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'X-TENANT-CODE': localStorage.getItem('X-TENANT-CODE'),
+                'Authorization': localStorage.getItem('AUTH_TOKEN')
+            })
+        };
+
+        const user = JSON.parse(localStorage.getItem('USER'));
+        let url = '/api/user/' + user.id + '/report/' + report.id;
+        this.http.get<Report>(url, httpOptions).subscribe((report: Report) => {
+            this.appComp.currentView = 'report';
+            this.singleReportService.changeMessage(report);
+            if (report.canManage && report.status.internalStatus != 'CLOSED') {
+                this.appComp.action = 'report';
+                this.router.navigate(['report/report-header']);
+            } else {
+                this.appComp.action = 'report';
+                this.router.navigate(['report/report-preview']);
+            }
+        });
+
+
     }
 
     selectReportTemplate() {
@@ -180,6 +281,10 @@ export class UpcomingReportsComponent implements OnInit {
         const user = JSON.parse(localStorage.getItem('USER'));
         let url = '/api/user/' + user.id + '/report/templates';
         this.http.get<ReportTemplate[]>(url, httpOptions).subscribe((templates: ReportTemplate[]) => {
+            //this.searchClosed = true;
+            /* if (this.appSearchFilter) {
+                this.appSearchFilter.closeSearch();
+            } */
             let dialogRef = this.dialog.open(ReportTemplateDialogComponent, {
                 data: templates,
                 panelClass: 'grant-template-class'
@@ -214,10 +319,10 @@ export class UpcomingReportsComponent implements OnInit {
         });
     }
 
-    viewAddnlReports(reportId: number, grantId: number) {
+    viewAddnlReports(reportId: number, grantId: number, forType: string) {
         this.otherReportsClicked = true
         let dialogRef1 = this.dialog.open(AddnlreportsDialogComponent, {
-            data: { report: reportId, grant: grantId, grants: this.grants, futureReports: this.futureReportsToSetup, single: false },
+            data: { data: { report: reportId, grant: grantId, grants: this.grants, futureReports: this.futureReportsToSetup, single: false, type: forType }, appComp: this.appComp },
             panelClass: 'addnl-report-class'
         });
 
@@ -227,6 +332,29 @@ export class UpcomingReportsComponent implements OnInit {
                 this.manageReport(result.selectedReport);
             } else {
                 this.otherReportsClicked = false;
+                if (result.deleted && result.deleted.length > 0) {
+                    let idx = -1;
+                    if (this.reportsToSetup !== undefined && this.reportsToSetup !== null) {
+                        this.reportsToSetup.findIndex(x => x.id === reportId);
+                        if (idx !== -1) {
+                            this.reportsToSetup[idx].futureReportsCount = this.reportsToSetup[idx].futureReportsCount - 1;
+                        }
+                    }
+
+                    if (this.reportsReadyToSubmit !== undefined && this.reportsReadyToSubmit !== null) {
+                        idx = this.reportsReadyToSubmit.findIndex(x => x.id === reportId);
+                        if (idx !== -1) {
+                            this.reportsReadyToSubmit[idx].futureReportsCount = this.reportsReadyToSubmit[idx].futureReportsCount - 1;
+                        }
+                    }
+
+                    if (this.allReports !== undefined && this.allReports !== null) {
+                        idx = this.allReports.findIndex(x => x.id === reportId);
+                        if (idx !== -1) {
+                            this.allReports[idx].futureReportsCount = this.allReports[idx].futureReportsCount - 1;
+                        }
+                    }
+                }
             }
         });
     }
@@ -253,7 +381,7 @@ export class UpcomingReportsComponent implements OnInit {
         return inf.format(amount, 2);
     }
 
-    startFilter(_for: string, ev) {
+    /* startFilter(_for: string, ev) {
         const searchCriteria = ev.target.value;
         if (_for === 'upcoming') {
             if (searchCriteria !== '') {
@@ -262,12 +390,12 @@ export class UpcomingReportsComponent implements OnInit {
                 this.reportsToSetupData = this.reportsToSetup;
             }
         }
-    }
+    } */
 
     deleteReport(report: Report) {
         this.deleteReportsClicked = true;
         const dialogRef = this.dialog.open(FieldDialogComponent, {
-            data: { title: 'Are you sure you want to delete this report?' },
+            data: { title: 'Are you sure you want to delete this report?', btnMain: "Delete Report", btnSecondary: "Not Now" },
             panelClass: 'center-class'
         });
 
@@ -275,8 +403,45 @@ export class UpcomingReportsComponent implements OnInit {
             if (result) {
                 this.reportService.deleteReport(report)
                     .then(() => {
-                        const index = this.reportsToSetupData.findIndex(r => r.id === report.id);
-                        this.reportsToSetupData.splice(index, 1);
+                        let index = -1;
+                        if (this.reportsToSetupData !== undefined && this.reportsToSetupData !== null) {
+                            index = this.reportsToSetupData.findIndex(r => r.id === report.id);
+                            if (index >= 0) {
+                                this.reportsToSetupData.splice(index, 1);
+                            }
+                            this.filteredToSetupReports = this.reportsToSetupData;
+
+                            if (this.filteredToSetupReports && this.filteredToSetupReports.length > 0) {
+                                this.filteredToSetupReportD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') <= 0);
+                                this.filteredToSetupReportOD = this.filteredToSetupReports.filter(r => moment(new Date()).diff(moment(r.dueDate), 'days') > 0);
+                                this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
+                                this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
+                            } else {
+                                this.filteredToSetupReportD = [];
+                                this.filteredToSetupReportOD = [];
+                                this.filteredToSetupReportDOrig = this.filteredToSetupReportD;
+                                this.filteredToSetupReportODOrig = this.filteredToSetupReportOD;
+                            }
+                        }
+                        if (this.reportsToSetup !== undefined && this.reportsToSetup !== null) {
+                            index = this.reportsToSetup.findIndex(r => r.id === report.id);
+                            if (index >= 0) {
+                                this.reportsToSetup.splice(index, 1);
+                            }
+                        }
+                        if (this.reportsReadyToSubmit !== undefined && this.reportsReadyToSubmit !== null) {
+                            index = this.reportsReadyToSubmit.findIndex(r => r.id === report.id);
+                            if (index >= 0) {
+                                this.reportsReadyToSubmit.splice(index, 1);
+                            }
+                        }
+                        if (this.allReports !== undefined && this.allReports !== null) {
+                            index = this.allReports.findIndex(r => r.id === report.id);
+                            if (index >= 0) {
+                                this.allReports.splice(index, 1);
+                                this.filterAllReports = this.addnlReports;
+                            }
+                        }
                         this.deleteReportsClicked = false;
                     })
             } else {
@@ -284,5 +449,91 @@ export class UpcomingReportsComponent implements OnInit {
                 dialogRef.close();
             }
         });
+    }
+
+    public getGrantTypeName(typeId): string {
+        return this.appComp.grantTypes.filter(t => t.id === typeId)[0].name;
+    }
+
+    public getGrantTypeColor(typeId): any {
+        return this.appComp.grantTypes.filter(t => t.id === typeId)[0].colorCode;
+    }
+
+    isExternalGrant(grant: Grant): boolean {
+        const grantType = this.appComp.grantTypes.filter(gt => gt.id === grant.grantTypeId)[0];
+        if (!grantType || !grantType.internal) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /* startFilter(val) {
+        this.filteredToSetupReports = this.reportsToSetupData.filter(g => ((g.name && g.name.toLowerCase().includes(val)) || (g.grant.name.toLowerCase().includes(val)) || (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val))));
+        this.filteredReadyToSubmitReports = this.reportsReadyToSubmit.filter(g => ((g.name && g.name.toLowerCase().includes(val)) || (g.grant.name.toLowerCase().includes(val)) || (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val))));
+        this.filterAllReports = this.allReports.filter(g => ((g.name && g.name.toLowerCase().includes(val)) || (g.grant.name.toLowerCase().includes(val)) || (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val))));
+    } */
+
+    startFilter(val) {
+        val = val.toLowerCase();
+        this.filterCriteria = val;
+        this.filteredToSetupReportD = this.filteredToSetupReportDOrig.filter(g => {
+            return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+                (g.grant.name.toLowerCase().includes(val)) ||
+                (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+                (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val)) ||
+                (g.ownerName && g.ownerName.toLowerCase().includes(val))
+        });
+        this.filteredToSetupReportOD = this.filteredToSetupReportODOrig.filter(g => {
+            return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+                (g.grant.name.toLowerCase().includes(val)) ||
+                (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+                (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val)) ||
+                (g.ownerName && g.ownerName.toLowerCase().includes(val))
+        });
+        this.filteredReadyToSubmitReportsD = this.filteredReadyToSubmitReportsDOrig.filter(g => {
+            return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+                (g.grant.name.toLowerCase().includes(val)) ||
+                (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+                (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val)) ||
+                (g.ownerName && g.ownerName.toLowerCase().includes(val))
+        });
+        this.filteredReadyToSubmitReportsOD = this.filteredReadyToSubmitReportsODOrig.filter(g => {
+            return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+                (g.grant.name.toLowerCase().includes(val)) ||
+                (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+                (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val)) ||
+                (g.ownerName && g.ownerName.toLowerCase().includes(val))
+        });
+        if (this.allReports) {
+            this.filterAllReports = this.allReports.filter(g => {
+                return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
+                    (g.grant.name.toLowerCase().includes(val)) ||
+                    (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
+                    (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val)) ||
+                    (g.ownerName && g.ownerName.toLowerCase().includes(val))
+            });
+        }
+
+        this.filterReady = true;
+
+    }
+
+    resetFilterFlag(val) {
+        this.filterReady = val;
+    }
+
+
+    closeSearch(ev: any) {
+        this.searchClosed = ev;
+    }
+
+    openSearch() {
+        if (this.searchClosed) {
+            this.searchClosed = false;
+        } else {
+            this.searchClosed = true;
+            this.appSearchFilter.closeSearch();
+        }
     }
 }

@@ -38,7 +38,7 @@ import { GoogleLoginProvider, LinkedinLoginProvider } from 'ng-social-login-modu
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ToastrModule } from 'ngx-toastr';
-import { MatBottomSheet, MatDatepickerModule, MatNativeDateModule, MatIconModule, MatExpansionModule, MatBadgeModule, MatMenuModule, MatSelectModule, MatListModule } from '@angular/material';
+import { MatBottomSheet, MatDatepickerModule, MatNativeDateModule, MatIconModule, MatExpansionModule, MatBadgeModule, MatMenuModule, MatSelectModule, MatListModule, MatButtonModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { Colors } from './model/app-config';
@@ -49,12 +49,15 @@ import { FieldDialogComponent } from './components/field-dialog/field-dialog.com
 import { OwnersPopupComponent } from './components/owners-popup/owners-popup.component';
 import { ProjectDocumentsComponent } from './components/project-documents/project-documents.component';
 import { NocookieComponent } from './nocookie/nocookie.component';
+import { NgxMarkjsModule } from 'ngx-markjs';
+
 
 export class AnudanErrorHandler implements ErrorHandler {
   constructor() { }
   handleError(error: Error) {
     if (Error) {
       console.log(error);
+      return true;
     } else console.log("hello");
   }
 }
@@ -94,7 +97,7 @@ export function provideConfig() {
     ProjectDocumentsComponent,
     OwnersPopupComponent,
     NotificationspopupComponent,
-    NocookieComponent
+    NocookieComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -136,7 +139,9 @@ export function provideConfig() {
     MatNativeDateModule,
     MatSnackBarModule,
     MatIconModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxMarkjsModule,
+    MatButtonModule
   ],
   providers: [
     {

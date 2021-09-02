@@ -7,6 +7,9 @@
             <input #tenantSlug matInput placeholder="Tenant slug" class="anu-input">
         </mat-form-field>
         <mat-form-field>
+            <input #refTenantCode matInput placeholder="Reference Tenant code" class="anu-input">
+        </mat-form-field>
+        <mat-form-field>
             <input #tenantAdmin matInput placeholder="Send invite to" type="email" class="anu-input">
         </mat-form-field>
         <!-- <mat-label>Select Reference Organization:</mat-label>
@@ -19,6 +22,8 @@
     </div>
 
     <hr>
-    <input [(ngModel)]="tenant">
+    <!-- <input [(ngModel)]="tenant">
     <button (click)="encryptPassword();">Encrypt Passwords for Tenant</button>
+    <button (click)="fixGrants();">Fix Sustainplus Grants</button> -->
+    <button (click)="fixGranType();">Create Grant Types</button>
 </div>

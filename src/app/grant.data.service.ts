@@ -21,11 +21,14 @@ export class GrantDataService {
 
     if (message !== null) {
       const user = JSON.parse(localStorage.getItem('USER'));
-      if ((message.workflowAssignment.filter(wf => wf.stateId === message.grantStatus.id && wf.assignments === userId).length > 0) && user.organization.organizationType !== 'GRANTEE' && (message.grantStatus.internalStatus !== 'ACTIVE' && message.grantStatus.internalStatus !== 'CLOSED')) {
+      if ((message.workflowAssignments.filter(wf => wf.stateId === message.grantStatus.id && wf.assignments === userId).length > 0) && user.organization.organizationType !== 'GRANTEE' && (message.grantStatus.internalStatus !== 'ACTIVE' && message.grantStatus.internalStatus !== 'CLOSED')) {
         message.canManage = true
       } else {
         message.canManage = false;
       }
+    }
+    if (message !== undefined && message !== null && (message.grantTags === undefined || message.grantTags === null)) {
+      message.grantTags = [];
     }
     this.messageSource.next(message)
   }

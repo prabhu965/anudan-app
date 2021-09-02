@@ -1,19 +1,20 @@
-import {Component, OnInit,Input,OnChanges, SimpleChanges, SimpleChange} from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
 
 @Component({
-  selector: 'app-summary-centered',
-  templateUrl: './summary-centered.component.html',
-  styleUrls: ['./summary-centered.component.css']
+    selector: 'app-summary-centered',
+    templateUrl: './summary-centered.component.html',
+    styleUrls: ['./summary-centered.component.css']
 })
-export class SummaryCenteredComponent implements OnInit,OnChanges {
+export class SummaryCenteredComponent implements OnInit, OnChanges {
 
-     @Input() data: any;
-     @Input() display: boolean = false;
+    @Input() data: any;
+    @Input() display: boolean = false;
+    @Input() clickable: boolean = false;
 
-     heading:string;
-     caption:string;
-     subCaption:string;
+    heading: string;
+    caption: string;
+    subCaption: string;
 
     constructor() {
 
@@ -25,8 +26,8 @@ export class SummaryCenteredComponent implements OnInit,OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         for (let property in changes) {
-            if(property === 'data'){
-                if(this.data){
+            if (property === 'data') {
+                if (this.data) {
                     this.display = true;
                     this.heading = this.data.totalGrants;
                     this.caption = this.data.name;

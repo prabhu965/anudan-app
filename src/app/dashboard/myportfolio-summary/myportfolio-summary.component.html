@@ -1,0 +1,33 @@
+<div *ngIf="display">
+
+    <div class="row">
+        <div class="col-9">
+            <div style="min-width:200px;font-weight: 800;font-size: 24px;color: #0E100E;">{{name}}</div>
+        </div>
+        <div class="col-3">
+            <mat-select *ngIf="selected" class="anu-input" [value]="selected.name" (selectionChange)="doSomething($event)">
+                <mat-option *ngFor="let filter of data" [value]="filter.name">{{filter.name}}</mat-option>
+            </mat-select>
+        </div>
+        <div *ngIf="selected.totalGrants===0" class="col-12">
+            <p class="text-header">Portfolio data not available</p>
+        </div>
+        <div *ngIf="selected.totalGrants>0" class="col-3">
+            <app-summary-centered [clickable]="selected.totalGrants>0?true:false" [display]="false" [data]="portfolioData" (click)="showMyGrantsByStatus()"></app-summary-centered>
+        </div>
+        <div *ngIf="selected.totalGrants>0" class="col-9">
+            <app-progress-summary [display]="false" [data]="portfolioProgessData"></app-progress-summary>
+        </div>
+    </div>
+
+    <div *ngIf="selected.totalGrants>0" class="row mt-4">
+        <div class="col-4"><app-summary [heading]="selected.granteeOrgs" [border]="'#dddddd'" caption="Grantee Organizations"></app-summary></div>
+        <div class="col-4"><app-summary [heading]="selected.grantswithnoapprovedreports" [border]="'#dddddd'" caption="Grants missing Progress Reports"></app-summary></div>
+        <div class="col-4"><app-summary [heading]="selected.grantswithnokpis" [border]="'#dddddd'" caption="Grants missing Outcomes/Measures"></app-summary></div>
+    </div>
+    <div *ngIf="selected.totalGrants>0" class="row">
+        <div class="col-12">
+            <app-mychart-summary [display]="false" [data]="portfolioDetailData" [portfolioType]="portfolioType"></app-mychart-summary>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,9 @@
+import { GrantCompareComponent } from './../../grant-compare/grant-compare.component';
+import { GrantApiService } from './../../grant-api.service';
+import { GrantTag, OrgTag } from './../../model/dahsboard';
+import { AdminService } from './../../admin.service';
+import { GrantTagsComponent } from './../../grant-tags/grant-tags.component';
+import { MessagingComponent } from "./../../components/messaging/messaging.component";
 import {
   Component,
   ElementRef,
@@ -146,6 +152,7 @@ export class BasicComponent implements OnInit {
   grantWorkflowStatuses: WorkflowStatus[];
   tenantUsers: User[];
   grantAmountFormattedValue: string;
+  orgTags: OrgTag[] = [];
 
   userActivity;
   userInactive: Subject<any> = new Subject();
@@ -186,7 +193,10 @@ export class BasicComponent implements OnInit {
     public sidebar: SidebarComponent,
     private sectionsRef: SectionsComponent,
     private titlecasePipe: TitleCasePipe,
-    public amountValidator: AmountValidator
+    public amountValidator: AmountValidator,
+    private adminService: AdminService,
+    private grantApiService: GrantApiService,
+
   ) {
     this.colors = new Colors();
     this.route.params.subscribe((p) => {
@@ -215,7 +225,9 @@ export class BasicComponent implements OnInit {
     });
 
     this.grantData.currentMessage.subscribe(
-      (grant) => (this.currentGrant = grant)
+      (grant) => {
+        this.currentGrant = grant;
+      }
     );
 
     const httpOptions = {
@@ -254,15 +266,35 @@ export class BasicComponent implements OnInit {
     );
 
     this.myControl = new FormControl(this.currentGrant.organization);
+    if (this.currentGrant.origGrantId) {
+      this.myControl.disable();
+    }
 
-    this.options = this.appComp.appConfig.granteeOrgs;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "X-TENANT-CODE": localStorage.getItem("X-TENANT-CODE"),
+        Authorization: localStorage.getItem("AUTH_TOKEN"),
+      }),
+    };
 
-    const orgs = this.options ? this.options.slice() : [];
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(""),
-      map((value) => (typeof value === "string" ? value : value.name)),
-      map((name) => (name ? this._filter(name) : orgs))
-    );
+    const url =
+      "/api/user/" +
+      this.appComp.loggedInUser.id +
+      "/grant/granteeOrgs";
+
+    this.http.get(url, httpOptions).subscribe((granteeOrgs: Organization[]) => {
+      this.options = granteeOrgs;
+      const orgs = this.options ? this.options.slice() : [];
+      this.filteredOptions = this.myControl.valueChanges.pipe(
+        startWith(""),
+        map((value) => (typeof value === "string" ? value : value.name)),
+        map((name) => (name ? this._filter(name) : orgs))
+      );
+    });
+
+
+
 
     this.setDateDuration();
 
@@ -290,12 +322,14 @@ export class BasicComponent implements OnInit {
       $("#kpiDescription").focus();
     });
 
-    //this.sidebar.buildSectionsSideNav(this.currentGrant);
+    this.adminService.getOrgTags(this.appComp.loggedInUser).then((tags: OrgTag[]) => {
+      this.orgTags = tags;
+    });
   }
 
   private checkGrantPermissions() {
     if (
-      this.currentGrant.workflowAssignment.filter(
+      this.currentGrant.workflowAssignments.filter(
         (wf) =>
           wf.stateId === this.currentGrant.grantStatus.id &&
           wf.assignments === this.appComp.loggedInUser.id
@@ -371,6 +405,7 @@ export class BasicComponent implements OnInit {
   ) {
     const dialogRef = this.dialog.open(FieldDialogComponent, {
       data: { title: title },
+      panelClass: 'center-class'
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -541,7 +576,7 @@ export class BasicComponent implements OnInit {
         (grant: Grant) => {
           this.originalGrant = JSON.parse(JSON.stringify(grant));
           if (
-            this.currentGrant.workflowAssignment.filter(
+            this.currentGrant.workflowAssignments.filter(
               (wf) =>
                 wf.stateId === this.currentGrant.grantStatus.id &&
                 wf.assignments === this.appComp.loggedInUser.id
@@ -1189,121 +1224,6 @@ export class BasicComponent implements OnInit {
     $(scheduleModal).modal("show");
   }
 
-  createGrant() {
-    const grant = new Grant();
-    grant.submissions = new Array<Submission>();
-    grant.actionAuthorities = new ActionAuthorities();
-    grant.actionAuthorities.permissions = [];
-    grant.actionAuthorities.permissions.push("MANAGE");
-    grant.organization = this.appComp.appConfig.granteeOrgs[0];
-    grant.grantStatus = this.appComp.appConfig.grantInitialStatus;
-    grant.substatus = this.appComp.appConfig.submissionInitialStatus;
-
-    grant.id = 0 - Math.round(Math.random() * 10000000000);
-
-    const st = new Date();
-    grant.startDate = st;
-    grant.stDate = this.datepipe.transform(st, "yyyy-MM-dd");
-    let et = new Date();
-    et = new Date(et.setFullYear(et.getFullYear() + 1));
-    grant.endDate = et;
-    grant.enDate = this.datepipe.transform(et, "yyyy-MM-dd");
-
-    grant.kpis = new Array<Kpi>();
-    grant.grantDetails = new GrantDetails();
-    grant.grantDetails.sections = new Array<Section>();
-    for (const defaultSection of this.appComp.appConfig.defaultSections) {
-      defaultSection.id = 0 - Math.round(Math.random() * 10000000000);
-      for (const attr of defaultSection.attributes) {
-        attr.id = 0 - Math.round(Math.random() * 10000000000);
-        attr.fieldValue = "";
-      }
-      grant.grantDetails.sections.push(defaultSection);
-    }
-
-    /*grant.submissions = new Array<Submission>();
-    const tmpDt = new Date();
-    for (let i = 0; i < 4; i++) {
-        // sub.grant = grant;
-        // sub.actionAuthorities = new ActionAuthorities();
-
-        const mnth = tmpDt.getMonth()+ (3*i);
-        const dt = new Date(tmpDt.getFullYear(),mnth ,tmpDt.getDate());
-        const sub = this._createNewSubmissionAndReturn('Quarter' + (i + 1), dt);
-        // sub.grant = grant;
-        grant.submissions.push(sub);
-    }*/
-
-    this.currentGrant = grant;
-    this.grantData.changeMessage(grant, this.appComp.loggedInUser.id);
-    this.router.navigate(["grant"]);
-    this.setDateDuration();
-  }
-
-  private _createNewSubmissionAndReturn(title: string, dt1: Date): Submission {
-    const sub = new Submission();
-    sub.id = 0 - Math.round(Math.random() * 10000000000);
-    sub.documentKpiSubmissions = [];
-    sub.qualitativeKpiSubmissions = [];
-    sub.quantitiaveKpisubmissions = [];
-    sub.flowAuthorities = [];
-    sub.submissionStatus = this.appComp.appConfig.submissionInitialStatus;
-    sub.title = title;
-
-    sub.submitBy = dt1;
-    sub.submitDateStr = this.datepipe.transform(dt1, "yyyy-MM-dd");
-    return sub;
-  }
-
-  private _addExistingKpisToSubmission(submission: Submission): Submission {
-    const quantKpis = new Array<QuantitiaveKpisubmission>();
-    const qualKpis = new Array<QualitativeKpiSubmission>();
-    const docKpis = new Array<DocumentKpiSubmission>();
-
-    for (const kpi of this.currentGrant.kpis) {
-      if (kpi.kpiType === "QUANTITATIVE") {
-        const newQuantKpi = new QuantitiaveKpisubmission();
-        newQuantKpi.id = 0 - Math.round(Math.random() * 10000000000);
-        newQuantKpi.goal = 0;
-        newQuantKpi.grantKpi = kpi;
-        newQuantKpi.actuals = 0;
-        newQuantKpi.toReport = true;
-        newQuantKpi.submissionDocs = [];
-        // newQuantKpi.submission = JSON.parse(JSON.stringify(submission));
-        newQuantKpi.notesHistory = [];
-        newQuantKpi.note = "";
-        quantKpis.push(newQuantKpi);
-      } else if (kpi.kpiType === "QUALITATIVE") {
-        const newQualKpi = new QualitativeKpiSubmission();
-        newQualKpi.id = 0 - Math.round(Math.random() * 10000000000);
-        newQualKpi.goal = "";
-        newQualKpi.grantKpi = kpi;
-        newQualKpi.actuals = "";
-        newQualKpi.toReport = true;
-        newQualKpi.submissionDocs = [];
-        // newQualKpi.submission = JSON.parse(JSON.stringify(submission));
-        newQualKpi.notesHistory = [];
-        newQualKpi.note = "";
-        qualKpis.push(newQualKpi);
-      } else if (kpi.kpiType === "DOCUMENT") {
-        const newDocKpi = new DocumentKpiSubmission();
-        newDocKpi.id = 0 - Math.round(Math.random() * 10000000000);
-        newDocKpi.goal = "";
-        newDocKpi.grantKpi = kpi;
-        newDocKpi.actuals = "";
-        newDocKpi.toReport = true;
-        newDocKpi.submissionDocs = [];
-        // newDocKpi.submission = JSON.parse(JSON.stringify(submission));
-        newDocKpi.notesHistory = [];
-        newDocKpi.note = "";
-        docKpis.push(newDocKpi);
-      }
-    }
-    submission.quantitiaveKpisubmissions = quantKpis;
-    submission.qualitativeKpiSubmissions = qualKpis;
-    submission.documentKpiSubmissions = docKpis;
-    return submission;
-  }
 
   private _adjustHeights() {
     /*  const allElems = $('[data-id]');
@@ -1419,48 +1339,7 @@ export class BasicComponent implements OnInit {
     });
   }
 
-  performAction(event: any) {
-    const selectedOption = event.value;
-    switch (selectedOption) {
-      case "1":
-        let newSubmission = this._createNewSubmissionAndReturn(
-          "Submission Title",
-          new Date()
-        );
-        // newSubmission.grant = this.currentGrant;
-        newSubmission = this._addExistingKpisToSubmission(newSubmission);
-        this.currentGrant.submissions.splice(0, 0, newSubmission);
-        this.toastr.info(
-          "New submission period appended to existing list",
-          "Submission Period Added"
-        );
-        break;
-      case "2":
-        const tmpDt = new Date();
-        for (let i = 0; i < 4; i++) {
-          // sub.grant = grant;
-          // sub.actionAuthorities = new ActionAuthorities();
 
-          const mnth = tmpDt.getMonth() + 3 * i;
-          const dt = new Date(tmpDt.getFullYear(), mnth, tmpDt.getDate());
-          let sub = this._createNewSubmissionAndReturn("Quarter" + (i + 1), dt);
-          sub = this._addExistingKpisToSubmission(sub);
-          // sub.grant = grant;
-          this.currentGrant.submissions.push(sub);
-        }
-        this.toastr.info(
-          "Quarterly Submissions added",
-          "Submission Periods Added"
-        );
-        break;
-      case "3":
-        this.confirm(0, 0, [], 0, "clearSubmissions", " all Submissions");
-        break;
-    }
-
-    this.checkGrant();
-    event.source.value = "";
-  }
 
   clearSubmissions() {
     this.currentGrant.submissions = [];
@@ -1537,7 +1416,21 @@ export class BasicComponent implements OnInit {
       this.currentGrant.startDate = std;
       //this.currentGrant.stDate = std.getFullYear() + '-' + std.getMonth() + '-' + std.getDate();
     } else if (type === "end") {
-      this.currentGrant.endDate = new Date(ev.toString());
+      const end = new Date(ev.toString());
+      if (
+        this.currentGrant.minEndEndate &&
+        end < new Date(this.currentGrant.minEndEndate)
+      ) {
+        this.dialog.open(MessagingComponent, {
+          data:
+            "The Grant's end date cannot be lesser than the end date of the most recent approved report of the original grant.",
+          panelClass: "center-class",
+        });
+        ev.preventDefault();
+        ev.stopPropagation();
+        return;
+      }
+      this.currentGrant.endDate = end;
     }
     this.setDateDuration();
   }
@@ -1672,6 +1565,9 @@ export class BasicComponent implements OnInit {
   }
 
   clearStartDate() {
+    if (this.currentGrant.origGrantId) {
+      return;
+    }
     this.currentGrant.startDate = null;
     this.currentGrant.stDate = "";
     this.setDateDuration();
@@ -1696,15 +1592,111 @@ export class BasicComponent implements OnInit {
     const today = new Date();
     const day = d || today;
     if (this.currentGrant.startDate) {
-      return day >= new Date(this.currentGrant.startDate);
+      return (
+        day >=
+        (this.currentGrant.minEndEndate
+          ? new Date(this.currentGrant.minEndEndate)
+          : new Date(this.currentGrant.startDate))
+      );
     }
     return true;
   };
 
   showProjectDocuments() {
     const dgRef = this.dialog.open(ProjectDocumentsComponent, {
-      data: { title: 'Project Documents', loggedInUser: this.appComp.loggedInUser, currentGrant: this.currentGrant },
-      panelClass: 'wf-assignment-class'
+      data: {
+        title: "Project Documents",
+        loggedInUser: this.appComp.loggedInUser,
+        currentGrant: this.currentGrant,
+      },
+      panelClass: "wf-assignment-class",
+    });
+  }
+
+  manageGrant() {
+    this.adminComp.manageGrant(null, this.currentGrant.origGrantId);
+  }
+
+  doZoom = () => (function () {
+
+    var $section = $('#zoomImageContainer')
+    $section
+      .find(
+        '.panzoom')
+      .panzoom(
+        {
+          $zoomIn: $section
+            .find(".zoom-in"),
+          $zoomOut: $section
+            .find(".zoom-out"),
+          $zoomRange: $section
+            .find(".zoom-range"),
+          $reset: $section
+            .find(".reset")
+        });
+    var deg = 0;
+    $(".rotateBtn").on("click", function () {
+      if ($(this).is("#left")) {
+        deg = deg - 90;
+      } else {
+        deg = deg + 90;
+      }
+      $("#imgToRotate").css({
+        "-webkit-transform": "rotate(" + deg + "deg)",
+        "-moz-transform": "rotate(" + deg + "deg)",
+        transform: "rotate(" + deg + "deg)"
+      });
+    });
+
+    // $('#ex1').zoom({
+    //   onZoomIn:true,
+    // });
+    // $('#ex1').zoom({ on:'hover' });
+    //$('#ex1').zoom({ on:'click' });			 
+    // $('#ex4').zoom({ on:'toggle' });
+  })();
+
+
+  isExternalGrant(): boolean {
+    if (this.appComp.loggedInUser.organization.organizationType === 'GRANTEE') {
+      return true;
+    }
+    const grantType = this.appComp.grantTypes.filter(gt => gt.id === this.currentGrant.grantTypeId)[0];
+    if (!grantType.internal) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  showGrantTags() {
+    this.adminService.getOrgTags(this.appComp.loggedInUser).then((tags: OrgTag[]) => {
+
+      const dg = this.dialog.open(GrantTagsComponent, {
+        data: { orgTags: tags, grantTags: this.currentGrant.tags, grant: this.currentGrant, appComp: this.appComp, type: 'grant' },
+        panelClass: "grant-template-class"
+      });
+
+    });
+  }
+
+  validateAmountForAmendedGrant(ev) {
+    if (this.currentGrant.origGrantId && ev.target.value < this.currentGrant.approvedDisbursementsTotal) {
+      const dg = this.dialog.open(MessagingComponent, {
+        data:
+          "Grant amount cannot be lesser than previously approved disbursement of ₹" + this.currentGrant.approvedDisbursementsTotal,
+        panelClass: "center-class",
+      });
+    }
+  }
+
+  compareGrants(currentGrantId, origGrantId) {
+    this.grantApiService.compareGrants(currentGrantId, origGrantId, this.appComp.loggedInUser.id).then((grantsToCompare: any[]) => {
+      console.log(grantsToCompare);
+      const dg = this.dialog.open(GrantCompareComponent, {
+        data: grantsToCompare,
+        panelClass: "wf-assignment-class",
+      });
     });
   }
 }

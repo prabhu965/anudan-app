@@ -1,0 +1,40 @@
+name: DEV Rlease Version
+
+on:
+  workflow_dispatch:
+  #push:
+   #branches: [ dev ]
+  #pull_request:
+   # branches: [ master ]
+  #schedule:
+   # - cron:'0/5 * * * *' 
+
+jobs:
+  # this block of code will create Dev release version for Dev remote server. 
+  Dev-Release-version:
+      runs-on: ubuntu-latest
+      if: github.ref == 'refs/heads/dev' 
+      name: Dev Rlease version
+      steps:
+        - uses: actions/checkout@v2
+          with:
+            repository: jayanth9652/release   
+            token: ${{ secrets.MY_PAT }}
+        - name: release version creating for Dev
+          run: | 
+             echo '{"releaseCandidate":"Dev R-1.0.${{ github.run_number }}"}' > Dev_release.json 
+             ls -lrt
+        - name: Commit files
+          run: |
+            git config --local user.email "karniprabhu7777@gmail.com"
+            git config --local user.name "jayanth9652"
+            git add .
+            git commit -m "this file is updated by github/action" 
+        - name: Push changes
+          uses: ad-m/github-push-action@master
+          with:
+            github_token: ${{ secrets.MY_PAT }}
+            repository: jayanth9652/release 
+            branch: master  
+
+      

@@ -1,89 +1,247 @@
-<div class="main-content">
+<div class="row search-panel">
+  <div class="col-9 search-panel-container">
+    <app-search-filter #appSearchFilter *ngIf="!searchClosed" [ready]="filterReady" (highlightDone)="resetFilterFlag($event)" (filterCriteria)="startFilter($event)" (close)="closeSearch($event)"></app-search-filter>
+    <mat-icon (click)="openSearch()" style="position: absolute; right: 0; margin-right: 20px;">search</mat-icon>
+  </div>
+  <div  class="col-3 d-flex align-items-center justify-content-end p-0"></div>
+</div>
+<div class="main-content" style="margin-top: 40px;">
   <div class="container-fluid">
-    <div class="anu-container" style="padding:40px;">
       <div class="row">
         <div class="col-12">
-          <div *ngIf="!submittedReports">
-            <img src="./assets/img/loader.gif" style="width:10%;">
-            <p style="color: black"> Loading submitted reports... </p>
-          </div>
-          <div *ngIf="submittedReports && submittedReports.length===0">
-            <p style="color: black"> No reports found </p>
-          </div>
-          <div
-            [ngClass]="(report.canManage)?['row', 'w-100', 'p-3', 'mb-2', 'mx-0', 'grants-section','owner-highlight']:['row', 'w-100', 'p-3', 'mb-2', 'mx-0', 'grants-section']"
-            style="cursor: pointer;" *ngFor="let report of submittedReports; let i = index"
-            (click)="manageReport(report)">
-            <div class="col-12 mb-1">
-              <p class="text-subheader text-left mb-0">Grant Name:
-                <b>{{(report.grant.referenceNo?report.grant.referenceNo+' | ':'') + report.grant.name}}</b>
-                &nbsp;&nbsp;|&nbsp;&nbsp;
-                Grantee Organization: <b>{{report.grant.organization?report.grant.organization.name:''}}</b><br>
-                Grant Amount: <img src="./assets/img/rupee.png"
-                  style="width:9px;"><b>{{getFormattedGrantAmount(report.grant.amount)}} </b>
-                &nbsp;&nbsp;&nbsp;<span>{{getGrantAmountInWords(report.grant.amount)}}</span>
-              </p>
+          <mat-tab-group>
+            <mat-tab
+              
+              label="Reports Due ({{
+                filteredSubmittedReportsD ? filteredSubmittedReportsD.length : 0
+              }})"
+            >
+            <div *ngIf="!filteredSubmittedReportsD">
+              <img src="./assets/img/loader.gif" style="width: 10%" />
+              <p style="color: black">Loading upcoming reports...</p>
             </div>
-            <div class="col-10">
-              <p class="text-header text-left">{{report.name}} | {{report.dueDate | date:'dd-MMM-yyyy'}}</p>
+            <div
+              *ngIf="filteredSubmittedReportsD && filteredSubmittedReportsD.length === 0"
+            >
+              <p class="py-5">No Reports</p>
             </div>
-            <div class="col-2">
-              <span [class]="'badge pull-right state-' + report.status.internalStatus.toLowerCase()"
-                style="color:#000 !important;">{{report.status.displayName}}</span>
-            </div>
-            <div class="col-12 p-3" style="background:#f1f1f1">
-              <div class="row mb-0">
-                <div class="col-2">
-                  <p class="mb-0 text-subheader text-left">Report Type:</p>
-                </div>
-                <div class="col-7">
-                  <p class="mb-0 text-subheader text-left">Reporting Time
-                    Frame:</p>
-                </div>
-                <div class="col-3">
-                  <p class="mb-0 text-subheader text-left">Submission Due
-                    Date</p>
+            <div
+              [ngClass]="uiService.getReportCardStyle(report,appComp)"
+              style="cursor: pointer"
+              *ngFor="let report of filteredSubmittedReportsD; let i = index"
+              (click)="manageReport(report)"
+            >
+              <div class="col-12 mb-1">
+                <p
+                  *ngIf="report.disabledByAmendment"
+                  class="mb-0 text-red text-left mt-2"
+                  style="font-weight: 600; font-size: 12px"
+                >
+                  Underlying grant has been amended. Please check if this
+                  report is still valid.
+                </p>
+                <div class="text-subheader text-left mb-0 mt-2">
+                  <div class="mb-1"><span  class="search-context">{{
+                    (report.grant.referenceNo
+                      ? report.grant.referenceNo + " | "
+                      : "") + report.grant.name
+                  }}</span></div>
+                  
+                  <div class="mb-1"><span *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
+                    report.grant.organization
+                      ? report.grant.organization.name
+                      : ""
+                  }}</span> 
+                  <span *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
+                    report.grant.grantorOrganization.name
+                  }}</span> </div>
+                  
+                  <div class="mt-1">
+                    <img src="./assets/img/rupee.png" style="width: 9px" /><span
+                    >{{ getFormattedGrantAmount(report.grant.amount) }}
+                  </span>
+                  &nbsp;&nbsp;<span class="text-subheader"><small>({{
+                    getGrantAmountInWords(report.grant.amount)
+                  }})</small></span>
+                  </div>
+                  
                 </div>
               </div>
-              <div class="row">
-                <div class="col-2">
-                  <p class=" text-left text-bold-highlight my-0">
-                    {{report.type==='adhoc'?'Ad hoc':report.type}}</p>
-                </div>
-                <div class="col-7">
-                  <div class="row">
-                    <div>
-                      <p class="text-bold-highlight my-0">
-                        <mat-icon [inline]="true" class="mr-1">calendar_today
-                        </mat-icon>
-                        {{report.startDate |
-                              date:'dd-MMM-yyyy'}}
-                      </p>
+              <div class="col-9 mb-2" style="display: flex; align-items: center">
+                <div class="row">
+                  <div class="col-12 my-4">
+                    <div class="text-header text-left mr-3" (click)="manageReport(report)">
+                      <span class="search-context">{{ report.name }}</span> | {{ report.dueDate | date: "dd-MMM-yyyy" }}
                     </div>
-                    <div>
-                      <mat-icon [inline]="true" class="mx-3 my-0">arrow_forward
-                      </mat-icon>
-                    </div>
-                    <div>
-                      <p class="text-bold-highlight my-0">
-                        <mat-icon [inline]="true" class="mr-1">calendar_today
-                        </mat-icon>
-                        {{report.endDate |
-                              date:'dd-MMM-yyyy'}}
-                      </p>
+                  </div>
+                  <div class="col-12 px-0">
+                    <div class="col-10 py-1 px-3">
+                      <div class="row mb-0">
+                        <div class="col-5">
+                          <p class="mb-0 text-subheader text-left">
+                            Reporting Time Frame:
+                          </p>
+                        </div>
+                        <div class="col-3">
+                          <p class="mb-0 text-subheader text-left">Report Type:</p>
+                        </div>
+                        <div class="col-4">
+                          <p class="mb-0 text-subheader text-left">
+                            Submission Due Date
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-5 pr-0 text-left text-header">
+                          {{ report.startDate | date: "dd-MMM-yyyy" }} - {{ report.endDate | date: "dd-MMM-yyyy" }}
+                        </div>
+                        <div class="col-3">
+                          <p class="text-left text-header my-0">
+                            {{ report.type === "adhoc" ? "Ad hoc" : report.type }}
+                          </p>
+                        </div>
+                        <div class="col-4">
+                          <p class="text-left text-header my-0">
+                            {{ report.dueDate | date: "dd-MMM-yyyy" }}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-3">
-                  <p class="text-left text-bold-highlight my-0">
-                    {{report.dueDate | date:'dd-MMM-yyyy'}}</p>
+                
+              </div>
+              <div class="col-3">
+                <div class="row">
+                  <div class="col-12">
+                    <div [ngClass]="isExternalGrant(report.grant)?'status-indicator3':'status-indicator2'">
+                      <div [class]="'text-center status-icon state-'+(isExternalGrant(report.grant)?'ext-':'') + report.status.internalStatus.toLowerCase()">
+                      </div>{{report.status.name | uppercase}}
+                    </div>
+                    <div class="text-center text-subheader pl-3 mt-2 search-context">{{report.ownerName}}</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+            </mat-tab>
+            <mat-tab
+              
+              label="Reports Overdue ({{
+                filteredSubmittedReportsOD ? filteredSubmittedReportsOD.length : 0
+              }})"
+            >
+            <div *ngIf="!filteredSubmittedReportsOD">
+              <img src="./assets/img/loader.gif" style="width: 10%" />
+              <p style="color: black">Loading upcoming reports...</p>
+            </div>
+            <div
+              *ngIf="filteredSubmittedReportsOD && filteredSubmittedReportsOD.length === 0"
+            >
+              <p class="py-5">No Reports</p>
+            </div>
+            <div
+              [ngClass]="uiService.getReportCardStyle(report,appComp)"
+              style="cursor: pointer"
+              *ngFor="let report of filteredSubmittedReportsOD; let i = index"
+              (click)="manageReport(report)"
+            >
+              <div class="col-12 mb-1">
+                <p
+                  *ngIf="report.disabledByAmendment"
+                  class="mb-0 text-red text-left mt-2"
+                  style="font-weight: 600; font-size: 12px"
+                >
+                  Underlying grant has been amended. Please check if this
+                  report is still valid.
+                </p>
+                <div class="text-subheader text-left mb-0 mt-2">
+                  <div class="mb-1"><span  class="search-context">{{
+                    (report.grant.referenceNo
+                      ? report.grant.referenceNo + " | "
+                      : "") + report.grant.name
+                  }}</span></div>
+                  
+                  <div class="mb-1"><span *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
+                    report.grant.organization
+                      ? report.grant.organization.name
+                      : ""
+                  }}</span> 
+                  <span *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
+                    report.grant.grantorOrganization.name
+                  }}</span> </div>
+                  
+                  <div class="mt-1">
+                    <img src="./assets/img/rupee.png" style="width: 9px" /><span
+                    >{{ getFormattedGrantAmount(report.grant.amount) }}
+                  </span>
+                  &nbsp;&nbsp;<span class="text-subheader"><small>({{
+                    getGrantAmountInWords(report.grant.amount)
+                  }})</small></span>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="col-9 mb-2" style="display: flex; align-items: center">
+                <div class="row">
+                  <div class="col-12 my-4">
+                    <div class="text-header text-left mr-3" (click)="manageReport(report)">
+                      <span class="search-context">{{ report.name }}</span> | {{ report.dueDate | date: "dd-MMM-yyyy" }}
+                    </div>
+                  </div>
+                  <div class="col-12 px-0">
+                    <div class="col-10 py-1 px-3">
+                      <div class="row mb-0">
+                        <div class="col-5">
+                          <p class="mb-0 text-subheader text-left">
+                            Reporting Time Frame:
+                          </p>
+                        </div>
+                        <div class="col-3">
+                          <p class="mb-0 text-subheader text-left">Report Type:</p>
+                        </div>
+                        <div class="col-4">
+                          <p class="mb-0 text-subheader text-left">
+                            Submission Due Date
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-5 pr-0 text-left text-header">
+                          {{ report.startDate | date: "dd-MMM-yyyy" }} - {{ report.endDate | date: "dd-MMM-yyyy" }}
+                        </div>
+                        <div class="col-3">
+                          <p class="text-left text-header my-0">
+                            {{ report.type === "adhoc" ? "Ad hoc" : report.type }}
+                          </p>
+                        </div>
+                        <div class="col-4">
+                          <p class="text-left text-header my-0">
+                            {{ report.dueDate | date: "dd-MMM-yyyy" }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-3">
+                <div class="row">
+                  <div class="col-12">
+                    <div [ngClass]="isExternalGrant(report.grant)?'status-indicator3':'status-indicator2'">
+                      <div [class]="'text-center status-icon state-'+(isExternalGrant(report.grant)?'ext-':'')+report.status.internalStatus.toLowerCase()">
+                      </div>{{report.status.name | uppercase}}
+                    </div>
+                    <div class="text-center text-subheader pl-3 mt-2 search-context">{{report.ownerName}}</div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            </mat-tab>
+            </mat-tab-group>
+          
         </div>
       </div>
-
-    </div>
   </div>
 </div>
