@@ -51,6 +51,7 @@ import { ProjectDocumentsComponent } from './components/project-documents/projec
 import { NocookieComponent } from './nocookie/nocookie.component';
 import { NgxMarkjsModule } from 'ngx-markjs';
 
+
 export class AnudanErrorHandler implements ErrorHandler {
   constructor() { }
   handleError(error: Error) {

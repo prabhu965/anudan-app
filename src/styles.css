@@ -407,6 +407,10 @@ input:-internal-autofill-selected {
   background-color: #39743c !important;
 }
 
+.bg-white{
+  background: #fff;
+}
+
 font-white {
   color: #fff !important;
 }
@@ -648,34 +652,47 @@ font-white {
 }
 
 .change-box {
-  border: 1px solid #d8d8d8 !important;
+  /* border: 1px solid #d8d8d8 !important; */
   padding: 5px;
-  background: #404450 !important;
+  color: #404450 !important;
+  background: #fff;
 }
 
 .change-title {
-  color: #fff;
+  color: #404450;
   font-style: italic;
 }
 
+.change-title > span{
+  font-weight: 400;
+  text-transform: none;
+  text-decoration: blink;
+  font-style: normal;
+}
+
 .change-new {
-  border-left: 6px solid #009900 !important;
+  border-left: 10px solid #009900 !important;
   padding-left: 5px;
-  margin-bottom: 5px !important;
-  background: #f7fff4 !important;
+  margin-bottom: 0 !important;
+  background: #fff !important;
   padding-bottom: 5px;
+  border-right: 1px solid #d8d8d8 !important;
+  border-top: 1px solid #d8d8d8 !important;
 }
 
 .change-old {
-  border-left: 6px solid #dbdb70 !important;
+  border-left: 10px solid #4b4b4b !important;
   padding-left: 5px;
-  margin-top: 5px !important;
-  background: #fffeed !important;
+  margin-top: 0 !important;
+  background: rgb(240, 240, 240) !important;
   padding-bottom: 5px;
+  padding-top: 5px;
+  border-right: 1px solid #d8d8d8 !important;
+  border-bottom: 1px solid #d8d8d8 !important;
 }
 
 .change-delete {
-  border-left: 6px solid #dc143c !important;
+  border-left: 10px solid #dc143c !important;
   padding-left: 5px;
   background: #ffeff2 !important;
   padding-bottom: 5px;
@@ -688,10 +705,15 @@ font-white {
 }
 
 .grant-notes-class {
-  min-width: calc(90% - 300px) !important;
-  max-width: calc(90% - 300px) !important;
+  min-width: calc(100% - 300px) !important;
+  max-width: calc(100% - 300px) !important;
   position: relative !important;
   left: 150px !important;
+  overflow: hidden !important;
+  align-self: center;
+  top: 62px;
+  height: 100% !important;
+  max-height: calc(100% - 35px);
 }
 
 .center-class {

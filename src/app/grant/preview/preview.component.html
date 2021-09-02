@@ -173,6 +173,18 @@
           >
             <mat-icon class="ml-1">history</mat-icon>View Amended Grant
           </button>
+          <button
+            mat-menu-item
+            *ngIf="
+              
+              this.appComp.loggedInUser.organization.organizationType !==
+                'GRANTEE' && currentGrant.origGrantId
+            "
+            (click)="compareGrants(currentGrant.id,currentGrant.origGrantId)"
+            
+          >
+            <mat-icon class="ml-1">compare_arrows</mat-icon>Compare with Amended Grant
+          </button>
         </mat-menu>
       </div>
     </div>
@@ -219,7 +231,9 @@
                     "
                     style="display: flex; align-items: center"
                   >
-                    <strong class="text-left text-red">{{
+                    <strong class="text-left text-grey d-flex align-items-center"><mat-icon [inline]="true" class="material-icons-outlined text-grey mr-1">
+                      info_outline
+                    </mat-icon>{{
                       getCleanClosureNote()
                     }}</strong>
                   </div>
@@ -245,17 +259,11 @@
                     </h4>
                   </div>
                   <div class="col-12 text-left">
-                    <span
-                      data-html2canvas-ignore
-                      [class]="
-                        'badge text-white state-' +
-                        currentGrant.grantStatus.internalStatus.toLowerCase()
-                      "
-                      style="color: #000 !important"
-                      matBadgeSize="medium"
-                      >{{ currentGrant.grantStatus.displayName }}</span
-                    >
-                    <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 ml-2" [ngStyle]="{'background-color':getGrantTypeColor(currentGrant.grantTypeId)}" ><small>{{getGrantTypeName(currentGrant.grantTypeId)}}</small></span>
+                    <div class="status-indicator2" style="justify-content: flex-start !important;">
+                      <div [class]="'text-center status-icon state-'+currentGrant.grantStatus.internalStatus.toLowerCase()">
+                      </div>{{currentGrant.grantStatus.name | uppercase}}
+                    </div>
+                    <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 ml-2 mt-2" [ngStyle]="{'background-color':getGrantTypeColor(currentGrant.grantTypeId)}" ><small>{{getGrantTypeName(currentGrant.grantTypeId)}}</small></span>
                   </div>
                 </div>
               </div>

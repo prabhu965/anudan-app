@@ -478,7 +478,8 @@ export class ActiveGrantsComponent implements OnInit {
       return (
         (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
         (g.organization && g.organization.name && g.organization.name.toLowerCase().includes(val)) ||
-        (g.referenceNo && g.referenceNo.toLowerCase().includes(val))
+        (g.referenceNo && g.referenceNo.toLowerCase().includes(val)) ||
+        (g.ownerName && g.ownerName.toLowerCase().includes(val))
       )
     });
 

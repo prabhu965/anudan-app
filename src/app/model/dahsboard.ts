@@ -523,19 +523,22 @@ export class GrantDiff {
   oldRep: string;
   newRep: string;
   sectionDiffs: SectionDiff[];
+  orderDiffs: any[];
+  attributeOrderDiffs: any[];
 }
 
 export class SectionDiff {
   hasSectionLevelChanges = false;
   order: number;
-  oldSection: Section;
-  newSection: Section;
+  oldSection: any;
+  newSection: any;
   attributesDiffs: AttributeDiff[];
+  attributeOrderDiffs: any[];
 }
 export class AttributeDiff {
   section: string;
-  oldAttribute: Attribute;
-  newAttribute: Attribute;
+  oldAttribute: any;
+  newAttribute: any;
 }
 
 export class CustomDateAdapter extends NativeDateAdapter {

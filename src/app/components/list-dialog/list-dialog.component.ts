@@ -173,7 +173,8 @@ export class ListDialogComponent implements OnInit {
         return (
           (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
           //(g.organization && g.organization.name && g.organization.name.toLowerCase().includes(val)) ||
-          (g.referenceNo && g.referenceNo.toLowerCase().includes(val))
+          (g.referenceNo && g.referenceNo.toLowerCase().includes(val)) ||
+          (g.ownerName && g.ownerName.toLowerCase().includes(val))
         )
       });
     } else if (this._for === 'report') {
@@ -182,14 +183,16 @@ export class ListDialogComponent implements OnInit {
         return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
           (g.grant.name.toLowerCase().includes(val)) ||
           (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
-          (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
+          (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val)) ||
+          (g.ownerName && g.ownerName.toLowerCase().includes(val))
       });
     } else if (this._for === 'disbursement') {
       this.filteredDisbursements = this.disbursements.filter(g => {
         this.filterReady = true;
         return (g.grant.name.toLowerCase().includes(val)) ||
           (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
-          (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
+          (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val)) ||
+          (g.ownerName && g.ownerName.toLowerCase().includes(val))
       });
     }
 

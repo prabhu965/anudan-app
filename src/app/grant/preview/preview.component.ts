@@ -1,3 +1,5 @@
+import { GrantCompareComponent } from './../../grant-compare/grant-compare.component';
+import { GrantApiService } from './../../grant-api.service';
 import { WfvalidationService } from './../../wfvalidation.service';
 import { WorkflowValidationService } from './../../workflow-validation-service';
 import { GrantTag, OrgTag } from './../../model/dahsboard';
@@ -185,7 +187,8 @@ export class PreviewComponent implements OnInit {
     private workflowValidationService: WorkflowValidationService,
     public currencyService: CurrencyService,
     private adminService: AdminService,
-    private wfValidationService: WfvalidationService
+    private wfValidationService: WfvalidationService,
+    private grantApiService: GrantApiService
   ) {
     this.colors = new Colors();
 
@@ -1929,4 +1932,15 @@ export class PreviewComponent implements OnInit {
     });
 
   }
+
+  compareGrants(currentGrantId, origGrantId) {
+    this.grantApiService.compareGrants(currentGrantId, origGrantId, this.appComp.loggedInUser.id).then((grantsToCompare: any[]) => {
+      console.log(grantsToCompare);
+      const dg = this.dialog.open(GrantCompareComponent, {
+        data: grantsToCompare,
+        panelClass: "wf-assignment-class",
+      });
+    });
+  }
+
 }

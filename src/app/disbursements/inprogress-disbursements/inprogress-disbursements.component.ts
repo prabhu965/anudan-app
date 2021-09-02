@@ -156,7 +156,8 @@ export class InprogressDisbursementsComponent implements OnInit {
     this.filteredDisbursements = this.disbursements.filter(g => {
       return (g.grant.name.toLowerCase().includes(val)) ||
         (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
-        (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
+        (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val)) ||
+        (g.ownerName && g.ownerName.toLowerCase().includes(val))
     });
 
     this.filterReady = true;

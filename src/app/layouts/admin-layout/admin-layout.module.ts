@@ -1,3 +1,4 @@
+import { GrantCompareComponent } from './../../grant-compare/grant-compare.component';
 import { GranteeProgressSummaryComponent } from './../../dashboard/grantee-progress-summary/grantee-progress-summary.component';
 import { GranteeSummaryCenteredComponent } from './../../dashboard/grantee-summary-centered/grantee-summary-centered.component';
 import { GranteeChartSummaryComponent } from './../../dashboard/grantee-chart-summary/grantee-chart-summary.component';
@@ -214,9 +215,10 @@ import { SearchFilterComponent } from './search-filter/search-filter.component';
         DataApiComponent,
         GrantTagsComponent,
         OrgTagsComponent,
-        SearchFilterComponent
+        SearchFilterComponent,
+        GrantCompareComponent
     ],
-    entryComponents: [WelcomePopupComponent, AddnlreportsDialogComponent, InviteDialogComponent, BottomsheetComponent, BottomsheetAttachmentsComponent, BottomsheetNotesComponent, GrantTemplateDialogComponent, ReportTemplateDialogComponent, GrantSelectionDialogComponent, ListDialogComponent, TemplateDialogComponent, GrantNotesComponent, SectionEditComponent, ReportNotesComponent, DisbursementNotesComponent, GranttypeSelectionDialogComponent, GrantTagsComponent],
+    entryComponents: [WelcomePopupComponent, AddnlreportsDialogComponent, InviteDialogComponent, BottomsheetComponent, BottomsheetAttachmentsComponent, BottomsheetNotesComponent, GrantTemplateDialogComponent, ReportTemplateDialogComponent, GrantSelectionDialogComponent, ListDialogComponent, TemplateDialogComponent, GrantNotesComponent, SectionEditComponent, ReportNotesComponent, DisbursementNotesComponent, GranttypeSelectionDialogComponent, GrantTagsComponent, GrantCompareComponent],
     schemas: [NO_ERRORS_SCHEMA],
 
 })

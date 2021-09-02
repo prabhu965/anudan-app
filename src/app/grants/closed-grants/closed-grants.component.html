@@ -140,10 +140,12 @@
                   <div [class]="'text-center status-icon state-'+grant.grantStatus.internalStatus.toLowerCase()">
                   </div>{{grant.grantStatus.name | uppercase}}
                 </div>
-                <div class="text-center text-subheader pl-3 mt-2">{{grant.ownerName}}</div>
+                <div class="text-center text-subheader pl-3 mt-2 search-context">{{grant.ownerName}}</div>
               </div>
               <div class="col-9 text-left">
-                <strong class="text-subheader text-red">{{getCleanClosureNote(grant)}}</strong>
+                <strong class="text-subheader text-grey d-flex align-items-center mt-1"><mat-icon [inline]="true" class="material-icons-outlined text-grey mr-1">
+                  info_outline
+                </mat-icon>{{getCleanClosureNote(grant)}}</strong>
               </div>
               <div *ngIf="appComponent.loggedInUser.organization.organizationType!=='GRANTEE'" [ngStyle]="{'background-color':getGrantTypeColor(grant.grantTypeId),'border-bottom-right-radius':'4px'}" class="col-3 p-1 d-flex align-items-center justify-content-center">
                 <div class="float-right" >

@@ -148,17 +148,10 @@
                     </h4>
                   </div>
                   <div class="col-12 text-left">
-                    <span
-                      data-html2canvas-ignore
-                      [class]="
-                        'badge state-' +
-                        currentDisbursement.status.internalStatus.toLowerCase()
-                      "
-                      style="color: #000 !important"
-                      matBadgeSize="medium"
-                      >{{ currentDisbursement.status.displayName }}</span
-                    >
-                    <span class=" badge text-black m-0 ml-2" [ngStyle]="{'background-color':getGrantTypeColor(currentDisbursement.grant.grantTypeId)}" ><small>{{getGrantTypeName(currentDisbursement.grant.grantTypeId)}}</small></span>
+                    <div class="status-indicator2" style="justify-content: flex-start !important;">
+                      <div [class]="'text-center status-icon state-'+currentDisbursement.status.internalStatus.toLowerCase()">
+                      </div>{{currentDisbursement.status.name | uppercase}}
+                    </div>
                   </div>
                 </div>
               </div>

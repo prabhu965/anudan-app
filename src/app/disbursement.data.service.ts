@@ -322,7 +322,7 @@ export class DisbursementDataService {
     }
   }
 
-  getHistory(disbursement: Disbursement): Promise<DisbursementSnapshot> {
+  getHistory(disbursement: Disbursement): Promise<any> {
     if (disbursement !== undefined && disbursement !== null) {
       return this.httpClient
         .get(
@@ -330,9 +330,28 @@ export class DisbursementDataService {
           this.getHeader()
         )
         .toPromise()
-        .then<DisbursementSnapshot>()
+        .then<any>()
         .catch((err) => {
-          return Promise.reject<DisbursementSnapshot>(
+          return Promise.reject<any>(
+            "Could not retieve Disbursement snapshot"
+          );
+        });
+    } else {
+      return Promise.resolve(null);
+    }
+  }
+
+  getPlainDisbursement(disbursement: Disbursement): Promise<any> {
+    if (disbursement !== undefined && disbursement !== null) {
+      return this.httpClient
+        .get(
+          this.getUrl() + "/compare/" + disbursement.id,
+          this.getHeader()
+        )
+        .toPromise()
+        .then<any>()
+        .catch((err) => {
+          return Promise.reject<any>(
             "Could not retieve Disbursement snapshot"
           );
         });

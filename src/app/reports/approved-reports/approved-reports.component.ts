@@ -143,7 +143,8 @@ export class ApprovedReportsComponent implements OnInit {
             return (g.name && g.name.trim() !== '' && g.name.toLowerCase().includes(val)) ||
                 (g.grant.name.toLowerCase().includes(val)) ||
                 (g.grant.organization && g.grant.organization.name && g.grant.organization.name.toLowerCase().includes(val)) ||
-                (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val))
+                (g.grant.referenceNo && g.grant.referenceNo.toLowerCase().includes(val)) ||
+                (g.ownerName && g.ownerName.toLowerCase().includes(val))
         });
 
         this.filterReady = true;
