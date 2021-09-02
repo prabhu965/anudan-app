@@ -705,10 +705,15 @@ font-white {
 }
 
 .grant-notes-class {
-  min-width: calc(90% - 300px) !important;
-  max-width: calc(90% - 300px) !important;
+  min-width: calc(100% - 300px) !important;
+  max-width: calc(100% - 300px) !important;
   position: relative !important;
   left: 150px !important;
+  overflow: hidden !important;
+  align-self: center;
+  top: 62px;
+  height: 100% !important;
+  max-height: calc(100% - 35px);
 }
 
 .center-class {

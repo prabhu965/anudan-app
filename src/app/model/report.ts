@@ -130,6 +130,8 @@ export class ReportDiff {
     oldReportDueDate: Date;
     newReportDueDate: Date;
     sectionDiffs: SectionDiff[];
+    attributeOrderDiffs: any;
+    orderDiffs: any[];
 }
 
 export class ReportSnapshot {

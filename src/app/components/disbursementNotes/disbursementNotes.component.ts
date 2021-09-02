@@ -14,14 +14,21 @@ import { CurrencyService } from 'app/currency-service';
 @Component({
     selector: 'app-disbursementnotes',
     templateUrl: './disbursementNotes.component.html',
-    styleUrls: ['./disbursementNotes.component.scss']
+    styleUrls: ['./disbursementNotes.component.scss'],
+    styles: [`
+    ::ng-deep .grant-notes-class .mat-dialog-container{
+            overflow-y: scroll !important;
+            border-radius: 0 !important;
+        }
+    `]
 })
 export class DisbursementNotesComponent implements OnInit {
 
     passedNotesInfo: DisbursementNote;
     changes: any[] = [];
     disbursementDiff: DisbursementDiff;
-    disbursementSnapshot: DisbursementSnapshot;
+    original: any;
+    current: any;
     validationResult: any;
 
     @ViewChild("scrollContainer") scrollContainer: ElementRef;
@@ -44,11 +51,11 @@ export class DisbursementNotesComponent implements OnInit {
 
         this.disbursementDataService.getHistory(data.currentDisbursement)
             .then(snapshot => {
-                this.disbursementSnapshot = snapshot;
-                if (this.disbursementSnapshot) {
-                    this.passedNotesInfo = this.data;
-                    this._diff(data.currentDisbursement, this.disbursementSnapshot);
-                }
+                this.original = snapshot;
+                this.disbursementDataService.getPlainDisbursement(data.currentDisbursement)
+                    .then((curr) => {
+                        this.current = curr;
+                    });
             });
     }
 

@@ -10,14 +10,21 @@ import * as inf from 'indian-number-format';
 @Component({
     selector: 'app-grantnotes',
     templateUrl: './grantNotes.component.html',
-    styleUrls: ['./grantNotes.component.scss']
+    styleUrls: ['./grantNotes.component.scss'],
+    styles: [`
+        ::ng-deep .grant-notes-class .mat-dialog-container{
+            overflow-y: scroll !important;
+            border-radius: 0 !important;
+        }
+    `]
 })
 export class GrantNotesComponent implements OnInit {
 
     passedNotesInfo: GrantNote;
     changes: any[] = [];
     grantDiff: GrantDiff;
-    grantSnapshot: GrantSnapshot;
+    original: any;
+    current: any;
     validationResult: any;
 
     @ViewChild("scrollContainer") scrollContainer: ElementRef;
@@ -35,15 +42,20 @@ export class GrantNotesComponent implements OnInit {
                 'Authorization': localStorage.getItem('AUTH_TOKEN')
             })
         };
-        const url = '/api/user/' + JSON.parse(localStorage.getItem('USER')).id + '/grant/' + data.currentGrant.id + '/changeHistory';
+        let url = '/api/user/' + JSON.parse(localStorage.getItem('USER')).id + '/grant/' + data.currentGrant.id + '/changeHistory';
 
-        this.http.get<GrantSnapshot>(url, httpOptions).subscribe((snapshot: GrantSnapshot) => {
-            this.grantSnapshot = snapshot;
-            if (this.grantSnapshot) {
-                this.grantSnapshot.grantDetails = JSON.parse(this.grantSnapshot.stringAttributes);
+        this.http.get<any>(url, httpOptions).subscribe((orig: any) => {
+            this.original = orig;
+            url = '/api/user/' + JSON.parse(localStorage.getItem('USER')).id + '/grant/compare/' + data.currentGrant.id;
+            this.http.get<any>(url, httpOptions).subscribe((curr: any) => {
+                this.current = curr;
+            });
+
+            /* if (this.original) {
+                this.original.grantDetails = JSON.parse(this.original.stringAttributes);
                 this.passedNotesInfo = this.data;
-                this._diff(data.currentGrant, this.grantSnapshot);
-            }
+                this._diff(data.currentGrant, this.original);
+            } */
 
         });
 

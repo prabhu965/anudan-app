@@ -11,14 +11,21 @@ import * as inf from 'indian-number-format';
 @Component({
     selector: 'app-reportnotes',
     templateUrl: './reportNotes.component.html',
-    styleUrls: ['./reportNotes.component.scss']
+    styleUrls: ['./reportNotes.component.scss'],
+    styles: [`
+    ::ng-deep .grant-notes-class .mat-dialog-container{
+            overflow-y: scroll !important;
+            border-radius: 0 !important;
+        }
+    `]
 })
 export class ReportNotesComponent implements OnInit {
 
     passedNotesInfo: ReportNote;
     changes: any[] = [];
     reportDiff: ReportDiff;
-    reportSnapshot: ReportSnapshot;
+    current: any;
+    original: any;
     validationResult: any;
 
     @ViewChild("scrollContainer") scrollContainer: ElementRef;
@@ -37,15 +44,19 @@ export class ReportNotesComponent implements OnInit {
             })
         };
 
-        const url = '/api/user/' + JSON.parse(localStorage.getItem('USER')).id + '/report/' + data.currentReport.id + '/changeHistory';
+        let url = '/api/user/' + JSON.parse(localStorage.getItem('USER')).id + '/report/' + data.currentReport.id + '/changeHistory';
 
-        this.http.get<ReportSnapshot>(url, httpOptions).subscribe((snapshot: ReportSnapshot) => {
-            this.reportSnapshot = snapshot;
-            if (this.reportSnapshot) {
-                this.reportSnapshot.reportDetails = JSON.parse(this.reportSnapshot.stringAttributes);
+        this.http.get<any>(url, httpOptions).subscribe((snapshot: any) => {
+            this.original = snapshot;
+            url = '/api/user/' + JSON.parse(localStorage.getItem('USER')).id + '/report/compare/' + data.currentReport.id;
+            this.http.get<any>(url, httpOptions).subscribe((curr: any) => {
+                this.current = curr;
+            });
+            /* if (this.original) {
+                this.original.reportDetails = JSON.parse(this.original.stringAttributes);
                 this.passedNotesInfo = this.data;
-                this._diff(data.currentReport, this.reportSnapshot);
-            }
+                this._diff(data.currentReport, this.original);
+            } */
 
         });
 
@@ -185,7 +196,7 @@ export class ReportNotesComponent implements OnInit {
 
                                                     if (oldAttr.fieldTableValue) {
                                                         for (let i = 0; i < oldAttr.fieldTableValue.length; i++) {
-                                                            if (oldAttr.fieldTableValue[i].enteredByGrantee && oldAttr.fieldTableValue[i].reportId !== this.reportSnapshot.reportId) {
+                                                            if (oldAttr.fieldTableValue[i].enteredByGrantee && oldAttr.fieldTableValue[i].reportId !== this.original.reportId) {
                                                                 oldAttr.fieldTableValue.splice(i, 1);
                                                             }
                                                         }
@@ -524,7 +535,7 @@ export class ReportNotesComponent implements OnInit {
             html += '</tr>';
 
             for (let i = 0; i < tabData.length; i++) {
-                if (tabData[i].enteredByGrantee && this.reportSnapshot.reportId === tabData[i].reportId) {
+                if (tabData[i].enteredByGrantee && this.original.reportId === tabData[i].reportId) {
                     html += '<tr><td>' + tabData[i].name + '</td>';
                     for (let j = 0; j < tabData[i].columns.length; j++) {
                         //itabData[i].columns[j].dataTypef(tabData[i].columns[j].name.trim() !== ''){
