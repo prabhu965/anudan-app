@@ -26,7 +26,7 @@ jobs:
              ls -lrt
         - name: Commit files
           run: |
-            git config --local user.email "admin@anudan.org"
+            #git config --local user.email "admin@anudan.org"
             git config --local user.name "${GITHUB_ACTOR}"
             git add .
             git commit -m "this file is updated by github/action" 
