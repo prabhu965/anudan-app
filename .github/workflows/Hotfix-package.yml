@@ -17,7 +17,7 @@ jobs:
       steps: 
       - uses: actions/checkout@v2
         with:
-          repository: jayanth9652/release   
+          repository: anudan-org/release   
           token: ${{ secrets.MY_PAT }}
           ref: master  
       - name: Create local changes
@@ -27,14 +27,14 @@ jobs:
             ls -lrt
       - name: Commit files
         run: |
-          git config --local user.email "karniprabhu7777@gmail.com"
-          git config --local user.name "jayanth9652"
+          git config --local user.email "admin@anudan.org"
+          git config --local user.name "${GITHUB_ACTOR}"
           git add .
           git commit -m "this file is updated by github/action" 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MY_PAT }}
-          repository: jayanth9652/release 
+          repository: anudan-org/release 
           branch: master
                 

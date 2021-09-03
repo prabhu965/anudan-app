@@ -21,7 +21,7 @@ jobs:
       steps: 
       - uses: actions/checkout@v2
         with:
-          repository: jayanth9652/release   
+          repository: anudan-org/release   
           token: ${{ secrets.MY_PAT }}
       - name: Create local changes
         run: |
@@ -30,15 +30,15 @@ jobs:
             ls -lrt
       - name: Commit files
         run: |
-          git config --local user.email "karniprabhu7777@gmail.com"
-          git config --local user.name "jayanth9652"
+          git config --local user.email "admin@anudan.org"
+          git config --local user.name "${GITHUB_ACTOR}"
           git add .
           git commit -m "this file is updated by github/action" 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MY_PAT }}
-          repository: jayanth9652/release 
+          repository: anudan-org/release 
           branch: master
       - name: creating release.json artifact for tagging master branch
         uses: actions/upload-artifact@v2
@@ -105,7 +105,7 @@ jobs:
     - name: check out anudan-app master
       uses: actions/checkout@master
       with:
-          repository: jayanth9652/anudan-app  
+          repository: anudan-org/anudan-app  
           token: ${{ secrets.MY_PAT }} 
           ref: master
     - name: Anudan Release artifact downloading      
@@ -128,8 +128,8 @@ jobs:
           echo "Current version branch is $VERSION_BRANCH"
           TAG_NO=`cat release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g'`
           echo $TAG_NO
-          git config --local user.email "karniprabhu7777@gmail.com"
-          git config --local user.name "jayanth9652"
+          git config --local user.email "admin@anudan.org"
+          git config --local user.name "${GITHUB_ACTOR}"
           git tag $TAG_NO
           git push origin $TAG_NO   
 
@@ -143,7 +143,7 @@ jobs:
     - name: check out gms-service master
       uses: actions/checkout@master
       with:
-          repository: jayanth9652/gms-service 
+          repository: anudan-org/gms-service 
           token: ${{ secrets.MY_PAT }} 
           ref: master
 
@@ -167,8 +167,8 @@ jobs:
           echo "Current version branch is $VERSION_BRANCH"
           TAG_NO=`cat release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g'`
           echo $TAG_NO
-          git config --local user.email "karniprabhu7777@gmail.com"
-          git config --local user.name "jayanth9652"
+          git config --local user.email "admin@anudan.org"
+          git config --local user.name "${GITHUB_ACTOR}"
           git tag $TAG_NO
           git push origin $TAG_NO      
          
@@ -182,7 +182,7 @@ jobs:
        - name: check out anudan-app master
          uses: actions/checkout@master
          with:
-              repository: jayanth9652/anudan-app  
+              repository: anudan-org/anudan-app  
               token: ${{ secrets.MY_PAT }}          
               ref: master 
               fetch-depth: 0
@@ -259,7 +259,7 @@ jobs:
        - name: check out gms-service master
          uses: actions/checkout@master
          with:
-              repository: jayanth9652/gms-service  
+              repository: anudan-org/gms-service  
               token: ${{ secrets.MY_PAT }}          
               ref: master 
               fetch-depth: 0
@@ -319,7 +319,7 @@ jobs:
        - name: check out anudan-app hotfix/production_bug_fixes branch 
          uses: actions/checkout@master
          with:
-              repository: jayanth9652/anudan-app  
+              repository: anudan-org/anudan-app  
               token: ${{ secrets.MY_PAT }}          
               ref: hotfix/production_bug_fixes 
               fetch-depth: 0
@@ -378,7 +378,7 @@ jobs:
        - name: check out anudan-app hotfix/production_bug_fixes branch 
          uses: actions/checkout@master
          with:
-              repository: jayanth9652/gms-service  
+              repository: anudan-org/gms-service  
               token: ${{ secrets.MY_PAT }}          
               ref: hotfix/production_bug_fixes 
               fetch-depth: 0
@@ -436,7 +436,7 @@ jobs:
     steps:        
        - uses: actions/checkout@v2
          with:
-          repository: jayanth9652/release   
+          repository: anudan-org/release   
           token: ${{ secrets.MY_PAT }}
 
        - name: Anudan Release artifact downloading      
@@ -460,8 +460,8 @@ jobs:
           cat anudan-app-release-notes.txt gms-service-releasenotes.txt hotfix-anudan-app-releasenotes.txt hotfix-gms-service-releasenotes.txt > Anudan-Raw-ReleaseNotes.txt
           ls -lrt
           pwd 
-          git config --local user.email "karniprabhu7777@gmail.com"
-          git config --local user.name "jayanth9652"
+          git config --local user.email "admin@anudan.org"
+          git config --local user.name "${GITHUB_ACTOR}"
           echo gms-service-releasenotes.txt >> .gitignore
           echo anudan-app-release-notes.txt >> .gitignore
           echo hotfix-anudan-app-releasenotes.txt >> .gitignore
@@ -472,7 +472,7 @@ jobs:
          uses: ad-m/github-push-action@master
          with:
           github_token: ${{ secrets.MY_PAT }}
-          repository: jayanth9652/release 
+          repository: anudan-org/release 
           branch: master       
 
   Notify-on-email:

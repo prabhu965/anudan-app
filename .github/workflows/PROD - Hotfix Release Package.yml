@@ -19,7 +19,7 @@ jobs:
         - name: checkout release repo
           uses: actions/checkout@v2
           with:
-            repository: jayanth9652/release   
+            repository: anudan-org/release   
             token: ${{ secrets.MY_PAT }}
             ref: master
         - name: list files
