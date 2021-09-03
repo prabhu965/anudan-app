@@ -2,8 +2,8 @@ name: Hotfix Build And Deploy Frontend
 
 on:
    workflow_dispatch:
-   #push:
-   #branches: [ hotfix/production_bug_fixes ]
+   push:
+    branches: [ hotfix/production_bug_fixes ]
   #pull_request:
   #   branches: [ hotfix/production_bug_fixes ]
   #schedule:
@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        repository: jayanth9652/anudan-app
+        repository: anudan-org/anudan-app
         token: ${{ secrets.MY_PAT }}
         ref: hotfix/production_bug_fixes
     - name: Use Node.js ${{ matrix.node-version }}
@@ -85,7 +85,7 @@ jobs:
       - name: Checking out my anudan-config repo
         uses: actions/checkout@master
         with:
-          repository: jayanth9652/anudan-config   
+          repository: anudan-org/anudan-config   
           token: ${{ secrets.MY_PAT }}
           ref: master
       - run: pwd
@@ -106,7 +106,7 @@ jobs:
         - name: Hotfix-deployment 
           uses: convictional/trigger-workflow-and-wait@v1.3.0
           with:
-            owner: jayanth9652
+            owner: anudan-org
             repo: anudan-app
             github_token: ${{ secrets.MY_PAT }}
             workflow_file_name: Hotfix-package.yml
@@ -120,7 +120,7 @@ jobs:
       steps:
         - uses: actions/checkout@v2
           with:
-            repository: jayanth9652/release   
+            repository: anudan-org/release   
             token: ${{ secrets.MY_PAT }}
         - name: creating Hotfix_release.json artifact 
           uses: actions/upload-artifact@v2
