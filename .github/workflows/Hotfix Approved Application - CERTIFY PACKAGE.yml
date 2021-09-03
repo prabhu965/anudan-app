@@ -46,7 +46,7 @@ jobs:
       steps: 
       - uses: actions/checkout@v2
         with:
-          repository: jayanth9652/release   
+          repository: anudan-org/release   
           token: ${{ secrets.MY_PAT }}
           ref: master
           #persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
@@ -67,7 +67,7 @@ jobs:
     - name: check out anudan-app master
       uses: actions/checkout@master
       with:
-          repository: jayanth9652/anudan-app  
+          repository: anudan-org/anudan-app  
           token: ${{ secrets.MY_PAT }} 
           ref: hotfix/production_bug_fixes
     - name: Anudan Release artifact downloading      
@@ -91,8 +91,8 @@ jobs:
           TAG_NO_1=`cat release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`
           TAG_NO_2=`cat release.json | cut -d "," -f3 |cut -d ":" -f2 | sed 's/"//g' |sed 's/}//g'`
           echo $TAG_NO
-          git config --local user.email "karniprabhu7777@gmail.com"
-          git config --local user.name "jayanth9652"
+          git config --local user.email "admin@anudan.org"
+          git config --local user.name "${GITHUB_ACTOR}"
           git tag $TAG_NO_1-HF-$TAG_NO_2
           git push origin hotfix/production_bug_fixes $TAG_NO_1-HF-$TAG_NO_2  
 
@@ -105,7 +105,7 @@ jobs:
      - name: check out anudan-app master
        uses: actions/checkout@master
        with:
-            repository: jayanth9652/anudan-app
+            repository: anudan-org/anudan-app
             token: ${{ secrets.MY_PAT }} 
             fetch-depth: 0
             
@@ -120,8 +120,8 @@ jobs:
      - name: merging production branch to Dev Frontend
        run: | 
         TAG_NO=`cat release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`
-        git config --local user.email "karniprabhu7777@gmail.com"
-        git config --local user.name "jayanth9652"
+        git config --local user.email "admin@anudan.org"
+        git config --local user.name "${GITHUB_ACTOR}"
         git checkout branch_$TAG_NO
         git checkout dev 
         git merge branch_$TAG_NO
@@ -140,7 +140,7 @@ jobs:
     - name: check out gms-service master
       uses: actions/checkout@master
       with:
-          repository: jayanth9652/gms-service 
+          repository: anudan-org/gms-service 
           token: ${{ secrets.MY_PAT }} 
           ref: hotfix/production_bug_fixes
 
@@ -165,8 +165,8 @@ jobs:
           TAG_NO_1=`cat release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`
           TAG_NO_2=`cat release.json | cut -d "," -f3 |cut -d ":" -f2 | sed 's/"//g' |sed 's/}//g'`
           echo $TAG_NO
-          git config --local user.email "karniprabhu7777@gmail.com"
-          git config --local user.name "jayanth9652"
+          git config --local user.email "admin@anudan.org"
+          git config --local user.name "${GITHUB_ACTOR}"
           git tag $TAG_NO_1-HF-$TAG_NO_2 
           git push origin hotfix/production_bug_fixes $TAG_NO_1-HF-$TAG_NO_2   
 
@@ -179,7 +179,7 @@ jobs:
      - name: check out gms-service master
        uses: actions/checkout@master
        with:
-            repository: jayanth9652/gms-service
+            repository: anudan-org/gms-service
             token: ${{ secrets.MY_PAT }} 
             fetch-depth: 0
             
@@ -194,8 +194,8 @@ jobs:
      - name: merging production branch to Dev Backend
        run: | 
         TAG_NO=`cat release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`
-        git config --local user.email "karniprabhu7777@gmail.com"
-        git config --local user.name "jayanth9652"
+        git config --local user.email "admin@anudan.org"
+        git config --local user.name "${GITHUB_ACTOR}"
         git checkout branch_$TAG_NO
         git checkout dev 
         git merge branch_$TAG_NO
