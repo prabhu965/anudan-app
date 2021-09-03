@@ -2,9 +2,9 @@
 name: DEV Build And Deploy Frontend
 
 on:
-   #workflow_dispatch:
-   push:
-    branches: [ dev ]
+   workflow_dispatch:
+   #push:
+    #branches: [ dev ]
   #pull_request:
   #  branches: [ dev ]
   #schedule:

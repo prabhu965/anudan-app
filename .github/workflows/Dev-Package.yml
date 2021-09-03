@@ -1,9 +1,9 @@
 name: DEV Rlease Version
 
 on:
-  workflow_dispatch:
-  #push:
-   #branches: [ dev ]
+  #workflow_dispatch:
+  push:
+   branches: [ dev ]
   #pull_request:
    # branches: [ master ]
   #schedule:
@@ -26,8 +26,8 @@ jobs:
              ls -lrt
         - name: Commit files
           run: |
-            git config --local user.email "prabhu@socialalpha.org"
-            git config --local user.name "${GITHUB_ACTOR}"
+            git config --local user.email '"$(git --no-pager log --format=format:'%ae' -n 1)"'
+            git config --local user.name '"$(git --no-pager log --format=format:'%an' -n 1)"'
             git add .
             git commit -m "this file is updated by github/action" 
         - name: Push changes
