@@ -17,7 +17,7 @@ jobs:
         step_new-2: env testing-2 
       steps:
         - name: default env variables
-          run: |
+          run: | 
               echo "HOME: ${HOME}"
               echo "GITHUB_WORKFLOW: ${GITHUB_WORKFLOW}"
               echo "GITHUB_ACTION: ${GITHUB_ACTION}"
