@@ -2,8 +2,8 @@ name: Hotfix Build And Deploy Frontend
 
 on:
    workflow_dispatch:
-   push:
-    branches: [ hotfix/production_bug_fixes ]
+   #push:
+    #branches: [ hotfix/production_bug_fixes ]
   #pull_request:
   #   branches: [ hotfix/production_bug_fixes ]
   #schedule:
