@@ -678,6 +678,7 @@ font-white {
   padding-bottom: 5px;
   border-right: 1px solid #d8d8d8 !important;
   border-top: 1px solid #d8d8d8 !important;
+  border-bottom: 1px solid #d8d8d8 !important;
 }
 
 .change-old {
@@ -689,6 +690,7 @@ font-white {
   padding-top: 5px;
   border-right: 1px solid #d8d8d8 !important;
   border-bottom: 1px solid #d8d8d8 !important;
+  border-top: 1px solid #d8d8d8 !important;
 }
 
 .change-delete {
