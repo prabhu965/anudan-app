@@ -339,7 +339,7 @@ export class GrantCompareComponent implements OnInit {
 
     }
 
-    if (this.grantDiff.orderDiffs.length > 0) {
+    if (this.grantDiff.orderDiffs && this.grantDiff.orderDiffs.length > 0) {
       for (let oldSec of oldGrant.sections) {
         //secDiff.push({ name: oldSec.name, type: 'old', order: oldSec.order });
         this.grantDiff.orderDiffs.push({ name: oldSec.name, type: 'old', order: oldSec.order })
@@ -592,7 +592,7 @@ export class GrantCompareComponent implements OnInit {
           for (let oldattr of oldSection.attributes) {
             attrDiff.push({ name: oldattr.name, type: 'old', order: oldattr.order });
           }
-          this.grantDiff.attributeOrderDiffs.push({ name: section.name, attributes: attrDiff });
+          this.reportDiff.attributeOrderDiffs.push({ name: section.name, attributes: attrDiff });
         }
       } else {
         //resultSections.push({'order':2,'category':'Grant Details','name':'Section deleted','change':[{'old': section.name,'new':''}]});
