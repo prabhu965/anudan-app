@@ -2,8 +2,8 @@ name: DEV Rlease Version
 
 on:
   workflow_dispatch:
-  #push:
-   #branches: [ dev ]
+  push:
+   branches: [ dev ]
   #pull_request:
    # branches: [ master ]
   #schedule:
@@ -23,13 +23,13 @@ jobs:
             ref: master
         - name: setup variable
           run: | 
-             echo "version=`cat release.json | cut -d "," -f4 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
-             echo "MajorRelease=`cat release.json | cut -d "," -f5 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
+             echo "major=`cat release.json | cut -d "," -f4 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
+             echo "minor=`cat release.json | cut -d "," -f5 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
         - name: release version creating for Dev
           run: | 
              ls -lrt
              pwd
-             echo '{"releaseCandidate":"${{env.version}}.${{env.MajorRelease}}.${{ github.run_number }}"}' > Dev_release.json 
+             echo '{"releaseCandidate":"${{env.major}}.${{env.minor}}.${{ github.run_number }}"}' > Dev_release.json 
              ls -lrt
         - name: Commit files
           run: |
