@@ -25,9 +25,9 @@ jobs:
           run: | 
              ls -lrt
              pwd
-             version= `cat CustomRelease.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`
+             echo "version=`custom_release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
              echo '{"releaseCandidate":"1.0.${{ github.run_number }}"}' > Dev_release.json 
-             echo "hii_no: $version"
+             echo "hii_no: ${version}"
              ls -lrt
         - name: Commit files
           run: |
