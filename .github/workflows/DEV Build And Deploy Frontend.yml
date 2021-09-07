@@ -189,7 +189,7 @@ jobs:
       - name: set env variable with bash expression 
         run:   |
           ls -lrt
-          echo "Dev_Version=`${GITHUB_WORKSPACE}/cat Dev_release.json| cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
+          echo "Dev_Version=`cat Dev_release.json| cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
       - name: Send some mail
         uses: wadeww/send-email-action@master
         with:
