@@ -24,7 +24,7 @@ jobs:
         - name: setup variable
           run: | 
              echo "version=`cat CustomRelease.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
-             echo "MajorRelease=`cat custom_release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`" >> $GITHUB_ENV
+             echo "MajorRelease=`cat CustomRelease.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`" >> $GITHUB_ENV
         - name: release version creating for Dev
           run: | 
              ls -lrt
