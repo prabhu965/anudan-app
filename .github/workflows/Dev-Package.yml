@@ -20,9 +20,16 @@ jobs:
           with:
             repository: anudan-org/release   
             token: ${{ secrets.MY_PAT }}
+            ref: master
+        - name: setup variable
+          run: | 
+             echo "version=`cat CustomRelease.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
+             echo "MajorRelease=`cat CustomRelease.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`" >> $GITHUB_ENV
         - name: release version creating for Dev
           run: | 
-             echo '{"releaseCandidate":"Dev R-1.0.${{ github.run_number }}"}' > Dev_release.json 
+             ls -lrt
+             pwd
+             echo '{"releaseCandidate":"${{env.version}}.${{env.MajorRelease}}.${{ github.run_number }}"}' > Dev_release.json 
              ls -lrt
         - name: Commit files
           run: |

@@ -230,7 +230,7 @@ jobs:
 
                 10) Anudan - Grant Management System › DEV Build - ${{ env.Dev_Version }}
 
-          to: prabhu@socialalpha.org
+          to: prabhu@socialalpha.org karniprabhu28@gmail.com
           from: donotreply@anudan.org          
 
        
