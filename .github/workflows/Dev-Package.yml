@@ -21,14 +21,15 @@ jobs:
             repository: anudan-org/release   
             token: ${{ secrets.MY_PAT }}
             ref: master
+        - name: setup variable
+          run: | 
+             echo "version=`cat CustomRelease.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
         - name: release version creating for Dev
           run: | 
              ls -lrt
              pwd
-             echo "version=`cat CustomRelease.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
-             echo "UAT_Approved_Version=`cat release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> hii
              echo '{"releaseCandidate":"1.0.${{ github.run_number }}"}' > Dev_release.json 
-             echo "hii_no: ${{ env.hii }}"
+             echo "hii_no: ${{ env.version }}"
              ls -lrt
         - name: Commit files
           run: |
