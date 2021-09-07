@@ -22,11 +22,10 @@ jobs:
             token: ${{ secrets.MY_PAT }}
             ref: master
         - name: release version creating for Dev
-          env: 
-           version: cat custom_release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'
-           MajorRelease: cat custom_release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'
           run: | 
-             echo '{"releaseCandidate":"Dev R-${version}.${MajorRelease}.${{ github.run_number }}"}' > Dev_release.json 
+             echo "version=`custom_release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
+             echo '{"releaseCandidate":"Dev R-${{env.version}}.${MajorRelease}.${{ github.run_number }}"}' > Dev_release.json 
+             echo "hii_no: ${{ env.version }}"
              ls -lrt
         - name: Commit files
           run: |
