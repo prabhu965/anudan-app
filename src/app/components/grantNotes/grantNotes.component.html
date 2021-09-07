@@ -43,7 +43,7 @@
         <small>View changes</small>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <app-grant-compare [for]="'Grant'" [newItem]="current" [oldItem]="original" [standAlone]="false" [title]="'Grant Changes'" [compare1Title]="'Current State'" [compare2Title]="'Previous State'"></app-grant-compare>
+    <app-grant-compare [for]="'Grant'" [compareType]="'strong'" [newItem]="current" [oldItem]="original" [standAlone]="false" [title]="'Grant Changes'" [compare1Title]="'Current State'" [compare2Title]="'Previous State'"></app-grant-compare>
     <!--<div *ngIf="grantDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;overflow:scroll;">
       <div *ngIf="grantDiff.oldGrantName || grantDiff.newGrantName" class="mb-2 change-box">
         <span class="change-title">Grant name changed</span>

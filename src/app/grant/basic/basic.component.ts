@@ -1691,10 +1691,10 @@ export class BasicComponent implements OnInit {
   }
 
   compareGrants(currentGrantId, origGrantId) {
-    this.grantApiService.compareGrants(currentGrantId, origGrantId, this.appComp.loggedInUser.id).then((grantsToCompare: any[]) => {
+    this.grantApiService.compareGrants(currentGrantId, origGrantId, this.appComp.loggedInUser.id).then((grantsToCompare: any) => {
       console.log(grantsToCompare);
       const dg = this.dialog.open(GrantCompareComponent, {
-        data: grantsToCompare,
+        data: { checkType: grantsToCompare.checkType, compareItems: grantsToCompare.grants },
         panelClass: "wf-assignment-class",
       });
     });
