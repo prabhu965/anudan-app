@@ -35,9 +35,14 @@ export class GrantCompareComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<GrantCompareComponent>
     , @Inject(MAT_DIALOG_DATA) public itemsCompare: any, public currencyService: CurrencyService) {
 
-    this._compareType = itemsCompare.checkType;
-    this.newItem = itemsCompare.compareItems[0];
-    this.oldItem = itemsCompare.compareItems[1];
+    if (itemsCompare.checkType) {
+      this._compareType = itemsCompare.checkType;
+    }
+    if (itemsCompare.compareItems && itemsCompare.compareItems.length === 2) {
+      this.newItem = itemsCompare.compareItems[0];
+      this.oldItem = itemsCompare.compareItems[1];
+    }
+
 
     const difference = deepDiff.detailedDiff(this.oldItem, this.newItem);
     console.log(difference);
