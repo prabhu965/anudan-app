@@ -26,9 +26,9 @@ jobs:
              ls -lrt
              pwd
              echo "version=`cat CustomRelease.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
-             echo "UAT_Approved_Version=`cat release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
+             echo "UAT_Approved_Version=`cat release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> hii
              echo '{"releaseCandidate":"1.0.${{ github.run_number }}"}' > Dev_release.json 
-             echo "hii_no: ${{ env.UAT_Approved_Version }}"
+             echo "hii_no: ${{ env.hii }}"
              ls -lrt
         - name: Commit files
           run: |
