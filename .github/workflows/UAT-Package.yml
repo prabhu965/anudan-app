@@ -2,8 +2,8 @@ name: UAT Rlease Version
 
 on:
   workflow_dispatch:
-  #push:
-   #branches: [ master ]
+  push:
+   branches: [ master ]
   #pull_request:
    # branches: [ master ]
   #schedule:
@@ -22,11 +22,11 @@ jobs:
             token: ${{ secrets.MY_PAT }}
         - name: setup variable
           run: | 
-             echo "version=`cat CustomRelease.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
-             echo "MajorRelease=`cat CustomRelease.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`" >> $GITHUB_ENV    
+             echo "major=`cat release.json | cut -d "," -f4 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
+             echo "minor=`cat release.json | cut -d "," -f5 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV   
         - name: release version creating for UAT
           run: | 
-             echo '{"releaseCandidate":"UAT R-${{env.version}}.${{env.MajorRelease}}.${{ github.run_number }}"}' > UAT_release.json 
+             echo '{"releaseCandidate":"UAT R-${{env.major}}.${{env.minor}}.${{ github.run_number }}"}' > UAT_release.json 
              ls -lrt
         - name: Commit files
           run: |
