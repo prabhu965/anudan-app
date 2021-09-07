@@ -1,9 +1,9 @@
 name: DEV Rlease Version
 
 on:
-  #workflow_dispatch:
-  push:
-   branches: [ dev ]
+  workflow_dispatch:
+  #push:
+   #branches: [ dev ]
   #pull_request:
    # branches: [ master ]
   #schedule:
