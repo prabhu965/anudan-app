@@ -3,7 +3,14 @@
 </span>
 <h4 mat-dialog-title class="text-center mb-4" style="font-size:14px;">
   <div class="row mx-3">
-    <div class="col-12"><h5>{{title}}</h5></div>
+    <div class="col-12"><h5>{{title}}</h5>
+      <div *ngIf="_compareType==='weak'" class="text-subheader">
+        <mat-icon [inline]="true" class="material-icons-outlined text-grey mr-1">
+          info_outline
+        </mat-icon>Comparions may not be accurate
+      </div>
+    </div>
+    
     <div class="col-2 d-flex align-items-center">
       <p class="text-header text-right w-100 mb-0">{{compare1}}</p>
     </div> 
