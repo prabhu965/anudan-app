@@ -485,7 +485,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: Anudan-Release 
-
+      - name: setup variable
+        run: | 
+             echo "version=`cat CustomRelease.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
+             echo "MajorRelease=`cat CustomRelease.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`" >> $GITHUB_ENV
       - name: set env variable with bash expression 
         run:   |
          ls -lrt
