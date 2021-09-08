@@ -40,6 +40,18 @@ jobs:
           github_token: ${{ secrets.MY_PAT }}
           repository: anudan-org/release 
           branch: master
+      - name: set variables
+        run: | 
+             echo "major=`cat release.json | cut -d "," -f4 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
+             echo "minor=`cat release.json | cut -d "," -f5 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
+             echo "releaseCandidate=`cat release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g'`" >> $GITHUB_ENV 
+             echo "productionRelease=`cat release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`" >> $GITHUB_ENV
+             echo "hotFixRelease=`cat release.json | cut -d "," -f3 |cut -d ":" -f2 | sed 's/"//g' |sed 's/}//g'`" >> $GITHUB_ENV
+      - name: release version creating for UAT
+        run: | 
+             echo '{"releaseCandidate":"${{ env.major}}.${{ env.minor }}.${{ env.releaseCandidate }}","productionRelease":"${{ env.major}}.${{ env.minor }}.${{ env.productionRelease }}","hotFixRelease":"${{ env.hotFixRelease }}"}' > release.json 
+             ls -lrt
+
       - name: creating release.json artifact for tagging master branch
         uses: actions/upload-artifact@v2
         with:
@@ -487,8 +499,8 @@ jobs:
           name: Anudan-Release 
       - name: setup variable
         run: | 
-             echo "version=`cat CustomRelease.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
-             echo "MajorRelease=`cat CustomRelease.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`" >> $GITHUB_ENV
+             echo "major=`cat release.json | cut -d "," -f4 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV  
+             echo "minor=`cat release.json | cut -d "," -f5 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV 
       - name: set env variable with bash expression 
         run:   |
          ls -lrt
