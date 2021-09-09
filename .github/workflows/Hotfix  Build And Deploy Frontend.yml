@@ -19,7 +19,7 @@ jobs:
     if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
     name: Hotflix Frontend Build
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2 
       with:
         repository: anudan-org/anudan-app
         token: ${{ secrets.MY_PAT }}
