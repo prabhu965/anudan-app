@@ -240,8 +240,11 @@
       <ng-container *ngIf="currentReport">
         <div class="m-1" style="color: #fff; max-width: 500px">
           <ng-container *ngIf="currentReport.status.internalStatus!=='CLOSED' && currentReport.disabledByAmendment">
-            <p class="mb-0 text-red text-left"
+            <p class="mb-0 text-subheader text-white d-flex align-items-center text-left"
             style="font-weight: 600; font-size: 12px">
+            <mat-icon [inline]="true" class="material-icons-outlined text-red mr-1">
+              info_outline
+            </mat-icon>
             Underlying grant has been amended. Please check if this report is still valid.</p>
           </ng-container>
           {{ currentReport.name }}
@@ -304,9 +307,12 @@
         <div class="m-1" style="color: #fff; max-width: 500px">
           <p
             *ngIf="currentDisbursement.disabledByAmendment && currentDisbursement.status.internalStatus!=='CLOSED'"
-            class="mb-0 text-red text-left"
+            class="mb-0 text-subheader text-white d-flex align-items-center text-left"
             style="font-weight: 600; font-size: 12px"
           >
+          <mat-icon [inline]="true" class="material-icons-outlined text-red mr-1">
+            info_outline
+          </mat-icon>
           Underlying grant has been amended. Please check if this disbursement is still valid.
           </p>
           Approval Request Note for Grant
@@ -323,9 +329,12 @@
         <div class="m-1" style="color: #fff; max-width: 500px">
           <p
             *ngIf="currentDisbursement.disabledByAmendment && currentDisbursement.status.internalStatus!=='CLOSED'"
-            class="mb-0 text-red text-left"
+            class="mb-0 text-subheader text-white d-flex align-items-center text-left"
             style="font-weight: 600; font-size: 12px"
           >
+          <mat-icon [inline]="true" class="material-icons-outlined text-red mr-1">
+            info_outline
+          </mat-icon>
           Underlying grant has been amended. Please check if this disbursement is still valid.
           </p>
           Disbursement Record against Approved Note for Grant

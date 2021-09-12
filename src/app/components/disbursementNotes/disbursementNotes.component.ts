@@ -40,6 +40,7 @@ export class DisbursementNotesComponent implements OnInit {
         private disbursementDataService: DisbursementDataService,
         private currencyService: CurrencyService) {
         this.validationResult = data.validationResult;
+        _bottomSheetRef.disableClose = true;
 
         const httpOptions = {
             headers: new HttpHeaders({

@@ -14,18 +14,32 @@
     <div class="col-2 d-flex align-items-center">
       <p class="text-header text-right w-100 mb-0">{{compare1}}</p>
     </div> 
-      <div class="col-10 text-left py-2 pr-0" style="border-left: 10px solid #009900 !important;">
+      <div class="col-7 text-left py-2 pr-0" style="border-left: 10px solid #009900 !important;">
         <span>
           <span  *ngIf="_for==='Grant' && newItem.referenceNo" [ngStyle]="_for==='Disbursement'?{'line-height': '1.5em','display': 'inline-block'}:{}">{{newItem.referenceNo}}</span>{{_for!=='Disbursement'?newItem.name:'Approval Request for ' + newItem.grantName}}
         </span>
       </div>
+      <div class="col-3 d-flex align-items-center justify-content-center flex-column">
+        <div class="status-indicator2">
+        <div [class]="'text-center status-icon state-'+newItem.currentInternalStatus.toLowerCase()">
+        </div>{{newItem.currentStatus | uppercase}}
+      </div>
+      <div class="text-center text-subheader pl-3 mt-2 search-context">{{newItem.currentOwner}}</div>
+    </div>
     <div class="col-2 d-flex align-items-center">
       <p class="text-header text-right w-100 mb-0">{{compare2}}</p>
     </div>
-    <div class="col-10 text-left py-2 pr-0" style="border-left: 10px solid #4b4b4b !important;background: rgb(240, 240, 240) !important;">
+    <div class="col-7 text-left py-2 pr-0" style="border-left: 10px solid #4b4b4b !important;background: rgb(240, 240, 240) !important;">
       <span>
         <span  *ngIf="_for==='Grant' && oldItem.referenceNo" [ngStyle]="_for==='Disbursement'?{'line-height': '1.5em','display': 'inline-block'}:{}">{{oldItem.referenceNo}}</span>{{_for!=='Disbursement'?oldItem.name:'Approval Request for ' + oldItem.grantName}}
         </span>
+    </div>
+    <div class="col-3 d-flex align-items-center justify-content-center flex-column">
+      <div class="status-indicator2">
+        <div [class]="'text-center status-icon state-'+oldItem.currentInternalStatus.toLowerCase()">
+        </div>{{oldItem.currentStatus | uppercase}}
+      </div>
+      <div class="text-center text-subheader pl-3 mt-2 search-context">{{oldItem.currentOwner}}</div>
     </div>
   </div>
 </h4>
@@ -111,34 +125,32 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="grantDiff.attributeOrderDiffs && grantDiff.attributeOrderDiffs.length>0">
-    
-      <ng-container *ngFor="let diff of grantDiff.attributeOrderDiffs">
-        <div class="mb-2 change-box">
-      <span class="change-title"><span>Grant Details | </span>Field order changes in section <strong>{{diff.name}}</strong></span>
-      <div class="change-new">
-        <ng-container *ngFor="let attrDiff of diff.attributes;let i=index;">
-            <ng-container *ngIf="attrDiff.type==='new'">
-            <p class="mb-0">{{attrDiff.name}}</p>
-          </ng-container>
-      </ng-container>
-      </div>
-      <div class="change-old">
-        <ng-container *ngFor="let attrDiff of diff.attributes;let j=index">
-            <ng-container *ngIf="attrDiff.type==='old'">
-            <p class="mb-0">{{attrDiff.name}}</p>
-          </ng-container>
-      </ng-container>
-      </div>
-    </div>
-    </ng-container>
-    
-  </ng-container>
-
   <ng-container *ngIf="grantDiff.sectionDiffs">
     <ng-container *ngFor="let sectionDiff of grantDiff.sectionDiffs">
       <ng-container *ngIf="sectionDiff.hasSectionLevelChanges">
-        <div *ngIf="sectionDiff.oldSection && sectionDiff.newSection" class="mb-2 change-box">
+        <ng-container *ngIf="sectionDiff.attributeOrderDiffs && sectionDiff.attributeOrderDiffs.length>0">
+          <span class="change-title"><span>Grant Details | </span>Field order changes in section <strong>{{sectionDiff.newSection.name}}</strong></span>
+          
+            <div class="mb-2 change-box">
+          
+          <div class="change-new">
+            <ng-container *ngFor="let diff1 of sectionDiff.attributeOrderDiffs[0]">
+                <ng-container *ngIf="diff1.type==='new'">
+                <p class="mb-0">{{diff1.name}}</p>
+              </ng-container>
+              </ng-container>
+          </div>
+          <div class="change-old">
+            <ng-container *ngFor="let diff1 of sectionDiff.attributeOrderDiffs[0]">
+              <ng-container *ngIf="diff1.type==='old'">
+              <p class="mb-0">{{diff1.name}}</p>
+            </ng-container>
+            </ng-container>
+          </div>
+          </div>
+        
+      </ng-container>
+        <div *ngIf="sectionDiff.oldSection && sectionDiff.newSection && sectionDiff.oldSection.name!==sectionDiff.newSection.name" class="mb-2 change-box">
           <span class="change-title"><span>Grant Details | </span>Name changed</span>
           <div class="change-new">{{sectionDiff.newSection.name}}</div>
           <div class="change-old">{{sectionDiff.oldSection.name}}</div>
@@ -151,6 +163,7 @@
           <span class="change-title"><span>Grant Details | </span>New section added</span>
           <div class="change-new">{{sectionDiff.newSection.name}}</div>
         </div>
+        
       </ng-container>
       <ng-container *ngIf="!sectionDiff.hasSectionLevelChanges">
         <ng-container *ngIf="sectionDiff.attributesDiffs">
@@ -356,7 +369,29 @@
     <ng-container *ngIf="reportDiff.sectionDiffs">
       <ng-container *ngFor="let sectionDiff of reportDiff.sectionDiffs">
         <ng-container *ngIf="sectionDiff.hasSectionLevelChanges">
-          <div *ngIf="sectionDiff.oldSection && sectionDiff.newSection" class="mb-2 change-box">
+          <ng-container *ngIf="sectionDiff.attributeOrderDiffs && sectionDiff.attributeOrderDiffs.length>0">
+            <span class="change-title"><span>Report Detail | </span>Field order changes in section <strong>{{sectionDiff.newSection.name}}</strong></span>
+            
+              <div class="mb-2 change-box">
+            
+            <div class="change-new">
+              <ng-container *ngFor="let diff1 of sectionDiff.attributeOrderDiffs[0]">
+                  <ng-container *ngIf="diff1.type==='new'">
+                  <p class="mb-0">{{diff1.name}}</p>
+                </ng-container>
+                </ng-container>
+            </div>
+            <div class="change-old">
+              <ng-container *ngFor="let diff1 of sectionDiff.attributeOrderDiffs[0]">
+                <ng-container *ngIf="diff1.type==='old'">
+                <p class="mb-0">{{diff1.name}}</p>
+              </ng-container>
+              </ng-container>
+            </div>
+            </div>
+          
+        </ng-container>
+          <div *ngIf="sectionDiff.oldSection && sectionDiff.newSection && sectionDiff.oldSection.name!==sectionDiff.newSection.name" class="mb-2 change-box">
             <span class="change-title"><span>Report Detail | </span>Section name changed</span>
             <div class="change-new">{{sectionDiff.newSection.sectionName}}</div>
             <div class="change-old">{{sectionDiff.oldSection.sectionName}}</div>

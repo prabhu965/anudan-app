@@ -34,6 +34,7 @@ export class GrantNotesComponent implements OnInit {
         private _bottomSheetRef: MatDialogRef<GrantNotesComponent>
         , @Inject(MAT_DIALOG_DATA) public data: GrantNote, private http: HttpClient) {
         this.validationResult = data.validationResult;
+        _bottomSheetRef.disableClose = true;
 
         const httpOptions = {
             headers: new HttpHeaders({
