@@ -1572,7 +1572,7 @@ export class SectionsComponent
     });
 
     dg.afterClosed().subscribe((result) => {
-      if (result()) {
+      if (result) {
         console.log(sectionId + " " + attributeId + " " + rowIndex);
         for (let section of this.currentGrant.grantDetails.sections) {
           if (section.id === sectionId) {
