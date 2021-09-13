@@ -20,7 +20,7 @@
         </span>
       </div>
       <div class="col-3 d-flex align-items-center justify-content-center flex-column">
-        <div class="status-indicator2">
+        <div class="status-indicator2" *ngIf="newItem.currentInternalStatus">
         <div [class]="'text-center status-icon state-'+newItem.currentInternalStatus.toLowerCase()">
         </div>{{newItem.currentStatus | uppercase}}
       </div>
@@ -35,7 +35,7 @@
         </span>
     </div>
     <div class="col-3 d-flex align-items-center justify-content-center flex-column">
-      <div class="status-indicator2">
+      <div class="status-indicator2" *ngIf="oldItem.currentInternalStatus">
         <div [class]="'text-center status-icon state-'+oldItem.currentInternalStatus.toLowerCase()">
         </div>{{oldItem.currentStatus | uppercase}}
       </div>
