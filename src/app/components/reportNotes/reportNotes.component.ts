@@ -35,7 +35,7 @@ export class ReportNotesComponent implements OnInit {
         private _bottomSheetRef: MatDialogRef<ReportNotesComponent>
         , @Inject(MAT_DIALOG_DATA) public data: ReportNote, private http: HttpClient) {
         this.validationResult = data.validationResult;
-
+        _bottomSheetRef.disableClose = true;
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',

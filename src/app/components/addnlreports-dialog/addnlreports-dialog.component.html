@@ -57,9 +57,11 @@
       <div class="col-12 mb-1">
         <p
           *ngIf="report.disabledByAmendment"
-          class="mb-0 text-red text-left"
+          class="mb-0 text-subheader d-flex align-ites-center text-left"
           style="font-weight: 600; font-size: 12px"
-        >
+        ><mat-icon [inline]="true" class="material-icons-outlined text-grey mr-1 mb-1">
+          info_outline
+        </mat-icon>
           Underlying grant has been amended. Please check if this
           report is still valid.
         </p>

@@ -1,4 +1,4 @@
-import { DisbursementDiff } from './../model/disbursement';
+import { DisbursementDiff, ActualDisbursement } from './../model/disbursement';
 import { ReportDiff } from './../model/report';
 import { CurrencyService } from './../currency-service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -289,7 +289,7 @@ export class GrantCompareComponent implements OnInit {
         let attrDiff = [];
         if (hasDifferences) {
           for (let a of section.attributes) {
-            this._getGrantSectionAttributeOrderDiffs();
+            //this._getGrantSectionAttributeOrderDiffs();
             attrDiff.push({ name: a.name, type: 'new', order: a.order });
           }
 
@@ -299,7 +299,14 @@ export class GrantCompareComponent implements OnInit {
           for (let oldattr of oldSection.attributes) {
             attrDiff.push({ name: oldattr.name, type: 'old', order: oldattr.order });
           }
-          this.grantDiff.attributeOrderDiffs.push({ name: section.name, attributes: attrDiff });
+          this._getGrantDiffSections();
+          let secDiff = new SectionDiff();
+          secDiff.oldSection = oldSection;
+          secDiff.newSection = section;
+          secDiff.order = section.order
+          secDiff.hasSectionLevelChanges = true;
+          secDiff.attributeOrderDiffs.push(attrDiff);
+          this.grantDiff.sectionDiffs.push(secDiff);
         }
       } else {
         //resultSections.push({'order':2,'category':'Grant Details','name':'Section deleted','change':[{'old': section.name,'new':''}]});
@@ -598,7 +605,7 @@ export class GrantCompareComponent implements OnInit {
         let attrDiff = [];
         if (hasDifferences) {
           for (let a of section.attributes) {
-            this._getGrantSectionAttributeOrderDiffs();
+            //this._getGrantSectionAttributeOrderDiffs();
             attrDiff.push({ name: a.name, type: 'new', order: a.order });
           }
 
@@ -608,7 +615,15 @@ export class GrantCompareComponent implements OnInit {
           for (let oldattr of oldSection.attributes) {
             attrDiff.push({ name: oldattr.name, type: 'old', order: oldattr.order });
           }
-          this.grantDiff.attributeOrderDiffs.push({ name: section.name, attributes: attrDiff });
+          this._getGrantDiffSections();
+          let secDiff = new SectionDiff();
+          secDiff.oldSection = oldSection;
+          secDiff.newSection = section;
+          secDiff.order = section.order
+          secDiff.hasSectionLevelChanges = true;
+
+          secDiff.attributeOrderDiffs.push(attrDiff);
+          this.grantDiff.sectionDiffs.push(secDiff);
         }
       } else {
         this._getGrantDiffSections();
@@ -889,7 +904,6 @@ export class GrantCompareComponent implements OnInit {
         let attrDiff = [];
         if (hasDifferences) {
           for (let a of section.attributes) {
-            this._getReportSectionAttributeOrderDiffs();
             attrDiff.push({ name: a.name, type: 'new', order: a.order });
           }
 
@@ -899,7 +913,17 @@ export class GrantCompareComponent implements OnInit {
           for (let oldattr of oldSection.attributes) {
             attrDiff.push({ name: oldattr.name, type: 'old', order: oldattr.order });
           }
-          this.reportDiff.attributeOrderDiffs.push({ name: section.name, attributes: attrDiff });
+          this._getReportDiffSections();
+          const attrDiff1 = new AttributeDiff();
+          attrDiff1.section = section.name;
+          //attrDiff1.newAttribute = attr;
+          const sectionDiff = new SectionDiff();
+          sectionDiff.oldSection = oldSection;
+          sectionDiff.newSection = section;
+          sectionDiff.order = section.order
+          sectionDiff.hasSectionLevelChanges = true;
+          sectionDiff.attributeOrderDiffs.push(attrDiff);
+          this.reportDiff.sectionDiffs.push(sectionDiff);
         }
       } else {
         //resultSections.push({'order':2,'category':'Grant Details','name':'Section deleted','change':[{'old': section.name,'new':''}]});
@@ -994,19 +1018,6 @@ export class GrantCompareComponent implements OnInit {
     }
   }
 
-  _getGrantSectionAttributeOrderDiffs() {
-    this._getGrantDiff();
-    if (!this.grantDiff.attributeOrderDiffs) {
-      this.grantDiff.attributeOrderDiffs = [];
-    }
-  }
-
-  _getReportSectionAttributeOrderDiffs() {
-    this._getReportDiff();
-    if (!this.reportDiff.attributeOrderDiffs) {
-      this.reportDiff.attributeOrderDiffs = [];
-    }
-  }
 
   _getReportDiff() {
     if (!this.reportDiff) {
@@ -1065,6 +1076,13 @@ export class GrantCompareComponent implements OnInit {
       resultHeader.push({ 'order': 2, 'category': 'Approval Request', 'name': 'Approval Request Reason changed', 'change': [{ 'old': olddisbursement.commentary, 'new': newDisbursement.commentary }] });
       this.disbursementDiff.oldReason = olddisbursement.commentary;
       this.disbursementDiff.newReason = newDisbursement.commentary;
+    }
+
+    if (newDisbursement.actualDisbursement) {
+      this._getDisbursementDiff();
+      resultHeader.push({ 'order': 3, 'category': 'Approval Request', 'name': 'Recorded Disbursement changes', 'change': [{ 'old': null, 'new': newDisbursement.ActualDisbursement }] });
+      this.disbursementDiff.actualDisbursement = null;
+      this.disbursementDiff.actualDisbursement = newDisbursement.actualDisbursement;
     }
 
 

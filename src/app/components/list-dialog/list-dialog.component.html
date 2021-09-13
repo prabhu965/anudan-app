@@ -173,9 +173,12 @@
       <div class="col-12 mb-1 mt-2">
         <p
           *ngIf="report.disabledByAmendment"
-          class="mb-0 text-red text-left mt-2"
+          class="mb-0 text-subheader d-flex align-items-center text-left mt-2"
           style="font-weight: 600; font-size: 12px"
         >
+        <mat-icon [inline]="true" class="material-icons-outlined text-grey mr-1 mb-1">
+          info_outline
+        </mat-icon>
           Underlying grant has been amended. Please check if this
           report is still valid.
         </p>
@@ -293,7 +296,7 @@
               <mat-icon class="text-red">delete_outline</mat-icon>
             </div>
               <div class="col-9 mb-1 search-context px-0">
-                <div *ngIf="disbursement.disabledByAmendment" class="mb-0 text-red text-left" style="font-weight: 600; font-size: 12px">
+                <div *ngIf="disbursement.disabledByAmendment" class="mb-0 text-subheader d-flex align-items-center text-left" style="font-weight: 600; font-size: 12px">
                   Underlying grant has been amended. Please check if this
                   disbursement is still valid
                 </div>

@@ -1097,11 +1097,15 @@ app-search-filter .mat-form-field-suffix{
   height: 20px !important;
 } */
 
-mat-icon:hover{
+.mat-icon:hover{
   background: lightgrey;
   cursor: pointer;
   border-radius: 50%;
   transition: background 0.5s;
+}
+
+.text-subheader .mat-icon:hover{
+  background: inherit;
 }
 
 .wrapper::-webkit-scrollbar{
