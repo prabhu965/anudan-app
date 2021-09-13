@@ -599,9 +599,11 @@
             <td>Milestone/Notes</td>
           </tr>
         <ng-container *ngFor="let ad of disbursementDiff.actualDisbursement">
+          <tr>
           <td>{{ad.disbursementDate}}</td>
           <td>{{ad.actualAmount}}</td>
           <td>{{ad.note}}</td>
+        </tr>
         </ng-container>
       </table>
       </div>
