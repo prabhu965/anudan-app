@@ -705,6 +705,7 @@
                         matInput
                         class="anu-input"
                         [(ngModel)]="actual.note"
+                        (change)="disbursementService.saveDisbursement(currentDisbursement)"
                         
                       />
                     </mat-form-field>

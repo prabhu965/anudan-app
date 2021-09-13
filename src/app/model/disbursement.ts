@@ -91,6 +91,7 @@ export class DisbursementDiff {
   newRequestedAmount: number;
   oldReason: string;
   newReason: string;
+  actualDisbursement: any[];
 }
 
 export class DisbursementSnapshot {

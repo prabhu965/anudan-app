@@ -1,4 +1,4 @@
-import { DisbursementDiff } from './../model/disbursement';
+import { DisbursementDiff, ActualDisbursement } from './../model/disbursement';
 import { ReportDiff } from './../model/report';
 import { CurrencyService } from './../currency-service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -1076,6 +1076,13 @@ export class GrantCompareComponent implements OnInit {
       resultHeader.push({ 'order': 2, 'category': 'Approval Request', 'name': 'Approval Request Reason changed', 'change': [{ 'old': olddisbursement.commentary, 'new': newDisbursement.commentary }] });
       this.disbursementDiff.oldReason = olddisbursement.commentary;
       this.disbursementDiff.newReason = newDisbursement.commentary;
+    }
+
+    if (newDisbursement.actualDisbursement) {
+      this._getDisbursementDiff();
+      resultHeader.push({ 'order': 3, 'category': 'Approval Request', 'name': 'Recorded Disbursement changes', 'change': [{ 'old': null, 'new': newDisbursement.ActualDisbursement }] });
+      this.disbursementDiff.actualDisbursement = null;
+      this.disbursementDiff.actualDisbursement = newDisbursement.actualDisbursement;
     }
 
 

@@ -589,5 +589,22 @@
       <div *ngIf="!disbursementDiff.oldReason && disbursementDiff.newReason" class="text-white"><i><small>Previously
             had no value</small></i></div>
     </div>
+    <div *ngIf="disbursementDiff.actualDisbursement" class="mb-2 change-box">
+      <span class="change-title"><span>Recorded Disbursements | </span>Recorded Disbursements changed</span>
+      <div class="change-new py-2" *ngIf="disbursementDiff.actualDisbursement">
+        <table width="100%" border="1">
+          <tr>
+            <td>Disbursement Date</td>
+            <td>Disbursement Amount</td>
+            <td>Milestone/Notes</td>
+          </tr>
+        <ng-container *ngFor="let ad of disbursementDiff.actualDisbursement">
+          <td>{{ad.disbursementDate}}</td>
+          <td>{{ad.actualAmount}}</td>
+          <td>{{ad.note}}</td>
+        </ng-container>
+      </table>
+      </div>
+    </div>
   </div>
 </ng-container>
