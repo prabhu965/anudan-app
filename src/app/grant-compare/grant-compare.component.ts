@@ -669,7 +669,7 @@ export class GrantCompareComponent implements OnInit {
 
     }
 
-    if (this.grantDiff.orderDiffs && this.grantDiff.orderDiffs.length > 0) {
+    if (this.grantDiff && this.grantDiff.orderDiffs && this.grantDiff.orderDiffs.length > 0) {
       for (let oldSec of oldGrant.sections) {
         this.grantDiff.orderDiffs.push({ name: oldSec.name, type: 'old', order: oldSec.order })
       }
