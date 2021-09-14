@@ -19,12 +19,12 @@
           <span  *ngIf="_for==='Grant' && newItem.referenceNo" [ngStyle]="_for==='Disbursement'?{'line-height': '1.5em','display': 'inline-block'}:{}">{{newItem.referenceNo}}</span>{{_for!=='Disbursement'?newItem.name:'Approval Request for ' + newItem.grantName}}
         </span>
       </div>
-      <div class="col-3 d-flex align-items-center justify-content-center flex-column">
+      <div class="col-3 d-flex align-items-center justify-content-center flex-column py-2">
         <div class="status-indicator2" *ngIf="newItem.currentInternalStatus">
         <div [class]="'text-center status-icon state-'+newItem.currentInternalStatus.toLowerCase()">
         </div>{{newItem.currentStatus | uppercase}}
       </div>
-      <div class="text-center text-subheader pl-3 mt-2 search-context">{{newItem.currentOwner}}</div>
+      <div class="text-center text-subheader pl-3 search-context">{{newItem.currentOwner}}</div>
     </div>
     <div class="col-2 d-flex align-items-center">
       <p class="text-header text-right w-100 mb-0">{{compare2}}</p>
@@ -34,12 +34,12 @@
         <span  *ngIf="_for==='Grant' && oldItem.referenceNo" [ngStyle]="_for==='Disbursement'?{'line-height': '1.5em','display': 'inline-block'}:{}">{{oldItem.referenceNo}}</span>{{_for!=='Disbursement'?oldItem.name:'Approval Request for ' + oldItem.grantName}}
         </span>
     </div>
-    <div class="col-3 d-flex align-items-center justify-content-center flex-column">
+    <div class="col-3 d-flex align-items-center justify-content-center flex-column py-2">
       <div class="status-indicator2" *ngIf="oldItem.currentInternalStatus">
         <div [class]="'text-center status-icon state-'+oldItem.currentInternalStatus.toLowerCase()">
         </div>{{oldItem.currentStatus | uppercase}}
       </div>
-      <div class="text-center text-subheader pl-3 mt-2 search-context">{{oldItem.currentOwner}}</div>
+      <div class="text-center text-subheader pl-3 search-context">{{oldItem.currentOwner}}</div>
     </div>
   </div>
 </h4>
