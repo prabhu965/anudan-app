@@ -203,7 +203,7 @@ jobs:
           subject: DEV Build & Deploy Finished | Frontend
           body: ${{github.repository}} 
 
-                ${{ github.actor }} commit message - ${{ env.commitmsg }
+                ${{ github.actor }} commit message - ${{ env.commitmsg }}
                 Action that triggered the workflow - ${{ github.event_name}}
               
               
