@@ -201,10 +201,12 @@ jobs:
           username: ${{ secrets.AUTH_USER }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: DEV Build & Deploy Finished | Frontend
-          body: ${{github.repository}} 
+          body: Organization Name/Repository - ${{github.repository}} 
 
                 ${{ github.actor }} commit message - ${{ env.commitmsg }}
+                
                 Action that triggered the workflow - ${{ github.event_name}}
+              
               
               
                 1. Build result - ${{needs.DEV-Frontend-Build.result}} 
