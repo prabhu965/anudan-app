@@ -45,7 +45,7 @@
 </h4>
 <ng-container *ngIf="_for==='Grant'">
 <h5 *ngIf="!grantDiff" class="text-center mt-5">There are no differences between the two grants</h5>
-<div *ngIf="grantDiff" style="background: rgb(255, 255, 255);padding: 5px;overflow-y: scroll;height: calc(100vh - 260px);">
+<div *ngIf="grantDiff" style="background: rgb(255, 255, 255);padding: 5px;overflow-y: scroll;height: calc(100vh - 280px);">
   <div *ngIf="grantDiff.oldGrantName || grantDiff.newGrantName" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Name changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantName">{{grantDiff.newGrantName}}</div>
@@ -322,7 +322,7 @@
 </ng-container>
 <ng-container *ngIf="_for==='Report'">
   <h5 *ngIf="!reportDiff" class="text-center mt-5">There are no differences between the two report states</h5>
-  <div *ngIf="reportDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;overflow-y:scroll;">
+  <div *ngIf="reportDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;overflow-y:scroll;height: calc(100vh - 280px);">
     <div *ngIf="reportDiff.oldReportName || reportDiff.newReportName" class="mb-2 change-box">
       <span class="change-title"><span>Report Header | </span>Report name changed</span>
       <div class="change-new" *ngIf="reportDiff.newReportName">{{reportDiff.newReportName}}</div>
@@ -568,7 +568,7 @@
 </ng-container>
 <ng-container *ngIf="_for==='Disbursement'">
   <h5 *ngIf="!disbursementDiff" class="text-center mt-5">There are no differences between the two approval request states</h5>
-  <div *ngIf="disbursementDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;overflow-y:scroll;">
+  <div *ngIf="disbursementDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;overflow-y:scroll;height: calc(100vh - 280px);">
     <div *ngIf="disbursementDiff.oldRequestedAmount || disbursementDiff.newRequestedAmount" class="mb-2 change-box">
       <span class="change-title"><span>Approval Request Header | </span>Requested Amount changed</span>
       <div class="change-new" *ngIf="disbursementDiff.newRequestedAmount">
