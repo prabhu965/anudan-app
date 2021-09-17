@@ -5,10 +5,8 @@ on:
    #workflow_dispatch:
    push:
     branches: [ dev ]
-  #pull_request:
-  #  branches: [ dev ]
-  #schedule:
-   # - cron:'0/5 * * * *' 
+    paths-ignore: 
+     .github/workflows
 
 # creating env variable for head commit meassge 
 env:
