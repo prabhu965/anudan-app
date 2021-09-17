@@ -95,7 +95,7 @@ jobs:
             cd /home/anudan/github
             ls -a
             #!/bin/bash
-            BuildNo=`cat release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g'`
+            BuildNo=`cat release.json | cut -d "," -f1 | cut -d ":" -f2 | sed 's/"//g' |sed 's/Certified//g' `
             SRC=dist/
             /home/anudan/github/s3cmd/s3cmd-2.0.1/s3cmd -r put dist s3://anudan-certified-uat-artifacts-test/"$BuildNo"/;
             SRC=*.jar
