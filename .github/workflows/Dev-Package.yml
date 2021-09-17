@@ -1,4 +1,4 @@
-name: DEV Rlease Version
+name: DEV Release Version
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ jobs:
   Dev-Release-version:
       runs-on: ubuntu-latest
       if: github.ref == 'refs/heads/dev' 
-      name: Dev Rlease version
+      name: Dev Release version
       steps:
         - uses: actions/checkout@v2
           with:
@@ -27,16 +27,13 @@ jobs:
              echo "minor=`cat release.json | cut -d "," -f5 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
         - name: release version creating for Dev
           run: | 
-             ls -lrt
-             pwd
              echo '{"releaseCandidate":"${{env.major}}.${{env.minor}}.${{ github.run_number }}"}' > Dev_release.json 
-             ls -lrt
         - name: Commit files
           run: |
             git config --local user.email "admin@anudan.org"
             git config --local user.name "${GITHUB_ACTOR}"
             git add .
-            git commit -m "this file is updated by github/action" 
+            git commit -m "File updated automatically by ${GITHUB_ACTOR} action." 
         - name: Push changes
           uses: ad-m/github-push-action@master
           with:
