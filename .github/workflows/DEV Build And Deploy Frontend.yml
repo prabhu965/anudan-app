@@ -8,6 +8,7 @@ on:
     paths-ignore: 
      '.github/workflows/**.yml'
 
+
 # creating env variable for head commit meassge 
 env:
   commitmsg: ${{ github.event.head_commit.message }} 
