@@ -27,7 +27,7 @@ jobs:
              echo "minor=`cat release.json | cut -d "," -f5 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV
         - name: release version creating for Dev
           run: | 
-             echo '{"releaseCandidate":"${{env.major}}.${{env.minor}}.${{ github.run_number }}"}' > Dev_release.json 
+             echo '{"releaseCandidate":"DEV R-${{env.major}}.${{env.minor}}.${{ github.run_number }}"}' > Dev_release.json 
         - name: Commit files
           run: |
             git config --local user.email "admin@anudan.org"

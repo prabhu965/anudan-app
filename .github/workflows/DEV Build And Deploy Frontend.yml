@@ -2,11 +2,12 @@
 name: DEV Build And Deploy Frontend
 
 on:
-   #workflow_dispatch:
+   workflow_dispatch:
    push:
     branches: [ dev ]
     paths-ignore: 
-     .github/workflows
+     '.github/workflows/**.yml'
+
 
 # creating env variable for head commit meassge 
 env:
