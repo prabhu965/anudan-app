@@ -1,4 +1,4 @@
-name: UAT Approved Application-CERTIFY PACKAGE
+name: UAT CERTIFY PACKAGE
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
   update-release-candidate:
       runs-on: ubuntu-latest 
       if: github.ref == 'refs/heads/master'
-      name: update release candidate
+      name: Certify UAT Release
       steps: 
       - uses: actions/checkout@v2
         with:
@@ -33,7 +33,7 @@ jobs:
           git config --local user.email "admin@anudan.org"
           git config --local user.name "${GITHUB_ACTOR}"
           git add .
-          git commit -m "this file is updated by github/action" 
+          git commit -m "File updated automatically by ${GITHUB_ACTOR} action." 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
@@ -52,7 +52,7 @@ jobs:
              echo '{"releaseCandidate":"${{ env.major}}.${{ env.minor }}.${{ env.releaseCandidate }}","productionRelease":"${{ env.major}}.${{ env.minor }}.${{ env.productionRelease }}","hotFixRelease":"${{ env.hotFixRelease }}"}' > release.json 
              ls -lrt
 
-      - name: creating release.json artifact for tagging master branch
+      - name: create release.json artifact
         uses: actions/upload-artifact@v2
         with:
           name: Anudan-Release
@@ -320,130 +320,12 @@ jobs:
           name: gms-service
           path: gms-service-releasenotes.txt
           retention-days: 4
-
-  hotfix-anudan-app-releasenotes:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    needs: [Tag-Frontend-Master-Branch, Tag-Backend-Master-Branch ]
-    name: hotfix anudan app releasenotes
-    steps:        
-
-       - name: check out anudan-app hotfix/production_bug_fixes branch 
-         uses: actions/checkout@master
-         with:
-              repository: anudan-org/anudan-app  
-              token: ${{ secrets.MY_PAT }}          
-              ref: hotfix/production_bug_fixes 
-              fetch-depth: 0
-       - name: Anudan Release artifact downloading      
-         uses: actions/download-artifact@v2
-         with:
-            name: Anudan-Release       
-       - name: list files
-         run: | 
-            ls -lrt
-            pwd   
-            #!/bin/bash
-            line="-------------------------------------------------------------------------------"
-            PREVIOUS_DEPLOYMENT_RLE=`cat release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`
-            CURRENT_DEPLOYMENT_RLE=`cat release.json | cut -d "," -f3 |cut -d ":" -f2 | sed 's/"//g' |sed 's/}//g'`
-            DATE=
-            git log -- $PREVIOUS_DEPLOYMENT_RLE..$CURRENT_DEPLOYMENT_RLE --pretty=format:"%ad || %h || %s || Author:%an " --date=short | sort -r | while read line
-            do
-            temp=`echo $line | egrep -v '(Resolve Conflict From)'`
-            if [ "$temp" = "" ]
-            then
-                continue
-            else
-                NEWDATE=`echo $temp |  awk  '{print $1}'`
-                if [ "$NEWDATE" = "$DATE" ]
-                then
-                    echo $temp | awk '{$1="";$2="";print}' >> hotfix-anudan-app-releasenotes.txt
-                else
-                    echo >> hotfix-anudan-app-releasenotes.txt
-                    DATE=$NEWDATE
-                    echo `date --date=$DATE +%d-%B-%Y` >> hotfix-anudan-app-releasenotes.txt
-                    echo $temp | awk '{$1="";$2="";print}' >> hotfix-anudan-app-releasenotes.txt
-                fi
-            fi
-            done 
-            echo "
-            " >> hotfix-anudan-app-releasenotes.txt
-            echo "$line Hotfix-Backend-Changes $line" >> hotfix-anudan-app-releasenotes.txt
-            echo "
-            " >> hotfix-anudan-app-releasenotes.txt
-            ls -lrt
-            pwd     
-       - name: backend release artifact 
-         uses: actions/upload-artifact@v2
-         with:
-          name: hotfix-anudan-app 
-          path: hotfix-anudan-app-releasenotes.txt
-          retention-days: 4   
-
-  hotfix-gms-service-releasenotes:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    needs: [Tag-Frontend-Master-Branch, Tag-Backend-Master-Branch ]
-    name: hotfix gms service releasenotes
-    steps:        
-       - name: check out anudan-app hotfix/production_bug_fixes branch 
-         uses: actions/checkout@master
-         with:
-              repository: anudan-org/gms-service  
-              token: ${{ secrets.MY_PAT }}          
-              ref: hotfix/production_bug_fixes 
-              fetch-depth: 0
-       - name: Anudan Release artifact downloading      
-         uses: actions/download-artifact@v2
-         with:
-            name: Anudan-Release       
-       - name: list files
-         run: | 
-            ls -lrt
-            pwd   
-            #!/bin/bash
-            line="-------------------------------------------------------------------------------"
-            PREVIOUS_DEPLOYMENT_RLE=`cat release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`
-            CURRENT_DEPLOYMENT_RLE=`cat release.json | cut -d "," -f3 |cut -d ":" -f2 | sed 's/"//g' |sed 's/}//g'`
-            DATE=
-            git log -- $PREVIOUS_DEPLOYMENT_RLE..$CURRENT_DEPLOYMENT_RLE --pretty=format:"%ad || %h || %s || Author:%an " --date=short | sort -r | while read line
-            do
-            temp=`echo $line | egrep -v '(Resolve Conflict From)'`
-            if [ "$temp" = "" ]
-            then
-                continue
-            else
-                NEWDATE=`echo $temp |  awk  '{print $1}'`
-                if [ "$NEWDATE" = "$DATE" ]
-                then
-                    echo $temp | awk '{$1="";$2="";print}' >> hotfix-gms-service-releasenotes.txt
-                else
-                    echo >> hotfix-gms-service-releasenotes.txt
-                    DATE=$NEWDATE
-                    echo `date --date=$DATE +%d-%B-%Y` >> hotfix-gms-service-releasenotes.txt
-                    echo $temp | awk '{$1="";$2="";print}' >> hotfix-gms-service-releasenotes.txt
-                fi
-            fi
-            done 
-            echo "
-            " >> hotfix-gms-service-releasenotes.txt
-            echo "$line END $line" >> hotfix-gms-service-releasenotes.txt
-            echo "
-            " >> hotfix-gms-service-releasenotes.txt
-            ls -lrt
-            pwd     
-       - name: backend release artifact 
-         uses: actions/upload-artifact@v2
-         with:
-          name: hotfix-gms-service
-          path: hotfix-gms-service-releasenotes.txt
-          retention-days: 4              
+              
 
   releasenotes-push-to-release-repo:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
-    needs: [anudan-app-releasenotes, gms-service-releasenotes, hotfix-anudan-app-releasenotes, hotfix-gms-service-releasenotes]
+    needs: [anudan-app-releasenotes, gms-service-releasenotes]
     name: releasenotes push to release repo
     steps:        
        - uses: actions/checkout@v2
@@ -459,14 +341,7 @@ jobs:
          uses: actions/download-artifact@v2
          with:
             name: gms-service 
-       - name: Anudan Release artifact downloading      
-         uses: actions/download-artifact@v2
-         with:
-            name: hotfix-anudan-app  
-       - name: Anudan Release artifact downloading      
-         uses: actions/download-artifact@v2
-         with:
-            name: hotfix-gms-service             
+             
        - name: local changes
          run: |
           cat anudan-app-release-notes.txt gms-service-releasenotes.txt hotfix-anudan-app-releasenotes.txt hotfix-gms-service-releasenotes.txt > Anudan-Raw-ReleaseNotes.txt
