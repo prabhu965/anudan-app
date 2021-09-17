@@ -26,7 +26,7 @@ jobs:
              echo "minor=`cat release.json | cut -d "," -f5 | cut -d ":" -f2 | sed 's/"//g' | sed 's/}//g'`" >> $GITHUB_ENV   
         - name: release version creating for UAT
           run: | 
-             echo '{"releaseCandidate":"${{env.major}}.${{env.minor}}.${{ github.run_number }}"}' > UAT_release.json 
+             echo '{"releaseCandidate":"${{env.major}}.${{env.minor}}.${{ github.run_number }} UC"}' > UAT_release.json 
              ls -lrt
         - name: Commit files
           run: |
