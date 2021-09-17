@@ -309,9 +309,6 @@ jobs:
             done 
             echo "
             " >> gms-service-releasenotes.txt
-            echo "$line Hotfix-Frontend-Changes $line" >> gms-service-releasenotes.txt
-            echo "
-            " >> gms-service-releasenotes.txt
             ls -lrt
             pwd 
        - name: backend release artifact 
@@ -344,15 +341,13 @@ jobs:
              
        - name: local changes
          run: |
-          cat anudan-app-release-notes.txt gms-service-releasenotes.txt hotfix-anudan-app-releasenotes.txt hotfix-gms-service-releasenotes.txt > Anudan-Raw-ReleaseNotes.txt
+          cat anudan-app-release-notes.txt gms-service-releasenotes.txt  > Anudan-Raw-ReleaseNotes.txt
           ls -lrt
           pwd 
           git config --local user.email "admin@anudan.org"
           git config --local user.name "${GITHUB_ACTOR}"
           echo gms-service-releasenotes.txt >> .gitignore
           echo anudan-app-release-notes.txt >> .gitignore
-          echo hotfix-anudan-app-releasenotes.txt >> .gitignore
-          echo hotfix-gms-service-releasenotes.txt >> .gitignore
           git add .
           git commit -m "this file is updated by github/action"    
        - name: Push changes
