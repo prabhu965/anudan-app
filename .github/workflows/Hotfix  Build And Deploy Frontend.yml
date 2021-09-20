@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
     name: Build Frontend | Hotflix
+
     steps:
     - uses: actions/checkout@v2 
       with:
@@ -201,7 +202,7 @@ jobs:
 
                 ${{ github.actor }} commit message - ${{ env.commitmsg }}
 
-
+    
 
                 1. Build result - ${{needs.Hotfix-Frontend-Build.result}} 
 
@@ -218,4 +219,3 @@ jobs:
                 7. Anudan - Grant Management System › Hotfix Release - ${{ env.Hotfix_Release }}
           to: ${{ secrets.TO_ADDRESSES }} 
           from:  ${{ secrets.FROM_ADDRESS }}   
-
