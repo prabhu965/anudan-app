@@ -4,10 +4,8 @@ on:
   #workflow_dispatch:
   push:
    branches: [ master ]
-  #pull_request:
-  #   branches: [ master ]
-  #schedule:
-   # - cron:'0/5 * * * *' 
+   paths-ignore: 
+     '.github/workflows/**.yml' 
 
 # creating env variable for head commit meassge 
 env:
