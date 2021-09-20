@@ -263,19 +263,19 @@ jobs:
 
 
 
-                1) update release candidate - ${{needs.update-release-candidate.result}} 
+                1. update release candidate - ${{needs.update-release-candidate.result}} 
 
-                2) Prod deployment artifacts downloading - ${{needs.Prod-deployment-artifacts-downloading.result}} 
+                2. Prod deployment artifacts downloading - ${{needs.Prod-deployment-artifacts-downloading.result}} 
 
-                3) Create Production Release Version Branch for Frontend - ${{needs.Create-Production-Release-Version-Branch-for-Frontend.result}} 
+                3. Create Production Release Version Branch for Frontend - ${{needs.Create-Production-Release-Version-Branch-for-Frontend.result}} 
 
-                4) Merging production Release version Frontend to Hotfix - ${{needs.Merging-production-Release-version-Frontend-to-Hotfix.result}} 
+                4. Merging production Release version Frontend to Hotfix - ${{needs.Merging-production-Release-version-Frontend-to-Hotfix.result}} 
 
-                5) Create Production Release Version Branch for Backend - ${{needs.Create-Production-Release-Version-Branch-for-Backend.result}} 
+                5. Create Production Release Version Branch for Backend - ${{needs.Create-Production-Release-Version-Branch-for-Backend.result}} 
 
-                6) Merging production Release version Backend to Hotfix - ${{needs.Merging-production-Release-version-Backend-to-Hotfix.result}} 
+                6. Merging production Release version Backend to Hotfix - ${{needs.Merging-production-Release-version-Backend-to-Hotfix.result}} 
 
-                7) Anudan - Grant Management System › PROD Release version - ${{ env.PROD_Release }}
+                7. Anudan - Grant Management System › PROD Release version - ${{ env.PROD_Release }}
                  
           to: ${{ secrets.TO_ADDRESSES }} 
           from:  ${{ secrets.FROM_ADDRESS }}        

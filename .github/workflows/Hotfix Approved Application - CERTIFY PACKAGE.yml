@@ -106,40 +106,7 @@ jobs:
           git config --local user.name "${GITHUB_ACTOR}"
           git tag $TAG_NO_1-HF-$TAG_NO_2
           git push origin hotfix/production_bug_fixes $TAG_NO_1-HF-$TAG_NO_2  
-
-  Merging-production-Release-version-Frontend-to-Dev-Frontend:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-    needs: [Release-repo-checkout]
-    name: Merging production Release version Frontend to Dev Frontend
-    steps:
-     - name: check out anudan-app master
-       uses: actions/checkout@master
-       with:
-            repository: anudan-org/anudan-app
-            token: ${{ secrets.MY_PAT }} 
-            fetch-depth: 0
-            
-     - name: Anudan Release artifact downloading      
-       uses: actions/download-artifact@v2
-       with:
-        name: Anudan-Release
-     - name: Create local changes
-       run: |
-            pwd
-            ls -lrt  
-     - name: merging production branch to Dev Frontend
-       run: | 
-        TAG_NO=`cat release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`
-        git config --local user.email "admin@anudan.org"
-        git config --local user.name "${GITHUB_ACTOR}"
-        git checkout branch_$TAG_NO
-        git checkout dev 
-        git merge branch_$TAG_NO
-        echo 'release.json' >> .gitignore
-        git add . 
-        git commit -m "Merging production Release-version Frontend to dev frontend"
-        git push origin dev        
+        
 
 
   Tag-Backend-Master-Branch:
@@ -180,45 +147,12 @@ jobs:
           git config --local user.name "${GITHUB_ACTOR}"
           git tag $TAG_NO_1-HF-$TAG_NO_2 
           git push origin hotfix/production_bug_fixes $TAG_NO_1-HF-$TAG_NO_2   
-
-  Merging-production-Release-version-Frontend-to-Dev-Backend:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-    needs: [Release-repo-checkout]
-    name: Merging production Release version Frontend to Dev Backend
-    steps:
-     - name: check out gms-service master
-       uses: actions/checkout@master
-       with:
-            repository: anudan-org/gms-service
-            token: ${{ secrets.MY_PAT }} 
-            fetch-depth: 0
-            
-     - name: Anudan Release artifact downloading      
-       uses: actions/download-artifact@v2
-       with:
-        name: Anudan-Release
-     - name: Create local changes
-       run: |
-            pwd
-            ls -lrt  
-     - name: merging production branch to Dev Backend
-       run: | 
-        TAG_NO=`cat release.json | cut -d "," -f2 | cut -d ":" -f2 | sed 's/"//g'`
-        git config --local user.email "admin@anudan.org"
-        git config --local user.name "${GITHUB_ACTOR}"
-        git checkout branch_$TAG_NO
-        git checkout dev 
-        git merge branch_$TAG_NO
-        echo 'release.json' >> .gitignore
-        git add . 
-        git commit -m "Merging production Release-version Backend to dev Backend"
-        git push origin dev         
+         
 
   Notify-on-email:
     runs-on: ubuntu-latest
     if: always()
-    needs: [copy-to-spaces, Release-repo-checkout, Tag-Frontend-Master-Branch, Merging-production-Release-version-Frontend-to-Dev-Frontend, Tag-Backend-Master-Branch,  Merging-production-Release-version-Frontend-to-Dev-Backend]
+    needs: [copy-to-spaces, Release-repo-checkout, Tag-Frontend-Master-Branch,  Tag-Backend-Master-Branch]
     name: EmailNotify
     steps:
       - name: Anudan Release artifact downloading      
@@ -246,19 +180,15 @@ jobs:
 
 
 
-                1) copy to spaces - ${{needs.copy-to-spaces.result}} 
+                1. copy to spaces - ${{needs.copy-to-spaces.result}} 
 
-                2) Release repo checkout - ${{needs.Release-repo-checkout.result}} 
+                2. Release repo checkout - ${{needs.Release-repo-checkout.result}} 
 
-                3) Tag Frontend Master Branch - ${{needs.Tag-Frontend-Master-Branch.result}}
+                3. Tag Frontend Master Branch - ${{needs.Tag-Frontend-Master-Branch.result}}
 
-                4) Merging production Release version Frontend to Dev Frontend - ${{needs.Merging-production-Release-version-Frontend-to-Dev-Frontend.result}}
+                4. Tag Backend Master Branch - ${{needs.Tag-Backend-Master-Branch.result}}
 
-                5) Tag Backend Master Branch - ${{needs.Tag-Backend-Master-Branch.result}}
-
-                6) Merging production Release version Backend to Dev backend - ${{needs.Merging-production-Release-version-Frontend-to-Dev-Backend.result}} 
-
-                7)  Anudan - Grant Management System › Hotfix Approved - ${{ env.Hotfix_Release }}
+                5. Anudan - Grant Management System › Hotfix Approved - ${{ env.Hotfix_Release }}
                  
           to: ${{ secrets.TO_ADDRESSES }} 
           from:   ${{ secrets.FROM_ADDRESS }}      
