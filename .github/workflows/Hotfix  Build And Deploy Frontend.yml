@@ -11,11 +11,11 @@ env:
   commitmsg: ${{ github.event.head_commit.message }} 
 
 jobs:
-  Hotflix-Frontend-Build:
+  Hotfix-Frontend-Build:
 
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-    name: Hotflix Frontend Build
+    name: Build Frontend | Hotflix
     steps:
     - uses: actions/checkout@v2 
       with:
@@ -47,8 +47,9 @@ jobs:
         
   unit-and-functional-testing-Frontend:
     runs-on: ubuntu-latest
+    needs: Hotfix-Frontend-Build
     if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-    name: unit and functional testing Frontend
+    name: Test Frontend | units and functions
     steps: 
     - name: test frontend code(functional)
       run: |
@@ -61,7 +62,8 @@ jobs:
 
   Static-Code-Analysis-Sonarqube-Frontend:
     runs-on: ubuntu-latest
-    name: Static Code Analysis Sonarqube hotfix/production_bug_fixes Frontend
+    needs: Hotfix-Frontend-Build
+    name: Analyse Static Code | Sonarqube
     if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
     steps:
     - uses: actions/checkout@master
@@ -78,7 +80,7 @@ jobs:
   Anudan-config:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-    name: Anudan config
+    name: Checkout application.yaml | Anudan config
     steps: 
       - name: Checking out my anudan-config repo
         uses: actions/checkout@master
@@ -98,8 +100,9 @@ jobs:
 
   Trigger-Hotfix-Release:
       runs-on: ubuntu-latest
+      needs: [ unit-and-functional-testing-Frontend, Static-Code-Analysis-Sonarqube-Frontend]
       if: github.ref == 'refs/heads/hotfix/production_bug_fixes'  
-      name: Creating Hotfix Release Version
+      name: Create Hotfix Release Version
       steps:      
         - name: Hotfix-deployment 
           uses: convictional/trigger-workflow-and-wait@v1.3.0
@@ -113,7 +116,7 @@ jobs:
   Release-repo-checkout:
       runs-on: ubuntu-latest
       if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-      name: Release repo checkout
+      name: Checkout release.json
       needs: [Trigger-Hotfix-Release]
       steps:
         - uses: actions/checkout@v2
@@ -141,7 +144,7 @@ jobs:
   Rsync-Hotfix-Deployments:
       runs-on: ubuntu-latest
       if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-      needs: [Hotflix-Frontend-Build, unit-and-functional-testing-Frontend, Static-Code-Analysis-Sonarqube-Frontend, Anudan-config, Release-repo-checkout]
+      needs: [Hotfix-Frontend-Build, unit-and-functional-testing-Frontend, Static-Code-Analysis-Sonarqube-Frontend, Anudan-config, Release-repo-checkout]
       name: Copy Artifacts to Hotfix Server
       steps:
       - name: downloading dist arifact
@@ -174,8 +177,8 @@ jobs:
   Notify-on-email:
     runs-on: ubuntu-latest
     if: always()
-    needs: [Hotflix-Frontend-Build, unit-and-functional-testing-Frontend, Static-Code-Analysis-Sonarqube-Frontend, Anudan-config, Rsync-Hotfix-Deployments, Trigger-Hotfix-Release]
-    name: EmailNotify
+    needs: [Hotfix-Frontend-Build, unit-and-functional-testing-Frontend, Static-Code-Analysis-Sonarqube-Frontend, Anudan-config, Rsync-Hotfix-Deployments, Trigger-Hotfix-Release]
+    name: Notify Via Email
     steps:
       - name: Anudan Release artifact downloading      
         uses: actions/download-artifact@v2
@@ -194,36 +197,25 @@ jobs:
           username: ${{ secrets.AUTH_USER }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: Hotfix - Build Frontend Workflow Finished
-          body: ${{github.repository}} 
+          body: Organization Name/Repository - ${{github.repository}} 
+
+                ${{ github.actor }} commit message - ${{ env.commitmsg }}
 
 
-                1) Buildjob- ${{needs.Hotflix-Frontend-Build.result}} 
 
+                1. Build result - ${{needs.Hotfix-Frontend-Build.result}} 
 
-                2) unit and functional testing Frontend - ${{needs.unit-and-functional-testing-Frontend.result}}
+                2. Test result (units and functionals) - ${{needs.unit-and-functional-testing-Frontend.result}}
 
+                3. Static Code Analysis result - ${{needs.Static-Code-Analysis-Sonarqube-Frontend.result}}
+ 
+                4. Checkout release.json result - ${{needs.Anudan-config.result}}
+ 
+                5. Copy Artifacts To Hotfix Server - ${{needs.Rsync-Hotfix-Deployments.result}}
 
-                3) Static Code Analysis Sonarqube hotfix/production_bug_fixes Frontend - ${{needs.Static-Code-Analysis-Sonarqube-Frontend.result}}
+                6. Hotfix Release result - ${{needs.Trigger-Hotfix-Release.result}}
 
+                7. Anudan - Grant Management System › Hotfix Release - ${{ env.Hotfix_Release }}
+          to: ${{ secrets.TO_ADDRESSES }} 
+          from:  ${{ secrets.FROM_ADDRESS }}   
 
-                4) Anudan config - ${{needs.Anudan-config.result}} 
-
-
-                5) Rsync Hotfix Deployments - ${{needs.Rsync-Hotfix-Deployments.result}} 
-
-
-                6) Trigger Hotfix Release - ${{needs.Trigger-Hotfix-Release.result}}
-
-
-                7) commit messages - ${{ env.commitmsg }}
-
-
-                8) changes done by - ${{ github.actor }}
-
-                  
-                9) The name of the webhook event that triggered the workflow - ${{ github.event_name}}
-
-
-                10) Anudan - Grant Management System › Hotfix Release - ${{ env.Hotfix_Release }}
-          to: prabhu@socialalpha.org
-          from: donotreply@anudan.org            

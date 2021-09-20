@@ -240,30 +240,27 @@ jobs:
           username: ${{ secrets.AUTH_USER }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: Hotfix Approved Application - CERTIFY PACKAGE Workflow Finished
-          body: ${{github.repository}} 
+          body: Organization Name/Repository - ${{github.repository}} 
+           
+                Changes done by - ${{ github.actor }}
+
 
 
                 1) copy to spaces - ${{needs.copy-to-spaces.result}} 
 
-
                 2) Release repo checkout - ${{needs.Release-repo-checkout.result}} 
-
 
                 3) Tag Frontend Master Branch - ${{needs.Tag-Frontend-Master-Branch.result}}
 
-
                 4) Merging production Release version Frontend to Dev Frontend - ${{needs.Merging-production-Release-version-Frontend-to-Dev-Frontend.result}}
-
 
                 5) Tag Backend Master Branch - ${{needs.Tag-Backend-Master-Branch.result}}
 
-
                 6) Merging production Release version Backend to Dev backend - ${{needs.Merging-production-Release-version-Frontend-to-Dev-Backend.result}} 
-
 
                 7)  Anudan - Grant Management System › Hotfix Approved - ${{ env.Hotfix_Release }}
                  
-          to: prabhu@socialalpha.org
-          from: donotreply@anudan.org        
+          to: ${{ secrets.TO_ADDRESSES }} 
+          from:   ${{ secrets.FROM_ADDRESS }}      
 
             
