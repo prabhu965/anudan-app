@@ -222,7 +222,7 @@ jobs:
                 7. Anudan - Grant Management System › DEV Build - ${{ env.Dev_Version }}
                 
 
-          to: prabhu@socialalpha.org, karniprabhu28@gmail.com, vineet@socialalpha.org
-          from: donotreply@anudan.org          
+          to: ${{ secrets.TO_ADDRESSES }} 
+          from: ${{ secrets.FROM_ADDRESS }}        
 
        

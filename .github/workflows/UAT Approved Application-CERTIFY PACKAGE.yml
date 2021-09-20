@@ -386,7 +386,7 @@ jobs:
           subject: UAT Approved Application-CERTIFY PACKAGE Workflow Finished
           body: Organization Name/Repository - ${{github.repository}} 
           
-                ${{ github.actor }} commit message - ${{ env.commitmsg }}
+                Changes done by - ${{ github.actor }} 
 
 
                 1. Certified UAT release - ${{needs.update-release-candidate.result}} 
@@ -401,5 +401,5 @@ jobs:
 
                 6. Anudan - Grant Management System › UAT Approved version - ${{ env.UAT_Approved_Version }}
 
-          to: prabhu@socialalpha.org
-          from: donotreply@anudan.org             
+          to: ${{ secrets.TO_ADDRESSES }} 
+          from:  ${{ secrets.FROM_ADDRESS }}             
