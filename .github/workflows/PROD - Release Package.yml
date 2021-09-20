@@ -257,28 +257,25 @@ jobs:
           username: ${{ secrets.AUTH_USER }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: PROD - Release Package Workflow Finished
-          body: ${{github.repository}} 
+          body: Organization Name/Repository - ${{github.repository}} 
+               
+                Changes done by - ${{ github.actor }}
+
 
 
                 1) update release candidate - ${{needs.update-release-candidate.result}} 
 
-
                 2) Prod deployment artifacts downloading - ${{needs.Prod-deployment-artifacts-downloading.result}} 
-
 
                 3) Create Production Release Version Branch for Frontend - ${{needs.Create-Production-Release-Version-Branch-for-Frontend.result}} 
 
-
                 4) Merging production Release version Frontend to Hotfix - ${{needs.Merging-production-Release-version-Frontend-to-Hotfix.result}} 
-
 
                 5) Create Production Release Version Branch for Backend - ${{needs.Create-Production-Release-Version-Branch-for-Backend.result}} 
 
-
                 6) Merging production Release version Backend to Hotfix - ${{needs.Merging-production-Release-version-Backend-to-Hotfix.result}} 
-
 
                 7) Anudan - Grant Management System › PROD Release version - ${{ env.PROD_Release }}
                  
-          to: prabhu@socialalpha.org
-          from: donotreply@anudan.org          
+          to: ${{ secrets.TO_ADDRESSES }} 
+          from:  ${{ secrets.FROM_ADDRESS }}        
