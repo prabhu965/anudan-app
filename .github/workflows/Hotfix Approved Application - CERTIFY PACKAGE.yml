@@ -1,4 +1,4 @@
-name: Hotfix Approved Application - CERTIFY PACKAGE
+name: Hotfix CERTIFY PACKAGE
 
 on:
   workflow_dispatch:
@@ -153,7 +153,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     needs: [copy-to-spaces, Release-repo-checkout, Tag-Frontend-Master-Branch,  Tag-Backend-Master-Branch]
-    name: EmailNotify
+    name: Notify Via Email
     steps:
       - name: Anudan Release artifact downloading      
         uses: actions/download-artifact@v2
