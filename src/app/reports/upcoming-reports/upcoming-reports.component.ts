@@ -439,7 +439,7 @@ export class UpcomingReportsComponent implements OnInit {
                             index = this.allReports.findIndex(r => r.id === report.id);
                             if (index >= 0) {
                                 this.allReports.splice(index, 1);
-                                this.filterAllReports = this.addnlReports;
+                                this.filterAllReports = this.allReports;
                             }
                         }
                         this.deleteReportsClicked = false;
