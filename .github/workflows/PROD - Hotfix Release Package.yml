@@ -111,10 +111,10 @@ jobs:
 
 
 
-                1) Anudan Rlease checkout - ${{needs.Anudan-Rlease-checkout.result}} 
+                1. Anudan Rlease checkout - ${{needs.Anudan-Rlease-checkout.result}} 
 
-                2) Hotfix prod artifacts downloading - ${{needs.Hotfix-prod-artifacts-downloading.result}} 
+                2. Hotfix prod artifacts downloading - ${{needs.Hotfix-prod-artifacts-downloading.result}} 
 
-                3) Anudan - Grant Management System › PROD Hotfix Release - ${{ env.Hotfix_Release }}
+                3. Anudan - Grant Management System › PROD Hotfix Release - ${{ env.Hotfix_Release }}
           to: ${{ secrets.TO_ADDRESSES }} 
           from:  ${{ secrets.FROM_ADDRESS }}       
