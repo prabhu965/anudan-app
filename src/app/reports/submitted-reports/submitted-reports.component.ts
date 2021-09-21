@@ -56,7 +56,7 @@ export class SubmittedReportsComponent implements OnInit {
                 };
 
                 this.http.get(url, httpOptions).subscribe((report: Report) => {
-                    if (report) {
+                    if (report && this.submittedReports) {
                         let idx = this.submittedReports.findIndex((x) => x.id === Number(report.id));
                         if (idx >= 0) {
                             this.submittedReports[idx] = report;
