@@ -174,16 +174,19 @@
       <ng-container *ngIf="currentGrant">
         <div class="ml-1" style="color: #fff; max-width: 500px">
           <span
-            class="text-red mr-2"
+            class="text-white mr-2" style="font-weight: 600; font-size: 12px;display: flex;"
             *ngIf="
               (currentGrant.grantStatus.internalStatus === 'DRAFT' ||
                 currentGrant.grantStatus.internalStatus === 'REVIEW') &&
               currentGrant.origGrantId
             "
           >
-            <small
+          <mat-icon [inline]="true" class="material-icons-outlined text-red mr-1">
+            info_outline
+          </mat-icon>
+            <span
               >Amendment in-progress [<b>{{ currentGrant.origGrantRefNo }}</b
-              >]</small
+              >]</span
             >
           </span>
           <span *ngIf="currentGrant.referenceNo"
