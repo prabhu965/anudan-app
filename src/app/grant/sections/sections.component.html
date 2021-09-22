@@ -91,7 +91,7 @@
               this.appComp.loggedInUser.organization.organizationType !==
                 'GRANTEE' && currentGrant.origGrantId
             "
-            (click)="compareGrants(currentGrant.id,currentGrant.origGrantId)"
+            (click)="saveGrant(true)"
             
           >
             <mat-icon class="ml-1">compare_arrows</mat-icon>Compare with Amended Grant
