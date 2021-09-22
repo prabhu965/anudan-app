@@ -214,7 +214,7 @@ jobs:
                 
                 6. Uat Release result - ${{needs.Trigger-UAT-release.result}} 
 
-                7. Anudan - Grant Management System › UAT Build - ${{ env.UAT_Version }}
+                7. Anudan - Grant Management System › UAT Build - UAT R-${{ env.UAT_Version }}
                 
      
           to: ${{ secrets.TO_ADDRESSES }} 
