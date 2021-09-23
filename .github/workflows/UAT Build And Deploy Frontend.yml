@@ -194,7 +194,7 @@ jobs:
           port: ${{ secrets.SMTP_SERVER_PORT }}
           username: ${{ secrets.AUTH_USER }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: UAT Build Frontend Workflow Finished
+          subject: UAT Build & Deploy Finished | Frontend
           body: Organization Name/Repository - ${{github.repository}} 
           
                 ${{ github.actor }} commit message - ${{ env.commitmsg }}
@@ -214,7 +214,7 @@ jobs:
                 
                 6. Uat Release result - ${{needs.Trigger-UAT-release.result}} 
 
-                7. Anudan - Grant Management System › UAT Build - ${{ env.UAT_Version }}
+                7. Anudan - Grant Management System › UAT Build - UAT R-${{ env.UAT_Version }}
                 
      
           to: ${{ secrets.TO_ADDRESSES }} 
