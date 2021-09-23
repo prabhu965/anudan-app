@@ -154,6 +154,7 @@ export class GrantCompareComponent implements OnInit {
 
                   } else
                     if (oldAttr.type === attr.type && oldAttr.type === 'table') {
+                      let hasTableDifferences = false;
                       if (oldAttr.tableValue.length !== attr.tableValue.length) {
                         this._getGrantDiffSections();
                         this.saveDifferences(oldSection, oldAttr, section, attr);
@@ -162,12 +163,19 @@ export class GrantCompareComponent implements OnInit {
                           if (oldAttr.tableValue[i].header !== attr.tableValue[i].header || oldAttr.tableValue[i].name !== attr.tableValue[i].name || oldAttr.tableValue[i].columns.length !== attr.tableValue[i].columns.length) {
                             this._getGrantDiffSections();
                             this.saveDifferences(oldSection, oldAttr, section, attr);
+                            hasTableDifferences = true;
+                            break;
                           } else {
                             for (let j = 0; j < oldAttr.tableValue[i].columns.length; j++) {
                               if (oldAttr.tableValue[i].columns[j].name !== attr.tableValue[i].columns[j].name || oldAttr.tableValue[i].columns[j].value !== attr.tableValue[i].columns[j].value) {
                                 this._getGrantDiffSections();
                                 this.saveDifferences(oldSection, oldAttr, section, attr);
+                                hasTableDifferences = true;
+                                break;
                               }
+                            }
+                            if (hasTableDifferences) {
+                              break;
                             }
                           }
                         }
@@ -474,6 +482,7 @@ export class GrantCompareComponent implements OnInit {
 
                   } else
                     if (oldAttr.type === attr.type && oldAttr.type === 'table') {
+                      let hasTableDifferences = false;
                       if (oldAttr.tableValue.length !== attr.tableValue.length) {
                         this._getGrantDiffSections();
                         this.saveDifferences(oldSection, oldAttr, section, attr);
@@ -482,12 +491,19 @@ export class GrantCompareComponent implements OnInit {
                           if (oldAttr.tableValue[i].header !== attr.tableValue[i].header || oldAttr.tableValue[i].name !== attr.tableValue[i].name || oldAttr.tableValue[i].columns.length !== attr.tableValue[i].columns.length) {
                             this._getGrantDiffSections();
                             this.saveDifferences(oldSection, oldAttr, section, attr);
+                            hasTableDifferences = true;
+                            break;
                           } else {
                             for (let j = 0; j < oldAttr.tableValue[i].columns.length; j++) {
                               if (oldAttr.tableValue[i].columns[j].name !== attr.tableValue[i].columns[j].name || oldAttr.tableValue[i].columns[j].value !== attr.tableValue[i].columns[j].value) {
                                 this._getGrantDiffSections();
                                 this.saveDifferences(oldSection, oldAttr, section, attr);
+                                hasTableDifferences = true;
+                                break;
                               }
+                            }
+                            if (hasTableDifferences) {
+                              break;
                             }
                           }
                         }
@@ -766,16 +782,24 @@ export class GrantCompareComponent implements OnInit {
                         this._getReportDiffSections();
                         this.saveReportDifferences(oldSection, oldAttr, section, attr);
                       } else {
+                        let hasTableDifferences = false;
                         for (let i = 0; i < oldAttr.tableValue.length; i++) {
                           if (oldAttr.tableValue[i].header !== attr.tableValue[i].header || oldAttr.tableValue[i].name !== attr.tableValue[i].name || oldAttr.tableValue[i].columns.length !== attr.tableValue[i].columns.length) {
                             this._getReportDiffSections();
                             this.saveReportDifferences(oldSection, oldAttr, section, attr);
+                            hasTableDifferences = true;
+                            break;
                           } else {
                             for (let j = 0; j < oldAttr.tableValue[i].columns.length; j++) {
                               if (oldAttr.tableValue[i].columns[j].name !== attr.tableValue[i].columns[j].name || oldAttr.tableValue[i].columns[j].value !== attr.tableValue[i].columns[j].value) {
                                 this._getReportDiffSections();
                                 this.saveReportDifferences(oldSection, oldAttr, section, attr);
+                                hasTableDifferences = true;
+                                break;
                               }
+                            }
+                            if (hasTableDifferences) {
+                              break;
                             }
                           }
                         }
