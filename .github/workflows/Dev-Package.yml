@@ -29,7 +29,7 @@ jobs:
             git add .
             git commit -m "File updated automatically by ${GITHUB_ACTOR} action." 
         - name: Push changes
-          uses: ad-m/github-push-action@master
+          uses: ad-m/github-push-action@master 
           with:
             github_token: ${{ secrets.MY_PAT }}
             repository: anudan-org/release 
