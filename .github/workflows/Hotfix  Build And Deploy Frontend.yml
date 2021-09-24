@@ -38,12 +38,12 @@ jobs:
        ng build --prod --no-aot --output-hashing=all --sourceMap=false --base-href=/ --extractLicenses=false --build-optimizer false
        ls -lrt dist    
 
-    - name: anudan frontend artifact uploading
+    - name: anudan frontend artifact uploading to github.
       uses: actions/upload-artifact@v2
       with:
           name: dist
           path: dist/**
-          retention-days: 5
+          retention-days: 1
 
         
   unit-and-functional-testing-Frontend:
@@ -58,8 +58,6 @@ jobs:
     - name: test frontend code(unit)
       run: | 
         ls   
-
-
 
   Static-Code-Analysis-Sonarqube-Frontend:
     runs-on: ubuntu-latest
@@ -81,9 +79,9 @@ jobs:
   Anudan-config:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-    name: Checkout application.yaml | Anudan config
+    name: Checkout application.yaml | Anudan Config
     steps: 
-      - name: Checking out my anudan-config repo
+      - name: Checkout my anudan-config repo
         uses: actions/checkout@master
         with:
           repository: anudan-org/anudan-config   
@@ -91,12 +89,12 @@ jobs:
           ref: master
       - run: pwd
       - run: ls -lrt     
-      - name: anudan-config artifact uploading
+      - name: anudan-config artifact uploading to github.
         uses: actions/upload-artifact@v2
         with:
           name: Anudan-Configuration
           path: backend/application.yaml
-          retention-days: 5    
+          retention-days: 1   
       
 
   Trigger-Hotfix-Release:
@@ -135,36 +133,36 @@ jobs:
           run: | 
              echo '{"releaseCandidate":"${{ env.major}}.${{ env.minor }}.${{ env.releaseCandidate }}","productionRelease":"${{ env.major}}.${{ env.minor }}.${{ env.productionRelease }}","hotFixRelease":"${{ env.hotFixRelease }}"}' > release.json 
              ls -lrt    
-        - name: creating Hotfix_release.json artifact 
+        - name: creating Hotfix_release.json artifact to github.
           uses: actions/upload-artifact@v2
           with:
             name: Anudan-Hotfix-Release
             path: release.json
-            retention-days: 5            
+            retention-days: 1          
 
   Rsync-Hotfix-Deployments:
       runs-on: ubuntu-latest
       if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
       needs: [Hotfix-Frontend-Build, unit-and-functional-testing-Frontend, Static-Code-Analysis-Sonarqube-Frontend, Anudan-config, Release-repo-checkout]
-      name: Copy Artifacts to Hotfix Server
+      name: Copy Artifacts To Hotfix Server
       steps:
-      - name: downloading dist arifact
+      - name: downloading dist arifact from github. 
         uses: actions/download-artifact@v2
         with:
           name: dist 
           path: dist
-      - name: downloading Anudan-Configuration arifact
+      - name: downloading Anudan-Configuration arifact from github. 
         uses: actions/download-artifact@v2
         with:
           name: Anudan-Configuration    
-      - name: downloading Anudan-Hotfix-Release artifact 
+      - name: downloading Anudan-Hotfix-Release artifact from github. 
         uses: actions/download-artifact@v2
         with:
           name: Anudan-Hotfix-Release     
       - run: |  
           ls -lrt
           pwd
-      - name: rsync deployments
+      - name: copy artifacts to Hotfix server. 
         uses: burnett01/rsync-deployments@4.1
         with:
           switches: -avzr -q
@@ -181,7 +179,7 @@ jobs:
     needs: [Hotfix-Frontend-Build, unit-and-functional-testing-Frontend, Static-Code-Analysis-Sonarqube-Frontend, Anudan-config, Rsync-Hotfix-Deployments, Trigger-Hotfix-Release]
     name: Notify Via Email
     steps:
-      - name: Anudan Release artifact downloading      
+      - name: Anudan Release artifact downloading from github. 
         uses: actions/download-artifact@v2
         with:
           name: Anudan-Hotfix-Release
@@ -204,17 +202,17 @@ jobs:
 
     
 
-                1. Build result - ${{needs.Hotfix-Frontend-Build.result}} 
+                1. Build Result - ${{needs.Hotfix-Frontend-Build.result}} 
 
-                2. Test result (units and functionals) - ${{needs.unit-and-functional-testing-Frontend.result}}
+                2. Test Result (units and functionals) - ${{needs.unit-and-functional-testing-Frontend.result}}
 
-                3. Static Code Analysis result - ${{needs.Static-Code-Analysis-Sonarqube-Frontend.result}}
+                3. Static Code Analysis Result - ${{needs.Static-Code-Analysis-Sonarqube-Frontend.result}}
  
-                4. Checkout release.json result - ${{needs.Anudan-config.result}}
+                4. Checkout release.json Result - ${{needs.Anudan-config.result}}
  
                 5. Copy Artifacts To Hotfix Server - ${{needs.Rsync-Hotfix-Deployments.result}}
 
-                6. Hotfix Release result - ${{needs.Trigger-Hotfix-Release.result}}
+                6. Hotfix Release Result - ${{needs.Trigger-Hotfix-Release.result}}
 
                 7. Anudan - Grant Management System › Hotfix Release - ${{ env.Hotfix_Release }}
           to: ${{ secrets.TO_ADDRESSES }} 

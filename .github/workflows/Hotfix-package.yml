@@ -13,7 +13,7 @@ jobs:
   update-release-candidate:
       runs-on: ubuntu-latest 
       if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-      name: update release candidate
+      name: Update Release Candidate
       steps: 
       - uses: actions/checkout@v2
         with:
