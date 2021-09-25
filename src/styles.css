@@ -672,7 +672,7 @@ font-white {
 
 .change-new {
   border-left: 10px solid #009900 !important;
-  padding-left: 5px;
+  padding-left: 0;
   margin-bottom: 0 !important;
   background: #fff !important;
   padding-bottom: 5px;
@@ -683,7 +683,7 @@ font-white {
 
 .change-old {
   border-left: 10px solid #4b4b4b !important;
-  padding-left: 5px;
+  padding-left: 0;
   margin-top: 0 !important;
   background: rgb(240, 240, 240) !important;
   padding-bottom: 5px;
