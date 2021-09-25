@@ -37,7 +37,7 @@ jobs:
           run: | 
              echo '{"releaseCandidate":"${{ env.major}}.${{ env.minor }}.${{ env.releaseCandidate }}","productionRelease":"${{ env.major}}.${{ env.minor }}.${{ env.productionRelease }}","hotFixRelease":"${{ env.hotFixRelease }}"}' > release.json 
              ls -lrt    
-        - name: creating release.json artifact for build number which is mentioned in s3cmd command
+        - name: uploading release.json artifact to github. 
           uses: actions/upload-artifact@v2
           with:
               name: Anudan-Release
@@ -47,10 +47,10 @@ jobs:
   Hotfix-prod-artifacts-downloading:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-    name: Hotfix prod artifacts downloading
+    name: Hotfix Prod Artifacts Downloading From Spaces
     needs: [Anudan-Rlease-checkout]
     steps: 
-        - name: Anudan Release artifact downloading      
+        - name: Anudan Release artifact downloading from github.   
           uses: actions/download-artifact@v2
           with:
             name: Anudan-Release 
@@ -84,9 +84,9 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     needs: [Anudan-Rlease-checkout, Hotfix-prod-artifacts-downloading]
-    name: EmailNotify
+    name: Notify Via Email 
     steps:
-      - name: Anudan Release artifact downloading      
+      - name: Anudan Release artifact downloading from github.    
         uses: actions/download-artifact@v2
         with:
           name: Anudan-Release 
@@ -111,9 +111,9 @@ jobs:
 
 
 
-                1. Anudan Rlease checkout - ${{needs.Anudan-Rlease-checkout.result}} 
+                1. Anudan Rlease Checkout - ${{needs.Anudan-Rlease-checkout.result}} 
 
-                2. Hotfix prod artifacts downloading - ${{needs.Hotfix-prod-artifacts-downloading.result}} 
+                2. Hotfix Prod Artifacts Downloading - ${{needs.Hotfix-prod-artifacts-downloading.result}} 
 
                 3. Anudan - Grant Management System › PROD Hotfix Release - ${{ env.Hotfix_Release }}
           to: ${{ secrets.TO_ADDRESSES }} 

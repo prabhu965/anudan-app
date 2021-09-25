@@ -9,7 +9,7 @@ jobs:
   update-release-candidate:
       runs-on: ubuntu-latest 
       if: github.ref == 'refs/heads/master'
-      name: update release candidate
+      name: Update Release Candidate
       steps:
         - name: checkout release repo
           uses: actions/checkout@v2
@@ -45,20 +45,20 @@ jobs:
           run: | 
              echo '{"releaseCandidate":"${{ env.major}}.${{ env.minor }}.${{ env.releaseCandidate }}","productionRelease":"${{ env.major}}.${{ env.minor }}.${{ env.productionRelease }}","hotFixRelease":"${{ env.hotFixRelease }}"}' > release.json 
              ls -lrt       
-        - name: creating release.json artifact for tagging master branch
+        - name: uploading release.json artifact to github. 
           uses: actions/upload-artifact@v2
           with:
               name: Anudan-Release
               path: release.json
-              retention-days: 5                         
+              retention-days: 1                         
 
   Prod-deployment-artifacts-downloading:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     needs: [update-release-candidate]
-    name: Prod deployment artifacts downloading 
+    name: Prod Aritfacts Downloading from spaces 
     steps: 
-        - name: Anudan Release artifact downloading      
+        - name: Anudan Release artifact downloading from github.   
           uses: actions/download-artifact@v2
           with:
             name: Anudan-Release  
@@ -241,7 +241,7 @@ jobs:
     needs: [update-release-candidate, Prod-deployment-artifacts-downloading, Create-Production-Release-Version-Branch-for-Frontend, Merging-production-Release-version-Frontend-to-Hotfix, Create-Production-Release-Version-Branch-for-Backend, Merging-production-Release-version-Backend-to-Hotfix ]
     name: Notify via Email
     steps:
-      - name: Anudan Release artifact downloading      
+      - name: Anudan Release artifact downloading from github.  
         uses: actions/download-artifact@v2
         with:
           name: Anudan-Release
@@ -263,17 +263,17 @@ jobs:
 
 
 
-                1. update release candidate - ${{needs.update-release-candidate.result}} 
+                1. Update Release Candidate - ${{needs.update-release-candidate.result}} 
 
-                2. Prod deployment artifacts downloading - ${{needs.Prod-deployment-artifacts-downloading.result}} 
+                2. Prod Deployment Artifacts Downloading - ${{needs.Prod-deployment-artifacts-downloading.result}} 
 
-                3. Create Production Release Version Branch for Frontend - ${{needs.Create-Production-Release-Version-Branch-for-Frontend.result}} 
+                3. Create Production Release Version Branch For Frontend - ${{needs.Create-Production-Release-Version-Branch-for-Frontend.result}} 
 
-                4. Merging production Release version Frontend to Hotfix - ${{needs.Merging-production-Release-version-Frontend-to-Hotfix.result}} 
+                4. Merging production Release Version Frontend To Hotfix - ${{needs.Merging-production-Release-version-Frontend-to-Hotfix.result}} 
 
-                5. Create Production Release Version Branch for Backend - ${{needs.Create-Production-Release-Version-Branch-for-Backend.result}} 
+                5. Create Production Release Version Branch For Backend - ${{needs.Create-Production-Release-Version-Branch-for-Backend.result}} 
 
-                6. Merging production Release version Backend to Hotfix - ${{needs.Merging-production-Release-version-Backend-to-Hotfix.result}} 
+                6. Merging production Release version Backend To Hotfix - ${{needs.Merging-production-Release-version-Backend-to-Hotfix.result}} 
 
                 7. Anudan - Grant Management System › PROD Release version - ${{ env.PROD_Release }}
                  

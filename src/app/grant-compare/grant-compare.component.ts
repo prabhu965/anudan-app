@@ -1102,7 +1102,7 @@ export class GrantCompareComponent implements OnInit {
       this.disbursementDiff.newReason = newDisbursement.commentary;
     }
 
-    if (newDisbursement.actualDisbursement) {
+    if (newDisbursement.actualDisbursement && newDisbursement.actualDisbursement.length > 0) {
       this._getDisbursementDiff();
       resultHeader.push({ 'order': 3, 'category': 'Approval Request', 'name': 'Recorded Disbursement changes', 'change': [{ 'old': null, 'new': newDisbursement.ActualDisbursement }] });
       this.disbursementDiff.actualDisbursement = null;
@@ -1166,30 +1166,32 @@ export class GrantCompareComponent implements OnInit {
   getDisbursementTabularData(data) {
     let html = '<table width="100%" border="1" class="bg-white"><tr>';
     const tabData = data;
-    html += '<td>' + (tabData[0].header ? tabData[0].header : '') + '</td>';
-    for (let i = 0; i < tabData[0].columns.length; i++) {
+    if (tabData) {
+      html += '<td>' + (tabData[0].header ? tabData[0].header : '') + '</td>';
+      for (let i = 0; i < tabData[0].columns.length; i++) {
 
 
-      //if(tabData[0].columns[i].name.trim() !== ''){
-      html += '<td>' + tabData[0].columns[i].name + '</td>';
-      //}
-    }
-    html += '</tr>';
-    for (let i = 0; i < tabData.length; i++) {
-
-      html += '<tr><td>' + tabData[i].name + '</td>';
-      for (let j = 0; j < tabData[i].columns.length; j++) {
-        //if(tabData[i].columns[j].name.trim() !== ''){
-        if (!tabData[i].columns[j].dataType) {
-          html += '<td>' + tabData[i].columns[j].value + '</td>';
-        } else if (tabData[i].columns[j].dataType === 'currency') {
-          html += '<td class="text-right">₹ ' + inf.format(Number(tabData[i].columns[j].value), 2) + '</td>';
-        }
-
-
+        //if(tabData[0].columns[i].name.trim() !== ''){
+        html += '<td>' + tabData[0].columns[i].name + '</td>';
         //}
       }
       html += '</tr>';
+      for (let i = 0; i < tabData.length; i++) {
+
+        html += '<tr><td>' + tabData[i].name + '</td>';
+        for (let j = 0; j < tabData[i].columns.length; j++) {
+          //if(tabData[i].columns[j].name.trim() !== ''){
+          if (!tabData[i].columns[j].dataType) {
+            html += '<td>' + tabData[i].columns[j].value + '</td>';
+          } else if (tabData[i].columns[j].dataType === 'currency') {
+            html += '<td class="text-right">₹ ' + inf.format(Number(tabData[i].columns[j].value), 2) + '</td>';
+          }
+
+
+          //}
+        }
+        html += '</tr>';
+      }
     }
 
     html += '</table>'
@@ -1200,8 +1202,8 @@ export class GrantCompareComponent implements OnInit {
 
 
   getDocumentName(val: string): any[] {
-    let obj;
-    if (val !== "") {
+    let obj = [];
+    if (val && val !== "") {
       obj = JSON.parse(val);
     }
     return obj;
