@@ -18,10 +18,13 @@
                     <input matInput class="anu-input" [(ngModel)]="setting.scheduledTaskConfiguration.time" placeholder="HH:mi">
                 </mat-form-field>
             </div>
-            <div class="col-7" align="left">
+            <div class="col-7 text-left">
                     <ng-container *ngIf="setting.configName==='DUE_REPORTS_REMINDER_SETTINGS'">
                         <mat-label>Number of days before Report Due Reminder to be sent:</mat-label>
                         <table>
+                            <tr>
+                                <th [id]="'setting_'+i" *ngFor="let db of setting.scheduledTaskConfiguration.configuration.daysBefore,let i = index"></th>
+                            </tr>
                             <tr>
                                 <td *ngFor="let db of setting.scheduledTaskConfiguration.configuration.daysBefore,let i = index">
                                     <mat-form-field class="mt-2">

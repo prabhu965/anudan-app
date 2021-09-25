@@ -1278,3 +1278,8 @@ app-search-filter .mat-form-field-suffix{
   background: #d4d4d4 !important;
   text-align: left;
 }
+
+th{
+  font-weight: 600 !important;
+    padding: 5px;
+}

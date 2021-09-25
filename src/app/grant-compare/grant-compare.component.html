@@ -728,9 +728,9 @@
       <div class="change-new py-2" *ngIf="disbursementDiff.actualDisbursement">
         <table width="100%" border="1">
           <tr>
-            <td>Disbursement Date</td>
-            <td>Disbursement Amount</td>
-            <td>Milestone/Notes</td>
+            <th id="disbursement_date">Disbursement Date</th>
+            <th id="disbursement_amount">Disbursement Amount</th>
+            <th id="milestone">Milestone/Notes</th>
           </tr>
         <ng-container *ngFor="let ad of disbursementDiff.actualDisbursement">
           <tr>
