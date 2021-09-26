@@ -40,12 +40,12 @@ jobs:
        ng build --prod --no-aot --output-hashing=all --sourceMap=false --base-href=/ --extractLicenses=false --build-optimizer false
        ls -lrt dist 
 
-    - name: anudan frontend artifact uploading
+    - name: anudan frontend artifact uploading to github. 
       uses: actions/upload-artifact@v2
       with:
           name: dist
           path: dist/**
-          retention-days: 5
+          retention-days: 1
 
   # this block of code will do unit and functinal testing      
   unit-and-functional-testing-Frontend:
@@ -93,12 +93,12 @@ jobs:
         with:
           repository: anudan-org/anudan-config   
           token: ${{ secrets.MY_PAT }}   
-      - name: anudan-config artifact building
+      - name: anudan-config artifact uploading to github. 
         uses: actions/upload-artifact@v2
         with:
           name: Anudan-Configuration
           path: backend/application.yaml
-          retention-days: 5
+          retention-days: 1
 
   # this block of code will do trigger UAT-package.yml workflow file  
   # For more information see: https://github.com/convictional/trigger-workflow-and-wait    
@@ -127,7 +127,7 @@ jobs:
           with:
             repository: anudan-org/release   
             token: ${{ secrets.MY_PAT }}
-        - name: creating UAT_release.json artifact 
+        - name: upload UAT_release.json artifact to github. 
           uses: actions/upload-artifact@v2
           with:
             name: Anudan-UAT-Release
@@ -142,16 +142,16 @@ jobs:
       needs: [UAT-Frontend-Build, unit-and-functional-testing-Frontend, Static-Code-Analysis-Sonarqube-Frontend, Anudan-config, Release-repo-checkout]
       name: Copy Artifacts To UAT server
       steps:
-      - name: downloading dist arifact 
+      - name: downloading dist arifact form github. 
         uses: actions/download-artifact@v2
         with:
           name: dist 
           path: dist
-      - name: downloading Anudan-Configuration arifact 
+      - name: downloading Anudan-Configuration arifact from github. 
         uses: actions/download-artifact@v2
         with:
           name:  Anudan-Configuration   
-      - name: downloading Anudan-UAT-Release artifact 
+      - name: downloading Anudan-UAT-Release artifact from github. 
         uses: actions/download-artifact@v2
         with:
           name: Anudan-UAT-Release     
@@ -159,7 +159,7 @@ jobs:
           ls -lrt
           mv UAT_release.json release.json
           ls -lrt     
-      - name: rsync deployments
+      - name: copy aritfacts to uat server. 
         uses: burnett01/rsync-deployments@4.1
         with:
           switches: -avzr -q
@@ -194,7 +194,7 @@ jobs:
           port: ${{ secrets.SMTP_SERVER_PORT }}
           username: ${{ secrets.AUTH_USER }}
           password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: UAT Build Frontend Workflow Finished
+          subject: UAT Build & Deploy Finished | Frontend
           body: Organization Name/Repository - ${{github.repository}} 
           
                 ${{ github.actor }} commit message - ${{ env.commitmsg }}
@@ -202,19 +202,19 @@ jobs:
 
 
 
-                1. Build result - ${{needs.UAT-Frontend-Build.result}} 
+                1. Build Result - ${{needs.UAT-Frontend-Build.result}} 
                  
-                2. Test result (units and functionals) - ${{needs.unit-and-functional-testing-Frontend.result}} 
+                2. Test Result (units and functionals) - ${{needs.unit-and-functional-testing-Frontend.result}} 
               
-                3. Static Code Analysis result - ${{needs.Static-Code-Analysis-Sonarqube-Frontend.result}} 
+                3. Static Code Analysis Result - ${{needs.Static-Code-Analysis-Sonarqube-Frontend.result}} 
 
-                4. Checkout release.json result - ${{needs.Anudan-config.result}} 
+                4. Checkout release.json Result - ${{needs.Anudan-config.result}} 
  
                 5. Copy Artifacts To Uat Server - ${{needs.Rsync-UAT-Deployments.result}} 
                 
-                6. Uat Release result - ${{needs.Trigger-UAT-release.result}} 
+                6. Uat Release Result - ${{needs.Trigger-UAT-release.result}} 
 
-                7. Anudan - Grant Management System › UAT Build - ${{ env.UAT_Version }}
+                7. Anudan - Grant Management System › UAT Build - UAT R-${{ env.UAT_Version }}
                 
      
           to: ${{ secrets.TO_ADDRESSES }} 

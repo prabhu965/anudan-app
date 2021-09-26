@@ -276,7 +276,7 @@ export class SectionsComponent
         !this.appComp.grantSaved &&
         !this.appComp.sectionUpdated
       ) {
-        this.saveGrant();
+        this.saveGrant(false);
         this.appComp.grantSaved = false;
       }
     });
@@ -571,7 +571,7 @@ export class SectionsComponent
     console.log(this.currentGrant);*/
   }
 
-  saveGrant() {
+  saveGrant(compare: boolean) {
     if (!this.canManage) {
       return;
     }
@@ -631,6 +631,10 @@ export class SectionsComponent
           this.datepipe.transform(new Date(), "hh:mm:ss a") +
           "     ";
         //this.appComp.showSaving = false;
+
+        if (compare) {
+          this.compareGrants(this.currentGrant.id, this.currentGrant.origGrantId);
+        }
       },
       (error) => {
         const errorMsg = error as HttpErrorResponse;

@@ -17,7 +17,7 @@ jobs:
   update-release-candidate:
       runs-on: ubuntu-latest 
       if: github.ref == 'refs/heads/master'
-      name: Certify UAT Release
+      name: Update Release Candidate
       steps: 
       - uses: actions/checkout@v2
         with:
@@ -52,12 +52,12 @@ jobs:
              echo '{"releaseCandidate":"${{ env.major}}.${{ env.minor }}.${{ env.releaseCandidate }}","productionRelease":"${{ env.major}}.${{ env.minor }}.${{ env.productionRelease }}","hotFixRelease":"${{ env.hotFixRelease }}"}' > release.json 
              ls -lrt
 
-      - name: create release.json artifact
+      - name: upload release.json aritfact to github. 
         uses: actions/upload-artifact@v2
         with:
           name: Anudan-Release
           path: release.json
-          retention-days: 5   
+          retention-days: 1 
 
   UAT-Release-Version:
     runs-on: ubuntu-latest
@@ -65,7 +65,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     name: UAT Release Version
     steps: 
-        - name: Anudan Release artifact downloading      
+        - name: Anudan Release artifact downloading from github.   
           uses: actions/download-artifact@v2
           with:
             name: Anudan-Release 
@@ -361,9 +361,9 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     needs: [update-release-candidate, UAT-Release-Version, copy-to-spaces, Tag-Frontend-Master-Branch, Tag-Backend-Master-Branch, releasenotes-push-to-release-repo]
-    name: EmailNotify
+    name: Notify Via Email 
     steps:
-      - name: Anudan Release artifact downloading      
+      - name: Anudan Release artifact downloading from github.     
         uses: actions/download-artifact@v2
         with:
           name: Anudan-Release 
@@ -389,9 +389,9 @@ jobs:
                 Changes done by - ${{ github.actor }} 
 
 
-                1. Certified UAT release - ${{needs.update-release-candidate.result}} 
+                1. Certified UAT Release - ${{needs.update-release-candidate.result}} 
 
-                2. copy to spaces - ${{needs.copy-to-spaces.result}} 
+                2. Copy To Spaces - ${{needs.copy-to-spaces.result}} 
 
                 3. UAT Release Version - ${{needs.UAT-Release-Version.result}}
 

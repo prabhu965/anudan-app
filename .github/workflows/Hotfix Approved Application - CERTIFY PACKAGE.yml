@@ -17,7 +17,7 @@ jobs:
     if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
     name: copy to spaces
     steps:       
-      - name: artifacts downloading from spaces
+      - name: artifacts uploading to spaces from Hotfix server. 
         uses: fifsky/ssh-action@master
         with:
           command: |
@@ -42,7 +42,7 @@ jobs:
   Release-repo-checkout:
       runs-on: ubuntu-latest 
       if: github.ref == 'refs/heads/hotfix/production_bug_fixes'
-      name: Release repo checkout
+      name: Release Repo Checkout
       steps: 
       - uses: actions/checkout@v2
         with:
@@ -62,12 +62,12 @@ jobs:
         run: | 
              echo '{"releaseCandidate":"${{ env.major}}.${{ env.minor }}.${{ env.releaseCandidate }}","productionRelease":"${{ env.major}}.${{ env.minor }}.${{ env.productionRelease }}","hotFixRelease":"${{ env.hotFixRelease }}"}' > release.json 
              ls -lrt    
-      - name: creating release.json artifact for tagging master branch
+      - name: uploading release.json artifact to github. 
         uses: actions/upload-artifact@v2
         with:
           name: Anudan-Release
           path: release.json
-          retention-days: 30          
+          retention-days: 1         
      
   Tag-Frontend-Master-Branch:
     runs-on: ubuntu-latest
@@ -81,7 +81,7 @@ jobs:
           repository: anudan-org/anudan-app  
           token: ${{ secrets.MY_PAT }} 
           ref: hotfix/production_bug_fixes
-    - name: Anudan Release artifact downloading      
+    - name: Anudan Release artifact downloading from github.    
       uses: actions/download-artifact@v2
       with:
         name: Anudan-Release
@@ -122,7 +122,7 @@ jobs:
           token: ${{ secrets.MY_PAT }} 
           ref: hotfix/production_bug_fixes
 
-    - name: Anudan Release artifact downloading      
+    - name: Anudan Release artifact downloading from github.    
       uses: actions/download-artifact@v2
       with:
         name: Anudan-Release
@@ -155,7 +155,7 @@ jobs:
     needs: [copy-to-spaces, Release-repo-checkout, Tag-Frontend-Master-Branch,  Tag-Backend-Master-Branch]
     name: Notify Via Email
     steps:
-      - name: Anudan Release artifact downloading      
+      - name: Anudan Release artifact downloading from github.     
         uses: actions/download-artifact@v2
         with:
           name: Anudan-Release 
@@ -182,7 +182,7 @@ jobs:
 
                 1. copy to spaces - ${{needs.copy-to-spaces.result}} 
 
-                2. Release repo checkout - ${{needs.Release-repo-checkout.result}} 
+                2. Release Repo Checkout - ${{needs.Release-repo-checkout.result}} 
 
                 3. Tag Frontend Master Branch - ${{needs.Tag-Frontend-Master-Branch.result}}
 

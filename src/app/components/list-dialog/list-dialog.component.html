@@ -34,19 +34,22 @@
                   style="font-size: 18px"
                 >
                   <span
-                    class="text-red pl-0"
-                    style="font-size: 10px; font-weight: normal"
+                    class="text-subheader pl-0"
+                    style="font-weight: 600; font-size: 12px;display:flex;"
                     *ngIf="
                       (grant.grantStatus.internalStatus === 'DRAFT' ||
                         grant.grantStatus.internalStatus === 'REVIEW') &&
                       grant.origGrantId
                     "
                   >
+                  <mat-icon [inline]="true" class="material-icons-outlined text-red mr-1 mb-1">
+                    info_outline
+                  </mat-icon>
                     Amendment in-progress [<b>{{ grant.origGrantRefNo }}</b
                     >]
                   </span>
-                  {{ grant.name }}
                 </p>
+                <p>{{ grant.name }}</p>
                   <p
                   class="text-header-h1 mb-1"
                   *ngIf="grant.referenceNo"
