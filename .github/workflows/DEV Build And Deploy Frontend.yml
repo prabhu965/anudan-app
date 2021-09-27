@@ -6,9 +6,8 @@ on:
    push:
     branches: [ dev ]
     paths-ignore: 
-      - | 
-        '.github/workflows/**.yml'
-        '.gitignore'
+      - '.github/workflows/**.yml'
+      -  '.gitignore'
 
 
 # creating env variable for head commit meassge 
