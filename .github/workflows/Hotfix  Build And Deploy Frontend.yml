@@ -6,6 +6,14 @@ on:
     branches: [ hotfix/production_bug_fixes ]
     paths-ignore: 
       - '.github/workflows/**.yml'
+      - '.gitignore'
+      - '**.md'
+      - '**.json'
+      - '**.properties'
+      - '**.js'
+      - '**.iml'
+      - 'frontend/**'
+      - 'e2e/**' 
 
 env:
   commitmsg: ${{ github.event.head_commit.message }} 
