@@ -130,14 +130,14 @@
           <p class="text-header">Planned Project Funds</p>
           <table id="tablePlaceholderX" width="100%">
             <tr style="background: #f9f9f9">
-              <td
+              <th id="planned_installment_no"
                 width="2%"
-                align="center"
+                class="text-center"
                 valign="middle"
                 style="border: 1px solid #e4e4e4"
               >
                 Planned Installment #
-              </td>
+              </th>
               <ng-container
                 *ngFor="
                   let column of getGrantDisbursementAttribute()
@@ -145,28 +145,28 @@
                   let i = index
                 "
               >
-                <td
+                <th [id]="column.name.replace(' ','')+'_id'"
                   *ngIf="column.name !== 'Notes'"
                   width="15%"
-                  align="center"
+                  class="text-center"
                   valign="middle"
                   style="border: 1px solid #e4e4e4"
                 >
                   {{
                     column.name === "Notes" ? "Milestones/Notes" : column.name
                   }}
-                </td>
-                <td
+                </th>
+                <th [id]="column.name.replace(' ','')+'_id'"
                   *ngIf="column.name === 'Notes'"
                   width="50%"
-                  align="center"
+                  class="text-center"
                   valign="middle"
                   style="border: 1px solid #e4e4e4"
                 >
                   {{
                     column.name === "Notes" ? "Milestones/Notes" : column.name
                   }}
-                </td>
+                </th>
               </ng-container>
             </tr>
             <ng-container

@@ -272,7 +272,7 @@
 
           <hr />
           <div class="col-4 mb-2">
-            <span style="color: #929292; font-size: 15px; font-family: Roboto"
+            <span style="color: #929292; font-size: 15px; font-family: Roboto sans-serif"
               >Start Date:</span
             >
             <div class="ml-0 mb-3">
@@ -280,7 +280,7 @@
             </div>
           </div>
           <div class="col-4 mb-2">
-            <span style="color: #929292; font-size: 15px; font-family: Roboto"
+            <span style="color: #929292; font-size: 15px; font-family: Roboto, sans-serif;"
               >End Date:</span
             >
             <div class="ml-0 mb-3">
@@ -288,7 +288,7 @@
             </div>
           </div>
           <div class="col-4 mb-2">
-            <span style="color: #929292; font-size: 15px; font-family: Roboto"
+            <span style="color: #929292; font-size: 15px; font-family: Roboto, sans-serif;"
               >Duration:</span
             >
             <div class="ml-0 mb-3">
@@ -296,7 +296,7 @@
             </div>
           </div>
           <div class="col-4 mb-2">
-            <span style="color: #929292; font-size: 15px; font-family: Roboto"
+            <span style="color: #929292; font-size: 15px; font-family: Roboto, sans-serif;"
               >Amount:</span
             >
             <div class="ml-0 mb-3" style="display: flex; align-items: center">
@@ -306,7 +306,7 @@
             </div>
           </div>
           <div class="col-8 mb-2">
-            <span style="color: #929292; font-size: 15px; font-family: Roboto"
+            <span style="color: #929292; font-size: 15px; font-family: Roboto, sans-serif;"
               >Amount (In Words):</span
             >
             <div class="ml-0 mb-3" style="display: flex; align-items: center">
@@ -314,7 +314,7 @@
             </div>
           </div>
           <div class="col-6 mb-2">
-            <span style="color: #929292; font-size: 15px; font-family: Roboto"
+            <span style="color: #929292; font-size: 15px; font-family: Roboto, sans-serif;"
               >Implementing Organization:</span
             >
             <div *ngIf="currentGrant.organization && isExternalGrant()" class="ml-0 mb-3">
@@ -325,7 +325,7 @@
             </div>
           </div>
           <div class="col-6 mb-2">
-            <span style="color: #929292; font-size: 15px; font-family: Roboto"
+            <span style="color: #929292; font-size: 15px; font-family: Roboto, sans-serif;"
               >Implementing Organization Representative:</span
             >
             <div class="ml-0 mb-3">
@@ -339,7 +339,7 @@
               <hr />
               <h5>
                 <span
-                  style="color: #929292; font-size: 15px; font-family: Roboto"
+                  style="color: #929292; font-size: 15px; font-family: Roboto, sans-serif;"
                   >{{ section.sectionName.toLocaleUpperCase() }}</span
                 >
               </h5>
@@ -361,7 +361,7 @@
                           style="
                             color: #929292;
                             font-size: 15px;
-                            font-family: Roboto;
+                            font-family: Roboto, sans-serif;;
                           "
                           >{{ attribute.fieldName }}</span
                         >
@@ -386,7 +386,7 @@
                               style="
                                 padding: 5px;
                                 font-size: 16px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                               "
                             >
                               <b>{{ attribute.fieldName }}</b>
@@ -395,7 +395,7 @@
                               width="25%"
                               style="
                                 font-size: 16px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                                 padding: 5px;
                               "
                               valign="top"
@@ -407,7 +407,7 @@
                                       style="
                                         color: #929292;
                                         font-size: 13px;
-                                        font-family: Roboto;
+                                        font-family: Roboto, sans-serif;;
                                       "
                                       >Grant Level Goal:</span
                                     >
@@ -428,23 +428,23 @@
                               width="25%"
                               style="
                                 font-size: 16px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                                 padding: 5px;
                               "
                               valign="top"
                             >
                               <table>
                                 <tr>
-                                  <td>
+                                  <th id="frequency">
                                     <span
                                       style="
                                         color: #929292;
                                         font-size: 13px;
-                                        font-family: Roboto;
+                                        font-family: Roboto, sans-serif;;
                                       "
                                       >Frequency:</span
                                     >
-                                  </td>
+                                  </th>
                                 </tr>
                                 <tr>
                                   <td>
@@ -478,7 +478,7 @@
                           style="
                             color: #929292;
                             font-size: 15px;
-                            font-family: Roboto;
+                            font-family: Roboto, sans-serif;;
                           "
                           >{{ attribute.fieldName }}</span
                         >
@@ -489,7 +489,7 @@
                           >
                             <p
                               class="m-0"
-                              style="font-family: Roboto; font-size: 16px"
+                              style="font-family: Roboto, sans-serif;; font-size: 16px"
                             >
                               <b>
                                 <ng-container *ngIf="doc.type === 'pdf'">
@@ -537,7 +537,7 @@
                           style="
                             color: #929292;
                             font-size: 15px;
-                            font-family: Roboto;
+                            font-family: Roboto, sans-serif;;
                           "
                           >{{ attribute.fieldName }}</span
                         >
@@ -545,7 +545,7 @@
                           width="100%"
                           border="1"
                           class="mb-3"
-                          style="font-family: Roboto"
+                          style="font-family: Roboto, sans-serif;"
                         >
                           <tr>
                             <td
@@ -553,7 +553,7 @@
                               style="
                                 padding: 5px;
                                 font-size: 16px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                               "
                             >
                               <b>{{ attribute.fieldTableValue[0].header }}</b>
@@ -561,7 +561,7 @@
                             <td
                               style="
                                 font-size: 16px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                                 padding: 5px;
                                 text-align: center;
                               "
@@ -577,7 +577,7 @@
                               style="
                                 padding: 5px;
                                 font-size: 16px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                               "
                             >
                               <b>{{ row.name }}</b>
@@ -586,7 +586,7 @@
                               style="
                                 padding: 5px;
                                 font-size: 16px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                               "
                               *ngFor="let rowVal of row.columns"
                             >
@@ -604,7 +604,7 @@
                         style="
                           color: #929292;
                           font-size: 15px;
-                          font-family: Roboto;
+                          font-family: Roboto, sans-serif;;
                         "
                         >{{ attribute.fieldName }}</span
                       >
@@ -612,7 +612,7 @@
                         width="100%"
                         border="1"
                         class="mb-3"
-                        style="font-family: Roboto"
+                        style="font-family: Roboto, sans-serif;"
                       >
                         <tr>
                           <td
@@ -622,7 +622,7 @@
                             style="
                               padding: 5px;
                               font-size: 16px;
-                              font-family: Roboto;
+                              font-family: Roboto, sans-serif;;
                             "
                           >
                             <b>Planned Installment #</b>
@@ -640,7 +640,7 @@
                                 style="
                                   padding: 5px;
                                   font-size: 16px;
-                                  font-family: Roboto;
+                                  font-family: Roboto, sans-serif;;
                                 "
                                 align="center"
                               >
@@ -664,7 +664,7 @@
                               style="
                                 padding: 5px;
                                 font-size: 16px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                               "
                               align="center"
                             >
@@ -680,7 +680,7 @@
                                   min-width: 150px;
                                   padding: 5px;
                                   font-size: 16px;
-                                  font-family: Roboto;
+                                  font-family: Roboto, sans-serif;;
                                 "
                               >
                                 <ng-container
@@ -696,7 +696,7 @@
                                 style="
                                   padding: 5px;
                                   font-size: 16px;
-                                  font-family: Roboto;
+                                  font-family: Roboto, sans-serif;;
                                 "
                               >
                                 <ng-container>{{ column.value }}</ng-container>
@@ -709,7 +709,7 @@
                                 style="
                                   padding: 5px;
                                   font-size: 16px;
-                                  font-family: Roboto;
+                                  font-family: Roboto, sans-serif;;
                                 "
                               >
                                 <ng-container>{{ column.value }}</ng-container>
@@ -725,7 +725,7 @@
                             style="
                               padding: 5px;
                               font-size: 16px;
-                              font-family: Roboto;
+                              font-family: Roboto, sans-serif;;
                             "
                           >
                             <b>Total:</b>
@@ -735,7 +735,7 @@
                             style="
                               padding: 5px;
                               font-size: 16px;
-                              font-family: Roboto;
+                              font-family: Roboto, sans-serif;;
                             "
                             *ngFor="
                               let column of attribute.fieldTableValue[0]
@@ -898,7 +898,7 @@
                     color: #000;
                     font-weight: 800;
                     font-size: 15px;
-                    font-family: Roboto;
+                    font-family: Roboto, sans-serif;;
                   "
                   class="bolded"
                   >Start Date:</span
@@ -913,7 +913,7 @@
                     color: #000;
                     font-weight: 800;
                     font-size: 15px;
-                    font-family: Roboto;
+                    font-family: Roboto, sans-serif;;
                   "
                   class="bolded"
                   >End Date:</span
@@ -928,7 +928,7 @@
                     color: #000;
                     font-weight: 800;
                     font-size: 15px;
-                    font-family: Roboto;
+                    font-family: Roboto, sans-serif;;
                   "
                   class="bolded"
                   >Duration:</span
@@ -945,7 +945,7 @@
                     color: #000;
                     font-weight: 800;
                     font-size: 15px;
-                    font-family: Roboto;
+                    font-family: Roboto, sans-serif;;
                   "
                   class="bolded"
                   >Amount:</span
@@ -965,7 +965,7 @@
                     color: #000;
                     font-weight: 800;
                     font-size: 15px;
-                    font-family: Roboto;
+                    font-family: Roboto, sans-serif;;
                   "
                   class="bolded"
                   >Amount (In Words):</span
@@ -983,7 +983,7 @@
                     color: #000;
                     font-weight: 800;
                     font-size: 15px;
-                    font-family: Roboto;
+                    font-family: Roboto, sans-serif;;
                   "
                   class="bolded"
                   >Implementing Organization:</span
@@ -998,7 +998,7 @@
                     color: #000;
                     font-weight: 800;
                     font-size: 15px;
-                    font-family: Roboto;
+                    font-family: Roboto, sans-serif;;
                   "
                   class="bolded"
                   >Implementing Organization Representative:</span
@@ -1019,7 +1019,7 @@
                         color: #000;
                         font-weight: bold;
                         font-size: 18px;
-                        font-family: Roboto;
+                        font-family: Roboto, sans-serif;;
                       "
                       class="bolded"
                       >{{ section.sectionName.toLocaleUpperCase() }}</span
@@ -1046,7 +1046,7 @@
                                 color: #000;
                                 font-weight: bold;
                                 font-size: 16px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                               "
                               class="bolded"
                               >{{ attribute.fieldName }}</span
@@ -1072,7 +1072,7 @@
                                   style="
                                     padding: 5px;
                                     font-size: 16px;
-                                    font-family: Roboto;
+                                    font-family: Roboto, sans-serif;;
                                   "
                                 >
                                   <b>{{ attribute.fieldName }}</b>
@@ -1081,7 +1081,7 @@
                                   width="25%"
                                   style="
                                     font-size: 15px;
-                                    font-family: Roboto;
+                                    font-family: Roboto, sans-serif;;
                                     padding: 5px;
                                     font-weight: 400;
                                   "
@@ -1095,7 +1095,7 @@
                                             color: #000;
                                             font-weight: 800;
                                             font-size: 13px;
-                                            font-family: Roboto;
+                                            font-family: Roboto, sans-serif;;
                                           "
                                           class="bolded"
                                           >Grant Level Goal:</span
@@ -1117,7 +1117,7 @@
                                   width="25%"
                                   style="
                                     font-size: 15px;
-                                    font-family: Roboto;
+                                    font-family: Roboto, sans-serif;;
                                     padding: 5px;
                                     font-weight: 400;
                                   "
@@ -1131,7 +1131,7 @@
                                             color: #000;
                                             font-weight: 800;
                                             font-size: 13px;
-                                            font-family: Roboto;
+                                            font-family: Roboto, sans-serif;;
                                           "
                                           class="bolded"
                                           >Frequency:</span
@@ -1173,7 +1173,7 @@
                                 color: #000;
                                 font-weight: 800;
                                 font-size: 15px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                               "
                               class="bolded"
                               >{{ attribute.fieldName }}</span
@@ -1186,7 +1186,7 @@
                                 <p
                                   class="m-0"
                                   style="
-                                    font-family: Roboto;
+                                    font-family: Roboto, sans-serif;;
                                     font-size: 15px;
                                     font-weight: 400;
                                   "
@@ -1241,7 +1241,7 @@
                                 color: #000;
                                 font-weight: 800;
                                 font-size: 15px;
-                                font-family: Roboto;
+                                font-family: Roboto, sans-serif;;
                               "
                               class="bolded"
                               >{{ attribute.fieldName }}</span
@@ -1250,7 +1250,7 @@
                               width="100%"
                               border="1"
                               class="mb-3"
-                              style="font-family: Roboto"
+                              style="font-family: Roboto, sans-serif;"
                             >
                               <tr>
                                 <td
@@ -1258,7 +1258,7 @@
                                   style="
                                     padding: 5px;
                                     font-size: 15px;
-                                    font-family: Roboto;
+                                    font-family: Roboto, sans-serif;;
                                     font-weight: 400;
                                   "
                                 >
@@ -1269,7 +1269,7 @@
                                 <td
                                   style="
                                     font-size: 15px;
-                                    font-family: Roboto;
+                                    font-family: Roboto, sans-serif;;
                                     padding: 5px;
                                     text-align: center;
                                     font-weight: 400;
@@ -1287,7 +1287,7 @@
                                   style="
                                     padding: 5px;
                                     font-size: 15px;
-                                    font-family: Roboto;
+                                    font-family: Roboto, sans-serif;;
                                     font-weight: 400;
                                   "
                                 >
@@ -1297,7 +1297,7 @@
                                   style="
                                     padding: 5px;
                                     font-size: 15px;
-                                    font-family: Roboto;
+                                    font-family: Roboto, sans-serif;;
                                     font-weight: 400;
                                   "
                                   *ngFor="let rowVal of row.columns"
@@ -1317,7 +1317,7 @@
                               color: #000;
                               font-weight: 800;
                               font-size: 15px;
-                              font-family: Roboto;
+                              font-family: Roboto, sans-serif;;
                             "
                             class="bolded"
                             >{{ attribute.fieldName }}</span
@@ -1326,7 +1326,7 @@
                             width="100%"
                             border="1"
                             class="mb-3"
-                            style="font-family: Roboto"
+                            style="font-family: Roboto, sans-serif;"
                           >
                             <tr>
                               <td
@@ -1336,7 +1336,7 @@
                                 style="
                                   padding: 5px;
                                   font-size: 15px;
-                                  font-family: Roboto;
+                                  font-family: Roboto, sans-serif;;
                                   font-weight: 400;
                                 "
                               >
@@ -1355,7 +1355,7 @@
                                     style="
                                       padding: 5px;
                                       font-size: 15px;
-                                      font-family: Roboto;
+                                      font-family: Roboto, sans-serif;;
                                       font-weight: 400;
                                     "
                                     align="center"
@@ -1380,7 +1380,7 @@
                                   style="
                                     padding: 5px;
                                     font-size: 15px;
-                                    font-family: Roboto;
+                                    font-family: Roboto, sans-serif;;
                                     font-weight: 400;
                                   "
                                   align="center"
@@ -1400,7 +1400,7 @@
                                       min-width: 150px;
                                       padding: 5px;
                                       font-size: 15px;
-                                      font-family: Roboto;
+                                      font-family: Roboto, sans-serif;;
                                       font-weight: 400;
                                     "
                                   >
@@ -1419,7 +1419,7 @@
                                     style="
                                       padding: 5px;
                                       font-size: 15px;
-                                      font-family: Roboto;
+                                      font-family: Roboto, sans-serif;;
                                       font-weight: 400;
                                     "
                                   >
@@ -1437,7 +1437,7 @@
                                     style="
                                       padding: 5px;
                                       font-size: 15px;
-                                      font-family: Roboto;
+                                      font-family: Roboto, sans-serif;;
                                       font-weight: 400;
                                     "
                                   >
@@ -1456,7 +1456,7 @@
                                 style="
                                   padding: 5px;
                                   font-size: 15px;
-                                  font-family: Roboto;
+                                  font-family: Roboto, sans-serif;;
                                   font-weight: 400;
                                 "
                               >
@@ -1467,7 +1467,7 @@
                                 style="
                                   padding: 5px;
                                   font-size: 15px;
-                                  font-family: Roboto;
+                                  font-family: Roboto, sans-serif;;
                                   font-weight: 400;
                                 "
                                 *ngFor="
