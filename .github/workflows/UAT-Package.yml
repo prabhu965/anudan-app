@@ -33,7 +33,7 @@ jobs:
             git config --local user.email "admin@anudan.org"
             git config --local user.name "${GITHUB_ACTOR}"
             git add .
-            git commit -m "this file is updated by github/action" 
+            git commit -m "UAT Release Version UAT R-${{env.major}}.${{env.minor}}.${{ github.run_number }} UC" 
         - name: Push changes
           uses: ad-m/github-push-action@master
           with:
