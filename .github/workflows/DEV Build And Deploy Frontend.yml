@@ -6,7 +6,15 @@ on:
    push:
     branches: [ dev ]
     paths-ignore: 
-     '.github/workflows/**.yml'
+      - '.github/workflows/**.yml'
+      - '.gitignore'
+      - '**.md'
+      - '**.json'
+      - '**.properties'
+      - '**.js'
+      - '**.iml'
+      - 'frontend/**'
+      - 'e2e/**' 
 
 
 # creating env variable for head commit meassge 
