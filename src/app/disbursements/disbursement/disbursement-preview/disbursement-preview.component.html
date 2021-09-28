@@ -120,8 +120,8 @@
                       type="text"
                       autocomplete="off"
                     >
-                    <i *ngIf="currentDisbursement.grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></i>
-                    <i *ngIf="currentDisbursement.grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></i>
+                    <em *ngIf="currentDisbursement.grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></em>
+                    <em *ngIf="currentDisbursement.grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></em>
                     
                       <b
                         >Disbursement Approval Request for
@@ -138,12 +138,12 @@
                       type="text"
                       autocomplete="off"
                     >
-                    <i *ngIf="currentDisbursement.grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags" style="font-size: 0.6em;"></i>
-                    <i *ngIf="currentDisbursement.grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags" style="font-size: 0.6em;"></i>
+                    <em *ngIf="currentDisbursement.grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags" style="font-size: 0.6em;"></em>
+                    <em *ngIf="currentDisbursement.grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags" style="font-size: 0.6em;"></em>
                     
                       <b
                         >Disbursement Record against Approved Note for
-                        <i>{{ currentDisbursement.grant.name }}</i></b
+                        <em>{{ currentDisbursement.grant.name }}</em></b
                       >
                     </h4>
                   </div>
@@ -740,7 +740,7 @@
               (click)="addDisbursementRow()"
               style="cursor: pointer"
               class="ml-2"
-              ><i class="fas fa-plus-circle text-green mr-1"></i>Add a row</span
+              ><em class="fas fa-plus-circle text-green mr-1"></em>Add a row</span
             >
           </div>
 
@@ -860,34 +860,34 @@
           >
             <span class="ml-0">
               <ng-container *ngIf="doc.location.includes('.pdf')">
-                <i class="far fa-file-pdf text-danger ml-1"></i>
+                <em class="far fa-file-pdf text-danger ml-1"></em>
               </ng-container>
               <ng-container
                 *ngIf="
                 doc.location.includes('.xls') || doc.location.includes('.xlsx')
                 "
               >
-                <i
+                <em
                   class="far fa-file-excel text-success ml-1"
-                ></i>
+                ></em>
               </ng-container>
               <ng-container
                 *ngIf="
                 doc.location.includes('.doc') || doc.location.includes('.docx')
                 "
               >
-                <i
+                <em
                   class="far fa-file-word text-primary ml-1"
-                ></i>
+                ></em>
               </ng-container>
               <ng-container
                 *ngIf="
                 doc.location.includes('.ppt') || doc.location.includes('.pptx')
                 "
               >
-                <i
+                <em
                   class="far fa-file-powerpoint text-danger ml-1"
-                ></i>
+                ></em>
               </ng-container>
               {{ doc.name }}{{'.'+doc.location.substring(doc.location.lastIndexOf(".")+1)}}
             </span></a

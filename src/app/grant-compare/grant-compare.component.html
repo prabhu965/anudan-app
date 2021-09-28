@@ -49,60 +49,60 @@
   <div *ngIf="grantDiff.oldGrantName || grantDiff.newGrantName" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Name changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantName"><p class="px-2 my-1">{{grantDiff.newGrantName}}</p></div>
-    <div *ngIf="grantDiff.newGrantName && !grantDiff.oldGrantName" class="text-danger"><i><small>Currently has no
-          value</small></i></div>
+    <div *ngIf="grantDiff.newGrantName && !grantDiff.oldGrantName" class="text-danger"><em><small>Currently has no
+          value</small></em></div>
     <div class="change-old" *ngIf="grantDiff.oldGrantName"><p class="px-2 my-1">{{grantDiff.oldGrantName}}</p></div>
-    <div *ngIf="grantDiff.oldGrantName && !grantDiff.newGrantName" class="text-white"><i><small>Previously had no
-          value</small></i></div>
+    <div *ngIf="grantDiff.oldGrantName && !grantDiff.newGrantName" class="text-white"><em><small>Previously had no
+          value</small></em></div>
   </div>
   <div *ngIf="grantDiff.oldGrantStartDate || grantDiff.newGrantStartDate" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Start date changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantStartDate"><p class="px-2 my-1">{{grantDiff.newGrantStartDate | date:'dd-MMM-yyyy'}}</p>
     </div>
-    <div *ngIf="!grantDiff.newGrantStartDate && grantDiff.oldGrantStartDate" class="text-danger"><i><small>Currently
-          has no value</small></i></div>
+    <div *ngIf="!grantDiff.newGrantStartDate && grantDiff.oldGrantStartDate" class="text-danger"><em><small>Currently
+          has no value</small></em></div>
     <div class="change-old" *ngIf="grantDiff.oldGrantStartDate"><p class="px-2 my-1">{{grantDiff.oldGrantStartDate | date:'dd-MMM-yyyy'}}</p>
     </div>
-    <div *ngIf="!grantDiff.oldGrantStartDate && grantDiff.newGrantStartDate" class="text-white"><i><small>Previously
-          had no value</small></i></div>
+    <div *ngIf="!grantDiff.oldGrantStartDate && grantDiff.newGrantStartDate" class="text-white"><em><small>Previously
+          had no value</small></em></div>
   </div>
   <div *ngIf="grantDiff.oldGrantEndDate || grantDiff.newGrantEndDate" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>End date changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantEndDate"><p class="px-2 my-1">{{grantDiff.newGrantEndDate | date:'dd-MMM-yyyy'}}</p>
     </div>
-    <div *ngIf="!grantDiff.newGrantEndDate && grantDiff.oldGrantEndDate" class="text-danger"><i><small>Currently has
-          no value</small></i></div>
+    <div *ngIf="!grantDiff.newGrantEndDate && grantDiff.oldGrantEndDate" class="text-danger"><em><small>Currently has
+          no value</small></em></div>
     <div class="change-old" *ngIf="grantDiff.oldGrantEndDate"><p class="px-2 my-1">{{grantDiff.oldGrantEndDate | date:'dd-MMM-yyyy'}}</p>
     </div>
-    <div *ngIf="!grantDiff.oldGrantEndDate && grantDiff.newGrantEndDate" class="text-white"><i><small>Previously had
-          no value</small></i></div>
+    <div *ngIf="!grantDiff.oldGrantEndDate && grantDiff.newGrantEndDate" class="text-white"><em><small>Previously had
+          no value</small></em></div>
   </div>
   <div *ngIf="grantDiff.oldGrantAmount || grantDiff.newGrantAmount" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Amount changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantAmount"><p class="px-2 my-1">{{currencyService.getFormattedAmount(grantDiff.newGrantAmount)}}</p></div>
-    <div *ngIf="!grantDiff.newGrantAmount && grantDiff.oldGrantAmount" class="text-danger"><i><small>Currently has
-          no value</small></i></div>
+    <div *ngIf="!grantDiff.newGrantAmount && grantDiff.oldGrantAmount" class="text-danger"><em><small>Currently has
+          no value</small></em></div>
     <div class="change-old" *ngIf="grantDiff.oldGrantAmount"><p class="px-2 my-1">{{currencyService.getFormattedAmount(grantDiff.oldGrantAmount)}}</p></div>
-    <div *ngIf="!grantDiff.oldGrantAmount && grantDiff.newGrantAmount" class="text-white"><i><small>Previously had
-          no value</small></i></div>
+    <div *ngIf="!grantDiff.oldGrantAmount && grantDiff.newGrantAmount" class="text-white"><em><small>Previously had
+          no value</small></em></div>
   </div>
   <div *ngIf="grantDiff.oldGrantee || grantDiff.newGrantee" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Implementing organization changed</span>
     <div class="change-new" *ngIf="grantDiff.newGrantee"><p class="px-2 my-1">{{grantDiff.newGrantee}}</p></div>
-    <div *ngIf="!grantDiff.newGrantee && grantDiff.oldGrantee" class="text-danger"><i><small>Currently has no
-          value</small></i></div>
+    <div *ngIf="!grantDiff.newGrantee && grantDiff.oldGrantee" class="text-danger"><em><small>Currently has no
+          value</small></em></div>
     <div class="change-old" *ngIf="grantDiff.oldGrantee"><p class="px-2 my-1">{{grantDiff.oldGrantee}}</p></div>
-    <div *ngIf="!grantDiff.oldGrantee && grantDiff.newGrantee" class="text-white"><i><small>Previously had no
-          value</small></i></div>
+    <div *ngIf="!grantDiff.oldGrantee && grantDiff.newGrantee" class="text-white"><em><small>Previously had no
+          value</small></em></div>
   </div>
   <div *ngIf="grantDiff.oldRep || grantDiff.newRep" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Implementing Organization Representative changed</span>
     <div class="change-new" *ngIf="grantDiff.newRep"><p class="px-2 my-1">{{grantDiff.newRep}}</p></div>
-    <div *ngIf="!grantDiff.newRep && grantDiff.oldRep" class="text-danger"><i><small>Currently has no
-          value</small></i></div>
+    <div *ngIf="!grantDiff.newRep && grantDiff.oldRep" class="text-danger"><em><small>Currently has no
+          value</small></em></div>
     <div class="change-old" *ngIf="grantDiff.oldRep"><p class="px-2 my-1">{{grantDiff.oldRep}}</p></div>
-    <div *ngIf="!grantDiff.oldRep && grantDiff.newRep" class="text-white"><i><small>Previously had no
-          value</small></i></div>
+    <div *ngIf="!grantDiff.oldRep && grantDiff.newRep" class="text-white"><em><small>Previously had no
+          value</small></em></div>
   </div>
 
   <ng-container *ngIf="grantDiff.orderDiffs && grantDiff.orderDiffs.length>0">
@@ -412,44 +412,44 @@
     <div *ngIf="reportDiff.oldReportName || reportDiff.newReportName" class="mb-2 change-box">
       <span class="change-title"><span>Report Header | </span>Report name changed</span>
       <div class="change-new" *ngIf="reportDiff.newReportName"><div class="px-2 my-1">{{reportDiff.newReportName}}</div></div>
-      <div *ngIf="reportDiff.newReportName && !reportDiff.oldReportName" class="text-danger"><i><small>Currently has
-            no value</small></i></div>
+      <div *ngIf="reportDiff.newReportName && !reportDiff.oldReportName" class="text-danger"><em><small>Currently has
+            no value</small></em></div>
       <div class="change-old" *ngIf="reportDiff.oldReportName"><div class="px-2 my-1">{{reportDiff.oldReportName}}</div></div>
-      <div *ngIf="reportDiff.oldReportName && !reportDiff.newReportName" class="text-white"><i><small>Previously had
-            no value</small></i></div>
+      <div *ngIf="reportDiff.oldReportName && !reportDiff.newReportName" class="text-white"><em><small>Previously had
+            no value</small></em></div>
     </div>
     <div *ngIf="reportDiff.oldReportStartDate || reportDiff.newReportStartDate" class="mb-2 change-box">
       <span class="change-title"><span>Report Header | </span>Report start date changed</span>
       <div class="change-new" *ngIf="reportDiff.newReportStartDate">
         <div class="px-2 my-1">{{reportDiff.newReportStartDate | date:'dd-MMM-yyyy'}}</div></div>
       <div *ngIf="!reportDiff.newReportStartDate && reportDiff.oldReportStartDate" class="text-danger">
-        <i><small>Currently has no value</small></i></div>
+        <em><small>Currently has no value</small></em></div>
       <div class="change-old" *ngIf="reportDiff.oldReportStartDate">
         <div class="px-2 my-1">{{reportDiff.oldReportStartDate | date:'dd-MMM-yyyy'}}</div></div>
       <div *ngIf="!reportDiff.oldReportStartDate && reportDiff.newReportStartDate" class="text-white">
-        <i><small>Previously had no value</small></i></div>
+        <em><small>Previously had no value</small></em></div>
     </div>
     <div *ngIf="reportDiff.oldReportEndDate || reportDiff.newReportEndDate" class="mb-2 change-box">
       <span class="change-title"><span>Report Header | </span>Report end date changed</span>
       <div class="change-new" *ngIf="reportDiff.newReportEndDate"><div class="px-2 my-1">{{reportDiff.newReportEndDate | date:'dd-MMM-yyyy'}}</div>
       </div>
-      <div *ngIf="!reportDiff.newReportEndDate && reportDiff.oldReportEndDate" class="text-danger"><i><small>Currently
-            has no value</small></i></div>
+      <div *ngIf="!reportDiff.newReportEndDate && reportDiff.oldReportEndDate" class="text-danger"><em><small>Currently
+            has no value</small></em></div>
       <div class="change-old" *ngIf="reportDiff.oldReportEndDate"><div class="px-2 my-1">{{reportDiff.oldReportEndDate | date:'dd-MMM-yyyy'}}</div>
       </div>
-      <div *ngIf="!reportDiff.oldReportEndDate && reportDiff.newReportEndDate" class="text-white"><i><small>Previously
-            had no value</small></i></div>
+      <div *ngIf="!reportDiff.oldReportEndDate && reportDiff.newReportEndDate" class="text-white"><em><small>Previously
+            had no value</small></em></div>
     </div>
     <div *ngIf="reportDiff.oldReportDueDate || reportDiff.newReportDueDate" class="mb-2 change-box">
       <span class="change-title"><span>Report Header | </span>Report Due Date changed</span>
       <div class="change-new" *ngIf="reportDiff.newReportDueDate"><div class="px-2 my-1">{{reportDiff.newReportDueDate | date:'dd-MMM-yyyy'}}</div>
       </div>
-      <div *ngIf="!reportDiff.newReportDueDate && reportDiff.oldReportDueDate" class="text-danger"><i><small>Currently
-            has no value</small></i></div>
+      <div *ngIf="!reportDiff.newReportDueDate && reportDiff.oldReportDueDate" class="text-danger"><em><small>Currently
+            has no value</small></em></div>
       <div class="change-old" *ngIf="reportDiff.oldReportDueDate"><div class="px-2 my-1">{{reportDiff.oldReportDueDate | date:'dd-MMM-yyyy'}}</div>
       </div>
-      <div *ngIf="!reportDiff.oldReportDueDate && reportDiff.newReportDueDate" class="text-white"><i><small>Previously
-            had no value</small></i></div>
+      <div *ngIf="!reportDiff.oldReportDueDate && reportDiff.newReportDueDate" class="text-white"><em><small>Previously
+            had no value</small></em></div>
     </div>
 
     <ng-container *ngIf="reportDiff.sectionDiffs">
@@ -758,20 +758,20 @@
       <div class="change-new" *ngIf="disbursementDiff.newRequestedAmount">
         <div class="px-2 my-1">{{currencyService.getFormattedAmount(disbursementDiff.newRequestedAmount)}}</div></div>
       <div *ngIf="disbursementDiff.newRequestedAmount && !disbursementDiff.oldRequestedAmount" class="text-danger">
-        <i><small>No value</small></i></div>
+        <em><small>No value</small></em></div>
       <div class="change-old" *ngIf="disbursementDiff.oldRequestedAmount">
         <div class="px-2 my-1">{{currencyService.getFormattedAmount(disbursementDiff.oldRequestedAmount)}}</div></div>
       <div *ngIf="disbursementDiff.oldRequestedAmount && !disbursementDiff.newRequestedAmount" class="text-white">
-        <i><small>Previously had no value</small></i></div>
+        <em><small>Previously had no value</small></em></div>
     </div>
     <div *ngIf="disbursementDiff.oldReason || disbursementDiff.newReason" class="mb-2 change-box">
       <span class="change-title"><span>Approval Request Header | </span>Approval Request Commentary changed</span>
       <div class="change-new" *ngIf="disbursementDiff.newReason"><div class="px-2 my-1">{{disbursementDiff.newReason}}</div></div>
-      <div *ngIf="!disbursementDiff.newReason && disbursementDiff.oldReason" class="text-danger"><i><small>No
-            value</small></i></div>
+      <div *ngIf="!disbursementDiff.newReason && disbursementDiff.oldReason" class="text-danger"><em><small>No
+            value</small></em></div>
       <div class="change-old" *ngIf="disbursementDiff.oldReason"><div class="px-2 my-1">{{disbursementDiff.oldReason}}</div></div>
-      <div *ngIf="!disbursementDiff.oldReason && disbursementDiff.newReason" class="text-white"><i><small>Previously
-            had no value</small></i></div>
+      <div *ngIf="!disbursementDiff.oldReason && disbursementDiff.newReason" class="text-white"><em><small>Previously
+            had no value</small></em></div>
     </div>
     <div *ngIf="disbursementDiff.actualDisbursement" class="mb-2 change-box">
       <span class="change-title"><span>Recorded Disbursements | </span><b>Recorded Disbursements</b> changes</span>

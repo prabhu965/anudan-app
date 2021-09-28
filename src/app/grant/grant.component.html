@@ -4,13 +4,13 @@
             <div class="fixed-bottom"
                  style="right: 20px; left: auto;z-index: 4;display: flex;align-items: flex-end;flex-direction: column;justify-content: right;">
                 <!--<button #saveGrantButton (click)="saveGrant()" *ngIf="editMode" class="btn btn-sm btn-info">
-                    <i class="fa fa-save mr-2"></i>Save Changes
+                    <em class="fa fa-save mr-2"></em>Save Changes
                 </button>-->
 
                 <button *ngIf="currentGrant.actionAuthorities.permissions.includes('MANAGE') && currentGrant.submissions.length>0"
                         #addKpiButton
                         (click)="addNewKpi()" class="btn btn-sm btn-danger">
-                    <i class="fa fa-save mr-2"></i>Add KPI
+                    <em class="fa fa-save mr-2"></em>Add KPI
                 </button>
                 <div #actionBlock>
                     <ng-container *ngIf="currentGrant.flowAuthorities">
@@ -30,8 +30,8 @@
 
             </div>
 
-            <a class="btn btn-sm btn-outline-secondary" (click)="appComp.goToHome()"><i
-                    class="fa fa-home mr-2"></i>Home</a>
+            <a class="btn btn-sm btn-outline-secondary" (click)="appComp.goToHome()"><em
+                    class="fa fa-home mr-2"></em>Home</a>
             <span
                     class="badge badge-dark text-white pull-right">{{currentGrant.substatus.displayName}}</span>
             <span class="badge badge-success pull-right">{{currentGrant.grantStatus.displayName}}</span>
@@ -359,13 +359,13 @@
                                 <div class="row">
                                     <div class="col-12 bg-light text-right">
                                         <a class="mr-2 text-gray"
-                                           (click)="confirm(section.id,0,[],0,'section','section')"><i
-                                                class="fa fa-edit"></i></a>
+                                           (click)="confirm(section.id,0,[],0,'section','section')"><em
+                                                class="fa fa-edit"></em></a>
                                         <a class="mr-2 text-gray" *ngIf="section.deletable"
-                                           (click)="confirm(section.id,0,[],0,'section','section')"><i
-                                                class="fa fa-trash"></i></a>
+                                           (click)="confirm(section.id,0,[],0,'section','section')"><em
+                                                class="fa fa-trash"></em></a>
                                         <a (click)="addNewFieldToSection(section.id,section.sectionName)"
-                                           class="mr-2 text-gray"><i class="fa fa-plus-square"></i></a>
+                                           class="mr-2 text-gray"><em class="fa fa-plus-square"></em></a>
                                     </div>
                                 </div>
                                 <div>
@@ -450,8 +450,8 @@
                         </mat-accordion>
                     </ng-container>
                     <div class="col-sm-12">
-                        <a mat-stroked-button color="accent" (click)="addNewSection()" class="text-secondary"><i
-                                class="fa fa-plus-square mr-1"></i>Add
+                        <a mat-stroked-button color="accent" (click)="addNewSection()" class="text-secondary"><em
+                                class="fa fa-plus-square mr-1"></em>Add
                             new Section</a>
                     </div>
                 </div>
@@ -726,12 +726,12 @@
                                 <a target="_blank"
                                    href="/api/submission/{{submission.id}}/kpi/{{docKpi.grantKpi.id}}/file/{{doc.id}}">
                                   <p>
-                                    <i *ngIf="doc.fileType==='pdf'"
-                                       class="fa fa-2x fa-file-pdf-o text-rose"></i>
-                                    <i *ngIf="doc.fileType==='jpg'" class="fa fa-2x fa-file-image-o"></i>
-                                    <i *ngIf="doc.fileType==='jpeg'" class="fa fa-2x fa-file-image-o"></i>
-                                    <i *ngIf="doc.fileType==='png'" class="fa fa-2x fa-file-image-o"></i>
-                                    <i *ngIf="doc.fileType==='doc'" class="fa fa-2x fa-file"></i>
+                                    <em *ngIf="doc.fileType==='pdf'"
+                                       class="fa fa-2x fa-file-pdf-o text-rose"></em>
+                                    <em *ngIf="doc.fileType==='jpg'" class="fa fa-2x fa-file-image-o"></em>
+                                    <em *ngIf="doc.fileType==='jpeg'" class="fa fa-2x fa-file-image-o"></em>
+                                    <em *ngIf="doc.fileType==='png'" class="fa fa-2x fa-file-image-o"></em>
+                                    <em *ngIf="doc.fileType==='doc'" class="fa fa-2x fa-file"></em>
                                     {{doc.fileName}}
                                   </p>
                                 </a>

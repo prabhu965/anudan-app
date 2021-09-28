@@ -14,10 +14,10 @@
        <p *ngIf="tag.id!==tagBeingEdited.id" matLine>{{tag.name}}</p>
        <img *ngIf="tag.id!==tagBeingEdited.id" class="mr-2" src="./assets/img/edit.svg"
                             (click)="editTag(tag,$event)" style="cursor: pointer;">
-       <button *ngIf="!tag.disabled && tag.id!==tagBeingEdited.id" class="btn btn-sm btn-red" (click)="disableTag(tag)"><i
-        class="fas fa-dot-circle mr-2 text-red" style="cursor: pointer;"></i>Disable</button>
-        <button *ngIf="tag.disabled && tag.id!==tagBeingEdited.id" class="btn btn-sm btn-green" (click)="enableTag(tag)"><i
-        class=" fas fa-dot-circle mr-2 text-green" style="cursor: pointer;"></i>Enable</button>
+       <button *ngIf="!tag.disabled && tag.id!==tagBeingEdited.id" class="btn btn-sm btn-red" (click)="disableTag(tag)"><em
+        class="fas fa-dot-circle mr-2 text-red" style="cursor: pointer;"></em>Disable</button>
+        <button *ngIf="tag.disabled && tag.id!==tagBeingEdited.id" class="btn btn-sm btn-green" (click)="enableTag(tag)"><em
+        class=" fas fa-dot-circle mr-2 text-green" style="cursor: pointer;"></em>Enable</button>
        <button *ngIf="tag.id!==tagBeingEdited.id" mat-icon-button (click)="deleteTag(tag)" [ngStyle]="tag.used?{'cursor': 'pointer','color':'#dee2e6'}:{'cursor': 'pointer','color':'#676767'}" [disabled]="tag.used"><mat-icon>delete_outlined</mat-icon></button>       
          <input matInput class="anu-input m-3" *ngIf="tag.id===tagBeingEdited.id" [(ngModel)]="tag.name" placeholder="Edit Tag Name:">
        <button *ngIf="tag.id===tagBeingEdited.id" class="btn btn-sm btn-green-primary" (click)="saveTag(tag)">Save</button>

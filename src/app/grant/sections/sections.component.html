@@ -21,7 +21,7 @@
             <a
               (click)="addNewFieldToSection(section.id, section.sectionName)"
               class="btn btn-sm btn-green"
-              >Add a Field<i class="fa fa-plus-square ml-2"></i
+              >Add a Field<em class="fa fa-plus-square ml-2"></em
             ></a>
           </div>
         </ng-container>
@@ -31,7 +31,7 @@
         style="display: flex; align-items: center; justify-content: flex-start"
       >
         <!--<button *ngIf="canManage" class="btn btn-sm btn-green float-right">
-          <i class="fas fa-plus-square mr-2"></i>Add new Section</button>-->
+          <em class="fas fa-plus-square mr-2"></em>Add new Section</button>-->
         <mat-icon
           mat-button
           [matMenuTriggerFor]="menu"
@@ -193,17 +193,17 @@
                       >
                         <span class="ml-3">
                           <ng-container *ngIf="doc.type === 'pdf'">
-                            <i class="fas fa-file-pdf text-danger"></i>
+                            <em class="fas fa-file-pdf text-danger"></em>
                           </ng-container>
                           <ng-container
                             *ngIf="doc.type === 'xls' || doc.type === 'xlsx'"
                           >
-                            <i class="fas fa-file-excel text-success"></i>
+                            <em class="fas fa-file-excel text-success"></em>
                           </ng-container>
                           <ng-container
                             *ngIf="doc.type === 'doc' || doc.type === 'docx'"
                           >
-                            <i class="fas fa-file-word text-primary"></i>
+                            <em class="fas fa-file-word text-primary"></em>
                           </ng-container>
                           {{ doc.name }}
                         </span>
@@ -237,9 +237,9 @@
                     
                     <a class="mr-2 text-gray" *ngIf="currentGrant.grantDetails.sections.length > 1"
                        (click)="confirm(section.id,0,[],0,'section','Delete section ' + section.sectionName + '?')"><i
-                            class="fa fa-trash"></i></a>
+                            class="fa fa-trash"></em></a>
                     <a (click)="addNewFieldToSection(section.id,section.sectionName)"
-                       class="mr-2 text-gray"><i class="fa fa-plus-square"></i></a>
+                       class="mr-2 text-gray"><em class="fa fa-plus-square"></em></a>
                   </div>
                 </div>
                 <hr>-->
@@ -417,16 +417,16 @@
                               >
                             </div>
                             <div style="margin-left: 250px">
-                              <i
+                              <em
                                 (click)="moveColsRight()"
                                 class="fas fa-arrow-alt-circle-left mr-3"
                                 style="cursor: pointer"
-                              ></i
-                              ><i
+                              ></em
+                              ><em
                                 (click)="moveColsLeft()"
                                 class="fas fa-arrow-alt-circle-right"
                                 style="cursor: pointer"
-                              ></i>
+                              ></em>
                             </div>
                           </div>
                           <div
@@ -846,7 +846,7 @@
                               >
                                 <td align="center">
                                   <strong style="color: #949494"
-                                    >Planned Project Fund:</b
+                                    >Planned Project Fund:</strong
                                   >
                                 </td>
                                 <ng-container

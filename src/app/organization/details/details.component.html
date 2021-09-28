@@ -43,10 +43,10 @@
 
                                 <div class="social-box">
                                     <div style="display: flex;align-items: center;justify-content: center;">
-                                        <i [ngClass]="org.twitter?'fa fa-twitter mr-4 text-green anu-social':'fa fa-twitter anu-social mr-4 text-grey'" [ngStyle]="twitter?{'border-bottom':'2px solid rgb(203 203 203)'}:{}" (click)="showTwitter()"></i>
-                                        <i [ngClass]="org.facebook?'fa fa-facebook mr-4 text-green anu-social':'fa fa-facebook anu-social mr-4 text-grey'" [ngStyle]="facebook?{'border-bottom':'2px solid rgb(203 203 203)'}:{}" (click)="showFacebook()"></i>
-                                        <i [ngClass]="org.linkedin?'fa fa-linkedin mr-4 text-green anu-social':'fa fa-linkedin anu-social mr-4 text-grey'" [ngStyle]="linkedin?{'border-bottom':'2px solid rgb(203 203 203)'}:{}" (click)="showLinkedin()"></i>
-                                        <i [ngClass]="org.instagram?'fa fa-instagram mr-4 text-green anu-social':'fa fa-instagram anu-social mr-4 text-grey'" [ngStyle]="instagram?{'border-bottom':'2px solid rgb(203 203 203)'}:{}" (click)="showInstagram()"></i>
+                                        <em [ngClass]="org.twitter?'fa fa-twitter mr-4 text-green anu-social':'fa fa-twitter anu-social mr-4 text-grey'" [ngStyle]="twitter?{'border-bottom':'2px solid rgb(203 203 203)'}:{}" (click)="showTwitter()"></em>
+                                        <em [ngClass]="org.facebook?'fa fa-facebook mr-4 text-green anu-social':'fa fa-facebook anu-social mr-4 text-grey'" [ngStyle]="facebook?{'border-bottom':'2px solid rgb(203 203 203)'}:{}" (click)="showFacebook()"></em>
+                                        <em [ngClass]="org.linkedin?'fa fa-linkedin mr-4 text-green anu-social':'fa fa-linkedin anu-social mr-4 text-grey'" [ngStyle]="linkedin?{'border-bottom':'2px solid rgb(203 203 203)'}:{}" (click)="showLinkedin()"></em>
+                                        <em [ngClass]="org.instagram?'fa fa-instagram mr-4 text-green anu-social':'fa fa-instagram anu-social mr-4 text-grey'" [ngStyle]="instagram?{'border-bottom':'2px solid rgb(203 203 203)'}:{}" (click)="showInstagram()"></em>
                                     </div>
                                     
                                     <div class='row' *ngIf="twitter || facebook || linkedin || instagram">

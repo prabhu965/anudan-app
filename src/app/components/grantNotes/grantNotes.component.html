@@ -48,60 +48,60 @@
       <div *ngIf="grantDiff.oldGrantName || grantDiff.newGrantName" class="mb-2 change-box">
         <span class="change-title">Grant name changed</span>
         <div class="change-new" *ngIf="grantDiff.newGrantName">{{grantDiff.newGrantName}}</div>
-        <div *ngIf="grantDiff.newGrantName && !grantDiff.oldGrantName" class="text-danger"><i><small>Currently has no
-              value</small></i></div>
+        <div *ngIf="grantDiff.newGrantName && !grantDiff.oldGrantName" class="text-danger"><em><small>Currently has no
+              value</small></em></div>
         <div class="change-old" *ngIf="grantDiff.oldGrantName">{{grantDiff.oldGrantName}}</div>
-        <div *ngIf="grantDiff.oldGrantName && !grantDiff.newGrantName" class="text-white"><i><small>Previously had no
-              value</small></i></div>
+        <div *ngIf="grantDiff.oldGrantName && !grantDiff.newGrantName" class="text-white"><em><small>Previously had no
+              value</small></em></div>
       </div>
       <div *ngIf="grantDiff.oldGrantStartDate || grantDiff.newGrantStartDate" class="mb-2 change-box">
         <span class="change-title">Grant start date changed</span>
         <div class="change-new" *ngIf="grantDiff.newGrantStartDate">{{grantDiff.newGrantStartDate | date:'dd-MMM-yyyy'}}
         </div>
-        <div *ngIf="!grantDiff.newGrantStartDate && grantDiff.oldGrantStartDate" class="text-danger"><i><small>Currently
-              has no value</small></i></div>
+        <div *ngIf="!grantDiff.newGrantStartDate && grantDiff.oldGrantStartDate" class="text-danger"><em><small>Currently
+              has no value</small></em></div>
         <div class="change-old" *ngIf="grantDiff.oldGrantStartDate">{{grantDiff.oldGrantStartDate | date:'dd-MMM-yyyy'}}
         </div>
-        <div *ngIf="!grantDiff.oldGrantStartDate && grantDiff.newGrantStartDate" class="text-white"><i><small>Previously
-              had no value</small></i></div>
+        <div *ngIf="!grantDiff.oldGrantStartDate && grantDiff.newGrantStartDate" class="text-white"><em><small>Previously
+              had no value</small></em></div>
       </div>
       <div *ngIf="grantDiff.oldGrantEndDate || grantDiff.newGrantEndDate" class="mb-2 change-box">
         <span class="change-title">Grant end date changed</span>
         <div class="change-new" *ngIf="grantDiff.newGrantEndDate">{{grantDiff.newGrantEndDate | date:'dd-MMM-yyyy'}}
         </div>
-        <div *ngIf="!grantDiff.newGrantEndDate && grantDiff.oldGrantEndDate" class="text-danger"><i><small>Currently has
-              no value</small></i></div>
+        <div *ngIf="!grantDiff.newGrantEndDate && grantDiff.oldGrantEndDate" class="text-danger"><em><small>Currently has
+              no value</small></em></div>
         <div class="change-old" *ngIf="grantDiff.oldGrantEndDate">{{grantDiff.oldGrantEndDate | date:'dd-MMM-yyyy'}}
         </div>
-        <div *ngIf="!grantDiff.oldGrantEndDate && grantDiff.newGrantEndDate" class="text-white"><i><small>Previously had
-              no value</small></i></div>
+        <div *ngIf="!grantDiff.oldGrantEndDate && grantDiff.newGrantEndDate" class="text-white"><em><small>Previously had
+              no value</small></em></div>
       </div>
       <div *ngIf="grantDiff.oldGrantAmount || grantDiff.newGrantAmount" class="mb-2 change-box">
         <span class="change-title">Grant amount changed</span>
         <div class="change-new" *ngIf="grantDiff.newGrantAmount">{{grantDiff.newGrantAmount}}</div>
-        <div *ngIf="!grantDiff.newGrantAmount && grantDiff.oldGrantAmount" class="text-danger"><i><small>Currently has
-              no value</small></i></div>
+        <div *ngIf="!grantDiff.newGrantAmount && grantDiff.oldGrantAmount" class="text-danger"><em><small>Currently has
+              no value</small></em></div>
         <div class="change-old" *ngIf="grantDiff.oldGrantAmount">{{grantDiff.oldGrantAmount}}</div>
-        <div *ngIf="!grantDiff.oldGrantAmount && grantDiff.newGrantAmount" class="text-white"><i><small>Previously had
-              no value</small></i></div>
+        <div *ngIf="!grantDiff.oldGrantAmount && grantDiff.newGrantAmount" class="text-white"><em><small>Previously had
+              no value</small></em></div>
       </div>
       <div *ngIf="grantDiff.oldGrantee || grantDiff.newGrantee" class="mb-2 change-box">
         <span class="change-title">Grantee changed</span>
         <div class="change-new" *ngIf="grantDiff.newGrantee">{{grantDiff.newGrantee}}</div>
-        <div *ngIf="!grantDiff.newGrantee && grantDiff.oldGrantee" class="text-danger"><i><small>Currently has no
-              value</small></i></div>
+        <div *ngIf="!grantDiff.newGrantee && grantDiff.oldGrantee" class="text-danger"><em><small>Currently has no
+              value</small></em></div>
         <div class="change-old" *ngIf="grantDiff.oldGrantee">{{grantDiff.oldGrantee}}</div>
-        <div *ngIf="!grantDiff.oldGrantee && grantDiff.newGrantee" class="text-white"><i><small>Previously had no
-              value</small></i></div>
+        <div *ngIf="!grantDiff.oldGrantee && grantDiff.newGrantee" class="text-white"><em><small>Previously had no
+              value</small></em></div>
       </div>
       <div *ngIf="grantDiff.oldRep || grantDiff.newRep" class="mb-2 change-box">
         <span class="change-title">Grantee Representative changed</span>
         <div class="change-new" *ngIf="grantDiff.newRep">{{grantDiff.newRep}}</div>
-        <div *ngIf="!grantDiff.newRep && grantDiff.oldRep" class="text-danger"><i><small>Currently has no
-              value</small></i></div>
+        <div *ngIf="!grantDiff.newRep && grantDiff.oldRep" class="text-danger"><em><small>Currently has no
+              value</small></em></div>
         <div class="change-old" *ngIf="grantDiff.oldRep">{{grantDiff.oldRep}}</div>
-        <div *ngIf="!grantDiff.oldRep && grantDiff.newRep" class="text-white"><i><small>Previously had no
-              value</small></i></div>
+        <div *ngIf="!grantDiff.oldRep && grantDiff.newRep" class="text-white"><em><small>Previously had no
+              value</small></em></div>
       </div>
       <ng-container *ngIf="grantDiff.sectionDiffs">
         <ng-container *ngFor="let sectionDiff of grantDiff.sectionDiffs">

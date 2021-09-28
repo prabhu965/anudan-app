@@ -504,12 +504,12 @@
                         <a target="_blank"
                            href="/api/submission/{{submission.id}}/kpi/{{docKpi.grantKpi.id}}/file/{{doc.id}}">
                           <p>
-                            <i *ngIf="doc.fileType==='pdf'"
-                               class="fa fa-2x fa-file-pdf-o text-rose"></i>
-                            <i *ngIf="doc.fileType==='jpg'" class="fa fa-2x fa-file-image-o"></i>
-                            <i *ngIf="doc.fileType==='jpeg'" class="fa fa-2x fa-file-image-o"></i>
-                            <i *ngIf="doc.fileType==='png'" class="fa fa-2x fa-file-image-o"></i>
-                            <i *ngIf="doc.fileType==='doc'" class="fa fa-2x fa-file"></i>
+                            <em *ngIf="doc.fileType==='pdf'"
+                               class="fa fa-2x fa-file-pdf-o text-rose"></em>
+                            <em *ngIf="doc.fileType==='jpg'" class="fa fa-2x fa-file-image-o"></em>
+                            <em *ngIf="doc.fileType==='jpeg'" class="fa fa-2x fa-file-image-o"></em>
+                            <em *ngIf="doc.fileType==='png'" class="fa fa-2x fa-file-image-o"></em>
+                            <em *ngIf="doc.fileType==='doc'" class="fa fa-2x fa-file"></em>
                             {{doc.fileName}}
                           </p>
                         </a>

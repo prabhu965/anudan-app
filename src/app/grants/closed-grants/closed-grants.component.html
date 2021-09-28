@@ -39,8 +39,8 @@
               (click)="manageGrant(grant)"
             >
               <div class="col-12 text-left  search-context">
-                <i *ngIf="appComponent.loggedInUser.organization.organizationType==='GRANTER' && grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></i>
-                <i *ngIf="appComponent.loggedInUser.organization.organizationType==='GRANTER' && grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></i>
+                <em *ngIf="appComponent.loggedInUser.organization.organizationType==='GRANTER' && grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></em>
+                <em *ngIf="appComponent.loggedInUser.organization.organizationType==='GRANTER' && grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></em>
                 <p
                   class="text-header-h1 mb-1"
                   *ngIf="!grant.referenceNo"

@@ -28,7 +28,7 @@
         style="display: flex; align-items: center; justify-content: flex-start"
       >
         <!--<button *ngIf="canManage" class="btn btn-sm btn-green float-right">
-          <i class="fas fa-plus-square mr-2"></i>Add new Section</button>-->
+          <em class="fas fa-plus-square mr-2"></em>Add new Section</button>-->
         <mat-icon
           mat-button
           [matMenuTriggerFor]="menu"
@@ -438,36 +438,36 @@
                             >
                               <strong>
                                 <ng-container *ngIf="doc.type === 'pdf'">
-                                  <i
+                                  <em
                                     class="far fa-file-pdf text-danger ml-1"
-                                  ></i>
+                                  ></em>
                                 </ng-container>
                                 <ng-container
                                   *ngIf="
                                     doc.type === 'xls' || doc.type === 'xlsx'
                                   "
                                 >
-                                  <i
+                                  <em
                                     class="far fa-file-excel text-success ml-1"
-                                  ></i>
+                                  ></em>
                                 </ng-container>
                                 <ng-container
                                   *ngIf="
                                     doc.type === 'doc' || doc.type === 'docx'
                                   "
                                 >
-                                  <i
+                                  <em
                                     class="far fa-file-word text-primary ml-1"
-                                  ></i>
+                                  ></em>
                                 </ng-container>
                                 <ng-container
                                   *ngIf="
                                     doc.type === 'ppt' || doc.type === 'pptx'
                                   "
                                 >
-                                  <i
+                                  <em
                                     class="far fa-file-powerpoint text-danger ml-1"
-                                  ></i>
+                                  ></em>
                                 </ng-container>
                                 {{ doc.name }}
                               </strong>
@@ -769,34 +769,34 @@
                           >
                             <span class="ml-3">
                               <ng-container *ngIf="doc.type === 'pdf'">
-                                <i class="far fa-file-pdf text-danger ml-1"></i>
+                                <em class="far fa-file-pdf text-danger ml-1"></em>
                               </ng-container>
                               <ng-container
                                 *ngIf="
                                   doc.type === 'xls' || doc.type === 'xlsx'
                                 "
                               >
-                                <i
+                                <em
                                   class="far fa-file-excel text-success ml-1"
-                                ></i>
+                                ></em>
                               </ng-container>
                               <ng-container
                                 *ngIf="
                                   doc.type === 'doc' || doc.type === 'docx'
                                 "
                               >
-                                <i
+                                <em
                                   class="far fa-file-word text-primary ml-1"
-                                ></i>
+                                ></em>
                               </ng-container>
                               <ng-container
                                 *ngIf="
                                   doc.type === 'ppt' || doc.type === 'pptx'
                                 "
                               >
-                                <i
+                                <em
                                   class="far fa-file-powerpoint text-danger ml-1"
-                                ></i>
+                                ></em>
                               </ng-container>
                               {{ doc.name }}
                             </span></a
@@ -885,12 +885,12 @@
                       <a target="_blank"
                          href="/api/submission/{{submission.id}}/kpi/{{docKpi.grantKpi.id}}/file/{{doc.id}}">
                         <p>
-                          <i *ngIf="doc.fileType==='pdf'"
-                             class="fa fa-2x fa-file-pdf-o text-rose"></i>
-                          <i *ngIf="doc.fileType==='jpg'" class="fa fa-2x fa-file-image-o"></i>
-                          <i *ngIf="doc.fileType==='jpeg'" class="fa fa-2x fa-file-image-o"></i>
-                          <i *ngIf="doc.fileType==='png'" class="fa fa-2x fa-file-image-o"></i>
-                          <i *ngIf="doc.fileType==='doc'" class="fa fa-2x fa-file"></i>
+                          <em *ngIf="doc.fileType==='pdf'"
+                             class="fa fa-2x fa-file-pdf-o text-rose"></em>
+                          <em *ngIf="doc.fileType==='jpg'" class="fa fa-2x fa-file-image-o"></em>
+                          <em *ngIf="doc.fileType==='jpeg'" class="fa fa-2x fa-file-image-o"></em>
+                          <em *ngIf="doc.fileType==='png'" class="fa fa-2x fa-file-image-o"></em>
+                          <em *ngIf="doc.fileType==='doc'" class="fa fa-2x fa-file"></em>
                           {{doc.fileName}}
                         </p>
                       </a>

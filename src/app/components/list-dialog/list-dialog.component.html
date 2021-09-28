@@ -26,8 +26,8 @@
             </div>
               
               <div class="col-12 text-left search-context">
-                <i *ngIf="grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></i>
-                <i *ngIf="grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></i>
+                <em *ngIf="grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></em>
+                <em *ngIf="grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></em>
                 <p
                   class="text-header-h1 mb-1"
                   *ngIf="!grant.referenceNo"
@@ -45,7 +45,7 @@
                   <mat-icon [inline]="true" class="material-icons-outlined text-red mr-1 mb-1">
                     info_outline
                   </mat-icon>
-                    Amendment in-progress [<strong>{{ grant.origGrantRefNo }}</b
+                    Amendment in-progress [<strong>{{ grant.origGrantRefNo }}</strong
                     >]
                   </span>
                 </p>

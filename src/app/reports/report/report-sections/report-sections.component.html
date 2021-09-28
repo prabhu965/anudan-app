@@ -22,7 +22,7 @@
               *ngIf="currentReport.canManage && !currentReport.forGranteeUse"
               (click)="addNewFieldToSection(section.id, section.sectionName)"
               class="btn btn-sm btn-green"
-              >Add a Field<i class="fa fa-plus-square ml-2"></i
+              >Add a Field<em class="fa fa-plus-square ml-2"></em
             ></a>
           </div>
         </ng-container>
@@ -32,7 +32,7 @@
         style="display: flex; align-items: center; justify-content: flex-start"
       >
         <!--<button *ngIf="canManage" class="btn btn-sm btn-green float-right">
-          <i class="fas fa-plus-square mr-2"></i>Add new Section</button>-->
+          <em class="fas fa-plus-square mr-2"></em>Add new Section</button>-->
         <mat-icon
           mat-button
           [matMenuTriggerFor]="menu"
@@ -170,22 +170,22 @@
                       >
                         <span class="ml-3">
                           <ng-container *ngIf="doc.type === 'pdf'">
-                            <i class="fas fa-file-pdf text-danger"></i>
+                            <em class="fas fa-file-pdf text-danger"></em>
                           </ng-container>
                           <ng-container
                             *ngIf="doc.type === 'xls' || doc.type === 'xlsx'"
                           >
-                            <i class="fas fa-file-excel text-success"></i>
+                            <em class="fas fa-file-excel text-success"></em>
                           </ng-container>
                           <ng-container
                             *ngIf="doc.type === 'doc' || doc.type === 'docx'"
                           >
-                            <i class="fas fa-file-word text-primary"></i>
+                            <em class="fas fa-file-word text-primary"></em>
                           </ng-container>
                           <ng-container
                             *ngIf="doc.type === 'ppt' || doc.type === 'pptx'"
                           >
-                            <i class="fas fa-file-powerpoint text-primary"></i>
+                            <em class="fas fa-file-powerpoint text-primary"></em>
                           </ng-container>
                           {{ doc.name }}
                         </span>
@@ -604,14 +604,14 @@
                               >
                             </div>
                             <div style="margin-left: 250px">
-                              <i
+                              <em
                                 (click)="moveColsRight()"
                                 class="fas fa-arrow-alt-circle-left mr-3"
-                              ></i
-                              ><i
+                              ></em
+                              ><em
                                 (click)="moveColsLeft()"
                                 class="fas fa-arrow-alt-circle-right"
-                              ></i>
+                              ></em>
                             </div>
                           </div>
                           <div
