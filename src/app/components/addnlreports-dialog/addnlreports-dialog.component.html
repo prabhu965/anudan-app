@@ -37,7 +37,7 @@
   </div>
   <div  class="col-12 scrollable" style="overflow-y: scroll;height: inherit;min-height: calc(100vh - 200px) !important;max-height: calc(100vh - 200px) !important;">
     <div *ngIf="!selectedFilteredReports">
-      <img src="./assets/img/loader.gif" style="width: 10%" />
+      <img alt="img"src="./assets/img/loader.gif" style="width: 10%" />
       <p style="color: black">Loading upcoming reports...</p>
     </div>
     <div
@@ -82,7 +82,7 @@
           }}</strong> </div>
           
           <div class="mt-1">
-            <img src="./assets/img/rupee.png" style="width: 9px" /><strong
+            <img alt="img"src="./assets/img/rupee.png" style="width: 9px" /><strong
             >{{ getFormattedGrantAmount(report.grant.amount) }}
           </strong>
           &nbsp;&nbsp;<span class="text-subheader"><small>({{

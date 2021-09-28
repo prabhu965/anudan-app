@@ -21,7 +21,7 @@
                             <div class="col-5">
                                 <ng-container>
                                 <label class="profile-pic-class" for="profilePic" style="cursor: pointer;">
-                                    <img (click)="loadImage()" class="img-fluid mb-4 profile-pic-area" [src]="appComp.logo">
+                                    <img alt="img"(click)="loadImage()" class="img-fluid mb-4 profile-pic-area" [src]="appComp.logo">
                                 </label>
                                 <input id="profilePic" type="file" accept=".png,.jpg,.jpeg" (change)="processProfilePic($event)"
                                     style="visibility: hidden;">

@@ -12,7 +12,7 @@
     <mat-list dense>
       <mat-list-item *ngFor="let tag of tags" style="background:#f4f4f4 !important;" class="m-1">
        <p *ngIf="tag.id!==tagBeingEdited.id" matLine>{{tag.name}}</p>
-       <img *ngIf="tag.id!==tagBeingEdited.id" class="mr-2" src="./assets/img/edit.svg"
+       <img alt="img"*ngIf="tag.id!==tagBeingEdited.id" class="mr-2" src="./assets/img/edit.svg"
                             (click)="editTag(tag,$event)" style="cursor: pointer;">
        <button *ngIf="!tag.disabled && tag.id!==tagBeingEdited.id" class="btn btn-sm btn-red" (click)="disableTag(tag)"><em
         class="fas fa-dot-circle mr-2 text-red" style="cursor: pointer;"></em>Disable</button>

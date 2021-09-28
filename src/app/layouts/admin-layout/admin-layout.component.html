@@ -362,11 +362,11 @@
     <!--div *ngIf="appComponent.currentView !== 'grants' && appComponent.currentView !== 'upcoming' && appComponent.currentView !== 'user-profile'" class="row" style="background: #fff; padding: 10px; margin: 0 30px; position: sticky; top: 67px; z-index: 3;">
             <div class="col-12">
                 <div class="float-right ml-2">
-                    <a (click)="showWorkflowAssigments()"><img src="./assets/img/wfassignmnet.svg" style="width:25px;"></a>
+                    <a (click)="showWorkflowAssigments()"><img alt="img"src="./assets/img/wfassignmnet.svg" style="width:25px;"></a>
                 </div>
                 <div class="float-right ml-4">
-                    <a *ngIf="appComponent.currentView==='grant'" (click)="showHistory('grant',currentGrant)"><img src="./assets/img/note.svg" style="width:25px;"></a>
-                    <a *ngIf="appComponent.currentView==='report'" (click)="showHistory('report',currentReport)"><img src="./assets/img/note.svg" style="width:25px;"></a>
+                    <a *ngIf="appComponent.currentView==='grant'" (click)="showHistory('grant',currentGrant)"><img alt="img"src="./assets/img/note.svg" style="width:25px;"></a>
+                    <a *ngIf="appComponent.currentView==='report'" (click)="showHistory('report',currentReport)"><img alt="img"src="./assets/img/note.svg" style="width:25px;"></a>
                 </div>
 
 

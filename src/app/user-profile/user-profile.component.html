@@ -6,13 +6,13 @@
       </div>
       <div class="col-5 px-0 text-left">
           <label class="profile-pic-class" for="profilePic" style="cursor: pointer;">
-            <img *ngIf="appComp.profile!==null" (click)="loadImage()" class="img-fluid profile-pic-area"
+            <img alt="img"*ngIf="appComp.profile!==null" (click)="loadImage()" class="img-fluid profile-pic-area"
               [src]="appComp.profile">
-              <img *ngIf="appComp.profile===undefined ||appComp.profile===null"
+              <img alt="img"*ngIf="appComp.profile===undefined ||appComp.profile===null"
               (click)="loadImage()" class="img-fluid profile-pic-area" src="./assets/img/profile-avatar.png" style="width: 100%;height: 100%;">
           </label>
           <label for="profilePic" style="cursor: pointer;">
-            <img *ngIf="appComp.profile===undefined || appComp.profile===null"
+            <img alt="img"*ngIf="appComp.profile===undefined || appComp.profile===null"
               (click)="loadImage()" class="img-fluid profile-pic-area" src="./assets/img/profile-avatar.png">
           </label>
           <input id="profilePic" type="file" accept=".png,.jpg,.jpeg" (change)="processProfilePic($event)"

@@ -1,18 +1,18 @@
     <div class="row" style="background:#000;">
         <div class="col-1 text-left">
-            <img [src]="logoURL" alt="logo" class="ml-4 img-fluid" style="width: 50px; background: #fff; padding: 5px; margin: 5px 3px; border-radius: 2px;">
+            <img alt="img"[src]="logoURL" alt="logo" class="ml-4 img-fluid" style="width: 50px; background: #fff; padding: 5px; margin: 5px 3px; border-radius: 2px;">
         </div>
         <div class="col-5 text-left" style="display: flex; align-items: center;">
             <span style="line-height: 0.9em;height:52px; color:#fff; margin-left:10px;font-weight: 400;font-size: 25px;text-align: left;">{{orgName}}
-                <p class="m-0" style="color:#F1F1F4;font-size: 18px;"><small >Powered by Social Alpha <img src="./assets/img/avatar.png" alt="logo" class="img-fluid" style="width: 32px; padding: 5px; margin: 5px 0px; border-radius: 2px;"></small></p>
+                <p class="m-0" style="color:#F1F1F4;font-size: 18px;"><small >Powered by Social Alpha <img alt="img"src="./assets/img/avatar.png" alt="logo" class="img-fluid" style="width: 32px; padding: 5px; margin: 5px 0px; border-radius: 2px;"></small></p>
             </span>
         </div>
     <div class="col-6">
         <div style="position:absolute; right:20px;z-index:3;">
 
             <p style="display: flex; align-items: center; text-align: right !important; justify-content: flex-end;" class="float-right mr-3 mt-3 text-white">
-                <img *ngIf="appComponent.loggedInUser.userProfile" src="{{appComponent.loggedInUser.userProfile}}" class="img-fluid w-10 mr-2 rounded-circle" style="width:8%;">
-                <img *ngIf="!appComponent.loggedInUser.userProfile" src="./assets/img/profile-avatar.png" class="img-fluid w-10 mr-2 rounded-circle" style="width:8%;">{{appComponent.loggedInUser.lastName}}, {{appComponent.loggedInUser.firstName}}
+                <img alt="img"*ngIf="appComponent.loggedInUser.userProfile" src="{{appComponent.loggedInUser.userProfile}}" class="img-fluid w-10 mr-2 rounded-circle" style="width:8%;">
+                <img alt="img"*ngIf="!appComponent.loggedInUser.userProfile" src="./assets/img/profile-avatar.png" class="img-fluid w-10 mr-2 rounded-circle" style="width:8%;">{{appComponent.loggedInUser.lastName}}, {{appComponent.loggedInUser.firstName}}
                 <mat-icon mat-button [matMenuTriggerFor]="profilemenu">arrow_drop_down</mat-icon>
                 <mat-menu #profilemenu>
                     <span mat-menu-item (click)="showProfile()">Profile</span>
@@ -27,7 +27,7 @@
             <div class="main-content h-100" style="display:flex;align-items:center;justify-content:center;background:#F0F0F4;">
                 <div class="row">
                     <div class="col-12">
-                        <img src="./assets/img/2.svg">
+                        <img alt="img"src="./assets/img/2.svg">
                     </div>
                     <div class="col-12"><h4>Registration Complete!</h4></div>
                     <div class="col-12"><p>Hi {{appComponent.loggedInUser.firstName}}!</p></div>
