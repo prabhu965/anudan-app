@@ -262,7 +262,7 @@
                       <div class="col-sm-12 col-lg-12 text-left mb-3">
                         <table width="100%" border="1">
                           <tr>
-                            <td colspan="5" style="padding: 5px">KPI</td>
+                            <th id="kpi" colspan="5" style="padding: 5px">KPI</th>
                           </tr>
                           <tr>
                             <td
@@ -285,7 +285,7 @@
                             >
                               <table>
                                 <tr>
-                                  <td>
+                                  <th id="grant_level_goal_2">
                                     <span
                                       style="
                                         color: #929292;
@@ -294,7 +294,7 @@
                                       "
                                       >Grant Level Goal:</span
                                     >
-                                  </td>
+                                  </th>
                                 </tr>
                                 <tr>
                                   <td>
@@ -317,7 +317,7 @@
                             >
                               <table>
                                 <tr>
-                                  <td>
+                                  <th id="repror_level_goal">
                                     <span
                                       style="
                                         color: #929292;
@@ -326,7 +326,7 @@
                                       "
                                       >Report Level Goal:</span
                                     >
-                                  </td>
+                                  </th>
                                 </tr>
                                 <tr>
                                   <td>
@@ -345,7 +345,7 @@
                             >
                               <table>
                                 <tr>
-                                  <td>
+                                  <th id="actual_target">
                                     <span
                                       style="
                                         color: #929292;
@@ -354,7 +354,7 @@
                                       "
                                       >Actual Goal Achieved:</span
                                     >
-                                  </td>
+                                  </th>
                                 </tr>
                                 <tr>
                                   <td>
@@ -374,7 +374,7 @@
                             >
                               <table>
                                 <tr>
-                                  <td>
+                                  <th id="frequency_2">
                                     <span
                                       style="
                                         color: #929292;
@@ -383,7 +383,7 @@
                                       "
                                       >Frequency:</span
                                     >
-                                  </td>
+                                  </th>
                                 </tr>
                                 <tr>
                                   <td>
@@ -493,9 +493,9 @@
                           style="font-family: Roboto, sans-serif;"
                         >
                           <tr>
-                            <td>&nbsp;</td>
+                            <th id="col_canton">&nbsp;</th>
                             <ng-container *ngIf="attribute.fieldTableValue[0]">
-                              <td
+                              <th id="'col_head_'+i"
                                 style="
                                   font-size: 14px;
                                   font-family: Roboto, sans-serif;;
@@ -504,11 +504,11 @@
                                 "
                                 *ngFor="
                                   let col of attribute.fieldTableValue[0]
-                                    .columns
+                                    .columns;let i=index
                                 "
                               >
                                 <b>{{ col.name }}</b>
-                              </td>
+                              </th>
                             </ng-container>
                           </tr>
                           <tr *ngFor="let row of attribute.fieldTableValue">
@@ -556,7 +556,7 @@
                       >
                         <tr>
                           <ng-container *ngIf="attribute.fieldTableValue">
-                            <td
+                            <th id="col#1"
                               align="center"
                               valign="middle"
                               width="15%"
@@ -567,7 +567,7 @@
                               "
                             >
                               <b>#</b>
-                            </td>
+                            </th>
                           </ng-container>
                           <ng-container
                             *ngIf="
@@ -582,7 +582,7 @@
                                 let i = index
                               "
                             >
-                              <td
+                              <th [id]="'col#2_'+i"
                                 class="pl-2"
                                 style="
                                   padding: 5px;
@@ -596,7 +596,7 @@
                                     ? "Milestones/Notes"
                                     : column.name
                                 }}</b>
-                              </td>
+                              </th>
                             </ng-container>
                           </ng-container>
                         </tr>

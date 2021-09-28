@@ -436,7 +436,7 @@
                           >
                             <table id="tablePlaceholder">
                               <tr>
-                                <td
+                                <th id="canton"
                                   width="20%"
                                   style="
                                     min-width: 250px;
@@ -457,7 +457,7 @@
                                       class="anu-input"
                                     />
                                   </mat-form-field>
-                                </td>
+                                </th>
                                 <ng-container
                                   *ngIf="attribute.fieldTableValue[0]"
                                 >
@@ -468,7 +468,7 @@
                                       let i = index
                                     "
                                   >
-                                    <td style="border: 1px solid #e4e4e4">
+                                    <th id="'header_'+i" style="border: 1px solid #e4e4e4">
                                       <mat-form-field>
                                         <mat-icon
                                           *ngIf="
@@ -510,7 +510,7 @@
                                           (ngModelChange)="checkGrant()"
                                         />
                                       </mat-form-field>
-                                    </td>
+                                    </th>
                                   </ng-container>
                                 </ng-container>
                               </tr>
@@ -627,7 +627,7 @@
                               width="100%"
                             >
                               <tr>
-                                <td
+                                <th id="planned"
                                   align="center"
                                   width="15%"
                                   valign="middle"
@@ -639,7 +639,7 @@
                                   <label class="m-0"
                                     ><span>Planned Installment #</span></label
                                   >
-                                </td>
+                                </th>
                                 <ng-container *ngIf="1 === 1">
                                   <ng-container
                                     *ngFor="
@@ -648,7 +648,7 @@
                                       let i = index
                                     "
                                   >
-                                    <td
+                                    <th id="'c_'+i"
                                       align="center"
                                       [width]="
                                         column.name === 'Notes' ? '' : '15%'
@@ -668,7 +668,7 @@
                                             : column.name
                                         }}</label
                                       >
-                                    </td>
+                                    </th>
                                   </ng-container>
                                 </ng-container>
                               </tr>
