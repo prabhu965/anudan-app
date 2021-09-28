@@ -32,8 +32,8 @@
         <mat-list style="background:#fff;">
             <mat-list-item id="role_{{role.id}}" *ngFor="let role of roles"
                 style="min-height:48px;height:auto;padding:8px;">
-                <h6 *ngIf="!role.editMode" class="mb-2" matLine style="text-transform:none !important;"><b>{{role.name}}
-                    </b><small>({{role.linkedUsers}} users)</small></h6>
+                <h6 *ngIf="!role.editMode" class="mb-2" matLine style="text-transform:none !important;"><strong>{{role.name}}
+                    </strong><small>({{role.linkedUsers}} users)</small></h6>
                 <mat-form-field *ngIf="role.editMode" matLine>
                     <input matInput [(ngModel)]="role.name" class="anu-input" placeholder="Edit role name">
                 </mat-form-field>

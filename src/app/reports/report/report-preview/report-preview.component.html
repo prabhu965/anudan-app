@@ -96,7 +96,7 @@
                 <div class="row">
                   <div class="col-12">
                     <h4 class="m-0" type="text" autocomplete="off">
-                      <b>{{ currentReport.name }}</b>
+                      <strong>{{ currentReport.name }}</strong>
                     </h4>
                   </div>
                   <div class="col-12 text-left">
@@ -118,11 +118,11 @@
                   >Grant Name:</span
                 >
                 <div class="ml-0 mb-2">
-                  <b>{{
+                  <strong>{{
                     (currentReport.grant.referenceNo
                       ? currentReport.grant.referenceNo + " | "
                       : "") + currentReport.grant.name
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-6 mb-2">
@@ -131,7 +131,7 @@
                   >Implementing Organization:</span
                 >
                 <div class="ml-0 mb-0">
-                  <b>{{ currentReport.grant.organization.name }}</b>
+                  <strong>{{ currentReport.grant.organization.name }}</strong>
                 </div>
               </div>
               <div class="col-6 mb-0">
@@ -140,7 +140,7 @@
                   >Implementing Organization Representative:</span
                 >
                 <div class="ml-0 mb-0">
-                  <b>{{ currentReport.grant.representative }}</b>
+                  <strong>{{ currentReport.grant.representative }}</strong>
                 </div>
               </div>
               <div class="col-3 mb-2">
@@ -149,7 +149,7 @@
                   >Grant Start Date:</span
                 >
                 <div class="ml-0 mb-0">
-                  <b>{{ currentReport.grant.stDate | date: "dd-MMM-yyyy" }}</b>
+                  <strong>{{ currentReport.grant.stDate | date: "dd-MMM-yyyy" }}</strong>
                 </div>
               </div>
               <div class="col-3 mb-2">
@@ -158,7 +158,7 @@
                   >Grant End Date:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b>{{ currentReport.grant.enDate | date: "dd-MMM-yyyy" }}</b>
+                  <strong>{{ currentReport.grant.enDate | date: "dd-MMM-yyyy" }}</strong>
                 </div>
               </div>
               <div class="col-6 mb-2">
@@ -189,7 +189,7 @@
               >Report Start Date:</span
             >
             <div class="ml-0 mb-3">
-              <b>{{ currentReport.stDate | date: "dd-MMM-yyyy" }}</b>
+              <strong>{{ currentReport.stDate | date: "dd-MMM-yyyy" }}</strong>
             </div>
           </div>
           <div class="col-4 mb-2">
@@ -197,7 +197,7 @@
               >Report End Date:</span
             >
             <div class="ml-0 mb-3">
-              <b>{{ currentReport.enDate | date: "dd-MMM-yyyy" }}</b>
+              <strong>{{ currentReport.enDate | date: "dd-MMM-yyyy" }}</strong>
             </div>
           </div>
           <div class="col-4 mb-2">
@@ -205,7 +205,7 @@
               >Reporting Period Duration:</span
             >
             <div class="ml-0 mb-3">
-              <b>{{ currentReport.duration }}</b>
+              <strong>{{ currentReport.duration }}</strong>
             </div>
           </div>
           <div class="col-12 mb-2">
@@ -213,7 +213,7 @@
               >Reporting Due Date:</span
             >
             <div class="ml-0 mb-3">
-              <b>{{ currentReport.dDate | date: "dd-MMM-yyyy" }}</b>
+              <strong>{{ currentReport.dDate | date: "dd-MMM-yyyy" }}</strong>
             </div>
           </div>
           <div class="col-12">
@@ -251,7 +251,7 @@
                         >
                         <pre
                           class="mt-1 text-justify"
-                        ><b><p style="font-size:14px;" [innerHtml]="attribute.fieldValue"></p></b></pre>
+                        ><strong><p style="font-size:14px;" [innerHtml]="attribute.fieldValue"></p></strong></pre>
                       </div>
                     </ng-container>
 
@@ -273,7 +273,7 @@
                                 font-family: Roboto, sans-serif;;
                               "
                             >
-                              <b>{{ attribute.fieldName }}</b>
+                              <strong>{{ attribute.fieldName }}</strong>
                             </td>
                             <td
                               style="
@@ -298,11 +298,11 @@
                                 </tr>
                                 <tr>
                                   <td>
-                                    <b>{{
+                                    <strong>{{
                                       !attribute.grantLevelTarget
                                         ? "Not Set"
                                         : attribute.grantLevelTarget
-                                    }}</b>
+                                    }}</strong>
                                   </td>
                                 </tr>
                               </table>
@@ -330,7 +330,7 @@
                                 </tr>
                                 <tr>
                                   <td>
-                                    <b>{{ attribute.target }}</b>
+                                    <strong>{{ attribute.target }}</strong>
                                   </td>
                                 </tr>
                               </table>
@@ -358,7 +358,7 @@
                                 </tr>
                                 <tr>
                                   <td>
-                                    <b>{{ attribute.actualTarget }}</b>
+                                    <strong>{{ attribute.actualTarget }}</strong>
                                   </td>
                                 </tr>
                               </table>
@@ -388,13 +388,13 @@
                                 <tr>
                                   <td>
                                     <b
-                                      ><b>{{
+                                      ><strong>{{
                                         attribute.frequency === "Half-yearly"
                                           ? "Half-Yearly"
                                           : attribute.frequency === "adhoc"
                                           ? "N/A"
                                           : (attribute.frequency | titlecase)
-                                      }}</b></b
+                                      }}</strong></b
                                     >
                                   </td>
                                 </tr>
@@ -436,7 +436,7 @@
                               class="m-0"
                               style="font-family: Roboto, sans-serif;; font-size: 14px"
                             >
-                              <b>
+                              <strong>
                                 <ng-container *ngIf="doc.type === 'pdf'">
                                   <i
                                     class="far fa-file-pdf text-danger ml-1"
@@ -470,7 +470,7 @@
                                   ></i>
                                 </ng-container>
                                 {{ doc.name }}
-                              </b>
+                              </strong>
                             </p>
                           </li>
                         </ul>
@@ -507,7 +507,7 @@
                                     .columns;let i=index
                                 "
                               >
-                                <b>{{ col.name }}</b>
+                                <strong>{{ col.name }}</strong>
                               </th>
                             </ng-container>
                           </tr>
@@ -519,7 +519,7 @@
                                 font-family: Roboto, sans-serif;;
                               "
                             >
-                              <b>{{ row.name }}</b>
+                              <strong>{{ row.name }}</strong>
                             </td>
                             <td
                               style="
@@ -529,7 +529,7 @@
                               "
                               *ngFor="let rowVal of row.columns"
                             >
-                              <b>{{ rowVal.value }}</b>
+                              <strong>{{ rowVal.value }}</strong>
                             </td>
                           </tr>
                         </table>
@@ -566,7 +566,7 @@
                                 font-family: Roboto, sans-serif;;
                               "
                             >
-                              <b>#</b>
+                              <strong>#</strong>
                             </th>
                           </ng-container>
                           <ng-container
@@ -591,11 +591,11 @@
                                 "
                                 align="center"
                               >
-                                <b>{{
+                                <strong>{{
                                   column.name === "Notes"
                                     ? "Milestones/Notes"
                                     : column.name
-                                }}</b>
+                                }}</strong>
                               </th>
                             </ng-container>
                           </ng-container>
@@ -706,7 +706,7 @@
                                 font-family: Roboto, sans-serif;;
                               "
                             >
-                              <b>Totals:</b>
+                              <strong>Totals:</strong>
                             </td>
                             <ng-container *ngIf="attribute.fieldTableValue[0]">
                               <td
@@ -723,12 +723,12 @@
                                 "
                                 valign="middle"
                               >
-                                <b *ngIf="column.dataType === 'currency'">{{
+                                <strong *ngIf="column.dataType === 'currency'">{{
                                   getDisbursementTotals(
                                     j,
                                     attribute.fieldTableValue
                                   )
-                                }}</b>
+                                }}</strong>
                               </td>
                             </ng-container>
                           </tr>
@@ -826,13 +826,13 @@
             <div class="card-header" id="heading_{{submission.id}}">
               <div class="row">
                 <div class="col-sm-9">
-                  <b class="mb-0 submission-header">
+                  <strong class="mb-0 submission-header">
 
                     <div data-toggle="collapse" [attr.data-target]="'#collapse_'+submission.id">
                       Submission
                       for {{submission.title}} | Submit By: {{submission.submitBy | date}} |
                       Status: {{submission.submissionStatus.displayName}}</div>
-                  </b>
+                  </strong>
                 </div>
                 <div class="col-sm-3 text-right">
                   <button *ngIf="submission.flowAuthorities" class="btn btn-sm btn-primary"
@@ -849,7 +849,7 @@
               <div *ngFor="let quantKpi of submission.quantitiaveKpisubmissions">
 
                 <div class="row border-bottom">
-                  <div class="col-sm-8 submission-title"><b>{{quantKpi.grantKpi.title}}</b></div>
+                  <div class="col-sm-8 submission-title"><strong>{{quantKpi.grantKpi.title}}</strong></div>
                   <div class="col-sm-2 text-center">
                     <circle-progress
                         [backgroundStrokeWidth]="5"
@@ -873,13 +873,13 @@
               </div>
               <div *ngFor="let qualKpi of submission.qualitativeKpiSubmissions">
                 <div class="row">
-                  <div class="col-sm-12"><b>{{qualKpi.grantKpi.title}}</b></div>
+                  <div class="col-sm-12"><strong>{{qualKpi.grantKpi.title}}</strong></div>
                   <div class="col-sm-12 mb-5 border-left">{{qualKpi.actuals}}</div>
                 </div>
               </div>
               <div *ngFor="let docKpi of submission.documentKpiSubmissions">
                 <div class="row">
-                  <div class="col-sm-12"><b>{{docKpi.grantKpi.title}}</b></div>
+                  <div class="col-sm-12"><strong>{{docKpi.grantKpi.title}}</strong></div>
                   <div class="col-sm-12 mb-5">
                     <ng-container *ngFor="let doc of docKpi.submissionDocs">
                       <a target="_blank"

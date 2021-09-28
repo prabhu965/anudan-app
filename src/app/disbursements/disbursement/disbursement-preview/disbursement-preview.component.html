@@ -166,11 +166,11 @@
                   >Grant Name:</span
                 >
                 <div class="ml-0 mb-1">
-                  <b>{{
+                  <strong>{{
                     (currentDisbursement.grant.referenceNo
                       ? currentDisbursement.grant.referenceNo + " | "
                       : "") + currentDisbursement.grant.name
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-6 mb-2">
@@ -181,10 +181,10 @@
                 <div  
                   class="ml-0 mb-1"
                 >
-                  <b *ngIf="isExternalGrant(currentDisbursement.grant)">{{ currentDisbursement.grant.organization.name }}</b>
-                  <b *ngIf="!isExternalGrant(currentDisbursement.grant)">{{
+                  <strong *ngIf="isExternalGrant(currentDisbursement.grant)">{{ currentDisbursement.grant.organization.name }}</strong>
+                  <strong *ngIf="!isExternalGrant(currentDisbursement.grant)">{{
                     currentDisbursement.grant.grantorOrganization.name
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-6 mb-2">
@@ -195,7 +195,7 @@
                 <div  
                   class="ml-0 mb-1"
                 >
-                  <b >{{ currentDisbursement.grant.representative }}</b>
+                  <strong >{{ currentDisbursement.grant.representative }}</strong>
                   
                 </div>
               </div>
@@ -205,9 +205,9 @@
                   >Grant Start Date:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b>{{
+                  <strong>{{
                     currentDisbursement.grant.stDate | date: "dd-MMM-yyyy"
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-3 mb-2">
@@ -216,9 +216,9 @@
                   >Grant End Date:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b>{{
+                  <strong>{{
                     currentDisbursement.grant.enDate | date: "dd-MMM-yyyy"
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
             
@@ -361,12 +361,12 @@
                     *ngIf="column.dataType === 'currency'"
                     style="background: #f4f4f4 !important"
                   >
-                    <b>{{
+                    <strong>{{
                       getGrantTotals(
                         j,
                         getGrantDisbursementAttribute().fieldTableValue
                       )
-                    }}</b>
+                    }}</strong>
                   </td>
                 </ng-container>
                 <td class="anu-input" style="background: #f4f4f4 !important">
@@ -391,23 +391,23 @@
                   class="py-2"
                   width="10%"
                 >
-                  <b>#</b>
+                  <strong>#</strong>
                 </th>
                 <th id="disbursement_date" style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursement Date</b>
+                  <strong>Disbursement Date</strong>
                 </th>
                 <th id="disbursement_amount" style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursement Amount</b>
+                  <strong>Disbursement Amount</strong>
                 </th>
                 <th id="funds_from_other_sources" style="border: 1px solid #e4e4e4" align="center">
-                  <b>Funds from Other Sources</b>
+                  <strong>Funds from Other Sources</strong>
                 </th>
                 <th id="milestone"
                   style="border: 1px solid #e4e4e4"
                   align="center"
                   width="40%"
                 >
-                  <b>Milestones/Notes</b>
+                  <strong>Milestones/Notes</strong>
                 </th>
               </tr>
               <ng-container
@@ -464,20 +464,20 @@
                       >
                     </td>
                     <td align="right">
-                      <b>{{
+                      <strong>{{
                         currencyService.getFormattedAmount(
                           disbursementService.getActualDisbursementsTotal(
                             currentDisbursement
                           )
                         )
-                      }}</b>
+                      }}</strong>
                     </td>
                     <td align="right">
-                      <b>{{
+                      <strong>{{
                         currencyService.getFormattedAmount(
                           disbursementService.getFFOSTotal(currentDisbursement)
                         )
-                      }}</b>
+                      }}</strong>
                     </td>
                     <td></td>
                   </tr>
@@ -533,7 +533,7 @@
                   >Commentary:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b>{{ currentDisbursement.reason }}</b>
+                  <strong>{{ currentDisbursement.reason }}</strong>
                 </div>
               </div>
             </div>
@@ -574,20 +574,20 @@
                   class="py-2"
                   width="10%"
                 >
-                  <b>#</b>
+                  <strong>#</strong>
                 </th>
                 <th id="disbursement_date" style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursement Date</b>
+                  <strong>Disbursement Date</strong>
                 </th>
                 <th id="disbursement_amount" style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursed Amount</b>
+                  <strong>Disbursed Amount</strong>
                 </th>
                 <th id='disbursement_milestone'
                   style="border: 1px solid #e4e4e4"
                   align="center"
                   width="40%"
                 >
-                  <b>Milestones/Notes</b>
+                  <strong>Milestones/Notes</strong>
                 </th>
               </tr>
               <ng-container
@@ -717,14 +717,14 @@
                 style="background: #f9f9f9"
               >
                 <td colspan="2" style="border: 1px solid #e4e4e4" class="pl-5">
-                  <b>TOTALS</b>
+                  <strong>TOTALS</strong>
                 </td>
                 <td
                   style="border: 1px solid #e4e4e4"
                   align="right"
                   class="pr-3"
                 >
-                  <b>{{ currencyService.getFormattedAmount(getTotals()) }}</b>
+                  <strong>{{ currencyService.getFormattedAmount(getTotals()) }}</strong>
                 </td>
                 <td style="border: 1px solid #e4e4e4">&nbsp;</td>
               </tr>
@@ -780,20 +780,20 @@
                   class="py-2"
                   width="10%"
                 >
-                  <b>#</b>
+                  <strong>#</strong>
                 </th>
                 <th id="disbursement_date" style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursement Date</b>
+                  <strong>Disbursement Date</strong>
                 </th>
                 <th id="disbursement_amount" style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursed Amount</b>
+                  <strong>Disbursed Amount</strong>
                 </th>
                 <th id="note'"
                   style="border: 1px solid #e4e4e4"
                   align="center"
                   width="40%"
                 >
-                  <b>Note</b>
+                  <strong>Note</strong>
                 </th>
               </tr>
               <ng-container
@@ -832,14 +832,14 @@
                 style="background: #f9f9f9"
               >
                 <td colspan="2" style="border: 1px solid #e4e4e4" class="pl-5">
-                  <b>TOTALS</b>
+                  <strong>TOTALS</strong>
                 </td>
                 <td
                   style="border: 1px solid #e4e4e4"
                   align="right"
                   class="pr-3"
                 >
-                  <b>{{ currencyService.getFormattedAmount(getTotals()) }}</b>
+                  <strong>{{ currencyService.getFormattedAmount(getTotals()) }}</strong>
                 </td>
                 <td style="border: 1px solid #e4e4e4">&nbsp;</td>
               </tr>

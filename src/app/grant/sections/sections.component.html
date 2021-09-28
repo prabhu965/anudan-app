@@ -123,7 +123,7 @@
                     attribute.fieldType === 'multiline'
                   "
                 >
-                  <b>{{ attribute.fieldName }}</b>
+                  <strong>{{ attribute.fieldName }}</strong>
                   <div>{{ attribute.fieldValue }}</div>
                 </ng-container>
                 <ng-container
@@ -726,7 +726,7 @@
                                           top: -12px;
                                         "
                                       >
-                                        <b>{{ row.name }}</b>
+                                        <strong>{{ row.name }}</strong>
                                       </p>
                                     </ng-container>
                                     <ng-container
@@ -742,7 +742,7 @@
                                           top: 0;
                                         "
                                       >
-                                        <b>{{ row.name }}</b>
+                                        <strong>{{ row.name }}</strong>
                                       </p>
                                     </ng-container>
                                   </td>
@@ -816,7 +816,7 @@
                                 style="background: #f4f4f4"
                               >
                                 <td align="center" class="py-2">
-                                  <b>TOTALS:</b>
+                                  <strong>TOTALS:</strong>
                                 </td>
                                 <ng-container
                                   *ngIf="attribute.fieldTableValue[0]"
@@ -833,9 +833,9 @@
                                       class="text-right pr-3 my-0"
                                       *ngIf="column.dataType === 'currency'"
                                     >
-                                      <b>{{
+                                      <strong>{{
                                         getTotals(j, attribute.fieldTableValue)
-                                      }}</b>
+                                      }}</strong>
                                     </p>
                                   </td>
                                 </ng-container>
@@ -845,7 +845,7 @@
                                 style="background: #f9f9f9"
                               >
                                 <td align="center">
-                                  <b style="color: #949494"
+                                  <strong style="color: #949494"
                                     >Planned Project Fund:</b
                                   >
                                 </td>
@@ -864,9 +864,9 @@
                                       class="text-right pr-3 my-0"
                                       *ngIf="column.dataType === 'currency'"
                                     >
-                                      <b style="color: #949494">{{
+                                      <strong style="color: #949494">{{
                                         getCommittedGrantTotals(j)
-                                      }}</b>
+                                      }}</strong>
                                     </p>
                                   </td>
                                 </ng-container>

@@ -48,23 +48,23 @@
         <div class="row">
           <div class="col-12 mb-4">
             Grant Name:<span
-              ><b>{{
+              ><strong>{{
                 (currentReport.grant.referenceNo
                   ? currentReport.grant.referenceNo + " | "
                   : "") + currentReport.grant.name
-              }}</b></span
+              }}</strong></span
             >
           </div>
           <div class="col-4 mb-4">
-            <b>Grant Start Date:</b>
+            <strong>Grant Start Date:</strong>
             <div>{{ currentReport.grant.startDate | date: "dd-MMM-yyyy" }}</div>
           </div>
           <div class="col-4 mb-4">
-            <b>Grant End Date:</b>
+            <strong>Grant End Date:</strong>
             <div>{{ currentReport.grant.endDate | date: "dd-MMM-yyyy" }}</div>
           </div>
           <div class="col-4 mb-4">
-            <b>Grant Amount (₹):</b>
+            <strong>Grant Amount (₹):</strong>
             <div>{{ getFormattedGrantAmount(currentReport.grant.amount) }}</div>
           </div>
         </div>
@@ -78,35 +78,35 @@
                 <span *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE'" class=" badge text-black m-0 grant-type" [ngStyle]="{'background-color':getGrantTypeColor(currentReport.grant.grantTypeId)}" ><small>{{getGrantTypeName(currentReport.grant.grantTypeId)}}</small></span>
                 <mat-label>Grant Name:</mat-label>
                 <div class="ml-0 mb-1">
-                  <b>{{
+                  <strong>{{
                     (currentReport.grant.referenceNo
                       ? currentReport.grant.referenceNo + " | "
                       : "") + currentReport.grant.name
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-6">
                 <mat-label>Implementing Organization:</mat-label>
                 <div class="ml-0 mb-2">
-                  <b *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE' && isExternalGrant(currentReport.grant)">{{
+                  <strong *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE' && isExternalGrant(currentReport.grant)">{{
                     currentReport.grant.organization
                       ? currentReport.grant.organization.name
                       : ""
-                  }}</b>
-                  <b *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE' && !isExternalGrant(currentReport.grant)">{{
+                  }}</strong>
+                  <strong *ngIf="appComp.loggedInUser.organization.organizationType!=='GRANTEE' && !isExternalGrant(currentReport.grant)">{{
                     currentReport.grant.grantorOrganization.name
-                  }}</b>
-                  <b *ngIf="appComp.loggedInUser.organization.organizationType==='GRANTEE'">{{
+                  }}</strong>
+                  <strong *ngIf="appComp.loggedInUser.organization.organizationType==='GRANTEE'">{{
                     currentReport.grant.organization
                       ? currentReport.grant.organization.name
                       : ""
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-6">
                 <mat-label>Implementing Organization Representative:</mat-label>
                 <div class="ml-0 mb-1">
-                  <b>{{currentReport.grant.representative}}</b></div>
+                  <strong>{{currentReport.grant.representative}}</strong></div>
               </div>
               <div class="col-6 mb-0">
                 <mat-label>Duration:</mat-label>
@@ -115,9 +115,9 @@
                     <mat-icon [inline]="true" class="mr-1"
                       >calendar_today
                     </mat-icon>
-                    <b>{{
+                    <strong>{{
                       currentReport.grant.startDate | date: "dd-MMM-yyyy"
-                    }}</b>
+                    }}</strong>
                   </div>
                   <div>
                     <mat-icon [inline]="true" class="mx-3 my-0"
@@ -128,9 +128,9 @@
                     <mat-icon [inline]="true" class="mr-1"
                       >calendar_today
                     </mat-icon>
-                    <b>{{
+                    <strong>{{
                       currentReport.grant.endDate | date: "dd-MMM-yyyy"
-                    }}</b>
+                    }}</strong>
                   </div>
                 </div>
               </div>
@@ -138,9 +138,9 @@
               <div class="col-6">
                 <mat-label>Grant Amount:</mat-label>
                 <div class="ml-0 mb-1">
-                  <img src="./assets/img/rupee.png" style="width: 9px" /><b>{{
+                  <img src="./assets/img/rupee.png" style="width: 9px" /><strong>{{
                     getFormattedGrantAmount(currentReport.grant.amount)
-                  }}</b>
+                  }}</strong>
                   &nbsp;&nbsp;&nbsp;<small>{{
                     getGrantAmountInWords(currentReport.grant.amount)
                   }}</small>
@@ -181,11 +181,11 @@
                 </p>
               </div>
               <div class="col-8 mb-1" style="border-bottom: 1px solid #eaeaea">
-                <b>Reporting Time Frame</b>
+                <strong>Reporting Time Frame</strong>
               </div>
               <div class="col-1"></div>
               <div class="col-3 mb-1" style="border-bottom: 1px solid #eaeaea">
-                <b>Submission Due Date</b>
+                <strong>Submission Due Date</strong>
               </div>
             </div>
             <div class="row mx-3">

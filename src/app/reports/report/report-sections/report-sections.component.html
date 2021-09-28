@@ -112,7 +112,7 @@
                     attribute.fieldType === 'multiline'
                   "
                 >
-                  <b>{{ attribute.fieldName }}</b>
+                  <strong>{{ attribute.fieldName }}</strong>
                   <div>{{ attribute.fieldValue }}</div>
                 </ng-container>
                 <ng-container
@@ -960,21 +960,21 @@
                                     <label
                                       class="text-right pr-3 my-0 w-100"
                                       *ngIf="column.dataType === 'currency'"
-                                      ><b>{{
+                                      ><strong>{{
                                         getTotals(
                                           j,
                                           getGrantDisbursementAttribute()
                                             .fieldTableValue
                                         )
-                                      }}</b></label
+                                      }}</strong></label
                                     >
                                   </td>
                                 </ng-container>
                               </tr>
                               <!--tr *ngIf="getGrantDisbursementAttribute().fieldTableValue.length>1" style="background:#f4f4f4;">
-                                  <td align="center" style="position: sticky; left: 0; z-index: 1;"><b>Committed Grant Amount:</b></td>
+                                  <td align="center" style="position: sticky; left: 0; z-index: 1;"><strong>Committed Grant Amount:</strong></td>
                                   <td *ngFor="let column of getGrantDisbursementAttribute().fieldTableValue[0].columns,let j = index" valign="middle">
-                                    <p class="text-right pr-3 my-0" *ngIf="column.dataType==='currency'"><b>{{getCommittedGrantTotals(j)}}</b></p>
+                                    <p class="text-right pr-3 my-0" *ngIf="column.dataType==='currency'"><strong>{{getCommittedGrantTotals(j)}}</strong></p>
                                   </td>
                                 </tr-->
                             </table>
@@ -2173,9 +2173,9 @@
                                     <label
                                       class="text-right pr-3 my-0 w-100"
                                       *ngIf="column.dataType === 'currency'"
-                                      ><b>{{
+                                      ><strong>{{
                                         getTotals(j, attribute.fieldTableValue)
-                                      }}</b></label
+                                      }}</strong></label
                                     >
                                   </td>
                                 </ng-container>
