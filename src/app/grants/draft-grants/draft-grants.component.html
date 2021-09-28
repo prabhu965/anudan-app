@@ -63,7 +63,7 @@
                   <mat-icon [inline]="true" class="material-icons-outlined text-red mr-1">
                     info_outline
                   </mat-icon>
-                    Amendment in-progress [<b>{{ grant.origGrantRefNo }}</b
+                    Amendment in-progress [<strong>{{ grant.origGrantRefNo }}</b
                     >]
                   </span>
                   
@@ -81,8 +81,8 @@
                       (grant.grantStatus.internalStatus === 'DRAFT' ||
                         grant.grantStatus.internalStatus === 'REVIEW') &&
                       grant.origGrantId
-                    ">Amendment in-progress [<b>{{ grant.origGrantRefNo }}</b>]</span>
-                  <b>{{ grant.name }}</b>
+                    ">Amendment in-progress [<strong>{{ grant.origGrantRefNo }}</strong>]</span>
+                  <strong>{{ grant.name }}</strong>
                 </p>
               </div>
               

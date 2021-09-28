@@ -235,7 +235,7 @@
         <ng-container *ngIf="sectionDiff.attributesDiffs">
           <ng-container *ngFor="let attrDiff of sectionDiff.attributesDiffs">
             <div *ngIf="attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details | </span>Changes in section <b>{{attrDiff.section}}</b></span>
+              <span class="change-title"><span>Grant Details | </span>Changes in section <strong>{{attrDiff.section}}</strong></span>
               <div class="row change-new m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.newAttribute.name}}</p>
@@ -306,7 +306,7 @@
               </div>
             </div>
             <div *ngIf="attrDiff.oldAttribute && !attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details | </span>Deleted in section <b>{{attrDiff.section}}</b></span>
+              <span class="change-title"><span>Grant Details | </span>Deleted in section <strong>{{attrDiff.section}}</strong></span>
               <div class="row change-old m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.oldAttribute.name}}</p>
@@ -343,7 +343,7 @@
               </div>
             </div>
             <div *ngIf="!attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details | </span>Added in section <b>{{attrDiff.section}}</b></span>
+              <span class="change-title"><span>Grant Details | </span>Added in section <strong>{{attrDiff.section}}</strong></span>
               <div class="row change-new m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.newAttribute.name}}</p>
@@ -543,7 +543,7 @@
           <ng-container *ngIf="sectionDiff.attributesDiffs">
             <ng-container *ngFor="let attrDiff of sectionDiff.attributesDiffs">
               <div *ngIf="attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-                <span class="change-title"><span>Report Detail | </span>Field changes in section <b>{{attrDiff.section}}</b></span>
+                <span class="change-title"><span>Report Detail | </span>Field changes in section <strong>{{attrDiff.section}}</strong></span>
                 <div class="row change-new m-0" style="display: flex;">
                   <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                     <p>{{attrDiff.newAttribute.name}}</p>
@@ -622,7 +622,7 @@
                 </div>
               </div>
               <div *ngIf="attrDiff.oldAttribute && !attrDiff.newAttribute" class="mb-2 change-box">
-                <span class="change-title"><span>Report Detail | </span>Field deleted in section <b>{{attrDiff.section}}</b></span>
+                <span class="change-title"><span>Report Detail | </span>Field deleted in section <strong>{{attrDiff.section}}</strong></span>
                 <div class="row change-old m-0" style="display: flex;">
                   <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                     <p>{{attrDiff.oldAttribute.name}}</p>
@@ -659,7 +659,7 @@
                 </div>
               </div>
               <div *ngIf="!attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-                <span class="change-title"><span>Report Detail | </span>Field added in section <b>{{attrDiff.section}}</b></span>
+                <span class="change-title"><span>Report Detail | </span>Field added in section <strong>{{attrDiff.section}}</strong></span>
                 <div class="row change-new m-0" style="display: flex;">
                   <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                     <p>{{attrDiff.newAttribute.name}}</p>
