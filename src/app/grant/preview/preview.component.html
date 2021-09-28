@@ -246,7 +246,7 @@
                       type="text"
                       autocomplete="off"
                     >
-                      <b>{{ currentGrant.name }}</b>
+                      <strong>{{ currentGrant.name }}</strong>
                     </h4>
                     <h4
                       *ngIf="currentGrant.referenceNo"
@@ -254,8 +254,8 @@
                       type="text"
                       autocomplete="off"
                     >
-                      <b>{{ currentGrant.referenceNo }}</b> |
-                      <b>{{ currentGrant.name }}</b>
+                      <strong>{{ currentGrant.referenceNo }}</strong> |
+                      <strong>{{ currentGrant.name }}</strong>
                     </h4>
                   </div>
                   <div class="col-12 text-left">
@@ -276,7 +276,7 @@
               >Start Date:</span
             >
             <div class="ml-0 mb-3">
-              <b>{{ currentGrant.stDate | date: "dd-MMM-yyyy" }}</b>
+              <strong>{{ currentGrant.stDate | date: "dd-MMM-yyyy" }}</strong>
             </div>
           </div>
           <div class="col-4 mb-2">
@@ -284,7 +284,7 @@
               >End Date:</span
             >
             <div class="ml-0 mb-3">
-              <b>{{ currentGrant.enDate | date: "dd-MMM-yyyy" }}</b>
+              <strong>{{ currentGrant.enDate | date: "dd-MMM-yyyy" }}</strong>
             </div>
           </div>
           <div class="col-4 mb-2">
@@ -292,7 +292,7 @@
               >Duration:</span
             >
             <div class="ml-0 mb-3">
-              <b (change)="trackChange($event)">{{ currentGrant.duration }}</b>
+              <strong (change)="trackChange($event)">{{ currentGrant.duration }}</strong>
             </div>
           </div>
           <div class="col-4 mb-2">
@@ -300,9 +300,9 @@
               >Amount:</span
             >
             <div class="ml-0 mb-3" style="display: flex; align-items: center">
-              <img src="./assets/img/rupee.png" style="width: 12px" /><b>{{
+              <img src="./assets/img/rupee.png" style="width: 12px" /><strong>{{
                 getFormattedCurrency(currentGrant.amount)
-              }}</b>
+              }}</strong>
             </div>
           </div>
           <div class="col-8 mb-2">
@@ -310,7 +310,7 @@
               >Amount (In Words):</span
             >
             <div class="ml-0 mb-3" style="display: flex; align-items: center">
-              <b>{{ getGrantAmountInWords(currentGrant.amount) }}</b>
+              <strong>{{ getGrantAmountInWords(currentGrant.amount) }}</strong>
             </div>
           </div>
           <div class="col-6 mb-2">
@@ -318,10 +318,10 @@
               >Implementing Organization:</span
             >
             <div *ngIf="currentGrant.organization && isExternalGrant()" class="ml-0 mb-3">
-              <b>{{ currentGrant.organization.name }}</b>
+              <strong>{{ currentGrant.organization.name }}</strong>
             </div>
             <div *ngIf="!isExternalGrant()" class="ml-0 mb-3">
-              <b>{{ currentGrant.grantorOrganization.name }}</b>
+              <strong>{{ currentGrant.grantorOrganization.name }}</strong>
             </div>
           </div>
           <div class="col-6 mb-2">
@@ -329,7 +329,7 @@
               >Implementing Organization Representative:</span
             >
             <div class="ml-0 mb-3">
-              <b>{{ currentGrant.representative }}</b>
+              <strong>{{ currentGrant.representative }}</strong>
             </div>
           </div>
           <div class="col-12">
@@ -367,7 +367,7 @@
                         >
                         <pre
                           class="mt-1 text-justify"
-                        ><b><p style="font-size:16px;text-align:justify;" [innerHtml]="attribute.fieldValue"></p></b></pre>
+                        ><strong><p style="font-size:16px;text-align:justify;" [innerHtml]="attribute.fieldValue"></p></strong></pre>
                       </div>
                     </ng-container>
 
@@ -389,7 +389,7 @@
                                 font-family: Roboto, sans-serif;;
                               "
                             >
-                              <b>{{ attribute.fieldName }}</b>
+                              <strong>{{ attribute.fieldName }}</strong>
                             </td>
                             <td
                               width="25%"
@@ -415,11 +415,11 @@
                                 </tr>
                                 <tr>
                                   <td>
-                                    <b>{{
+                                    <strong>{{
                                       !attribute.target
                                         ? "Not Set"
                                         : attribute.target
-                                    }}</b>
+                                    }}</strong>
                                   </td>
                                 </tr>
                               </table>
@@ -448,11 +448,11 @@
                                 </tr>
                                 <tr>
                                   <td>
-                                    <b>{{
+                                    <strong>{{
                                       attribute.frequency === "Half-yearly"
                                         ? "Half-Yearly"
                                         : (attribute.frequency | titlecase)
-                                    }}</b>
+                                    }}</strong>
                                   </td>
                                 </tr>
                               </table>
@@ -491,7 +491,7 @@
                               class="m-0"
                               style="font-family: Roboto, sans-serif;; font-size: 16px"
                             >
-                              <b>
+                              <strong>
                                 <ng-container *ngIf="doc.type === 'pdf'">
                                   <i
                                     class="far fa-file-pdf text-danger ml-1"
@@ -525,7 +525,7 @@
                                   ></i>
                                 </ng-container>
                                 {{ doc.name }}
-                              </b>
+                              </strong>
                             </p>
                           </li>
                         </ul>
@@ -556,7 +556,7 @@
                                 font-family: Roboto, sans-serif;;
                               "
                             >
-                              <b>{{ attribute.fieldTableValue[0].header }}</b>
+                              <strong>{{ attribute.fieldTableValue[0].header }}</strong>
                             </th>
                             <th id="'col_'+i"
                               style="
@@ -569,7 +569,7 @@
                                 let col of attribute.fieldTableValue[0].columns;let i=index
                               "
                             >
-                              <b>{{ col.name }}</b>
+                              <strong>{{ col.name }}</strong>
                             </th>
                           </tr>
                           <tr *ngFor="let row of attribute.fieldTableValue">
@@ -580,7 +580,7 @@
                                 font-family: Roboto, sans-serif;;
                               "
                             >
-                              <b>{{ row.name }}</b>
+                              <strong>{{ row.name }}</strong>
                             </td>
                             <td
                               style="
@@ -625,7 +625,7 @@
                               font-family: Roboto, sans-serif;;
                             "
                           >
-                            <b>Planned Installment #</b>
+                            <strong>Planned Installment #</strong>
                           </th>
                           <ng-container *ngIf="1 === 1">
                             <ng-container
@@ -644,11 +644,11 @@
                                 "
                                 align="center"
                               >
-                                <b>{{
+                                <strong>{{
                                   column.name === "Notes"
                                     ? "Milestones/Notes"
                                     : column.name
-                                }}</b>
+                                }}</strong>
                               </th>
                             </ng-container>
                           </ng-container>
@@ -728,7 +728,7 @@
                               font-family: Roboto, sans-serif;;
                             "
                           >
-                            <b>Total:</b>
+                            <strong>Total:</strong>
                           </td>
                           <td
                             align="right"
@@ -744,9 +744,9 @@
                             "
                             valign="middle"
                           >
-                            <b *ngIf="column.dataType === 'currency'">{{
+                            <strong *ngIf="column.dataType === 'currency'">{{
                               getTotals(j, attribute.fieldTableValue)
-                            }}</b>
+                            }}</strong>
                           </td>
                         </tr>
                       </table>
@@ -876,7 +876,7 @@
                           type="text"
                           autocomplete="off"
                         >
-                          <b>{{ currentGrant.name }}</b>
+                          <strong>{{ currentGrant.name }}</strong>
                         </h4>
                         <h4
                           *ngIf="currentGrant.referenceNo"
@@ -884,8 +884,8 @@
                           type="text"
                           autocomplete="off"
                         >
-                          <b>{{ currentGrant.referenceNo }}</b> |
-                          <b>{{ currentGrant.name }}</b>
+                          <strong>{{ currentGrant.referenceNo }}</strong> |
+                          <strong>{{ currentGrant.name }}</strong>
                         </h4>
                       </div>
                     </div>
@@ -904,7 +904,7 @@
                   >Start Date:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b>{{ currentGrant.stDate | date: "dd-MMM-yyyy" }}</b>
+                  <strong>{{ currentGrant.stDate | date: "dd-MMM-yyyy" }}</strong>
                 </div>
               </div>
               <div class="col-4 mb-2">
@@ -919,7 +919,7 @@
                   >End Date:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b>{{ currentGrant.enDate | date: "dd-MMM-yyyy" }}</b>
+                  <strong>{{ currentGrant.enDate | date: "dd-MMM-yyyy" }}</strong>
                 </div>
               </div>
               <div class="col-4 mb-2">
@@ -934,9 +934,9 @@
                   >Duration:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b (change)="trackChange($event)">{{
+                  <strong (change)="trackChange($event)">{{
                     currentGrant.duration
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-4 mb-2">
@@ -954,9 +954,9 @@
                   class="ml-0 mb-3"
                   style="display: flex; align-items: center"
                 >
-                  <img src="./assets/img/rupee.png" style="width: 12px" /><b>{{
+                  <img src="./assets/img/rupee.png" style="width: 12px" /><strong>{{
                     getFormattedCurrency(currentGrant.amount)
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-8 mb-2">
@@ -974,7 +974,7 @@
                   class="ml-0 mb-3"
                   style="display: flex; align-items: center"
                 >
-                  <b>{{ getGrantAmountInWords(currentGrant.amount) }}</b>
+                  <strong>{{ getGrantAmountInWords(currentGrant.amount) }}</strong>
                 </div>
               </div>
               <div class="col-6 mb-2">
@@ -989,7 +989,7 @@
                   >Implementing Organization:</span
                 >
                 <div *ngIf="currentGrant.organization" class="ml-0 mb-3">
-                  <b>{{ currentGrant.organization.name }}</b>
+                  <strong>{{ currentGrant.organization.name }}</strong>
                 </div>
               </div>
               <div class="col-6 mb-2">
@@ -1004,7 +1004,7 @@
                   >Implementing Organization Representative:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b>{{ currentGrant.representative }}</b>
+                  <strong>{{ currentGrant.representative }}</strong>
                 </div>
               </div>
               <div class="col-12 page-break"></div>
@@ -1053,7 +1053,7 @@
                             >
                             <pre
                               class="mt-1 text-justify"
-                            ><b><p style="font-size:15px;font-weight: 400;text-align:justify;" class="mb-0" [innerHtml]="attribute.fieldValue"></p></b></pre>
+                            ><strong><p style="font-size:15px;font-weight: 400;text-align:justify;" class="mb-0" [innerHtml]="attribute.fieldValue"></p></strong></pre>
                           </div>
                         </ng-container>
 
@@ -1075,7 +1075,7 @@
                                     font-family: Roboto, sans-serif;;
                                   "
                                 >
-                                  <b>{{ attribute.fieldName }}</b>
+                                  <strong>{{ attribute.fieldName }}</strong>
                                 </td>
                                 <td
                                   width="25%"
@@ -1104,11 +1104,11 @@
                                     </tr>
                                     <tr>
                                       <td>
-                                        <b>{{
+                                        <strong>{{
                                           !attribute.target
                                             ? "Not Set"
                                             : attribute.target
-                                        }}</b>
+                                        }}</strong>
                                       </td>
                                     </tr>
                                   </table>
@@ -1140,11 +1140,11 @@
                                     </tr>
                                     <tr>
                                       <td>
-                                        <b>{{
+                                        <strong>{{
                                           attribute.frequency === "Half-yearly"
                                             ? "Half-Yearly"
                                             : (attribute.frequency | titlecase)
-                                        }}</b>
+                                        }}</strong>
                                       </td>
                                     </tr>
                                   </table>
@@ -1191,7 +1191,7 @@
                                     font-weight: 400;
                                   "
                                 >
-                                  <b>
+                                  <strong>
                                     <ng-container *ngIf="doc.type === 'pdf'">
                                       <i
                                         class="far fa-file-pdf text-danger ml-1"
@@ -1228,7 +1228,7 @@
                                       ></i>
                                     </ng-container>
                                     {{ doc.name }}
-                                  </b>
+                                  </strong>
                                 </p>
                               </li>
                             </ul>
@@ -1262,9 +1262,9 @@
                                     font-weight: 400;
                                   "
                                 >
-                                  <b>{{
+                                  <strong>{{
                                     attribute.fieldTableValue[0].header
-                                  }}</b>
+                                  }}</strong>
                                 </th>
                                 <th id="'colx_'+i"
                                   style="
@@ -1279,7 +1279,7 @@
                                       .columns;let i=index
                                   "
                                 >
-                                  <b>{{ col.name }}</b>
+                                  <strong>{{ col.name }}</strong>
                                 </th>
                               </tr>
                               <tr *ngFor="let row of attribute.fieldTableValue">
@@ -1291,7 +1291,7 @@
                                     font-weight: 400;
                                   "
                                 >
-                                  <b>{{ row.name }}</b>
+                                  <strong>{{ row.name }}</strong>
                                 </td>
                                 <td
                                   style="
@@ -1340,7 +1340,7 @@
                                   font-weight: 400;
                                 "
                               >
-                                <b>Planned Installment #</b>
+                                <strong>Planned Installment #</strong>
                               </th>
                               <ng-container *ngIf="1 === 1">
                                 <ng-container
@@ -1360,11 +1360,11 @@
                                     "
                                     align="center"
                                   >
-                                    <b>{{
+                                    <strong>{{
                                       column.name === "Notes"
                                         ? "Milestones/Notes"
                                         : column.name
-                                    }}</b>
+                                    }}</strong>
                                   </th>
                                 </ng-container>
                               </ng-container>
@@ -1460,7 +1460,7 @@
                                   font-weight: 400;
                                 "
                               >
-                                <b>Total:</b>
+                                <strong>Total:</strong>
                               </td>
                               <td
                                 align="right"
@@ -1477,9 +1477,9 @@
                                 "
                                 valign="middle"
                               >
-                                <b *ngIf="column.dataType === 'currency'">{{
+                                <strong *ngIf="column.dataType === 'currency'">{{
                                   getTotals(j, attribute.fieldTableValue)
-                                }}</b>
+                                }}</strong>
                               </td>
                             </tr>
                           </table>
@@ -1544,13 +1544,13 @@
                   <div class="card-header" id="heading_{{submission.id}}">
                     <div class="row">
                       <div class="col-sm-9">
-                        <b class="mb-0 submission-header">
+                        <strong class="mb-0 submission-header">
 
                           <div data-toggle="collapse" [attr.data-target]="'#collapse_'+submission.id">
                             Submission
                             for {{submission.title}} | Submit By: {{submission.submitBy | date}} |
                             Status: {{submission.submissionStatus.displayName}}</div>
-                        </b>
+                        </strong>
                       </div>
                       <div class="col-sm-3 text-right">
                         <button *ngIf="submission.flowAuthorities" class="btn btn-sm btn-primary"
@@ -1567,7 +1567,7 @@
                     <div *ngFor="let quantKpi of submission.quantitiaveKpisubmissions">
 
                       <div class="row border-bottom">
-                        <div class="col-sm-8 submission-title"><b>{{quantKpi.grantKpi.title}}</b></div>
+                        <div class="col-sm-8 submission-title"><strong>{{quantKpi.grantKpi.title}}</strong></div>
                         <div class="col-sm-2 text-center">
                           <circle-progress
                               [backgroundStrokeWidth]="5"
@@ -1591,13 +1591,13 @@
                     </div>
                     <div *ngFor="let qualKpi of submission.qualitativeKpiSubmissions">
                       <div class="row">
-                        <div class="col-sm-12"><b>{{qualKpi.grantKpi.title}}</b></div>
+                        <div class="col-sm-12"><strong>{{qualKpi.grantKpi.title}}</strong></div>
                         <div class="col-sm-12 mb-5 border-left">{{qualKpi.actuals}}</div>
                       </div>
                     </div>
                     <div *ngFor="let docKpi of submission.documentKpiSubmissions">
                       <div class="row">
-                        <div class="col-sm-12"><b>{{docKpi.grantKpi.title}}</b></div>
+                        <div class="col-sm-12"><strong>{{docKpi.grantKpi.title}}</strong></div>
                         <div class="col-sm-12 mb-5">
                           <ng-container *ngFor="let doc of docKpi.submissionDocs">
                             <a target="_blank"

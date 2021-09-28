@@ -235,7 +235,7 @@
         <ng-container *ngIf="sectionDiff.attributesDiffs">
           <ng-container *ngFor="let attrDiff of sectionDiff.attributesDiffs">
             <div *ngIf="attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details | <b>{{attrDiff.section}}</b> | </span>changes</span>
+              <span class="change-title"><span>Grant Details | <strong>{{attrDiff.section}}</strong> | </span>changes</span>
               <div class="row change-new m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.newAttribute.name}}</p>
@@ -316,7 +316,7 @@
               </div>
             </div>
             <div *ngIf="attrDiff.oldAttribute && !attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details | </span><b>{{attrDiff.section}}</b> | fields deleted </span>
+              <span class="change-title"><span>Grant Details | </span><strong>{{attrDiff.section}}</strong> | fields deleted </span>
               <div class="row change-old m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.oldAttribute.name}}</p>
@@ -358,7 +358,7 @@
               </div>
             </div>
             <div *ngIf="!attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details | </span><b>{{attrDiff.section}}</b> | fields added </span>
+              <span class="change-title"><span>Grant Details | </span><strong>{{attrDiff.section}}</strong> | fields added </span>
               <div class="row change-new m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.newAttribute.name}}</p>
@@ -563,7 +563,7 @@
           <ng-container *ngIf="sectionDiff.attributesDiffs">
             <ng-container *ngFor="let attrDiff of sectionDiff.attributesDiffs">
               <div *ngIf="attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-                <span class="change-title"><span>Report Detail | </span><b>{{sectionDiff.newSection.name}}</b> | changes </span>
+                <span class="change-title"><span>Report Detail | </span><strong>{{sectionDiff.newSection.name}}</strong> | changes </span>
                 <div class="row change-new m-0" style="display: flex;">
                   <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                     <p>{{attrDiff.newAttribute.name}}</p>
@@ -652,7 +652,7 @@
                 </div>
               </div>
               <div *ngIf="attrDiff.oldAttribute && !attrDiff.newAttribute" class="mb-2 change-box">
-                <span class="change-title"><span>Report Detail | </span><b>{{attrDiff.section}}</b> | Fields deleted</span>
+                <span class="change-title"><span>Report Detail | </span><strong>{{attrDiff.section}}</strong> | Fields deleted</span>
                 <div class="row change-old m-0" style="display: flex;">
                   <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                     <p>{{attrDiff.oldAttribute.name}}</p>
@@ -698,7 +698,7 @@
                 </div>
               </div>
               <div *ngIf="!attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-                <span class="change-title"><span>Report Detail | </span><b>{{attrDiff.section}}</b> | Fields added</span>
+                <span class="change-title"><span>Report Detail | </span><strong>{{attrDiff.section}}</strong> | Fields added</span>
                 <div class="row change-new m-0" style="display: flex;">
                   <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                     <p>{{attrDiff.newAttribute.name}}</p>

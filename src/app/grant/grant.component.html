@@ -105,7 +105,7 @@
                                  [style.box-shadow]="currentGrant.submissions[x-1].flowAuthorities?'box-shadow:1px 1px 12px #d4d4d4':''">
                                 <div
                                         [ngClass]="['col-12','py-2', 'mb-4','text-center', currentGrant.submissions[x - 1].flowAuthorities || currentGrant.submissions[x - 1].openForReporting? 'bg-primary text-white' : 'bg-light']">
-                                    <b>{{currentGrant.submissions[x - 1].title}}</b>
+                                    <strong>{{currentGrant.submissions[x - 1].title}}</strong>
                                 </div>
                                 <ng-container
                                         *ngFor="let kpiData of currentGrant.submissions[x - 1].quantitiaveKpisubmissions">
@@ -418,7 +418,7 @@
                                             <ng-container *ngIf="attribute.fieldType=='document'">
                                                 <div class="col-sm-7 col-lg-7">
                                                     <a href="/api/app/grants/{{currentGrant.id}}/file/{{attribute.fieldName}}">
-                                                        <b class="">{{attribute.fieldName}}</b>
+                                                        <strong class="">{{attribute.fieldName}}</strong>
                                                     </a>
                                                 </div>
                                                 <div class="col-sm-4 col-lg-4">
@@ -667,13 +667,13 @@
                       <div class="card-header" id="heading_{{submission.id}}">
                         <div class="row">
                           <div class="col-sm-9">
-                            <b class="mb-0 submission-header">
+                            <strong class="mb-0 submission-header">
 
                               <div data-toggle="collapse" [attr.data-target]="'#collapse_'+submission.id">
                                 Submission
                                 for {{submission.title}} | Submit By: {{submission.submitBy | date}} |
                                 Status: {{submission.submissionStatus.displayName}}</div>
-                            </b>
+                            </strong>
                           </div>
                           <div class="col-sm-3 text-right">
                             <button *ngIf="submission.flowAuthorities" class="btn btn-sm btn-primary"
@@ -690,7 +690,7 @@
                         <div *ngFor="let quantKpi of submission.quantitiaveKpisubmissions">
 
                           <div class="row border-bottom">
-                            <div class="col-sm-8 submission-title"><b>{{quantKpi.grantKpi.title}}</b></div>
+                            <div class="col-sm-8 submission-title"><strong>{{quantKpi.grantKpi.title}}</strong></div>
                             <div class="col-sm-2 text-center">
                               <circle-progress
                                   [backgroundStrokeWidth]="5"
@@ -714,13 +714,13 @@
                         </div>
                         <div *ngFor="let qualKpi of submission.qualitativeKpiSubmissions">
                           <div class="row">
-                            <div class="col-sm-12"><b>{{qualKpi.grantKpi.title}}</b></div>
+                            <div class="col-sm-12"><strong>{{qualKpi.grantKpi.title}}</strong></div>
                             <div class="col-sm-12 mb-5 border-left">{{qualKpi.actuals}}</div>
                           </div>
                         </div>
                         <div *ngFor="let docKpi of submission.documentKpiSubmissions">
                           <div class="row">
-                            <div class="col-sm-12"><b>{{docKpi.grantKpi.title}}</b></div>
+                            <div class="col-sm-12"><strong>{{docKpi.grantKpi.title}}</strong></div>
                             <div class="col-sm-12 mb-5">
                               <ng-container *ngFor="let doc of docKpi.submissionDocs">
                                 <a target="_blank"

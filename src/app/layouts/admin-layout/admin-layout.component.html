@@ -184,7 +184,7 @@
             info_outline
           </mat-icon>
             <span
-              >Amendment in-progress [<b>{{ currentGrant.origGrantRefNo }}</b
+              >Amendment in-progress [<strong>{{ currentGrant.origGrantRefNo }}</b
               >]</span
             >
           </span>
@@ -318,7 +318,7 @@
           Underlying grant has been amended. Please check if this disbursement is still valid.
           </p>
           Approval Request Note for Grant
-          <b>{{ currentDisbursement.grant.name }}</b>
+          <strong>{{ currentDisbursement.grant.name }}</strong>
         </div>
       </ng-container>
       <ng-container
@@ -340,7 +340,7 @@
           Underlying grant has been amended. Please check if this disbursement is still valid.
           </p>
           Disbursement Record against Approved Note for Grant
-          <b>{{ currentDisbursement.grant.name }}</b>
+          <strong>{{ currentDisbursement.grant.name }}</strong>
         </div>
       </ng-container>
       <p
@@ -371,11 +371,11 @@
 
 
                 <div class="float-left" >
-                    <b>{{ appComponent.autosaveDisplay}}</b>
+                    <strong>{{ appComponent.autosaveDisplay}}</strong>
                 </div>
                 <br>
                 <div class="float-left" *ngIf="appComponent.action !== 'preview'">
-                    <b><small *ngIf="appComponent.selectedTemplate">Based on template '{{appComponent.selectedTemplate.name}}'</small></b>
+                    <strong><small *ngIf="appComponent.selectedTemplate">Based on template '{{appComponent.selectedTemplate.name}}'</small></strong>
                 </div>
             </div>
         </div>-->
