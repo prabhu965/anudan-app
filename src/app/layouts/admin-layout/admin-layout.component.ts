@@ -139,7 +139,6 @@ export class AdminLayoutComponent implements OnInit {
       const scrollableHtmlColl = document
         .getElementsByClassName("anudan-scrollable");
       if (scrollableHtmlColl && scrollableHtmlColl.length > 0) {
-        [0]
         scrollableHtmlColl[0].classList.add("perfect-scrollbar-on");
       }
 

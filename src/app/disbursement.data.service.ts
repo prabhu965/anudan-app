@@ -366,7 +366,7 @@ export class DisbursementDataService {
     fromStateId: number,
     toStateId: number
   ): Promise<Disbursement> {
-    if (disbursement !== null && disbursement !== null) {
+    if (disbursement !== undefined && disbursement !== null) {
       if (disbursement.approvedActualsDibursements) {
         disbursement.approvedActualsDibursements = null;
       }

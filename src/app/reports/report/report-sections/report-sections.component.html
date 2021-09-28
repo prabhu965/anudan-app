@@ -621,7 +621,7 @@
                           >
                             <table id="tablePlaceholder">
                               <tr>
-                                <td
+                                <th id="col1"
                                   width="20%"
                                   style="
                                     min-width: 250px;
@@ -632,7 +632,7 @@
                                   "
                                 >
                                   &nbsp;
-                                </td>
+                                </th>
                                 <ng-container
                                   *ngIf="attribute.fieldTableValue[0]"
                                 >
@@ -643,7 +643,7 @@
                                       let i = index
                                     "
                                   >
-                                    <td style="border: 1px solid #e4e4e4">
+                                    <th [id]="'col_'+i" style="border: 1px solid #e4e4e4">
                                       <mat-form-field
                                         *ngIf="
                                           currentReport.canManage &&
@@ -699,7 +699,7 @@
                                       >
                                         {{ column.name }}
                                       </p>
-                                    </td>
+                                    </th>
                                   </ng-container>
                                 </ng-container>
                               </tr>
@@ -832,7 +832,7 @@
                             <p class="text-header">Planned Project Funds</p>
                             <table id="tablePlaceholderX" width="100%">
                               <tr style="background: #f9f9f9">
-                                <td
+                                <th id="planned"
                                   align="center"
                                   valign="middle"
                                   width="10%"
@@ -841,7 +841,7 @@
                                   <label class="m-0"
                                     ><span>Planned Installment #</span></label
                                   >
-                                </td>
+                                </th>
                                 <ng-container
                                   *ngFor="
                                     let column of getGrantDisbursementAttribute()
@@ -849,7 +849,7 @@
                                     let i = index
                                   "
                                 >
-                                  <td
+                                  <th [id="'col_1_'+i"]
                                     align="center"
                                     valign="middle"
                                     [ngStyle]="
@@ -871,7 +871,7 @@
                                           : column.name
                                       }}</label
                                     >
-                                  </td>
+                                  </th>
                                 </ng-container>
                               </tr>
                               <ng-container
@@ -993,12 +993,12 @@
                             >
                               <ng-container *ngIf="!attribute.fieldTableValue">
                                 <tr>
-                                  <td>
+                                  <th id="no_funds">
                                     <p>
                                       No funds have been recorded for this
                                       project yet
                                     </p>
-                                  </td>
+                                  </th>
                                 </tr>
                               </ng-container>
                               <tr>

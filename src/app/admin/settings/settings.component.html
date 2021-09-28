@@ -39,6 +39,9 @@
                         <mat-label>Number of days after which to send no action reminders:</mat-label>
                         <table>
                             <tr>
+                                <th [id]="'setting_action_due'+i" *ngFor="let db of setting.scheduledTaskConfiguration.configuration.daysBefore,let i = index"></th>
+                            </tr>
+                            <tr>
                                 <td *ngFor="let ad of setting.scheduledTaskConfiguration.configuration.afterNoOfDays; let i=index">
                                     <mat-form-field class="mt-2">
                                     <input [id]="'ad_db_'+i" matInput class="anu-input" [value]="setting.scheduledTaskConfiguration.configuration.afterNoOfDays[i]" (keypress)="reCalculateDays(setting.scheduledTaskConfiguration.configuration,i,$event)" [placeholder]="'Reminder '+ (i+1)" (change)="focusBack($event)">

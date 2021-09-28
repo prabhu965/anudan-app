@@ -935,7 +935,6 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
         } else if (status === 'REVIEW') {
             return 'state-review';
         }
-        return 'state-closed';
     }
 
     zoomOut() {
