@@ -328,18 +328,7 @@ export class BasicComponent implements OnInit {
   }
 
   private checkGrantPermissions() {
-    if (
-      this.currentGrant.workflowAssignments.filter(
-        (wf) =>
-          wf.stateId === this.currentGrant.grantStatus.id &&
-          wf.assignments === this.appComp.loggedInUser.id
-      ).length > 0 &&
-      this.appComp.loggedInUser.organization.organizationType !== "GRANTEE"
-    ) {
-      this.canManage = this.currentGrant.canManage;
-    } else {
-      this.canManage = this.currentGrant.canManage;
-    }
+    this.canManage = this.currentGrant.canManage;
   }
 
   private checkCurrentSubmission() {

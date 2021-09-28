@@ -272,7 +272,7 @@
 
           <hr />
           <div class="col-4 mb-2">
-            <span style="color: #929292; font-size: 15px; font-family: Roboto sans-serif"
+            <span style="color: #929292; font-size: 15px; font-family: Roboto, sans-serif"
               >Start Date:</span
             >
             <div class="ml-0 mb-3">
@@ -378,7 +378,7 @@
                       <div class="col-sm-12 col-lg-12 text-left mb-3">
                         <table width="100%" border="1">
                           <tr>
-                            <td colspan="3" style="padding: 5px">KPI</td>
+                            <th id="kpi_column" colspan="3" style="padding: 5px">KPI</th>
                           </tr>
                           <tr>
                             <td
@@ -402,7 +402,7 @@
                             >
                               <table>
                                 <tr>
-                                  <td>
+                                  <th id="grant_level_goal">
                                     <span
                                       style="
                                         color: #929292;
@@ -411,7 +411,7 @@
                                       "
                                       >Grant Level Goal:</span
                                     >
-                                  </td>
+                                  </th>
                                 </tr>
                                 <tr>
                                   <td>
@@ -548,7 +548,7 @@
                           style="font-family: Roboto, sans-serif;"
                         >
                           <tr>
-                            <td
+                            <th id="header_col"
                               class="pl-2"
                               style="
                                 padding: 5px;
@@ -557,8 +557,8 @@
                               "
                             >
                               <b>{{ attribute.fieldTableValue[0].header }}</b>
-                            </td>
-                            <td
+                            </th>
+                            <th id="'col_'+i"
                               style="
                                 font-size: 16px;
                                 font-family: Roboto, sans-serif;;
@@ -566,11 +566,11 @@
                                 text-align: center;
                               "
                               *ngFor="
-                                let col of attribute.fieldTableValue[0].columns
+                                let col of attribute.fieldTableValue[0].columns;let i=index
                               "
                             >
                               <b>{{ col.name }}</b>
-                            </td>
+                            </th>
                           </tr>
                           <tr *ngFor="let row of attribute.fieldTableValue">
                             <td
@@ -615,7 +615,7 @@
                         style="font-family: Roboto, sans-serif;"
                       >
                         <tr>
-                          <td
+                          <th id="planned_installment"
                             align="center"
                             valign="middle"
                             width="15%"
@@ -626,7 +626,7 @@
                             "
                           >
                             <b>Planned Installment #</b>
-                          </td>
+                          </th>
                           <ng-container *ngIf="1 === 1">
                             <ng-container
                               *ngFor="
@@ -635,7 +635,7 @@
                                 let i = index
                               "
                             >
-                              <td
+                              <th id="'col1_'+i"
                                 class="pl-2"
                                 style="
                                   padding: 5px;
@@ -649,7 +649,7 @@
                                     ? "Milestones/Notes"
                                     : column.name
                                 }}</b>
-                              </td>
+                              </th>
                             </ng-container>
                           </ng-container>
                         </tr>
@@ -1064,7 +1064,7 @@
                           <div class="col-sm-12 col-lg-12 text-left mb-3">
                             <table width="100%" border="1">
                               <tr>
-                                <td colspan="3" style="padding: 5px">KPI</td>
+                                <th id="col2_kpi" colspan="3" style="padding: 5px">KPI</th>
                               </tr>
                               <tr>
                                 <td
@@ -1089,7 +1089,7 @@
                                 >
                                   <table>
                                     <tr>
-                                      <td>
+                                      <th id="grant_level_goal_1">
                                         <span
                                           style="
                                             color: #000;
@@ -1100,7 +1100,7 @@
                                           class="bolded"
                                           >Grant Level Goal:</span
                                         >
-                                      </td>
+                                      </th>
                                     </tr>
                                     <tr>
                                       <td>
@@ -1125,7 +1125,7 @@
                                 >
                                   <table>
                                     <tr>
-                                      <td>
+                                      <th id="frquency1">
                                         <span
                                           style="
                                             color: #000;
@@ -1136,7 +1136,7 @@
                                           class="bolded"
                                           >Frequency:</span
                                         >
-                                      </td>
+                                      </th>
                                     </tr>
                                     <tr>
                                       <td>
@@ -1253,7 +1253,7 @@
                               style="font-family: Roboto, sans-serif;"
                             >
                               <tr>
-                                <td
+                                <th id="field_header"
                                   class="pl-2"
                                   style="
                                     padding: 5px;
@@ -1265,8 +1265,8 @@
                                   <b>{{
                                     attribute.fieldTableValue[0].header
                                   }}</b>
-                                </td>
-                                <td
+                                </th>
+                                <th id="'colx_'+i"
                                   style="
                                     font-size: 15px;
                                     font-family: Roboto, sans-serif;;
@@ -1276,11 +1276,11 @@
                                   "
                                   *ngFor="
                                     let col of attribute.fieldTableValue[0]
-                                      .columns
+                                      .columns;let i=index
                                   "
                                 >
                                   <b>{{ col.name }}</b>
-                                </td>
+                                </th>
                               </tr>
                               <tr *ngFor="let row of attribute.fieldTableValue">
                                 <td
@@ -1329,7 +1329,7 @@
                             style="font-family: Roboto, sans-serif;"
                           >
                             <tr>
-                              <td
+                              <th id="planned_installment_2"
                                 align="center"
                                 valign="middle"
                                 width="15%"
@@ -1341,7 +1341,7 @@
                                 "
                               >
                                 <b>Planned Installment #</b>
-                              </td>
+                              </th>
                               <ng-container *ngIf="1 === 1">
                                 <ng-container
                                   *ngFor="
@@ -1350,7 +1350,7 @@
                                     let i = index
                                   "
                                 >
-                                  <td
+                                  <th id="'cola_'+i"
                                     class="pl-2"
                                     style="
                                       padding: 5px;
@@ -1365,7 +1365,7 @@
                                         ? "Milestones/Notes"
                                         : column.name
                                     }}</b>
-                                  </td>
+                                  </th>
                                 </ng-container>
                               </ng-container>
                             </tr>

@@ -233,7 +233,7 @@ export class SectionsComponent
         const docs = this.options ? this.options.slice() : [];
         this.filteredOptions = this.myControl.valueChanges.pipe(
           startWith(""),
-          map((value) => (typeof value === "string" ? value : value)),
+          map((value) => (typeof value === "string" ? value : '')),
           map((name) => (name ? this._filter(name) : docs))
         );
       });
@@ -340,20 +340,7 @@ export class SectionsComponent
   }
 
   private checkGrantPermissions() {
-    if (
-      this.currentGrant.workflowAssignments.filter(
-        (wf) =>
-          wf.stateId === this.currentGrant.grantStatus.id &&
-          wf.assignments === this.appComp.loggedInUser.id
-      ).length > 0 &&
-      this.appComp.loggedInUser.organization.organizationType !== "GRANTEE" &&
-      this.currentGrant.grantStatus.internalStatus !== "ACTIVE" &&
-      this.currentGrant.grantStatus.internalStatus !== "CLOSED"
-    ) {
-      this.canManage = this.currentGrant.canManage;
-    } else {
-      this.canManage = this.currentGrant.canManage;
-    }
+    this.canManage = this.currentGrant.canManage;
   }
 
   private checkCurrentSubmission() {

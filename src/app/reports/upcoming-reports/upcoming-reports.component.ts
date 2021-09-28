@@ -335,7 +335,7 @@ export class UpcomingReportsComponent implements OnInit {
                 if (result.deleted && result.deleted.length > 0) {
                     let idx = -1;
                     if (this.reportsToSetup !== undefined && this.reportsToSetup !== null) {
-                        this.reportsToSetup.findIndex(x => x.id === reportId);
+                        idx = this.reportsToSetup.findIndex(x => x.id === reportId);
                         if (idx !== -1) {
                             this.reportsToSetup[idx].futureReportsCount = this.reportsToSetup[idx].futureReportsCount - 1;
                         }

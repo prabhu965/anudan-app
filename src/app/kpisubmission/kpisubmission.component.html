@@ -171,8 +171,8 @@
         <table>
           <tr>
 
-            <ng-container *ngFor="let template of kpiData.templates">
-              <td>
+            <ng-container *ngFor="let template of kpiData.templates;let i=index">
+              <th id="'col_'+i">
                 <a href="/api/app/{{template.location}}{{template.id}}" title="{{template.name}}" class="mr-2">
                   <i *ngIf="template.fileType==='pdf'" class="fa fa-file-pdf-o text-rose"></i>
                   <i *ngIf="template.fileType==='jpg'" class="fa fa-file-image-o"></i>
@@ -183,7 +183,7 @@
 
                 {{template.name}}
                 </a>
-              </td>
+              </th>
             </ng-container>
           </tr>
         </table>
