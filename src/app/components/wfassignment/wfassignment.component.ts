@@ -934,6 +934,8 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
             return 'state-active';
         } else if (status === 'REVIEW') {
             return 'state-review';
+        } else {
+            return "";
         }
     }
 
