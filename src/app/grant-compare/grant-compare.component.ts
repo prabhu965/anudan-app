@@ -6,6 +6,7 @@ import { Grant, GrantDiff, SectionDiff, AttributeDiff } from './../model/dahsboa
 import { Component, Input, OnInit, Inject } from '@angular/core';
 import * as deepDiff from 'deep-object-diff';
 import * as inf from 'indian-number-format';
+import * as difference from 'simple-text-diff';
 
 @Component({
   selector: 'app-grant-compare',
@@ -49,6 +50,8 @@ export class GrantCompareComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getTheDifference('a', 'b');
+
     if (this._for === 'Grant' && this._compareType === 'weak') {
       this._diffWeak(this.newItem, this.oldItem);
     } else if (this._for === 'Grant' && this._compareType === 'strong') {
@@ -1211,5 +1214,12 @@ export class GrantCompareComponent implements OnInit {
 
   onNoClick() {
     this.dialogRef.close();
+  }
+
+  getTheDifference(o: string, n: string) {
+    const diff = difference.default.diffPatchBySeparator(o, n, ' ');
+    console.log(diff);
+    return diff;
+
   }
 }

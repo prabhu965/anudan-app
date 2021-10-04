@@ -1283,3 +1283,17 @@ th{
   font-weight: 600 !important;
     padding: 5px;
 }
+
+ins{
+  background: #009900;
+  text-decoration: none;
+  color: #fff;
+  padding: 0 2px;
+}
+
+del{
+  background: #4b4b4b;
+  text-decoration: none;
+  color: #fff;
+  padding: 0 2px;
+}
