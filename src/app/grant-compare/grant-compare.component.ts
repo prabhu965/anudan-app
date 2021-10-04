@@ -1137,6 +1137,153 @@ export class GrantCompareComponent implements OnInit {
     }
   }
 
+  getTabularDataNew(oldData, data) {
+    let html = '<table width="100%" border="1" class="bg-white"><tr>';
+    const tabData = data;
+    html += '<td>' + this.getTheDifference((oldData[0].header ? oldData[0].header : ''), (tabData[0].header ? tabData[0].header : '')).after + '</td>';
+    for (let i = 0; i < tabData[0].columns.length; i++) {
+
+
+      //if(tabData[0].columns[i].name.trim() !== ''){
+      html += '<td>' + this.getTheDifference(String(oldData[0].columns[i].name.trim() === '' ? '&nbsp;' : oldData[0].columns[i].name), String(tabData[0].columns[i].name.trim() === '' ? '&nbsp;' : tabData[0].columns[i].name)).after + '</td>';
+      //}
+    }
+    html += '</tr>';
+    for (let i = 0; i < tabData.length; i++) {
+
+      html += '<tr><td>' + this.getTheDifference(oldData[i] ? oldData[i].name : '', tabData[i].name).after + '</td>';
+      for (let j = 0; j < tabData[i].columns.length; j++) {
+        //if(tabData[i].columns[j].name.trim() !== ''){
+        html += '<td>' + this.getTheDifference(oldData[i] ? String(oldData[i].columns[j].value.trim() === '' ? '&nbsp;' : oldData[i].columns[j].value) : '', String(tabData[i].columns[j].value.trim() === '' ? '&nbsp;' : tabData[i].columns[j].value)).after + '</td>';
+        //}
+      }
+      html += '</tr>';
+    }
+
+    html += '</table>'
+    return html;
+  }
+
+  getTabularDataOld(oldData, data) {
+    let html = '<table width="100%" border="1" class="bg-white"><tr>';
+    const tabData = data;
+    html += '<td>' + this.getTheDifference((oldData[0].header ? oldData[0].header : ''), (tabData[0].header ? tabData[0].header : '')).before + '</td>';
+    for (let i = 0; i < tabData[0].columns.length; i++) {
+
+
+      //if(tabData[0].columns[i].name.trim() !== ''){
+      html += '<td>' + this.getTheDifference(String(oldData[0].columns[i].name.trim() === '' ? '&nbsp;' : oldData[0].columns[i].name), String(tabData[0].columns[i].name.trim() === '' ? '&nbsp;' : tabData[0].columns[i].name)).before + '</td>';
+      //}
+    }
+    html += '</tr>';
+    for (let i = 0; i < tabData.length; i++) {
+      if (!oldData[i]) {
+        continue;
+      }
+      html += '<tr><td>' + this.getTheDifference(oldData[i] ? oldData[i].name : '', tabData[i].name).before + '</td>';
+      for (let j = 0; j < tabData[i].columns.length; j++) {
+        //if(tabData[i].columns[j].name.trim() !== ''){
+        html += '<td>' + this.getTheDifference(oldData[i] ? String(oldData[i].columns[j].value.trim() === '' ? '&nbsp;' : oldData[i].columns[j].value) : '', String(tabData[i].columns[j].value.trim() === '' ? '&nbsp;' : tabData[i].columns[j].value)).before + '</td>';
+        //}
+      }
+      html += '</tr>';
+    }
+
+    html += '</table>'
+    return html;
+  }
+
+  getDisbursementTabularDataNew(oldData, data) {
+    let html = '<table width="100%" border="1" class="bg-white"><tr>';
+    const tabData = data;
+    if (tabData) {
+      html += '<td>' + this.getTheDifference(oldData[0].header ? oldData[0].header : '', tabData[0].header ? tabData[0].header : '').after + '</td>';
+      for (let i = 0; i < tabData[0].columns.length; i++) {
+
+
+        //if(tabData[0].columns[i].name.trim() !== ''){
+        html += '<td>' + this.getTheDifference(oldData[0].columns[i].name ? oldData[0].columns[i].name : '', tabData[0].columns[i].name).after + '</td>';
+        //}
+      }
+      html += '</tr>';
+      for (let i = 0; i < tabData.length; i++) {
+        html += '<tr><td>' + this.getTheDifference(oldData[i] && oldData[i].name ? oldData[i].name : '', tabData[i].name).after + '</td>';
+        for (let j = 0; j < tabData[i].columns.length; j++) {
+          //if(tabData[i].columns[j].name.trim() !== ''){
+          if (!tabData[i].columns[j].dataType) {
+            html += '<td>' + this.getTheDifference(oldData[i] && oldData[i].columns[j].value ? oldData[i].columns[j].value : '', tabData[i].columns[j].value).after + '</td>';
+          } else if (tabData[i].columns[j].dataType === 'currency') {
+            html += '<td class="text-right">₹ ' + this.getTheDifference(inf.format(Number(oldData[i] && oldData[i].columns[j].value ? oldData[i].columns[j].value : 0), 2), inf.format(Number(tabData[i].columns[j].value), 2)).after + '</td>';
+          }
+
+
+          //}
+        }
+        html += '</tr>';
+      }
+    }
+
+    html += '</table>'
+    return html;
+  }
+
+  getDisbursementTabularDataOld(oldData, data) {
+    let html = '<table width="100%" border="1" class="bg-white"><tr>';
+    const tabData = data;
+    if (tabData) {
+      html += '<td>' + this.getTheDifference(oldData[0].header ? oldData[0].header : '', tabData[0].header ? tabData[0].header : '').before + '</td>';
+      for (let i = 0; i < tabData[0].columns.length; i++) {
+
+
+        //if(tabData[0].columns[i].name.trim() !== ''){
+        html += '<td>' + this.getTheDifference(oldData[0].columns[i].name ? oldData[0].columns[i].name : '', tabData[0].columns[i].name).before + '</td>';
+        //}
+      }
+      html += '</tr>';
+      for (let i = 0; i < tabData.length; i++) {
+        if (!oldData[i]) {
+          continue;
+        }
+        html += '<tr><td>' + this.getTheDifference(oldData[i] && oldData[i].name ? oldData[i].name : '', tabData[i].name).before + '</td>';
+        for (let j = 0; j < tabData[i].columns.length; j++) {
+          //if(tabData[i].columns[j].name.trim() !== ''){
+          if (!tabData[i].columns[j].dataType) {
+            html += '<td>' + this.getTheDifference(oldData[i] && oldData[i].columns[j].value ? oldData[i].columns[j].value : '', tabData[i].columns[j].value).before + '</td>';
+          } else if (tabData[i].columns[j].dataType === 'currency') {
+            html += '<td class="text-right">₹ ' + this.getTheDifference(inf.format(Number(oldData[i] && oldData[i].columns[j].value ? oldData[i].columns[j].value : 0), 2), inf.format(Number(tabData[i].columns[j].value), 2)).before + '</td>';
+          }
+
+
+          //}
+        }
+        html += '</tr>';
+      }
+    }
+
+    html += '</table>'
+    return html;
+  }
+
+
+  getDocumentName(val: string): any[] {
+    let obj = [];
+    if (val && val !== "") {
+      obj = JSON.parse(val);
+    }
+    return obj;
+  }
+
+  onNoClick() {
+    this.dialogRef.close();
+  }
+
+  getTheDifference(o: string, n: string) {
+    const diff = difference.default.diffPatchBySeparator(o, n, '\n');
+    console.log(diff);
+    return diff;
+
+  }
+
   getTabularData(data) {
     let html = '<table width="100%" border="1" class="bg-white"><tr>';
     const tabData = data;
@@ -1201,25 +1348,5 @@ export class GrantCompareComponent implements OnInit {
     //document.getElementById('attribute_' + elemId).innerHTML = '';
     //document.getElementById('attribute_' + elemId).append('<H1>Hello</H1>');
     return html;
-  }
-
-
-  getDocumentName(val: string): any[] {
-    let obj = [];
-    if (val && val !== "") {
-      obj = JSON.parse(val);
-    }
-    return obj;
-  }
-
-  onNoClick() {
-    this.dialogRef.close();
-  }
-
-  getTheDifference(o: string, n: string) {
-    const diff = difference.default.diffPatchBySeparator(o, n, ' ');
-    console.log(diff);
-    return diff;
-
   }
 }

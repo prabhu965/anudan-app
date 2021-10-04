@@ -152,8 +152,8 @@
       </ng-container>
         <div *ngIf="sectionDiff.oldSection && sectionDiff.newSection && sectionDiff.oldSection.name!==sectionDiff.newSection.name" class="mb-2 change-box">
           <span class="change-title"><span>Grant Details | </span>Section name changed</span>
-          <div class="change-new"><p class="px-2 my-1">{{sectionDiff.newSection.name}}</p></div>
-          <div class="change-old"><p class="px-2 my-1">{{sectionDiff.oldSection.name}}</p></div>
+          <div class="change-new"><p class="px-2 my-1" [innerHTML]="getTheDifference(sectionDiff.oldSection.name,sectionDiff.newSection.name).after"></p></div>
+          <div class="change-old"><p class="px-2 my-1" [innerHTML]="getTheDifference(sectionDiff.oldSection.name,sectionDiff.newSection.name).before"></p></div>
         </div>
         <div *ngIf="sectionDiff.oldSection && !sectionDiff.newSection" class="mb-2 change-box">
           <span class="change-title"><span>Grant Details | </span><b>{{sectionDiff.oldSection.name}}</b> | deleted</span>
@@ -238,13 +238,13 @@
               <span class="change-title"><span>Grant Details | <strong>{{attrDiff.section}}</strong> | </span>changes</span>
               <div class="row change-new m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
-                  <p>{{attrDiff.newAttribute.name}}</p>
+                  <p [innerHTML]="getTheDifference(attrDiff.oldAttribute.name,attrDiff.newAttribute.name).after"></p>
                 </div>
                 <div class="col-3"><label class="mb-0 text-subheader">Field Type:</label>
-                  <p>{{getType(attrDiff.newAttribute.type)}}</p>
+                  <p [innerHTML]="getTheDifference(getType(attrDiff.oldAttribute.type),getType(attrDiff.newAttribute.type)).after"></p>
                 </div>
                 <div *ngIf="attrDiff.newAttribute.type==='multiline'" class="col-12"><label class="text-subheader mb-0">Field Value:</label>
-                  <div class="px-2 my-1"><div style="font-size: inherit;" [innerHTML]="getTheDifference(attrDiff.oldAttribute.value,attrDiff.newAttribute.value).after"></div></div>
+                  <div class="px-2 my-1"><pre style="font-size: inherit;" [innerHTML]="getTheDifference(attrDiff.oldAttribute.value,attrDiff.newAttribute.value).after"></pre></div>
                 </div>
                 <div *ngIf="attrDiff.newAttribute.type==='kpi'" class="col-12">
                   <div class="row">
@@ -254,18 +254,17 @@
                     </div>
                     <div class="col-4">
                       <label class="text-subheader mb-0">Frequency:</label>
-                      <p *ngIf="attrDiff.newAttribute.frequency!=='half-yearly'" [innerHTML]="getTheDifference(attrDiff.oldAttribute.frequency,attrDiff.newAttribute.frequency).after">
-                        {{attrDiff.newAttribute.frequency | titlecase}}</p>
-                      <p *ngIf="attrDiff.newAttribute.frequency==='half-yearly'">Half Yearly</p>
+                      <p *ngIf="attrDiff.newAttribute.frequency!=='half-yearly'" [innerHTML]="getTheDifference(attrDiff.oldAttribute.frequency,attrDiff.newAttribute.frequency).after"></p>
+                      <p *ngIf="attrDiff.newAttribute.frequency==='half-yearly'" [innerHTML]="getTheDifference(attrDiff.oldAttribute.frequency,'Half Yearly').after"></p>
                     </div>
                   </div>
                 </div>
                 
                 <div *ngIf="attrDiff.newAttribute.type==='table'" class="col-12"
-                  [innerHTML]="getTheDifference(getTabularData(attrDiff.oldAttribute.tableValue),getTabularData(attrDiff.newAttribute.tableValue)).after">
+                  [innerHTML]="getTabularDataNew(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                 </div>
                 <div *ngIf="attrDiff.newAttribute.type==='disbursement'" class="col-12"
-                  [innerHTML]="getTheDifference(getDisbursementTabularData(attrDiff.oldAttribute.tableValue),getDisbursementTabularData(attrDiff.newAttribute.tableValue)).after">
+                  [innerHTML]="getDisbursementTabularDataNew(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                 </div>
                 <div *ngIf="attrDiff.newAttribute.type==='document'" class="col-12">
                   <ul>
@@ -277,13 +276,13 @@
               </div>
               <div class="row change-old m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
-                  <p>{{attrDiff.oldAttribute.name}}</p>
+                  <p [innerHTML]="getTheDifference(attrDiff.oldAttribute.name,attrDiff.newAttribute.name).before"></p>
                 </div>
                 <div class="col-3"><label class="mb-0 text-subheader">Field Type:</label>
-                  <p>{{getType(attrDiff.oldAttribute.type)}}</p>
+                  <p [innerHTML]="getTheDifference(getType(attrDiff.oldAttribute.type),getType(attrDiff.newAttribute.type)).before"></p>
                 </div>
                 <div *ngIf="attrDiff.oldAttribute.type==='multiline'" class="col-12"><label class="text-subheader mb-0">Field Value:</label>
-                  <div class="px-2 my-1"><div style="font-size: inherit;"[innerHTML]="getTheDifference(attrDiff.oldAttribute.value,attrDiff.newAttribute.value).before"></div></div>
+                  <div class="px-2 my-1"><pre style="font-size: inherit;"[innerHTML]="getTheDifference(attrDiff.oldAttribute.value,attrDiff.newAttribute.value).before"></pre></div>
                 </div>
                 <div *ngIf="attrDiff.oldAttribute.type==='kpi'" class="col-12">
                   <div class="row">
@@ -293,18 +292,18 @@
                     </div>
                     <div class="col-3">
                       <label class="text-subheader mb-0">Frequency:</label>
-                      <p *ngIf="attrDiff.oldAttribute.frequency!=='half-yearly'">
-                        {{attrDiff.oldAttribute.frequency | titlecase}}</p>
-                      <p *ngIf="attrDiff.oldAttribute.frequency==='half-yearly'">Half Yearly</p>
+                      <p *ngIf="attrDiff.oldAttribute.frequency!=='half-yearly'" [innerHTML]="getTheDifference(attrDiff.newAttribute.frequency,attrDiff.oldAttribute.frequency).before">
+                      </p>
+                      <p *ngIf="attrDiff.oldAttribute.frequency==='half-yearly'" [innerHTML]="getTheDifference('Half Yearly',attrDiff.newAttribute.frequency).before"></p>
                     </div>
                   </div>
                 </div>
                 
                 <div *ngIf="attrDiff.oldAttribute.type==='table'" class="col-12"
-                  [innerHTML]="getTheDifference(getTabularData(attrDiff.oldAttribute.tableValue),getTabularData(attrDiff.newAttribute.tableValue)).before">
+                  [innerHTML]="getTabularDataOld(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                 </div>
                 <div *ngIf="attrDiff.oldAttribute.type==='disbursement'" class="col-12"
-                  [innerHTML]="getTheDifference(getDisbursementTabularData(attrDiff.oldAttribute.tableValue),getDisbursementTabularData(attrDiff.newAttribute.tableValue)).before">
+                  [innerHTML]="getDisbursementTabularDataOld(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                 </div>
                 <div *ngIf="attrDiff.oldAttribute.type==='document'" class="col-12">
                   <ul>
