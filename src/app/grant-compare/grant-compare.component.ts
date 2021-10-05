@@ -1216,7 +1216,7 @@ export class GrantCompareComponent implements OnInit {
           if (!tabData[i].columns[j].dataType) {
             html += '<td>' + this.getTheDifference(oldData[i] && oldData[i].columns[j].value ? oldData[i].columns[j].value : '', tabData[i].columns[j].value).after + '</td>';
           } else if (tabData[i].columns[j].dataType === 'currency') {
-            html += '<td class="text-right">₹ ' + this.getTheDifference(inf.format(Number(oldData[i] && oldData[i].columns[j].value ? oldData[i].columns[j].value : 0), 2), inf.format(Number(tabData[i].columns[j].value), 2)).after + '</td>';
+            html += '<td class="text-right">₹ ' + this.getTheDifference(inf.format(Number(oldData[i] && oldData[i].columns[j].value && oldData[i].columns[j].value.trim() !== '' ? oldData[i].columns[j].value : 0), 2), inf.format(Number(tabData[i] && tabData[i].columns[j].value && tabData[i].columns[j].value.trim() !== '' ? tabData[i].columns[j].value : 0), 2)).after + '</td>';
           }
 
 
@@ -1253,7 +1253,7 @@ export class GrantCompareComponent implements OnInit {
           if (!tabData[i].columns[j].dataType) {
             html += '<td>' + this.getTheDifference(oldData[i] && oldData[i].columns[j].value ? oldData[i].columns[j].value : '', tabData[i].columns[j].value).before + '</td>';
           } else if (tabData[i].columns[j].dataType === 'currency') {
-            html += '<td class="text-right">₹ ' + this.getTheDifference(inf.format(Number(oldData[i] && oldData[i].columns[j].value ? oldData[i].columns[j].value : 0), 2), inf.format(Number(tabData[i].columns[j].value), 2)).before + '</td>';
+            html += '<td class="text-right">₹ ' + this.getTheDifference(inf.format(Number(oldData[i] && oldData[i].columns[j].value && oldData[i].columns[j].value.trim() !== '' ? oldData[i].columns[j].value : 0), 2), inf.format(Number(tabData[i] && tabData[i].columns[j].value && tabData[i].columns[j].value.trim() !== '' ? tabData[i].columns[j].value : 0), 2)).before + '</td>';
           }
 
 
@@ -1330,7 +1330,7 @@ export class GrantCompareComponent implements OnInit {
   }
 
   getTheDifference(o: string, n: string) {
-    const diff = difference.default.diffPatchBySeparator(o, n, '\n');
+    const diff = difference.default.diffPatchBySeparator(o, n, ' ');
     console.log(diff);
     return diff;
 
