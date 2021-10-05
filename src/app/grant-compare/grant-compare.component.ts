@@ -991,8 +991,9 @@ export class GrantCompareComponent implements OnInit {
     }
 
     let secDiff = [];
-    this._getReportDiff();
+
     if (hasSectionDifferences) {
+      this._getReportDiff();
       for (let a of newReport.sections) {
         this._getReportSectionOrderDiffs();
 
@@ -1002,7 +1003,7 @@ export class GrantCompareComponent implements OnInit {
 
     }
 
-    if (this.reportDiff.orderDiffs && this.reportDiff.orderDiffs.length > 0) {
+    if (this.reportDiff && this.reportDiff.orderDiffs && this.reportDiff.orderDiffs.length > 0) {
       for (let oldSec of oldReport.sections) {
         //secDiff.push({ name: oldSec.name, type: 'old', order: oldSec.order });
         this.grantDiff.orderDiffs.push({ name: oldSec.name, type: 'old', order: oldSec.order })
@@ -1134,6 +1135,8 @@ export class GrantCompareComponent implements OnInit {
       return 'Document';
     } else if (type === 'kpi') {
       return 'Measurement/KPI';
+    } else if (type === 'disbursement') {
+      return 'Disbursement';
     }
   }
 
@@ -1264,6 +1267,55 @@ export class GrantCompareComponent implements OnInit {
     return html;
   }
 
+
+  getDocumentNameNew(oldVal, val: string): string {
+    let obj = [];
+    let objOld = [];
+    let formattedData = "<ul>"
+    if (val && val !== "") {
+      obj = JSON.parse(val);
+    }
+    if (oldVal && oldVal !== "") {
+      objOld = JSON.parse(oldVal);
+    }
+
+    if (obj && obj.length > 0) {
+
+
+      for (let i = 0; i < obj.length; i++) {
+        formattedData += "<li>" + this.getTheDifference(objOld[i] ? objOld[i].name : '', obj[i].name).after + "</li>"
+      }
+
+    }
+    formattedData += "</ul>";
+    return formattedData;
+  }
+
+  getDocumentNameOld(oldVal, val: string): string {
+    let obj = [];
+    let objOld = [];
+    let formattedData = "<ul>"
+    if (val && val !== "") {
+      obj = JSON.parse(val);
+    }
+    if (oldVal && oldVal !== "") {
+      objOld = JSON.parse(oldVal);
+    }
+
+    if (obj && obj.length > 0) {
+
+
+      for (let i = 0; i < obj.length; i++) {
+        if (!objOld[i]) {
+          continue;
+        }
+        formattedData += "<li>" + this.getTheDifference(objOld[i].name, obj[i].name).before + "</li>"
+      }
+
+    }
+    formattedData += "</ul>";
+    return formattedData;
+  }
 
   getDocumentName(val: string): any[] {
     let obj = [];
