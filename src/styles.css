@@ -1297,3 +1297,7 @@ del{
   color: #fff;
   padding: 0 2px;
 }
+
+.cdk-overlay-dark-backdrop{
+  background: rgba(0,0,0,.1) !important;
+}
