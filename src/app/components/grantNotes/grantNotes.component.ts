@@ -26,6 +26,7 @@ export class GrantNotesComponent implements OnInit {
     original: any;
     current: any;
     validationResult: any;
+    hasChanges = false;
 
     @ViewChild("scrollContainer") scrollContainer: ElementRef;
     @ViewChild("inputMessage") inputMessage: ElementRef;
@@ -560,5 +561,9 @@ export class GrantNotesComponent implements OnInit {
         sectionDiff.order = section.order
         sectionDiff.attributesDiffs.push(attrDiff);
         this.grantDiff.sectionDiffs.push(sectionDiff);
+    }
+
+    checkIfHasDifferences(val) {
+        this.hasChanges = val;
     }
 }

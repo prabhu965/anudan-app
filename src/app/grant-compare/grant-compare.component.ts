@@ -3,7 +3,7 @@ import { ReportDiff } from './../model/report';
 import { CurrencyService } from './../currency-service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Grant, GrantDiff, SectionDiff, AttributeDiff } from './../model/dahsboard';
-import { Component, Input, OnInit, Inject } from '@angular/core';
+import { Component, Input, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 import * as deepDiff from 'deep-object-diff';
 import * as inf from 'indian-number-format';
 import * as difference from 'simple-text-diff';
@@ -28,6 +28,7 @@ export class GrantCompareComponent implements OnInit {
   @Input("compare2Title") compare2: string = "Compared with Grant";
   @Input("for") _for = "Grant";
   @Input("compareType") _compareType = "weak";
+  @Output() hasChanges = new EventEmitter();
   changes: any[] = [];
   grantDiff: GrantDiff;
   reportDiff: ReportDiff;
@@ -387,7 +388,11 @@ export class GrantCompareComponent implements OnInit {
     if (this.grantDiff && this.grantDiff.sectionDiffs) {
       this.grantDiff.sectionDiffs.sort((a, b) => a.order >= b.order ? 1 : -1);
     }
-    console.log(this.grantDiff);
+    if (this.grantDiff) {
+      this.hasChanges.emit(true);
+    } else {
+      this.hasChanges.emit(false);
+    }
     return this.changes;
   }
 
@@ -700,7 +705,11 @@ export class GrantCompareComponent implements OnInit {
     if (this.grantDiff && this.grantDiff.sectionDiffs) {
       this.grantDiff.sectionDiffs.sort((a, b) => a.order >= b.order ? 1 : -1);
     }
-    console.log(this.grantDiff);
+    if (this.grantDiff) {
+      this.hasChanges.emit(true);
+    } else {
+      this.hasChanges.emit(false);
+    }
     return this.changes;
   }
 
@@ -1016,6 +1025,12 @@ export class GrantCompareComponent implements OnInit {
     if (this.reportDiff && this.reportDiff.sectionDiffs) {
       this.reportDiff.sectionDiffs.sort((a, b) => a.order >= b.order ? 1 : -1);
     }
+
+    if (this.reportDiff) {
+      this.hasChanges.emit(true);
+    } else {
+      this.hasChanges.emit(false);
+    }
     return this.changes;
   }
 
@@ -1117,6 +1132,12 @@ export class GrantCompareComponent implements OnInit {
 
 
     this.changes.push(resultHeader);
+
+    if (this.disbursementDiff) {
+      this.hasChanges.emit(true);
+    } else {
+      this.hasChanges.emit(false);
+    }
     return this.changes;
   }
 
@@ -1170,12 +1191,12 @@ export class GrantCompareComponent implements OnInit {
   getTabularDataOld(oldData, data) {
     let html = '<table width="100%" border="1" class="bg-white"><tr>';
     const tabData = data;
-    html += '<td>' + this.getTheDifference((oldData[0].header ? oldData[0].header : ''), (tabData[0].header ? tabData[0].header : '')).before + '</td>';
+    html += '<td>' + this.getTheDifference((oldData && oldData.length > 0 && oldData[0].header ? oldData[0].header : ''), (tabData && tabData.length > 0 && tabData[0].header ? tabData[0].header : '')).before + '</td>';
     for (let i = 0; i < tabData[0].columns.length; i++) {
 
 
       //if(tabData[0].columns[i].name.trim() !== ''){
-      html += '<td>' + this.getTheDifference(String(oldData[0].columns[i].name.trim() === '' ? '&nbsp;' : oldData[0].columns[i].name), String(tabData[0].columns[i].name.trim() === '' ? '&nbsp;' : tabData[0].columns[i].name)).before + '</td>';
+      html += '<td>' + this.getTheDifference(String(oldData && oldData.length > 0 && oldData[0].columns[i].name.trim() === '' ? '&nbsp;' : oldData[0].columns[i].name), String(tabData && tabData.length > 0 && tabData[0].columns[i].name.trim() === '' ? '&nbsp;' : tabData[0].columns[i].name)).before + '</td>';
       //}
     }
     html += '</tr>';
@@ -1183,7 +1204,7 @@ export class GrantCompareComponent implements OnInit {
       if (!oldData[i]) {
         continue;
       }
-      html += '<tr><td>' + this.getTheDifference(oldData[i] ? oldData[i].name : '', tabData[i].name).before + '</td>';
+      html += '<tr><td>' + this.getTheDifference(oldData && oldData.length > 0 && oldData[i] ? oldData[i].name : '', tabData && tabData.length > 0 && tabData[i].name ? tabData[i].name : '').before + '</td>';
       for (let j = 0; j < tabData[i].columns.length; j++) {
         //if(tabData[i].columns[j].name.trim() !== ''){
         html += '<td>' + this.getTheDifference(oldData[i] ? String(oldData[i].columns[j].value.trim() === '' ? '&nbsp;' : oldData[i].columns[j].value) : '', String(tabData[i].columns[j].value.trim() === '' ? '&nbsp;' : tabData[i].columns[j].value)).before + '</td>';
