@@ -25,6 +25,7 @@ import { MatDialog } from '@angular/material';
       border-radius: 0 !important;
       overflow: hidden !important;
       padding-top: 0 !important;
+      height: calc(100vh - 114px) !important;
     }
   `, `
     ::ng-deep .addnl-report-class .mat-form-field-wrapper{

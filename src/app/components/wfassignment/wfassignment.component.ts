@@ -23,7 +23,8 @@ declare var jsPlumb: any;
     styles: [`
         ::ng-deep .wf-assignment-class .mat-dialog-container{
             overflow: hidden !important;
-            height: auto;
+            height: calc(100vh - 114px);
+            padding-top: 10px !important;
         }
     `]
 })

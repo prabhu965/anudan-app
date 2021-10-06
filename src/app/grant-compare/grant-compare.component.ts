@@ -15,7 +15,7 @@ import * as difference from 'simple-text-diff';
   styles: [`
     ::ng-deep .wf-assignment-class .mat-dialog-container{
       overflow: hidden !important;
-      height: calc(100vh - 125px);
+      height: calc(100vh - 114px);
     }
   `]
 })
@@ -37,6 +37,7 @@ export class GrantCompareComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<GrantCompareComponent>
     , @Inject(MAT_DIALOG_DATA) public itemsCompare: any, public currencyService: CurrencyService) {
+    dialogRef.disableClose = true;
 
     if (itemsCompare.checkType) {
       this._compareType = itemsCompare.checkType;
