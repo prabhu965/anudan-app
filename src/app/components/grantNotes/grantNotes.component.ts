@@ -15,6 +15,7 @@ import * as inf from 'indian-number-format';
         ::ng-deep .grant-notes-class .mat-dialog-container{
             overflow-y: scroll !important;
             border-radius: 0 !important;
+            height: calc(100vh - 125px);
         }
     `]
 })

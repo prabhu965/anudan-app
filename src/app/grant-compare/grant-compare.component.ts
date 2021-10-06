@@ -15,6 +15,7 @@ import * as difference from 'simple-text-diff';
   styles: [`
     ::ng-deep .wf-assignment-class .mat-dialog-container{
       overflow: hidden !important;
+      height: calc(100vh - 125px);
     }
   `]
 })
@@ -549,7 +550,7 @@ export class GrantCompareComponent implements OnInit {
                                   if (oldAttr.tableValue[i].columns[j].name !== attr.tableValue[i].columns[j].name) {
                                     hasDifferences = true;
                                   }
-                                  if (((!oldAttr.tableValue[i].columns[j].value || oldAttr.tableValue[i].columns[j].value === null) ? "" : oldAttr.tableValue[i].columns[j].value) !== ((!attr.tableValue[i].columns[j].value || attr.tableValue[i].columns[j].value === null || attr.tableValue[i].columns[j].value === "0") ? "" : attr.tableValue[i].columns[j].value)) {
+                                  if (((!oldAttr.tableValue[i].columns[j].value || oldAttr.tableValue[i].columns[j].value === null) ? "" : oldAttr.tableValue[i].columns[j].value === "0" ? "" : oldAttr.tableValue[i].columns[j].value) !== ((!attr.tableValue[i].columns[j].value || attr.tableValue[i].columns[j].value === null || attr.tableValue[i].columns[j].value === "0") ? "" : attr.tableValue[i].columns[j].value === "0" ? "" : attr.tableValue[i].columns[j].value)) {
                                     hasDifferences = true;
                                   }
                                 }
@@ -1164,21 +1165,21 @@ export class GrantCompareComponent implements OnInit {
   getTabularDataNew(oldData, data) {
     let html = '<table width="100%" border="1" class="bg-white"><tr>';
     const tabData = data;
-    html += '<td>' + this.getTheDifference((oldData[0].header ? oldData[0].header : ''), (tabData[0].header ? tabData[0].header : '')).after + '</td>';
+    html += '<td>' + this.getTheDifference((oldData && oldData.length > 0 && oldData[0].header ? oldData[0].header : ''), (tabData && tabData.lenght > 0 && tabData[0].header ? tabData[0].header : '')).after + '</td>';
     for (let i = 0; i < tabData[0].columns.length; i++) {
 
 
       //if(tabData[0].columns[i].name.trim() !== ''){
-      html += '<td>' + this.getTheDifference(String(oldData[0].columns[i].name.trim() === '' ? '&nbsp;' : oldData[0].columns[i].name), String(tabData[0].columns[i].name.trim() === '' ? '&nbsp;' : tabData[0].columns[i].name)).after + '</td>';
+      html += '<td>' + this.getTheDifference(String((oldData && oldData.length > 0 && oldData[0].columns[i] && oldData[0].columns[i].name && oldData[0].columns[i].name.trim() === '') ? oldData[0].columns[i].name : '&nbsp;'), String(tabData && tabData.length > 0 && tabData[0].columns[i] && tabData[0].columns[i].name && tabData[0].columns[i].name.trim() === '' ? '&nbsp;' : tabData[0].columns[i].name)).after + '</td>';
       //}
     }
     html += '</tr>';
     for (let i = 0; i < tabData.length; i++) {
 
-      html += '<tr><td>' + this.getTheDifference(oldData[i] ? oldData[i].name : '', tabData[i].name).after + '</td>';
+      html += '<tr><td>' + this.getTheDifference(oldData && oldData.length > 0 && oldData[i] ? oldData[i].name : '', tabData[i].name).after + '</td>';
       for (let j = 0; j < tabData[i].columns.length; j++) {
         //if(tabData[i].columns[j].name.trim() !== ''){
-        html += '<td>' + this.getTheDifference(oldData[i] ? String(oldData[i].columns[j].value.trim() === '' ? '&nbsp;' : oldData[i].columns[j].value) : '', String(tabData[i].columns[j].value.trim() === '' ? '&nbsp;' : tabData[i].columns[j].value)).after + '</td>';
+        html += '<td>' + this.getTheDifference(oldData && oldData.length > 0 && oldData[i] ? String(oldData[i].columns[j].value.trim() === '' ? '&nbsp;' : oldData[i].columns[j].value) : '', String(tabData[i].columns[j].value.trim() === '' ? '&nbsp;' : tabData[i].columns[j].value)).after + '</td>';
         //}
       }
       html += '</tr>';
