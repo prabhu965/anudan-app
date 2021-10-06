@@ -15,8 +15,8 @@
     <div class="col-2 d-flex align-items-center">
       <p class="text-header text-right w-100 mb-0">{{compare1}}</p>
     </div> 
-      <div class="col-7 text-left py-2 pr-0" style="border-left: 10px solid #009900 !important;">
-        <p style="line-height: 1.3em;">
+      <div class="col-7 text-left py-2 pr-0 d-flex align-items-center" style="border-left: 10px solid #009900 !important;">
+        <p style="line-height: 1.3em;" class="mb-0">
           <span  *ngIf="_for==='Grant' && newItem.referenceNo" [ngStyle]="_for==='Disbursement'?{'line-height': '1.5em','display': 'inline-block'}:{}">{{newItem.referenceNo}}</span>{{_for!=='Disbursement'?newItem.name:'Approval Request for ' + newItem.grantName}}
         </p>
       </div>
@@ -30,8 +30,8 @@
     <div class="col-2 d-flex align-items-center">
       <p class="text-header text-right w-100 mb-0">{{compare2}}</p>
     </div>
-    <div class="col-7 text-left py-2 pr-0" style="border-left: 10px solid #4b4b4b !important;background: rgb(240, 240, 240) !important;">
-      <p style="line-height: 1.3em;">
+    <div class="col-7 text-left py-2 pr-0 d-flex align-items-center" style="border-left: 10px solid #4b4b4b !important;background: rgb(240, 240, 240) !important;">
+      <p style="line-height: 1.3em;" class="mb-0">
         <span  *ngIf="_for==='Grant' && oldItem.referenceNo" [ngStyle]="_for==='Disbursement'?{'line-height': '1.5em','display': 'inline-block'}:{}">{{oldItem.referenceNo}}</span>{{_for!=='Disbursement'?oldItem.name:'Approval Request for ' + oldItem.grantName}}
       </p>
     </div>
