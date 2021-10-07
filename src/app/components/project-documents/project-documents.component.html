@@ -35,7 +35,7 @@
                                 " accept=".pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx" />
         </div>
       </div>
-      <mat-nav-list>
+      <mat-nav-list style="height:calc(100vh - 315px); overflow-y: scroll;">
         <ng-container *ngFor="let attachment of projectDocs">
           <mat-list-item>
             <p [id] mat-line style="

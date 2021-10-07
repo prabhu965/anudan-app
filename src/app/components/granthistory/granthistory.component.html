@@ -11,7 +11,7 @@
   #flowContainer
   id="flowContainer"
   class="text-left"
-  style="max-height: 200px; overflow: scroll"
+  style="height: calc(100vh - 170px);overflow-y: scroll;"
 >
   <ng-container *ngFor="let item of grantHistory">
     <ng-container *ngIf="item.note !== '' && item.noteAddedByUser">
@@ -41,7 +41,7 @@
   #flowContainer
   id="flowContainer"
   class="text-left"
-  style="max-height: 200px; overflow: scroll"
+  style="height: calc(100vh - 170px);overflow-y: scroll;"
 >
   <ng-container *ngFor="let item of reportHistory">
     <ng-container *ngIf="item.note !== '' && item.noteAddedByUser">
@@ -74,7 +74,7 @@
   #flowContainer
   id="flowContainer"
   class="text-left"
-  style="max-height: 200px; overflow: scroll"
+  style="height: calc(100vh - 170px);overflow-y: scroll;"
 >
   <ng-container *ngFor="let item of disbursementHistory">
     <ng-container *ngIf="item.note !== '' && item.noteAddedByUser">

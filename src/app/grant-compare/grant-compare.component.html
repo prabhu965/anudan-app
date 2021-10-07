@@ -1,23 +1,24 @@
 <span *ngIf="isStandAlone" class="" style="position:absolute; right: 20px; left: auto;top: 10px;" (click)="onNoClick()">
   <mat-icon>close</mat-icon>
 </span>
+<div style="overflow-y: scroll;overflow-x:hidden;height: calc(100vh - 164px); margin-top:15px;">
 <h4 mat-dialog-title class="text-center mb-4" style="font-size:14px;">
   <div class="row mx-3">
     <div class="col-12"><h5>{{title}}</h5>
       <div *ngIf="_compareType==='weak'" class="text-subheader">
         <mat-icon [inline]="true" class="material-icons-outlined text-grey mr-1">
           info_outline
-        </mat-icon>Comparions may not be accurate
+        </mat-icon>For changes that were initiated prior to 26th September 2021, the compare results might be less than accurate.
       </div>
     </div>
     
     <div class="col-2 d-flex align-items-center">
-      <p class="text-header text-right w-100 mb-0">{{compare1}}</p>
+      <p class="text-header text-right w-100 mb-0" style="line-height: 1.5em;">{{compare1}}</p>
     </div> 
-      <div class="col-7 text-left py-2 pr-0" style="border-left: 10px solid #009900 !important;">
-        <span>
+      <div class="col-7 text-left py-2 pr-0 d-flex align-items-center" style="border-left: 10px solid #009900 !important;">
+        <p style="line-height: 1.3em;" class="mb-0">
           <span  *ngIf="_for==='Grant' && newItem.referenceNo" [ngStyle]="_for==='Disbursement'?{'line-height': '1.5em','display': 'inline-block'}:{}">{{newItem.referenceNo}}</span>{{_for!=='Disbursement'?newItem.name:'Approval Request for ' + newItem.grantName}}
-        </span>
+        </p>
       </div>
       <div class="col-3 d-flex align-items-center justify-content-center flex-column py-2">
         <div class="status-indicator2" *ngIf="newItem.currentInternalStatus">
@@ -27,12 +28,12 @@
       <div class="text-center text-subheader pl-3 search-context">{{newItem.currentOwner}}</div>
     </div>
     <div class="col-2 d-flex align-items-center">
-      <p class="text-header text-right w-100 mb-0">{{compare2}}</p>
+      <p class="text-header text-right w-100 mb-0" style="line-height: 1.5em;">{{compare2}}</p>
     </div>
-    <div class="col-7 text-left py-2 pr-0" style="border-left: 10px solid #4b4b4b !important;background: rgb(240, 240, 240) !important;">
-      <span>
+    <div class="col-7 text-left py-2 pr-0 d-flex align-items-center" style="border-left: 10px solid #4b4b4b !important;background: rgb(240, 240, 240) !important;">
+      <p style="line-height: 1.3em;" class="mb-0">
         <span  *ngIf="_for==='Grant' && oldItem.referenceNo" [ngStyle]="_for==='Disbursement'?{'line-height': '1.5em','display': 'inline-block'}:{}">{{oldItem.referenceNo}}</span>{{_for!=='Disbursement'?oldItem.name:'Approval Request for ' + oldItem.grantName}}
-        </span>
+      </p>
     </div>
     <div class="col-3 d-flex align-items-center justify-content-center flex-column py-2">
       <div class="status-indicator2" *ngIf="oldItem.currentInternalStatus">
@@ -45,64 +46,64 @@
 </h4>
 <ng-container *ngIf="_for==='Grant'">
 <h5 *ngIf="!grantDiff" class="text-center mt-5">There are no differences between the two grants</h5>
-<div *ngIf="grantDiff" style="background: rgb(255, 255, 255);padding: 5px;overflow-y: scroll;overflow-x:hidden;height: calc(100vh - 280px);">
+<div *ngIf="grantDiff" style="background: rgb(255, 255, 255);padding: 5px;">
   <div *ngIf="grantDiff.oldGrantName || grantDiff.newGrantName" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Name changed</span>
-    <div class="change-new" *ngIf="grantDiff.newGrantName"><p class="px-2 my-1">{{grantDiff.newGrantName}}</p></div>
-    <div *ngIf="grantDiff.newGrantName && !grantDiff.oldGrantName" class="text-danger"><i><small>Currently has no
-          value</small></i></div>
-    <div class="change-old" *ngIf="grantDiff.oldGrantName"><p class="px-2 my-1">{{grantDiff.oldGrantName}}</p></div>
-    <div *ngIf="grantDiff.oldGrantName && !grantDiff.newGrantName" class="text-white"><i><small>Previously had no
-          value</small></i></div>
+    <div class="change-new" *ngIf="grantDiff.newGrantName"><p class="px-2 my-1" [innerHTML]="getTheDifference(grantDiff.oldGrantName,grantDiff.newGrantName).after"></p></div>
+    <div *ngIf="grantDiff.newGrantName && !grantDiff.oldGrantName" class="text-danger"><em><small>Currently has no
+          value</small></em></div>
+    <div class="change-old" *ngIf="grantDiff.oldGrantName"><p class="px-2 my-1" [innerHTML]="getTheDifference(grantDiff.oldGrantName,grantDiff.newGrantName).before"></p></div>
+    <div *ngIf="grantDiff.oldGrantName && !grantDiff.newGrantName" class="text-white"><em><small>Previously had no
+          value</small></em></div>
   </div>
   <div *ngIf="grantDiff.oldGrantStartDate || grantDiff.newGrantStartDate" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Start date changed</span>
-    <div class="change-new" *ngIf="grantDiff.newGrantStartDate"><p class="px-2 my-1">{{grantDiff.newGrantStartDate}}</p>
+    <div class="change-new" *ngIf="grantDiff.newGrantStartDate"><p class="px-2 my-1" [innerHTML]="getTheDifference(grantDiff.oldGrantStartDate,grantDiff.newGrantStartDate).after"></p>
     </div>
-    <div *ngIf="!grantDiff.newGrantStartDate && grantDiff.oldGrantStartDate" class="text-danger"><i><small>Currently
-          has no value</small></i></div>
-    <div class="change-old" *ngIf="grantDiff.oldGrantStartDate"><p class="px-2 my-1">{{grantDiff.oldGrantStartDate}}</p>
+    <div *ngIf="!grantDiff.newGrantStartDate && grantDiff.oldGrantStartDate" class="text-danger"><em><small>Currently
+          has no value</small></em></div>
+    <div class="change-old" *ngIf="grantDiff.oldGrantStartDate"><p class="px-2 my-1" [innerHTML]="getTheDifference(grantDiff.oldGrantStartDate,grantDiff.newGrantStartDate).before"></p>
     </div>
-    <div *ngIf="!grantDiff.oldGrantStartDate && grantDiff.newGrantStartDate" class="text-white"><i><small>Previously
-          had no value</small></i></div>
+    <div *ngIf="!grantDiff.oldGrantStartDate && grantDiff.newGrantStartDate" class="text-white"><em><small>Previously
+          had no value</small></em></div>
   </div>
   <div *ngIf="grantDiff.oldGrantEndDate || grantDiff.newGrantEndDate" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>End date changed</span>
-    <div class="change-new" *ngIf="grantDiff.newGrantEndDate"><p class="px-2 my-1">{{grantDiff.newGrantEndDate}}</p>
+    <div class="change-new" *ngIf="grantDiff.newGrantEndDate"><p class="px-2 my-1" [innerHTML]="getTheDifference(grantDiff.oldGrantEndDate,grantDiff.newGrantEndDate).after"></p>
     </div>
-    <div *ngIf="!grantDiff.newGrantEndDate && grantDiff.oldGrantEndDate" class="text-danger"><i><small>Currently has
-          no value</small></i></div>
-    <div class="change-old" *ngIf="grantDiff.oldGrantEndDate"><p class="px-2 my-1">{{grantDiff.oldGrantEndDate}}</p>
+    <div *ngIf="!grantDiff.newGrantEndDate && grantDiff.oldGrantEndDate" class="text-danger"><em><small>Currently has
+          no value</small></em></div>
+    <div class="change-old" *ngIf="grantDiff.oldGrantEndDate"><p class="px-2 my-1" [innerHTML]="getTheDifference(grantDiff.oldGrantEndDate,grantDiff.newGrantEndDate).before"></p>
     </div>
-    <div *ngIf="!grantDiff.oldGrantEndDate && grantDiff.newGrantEndDate" class="text-white"><i><small>Previously had
-          no value</small></i></div>
+    <div *ngIf="!grantDiff.oldGrantEndDate && grantDiff.newGrantEndDate" class="text-white"><em><small>Previously had
+          no value</small></em></div>
   </div>
   <div *ngIf="grantDiff.oldGrantAmount || grantDiff.newGrantAmount" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Amount changed</span>
-    <div class="change-new" *ngIf="grantDiff.newGrantAmount"><p class="px-2 my-1">{{currencyService.getFormattedAmount(grantDiff.newGrantAmount)}}</p></div>
-    <div *ngIf="!grantDiff.newGrantAmount && grantDiff.oldGrantAmount" class="text-danger"><i><small>Currently has
-          no value</small></i></div>
-    <div class="change-old" *ngIf="grantDiff.oldGrantAmount"><p class="px-2 my-1">{{currencyService.getFormattedAmount(grantDiff.oldGrantAmount)}}</p></div>
-    <div *ngIf="!grantDiff.oldGrantAmount && grantDiff.newGrantAmount" class="text-white"><i><small>Previously had
-          no value</small></i></div>
+    <div class="change-new" *ngIf="grantDiff.newGrantAmount"><p class="px-2 my-1" [innerHTML]="getTheDifference(currencyService.getFormattedAmount(grantDiff.oldGrantAmount),currencyService.getFormattedAmount(grantDiff.newGrantAmount)).after"></p></div>
+    <div *ngIf="!grantDiff.newGrantAmount && grantDiff.oldGrantAmount" class="text-danger"><em><small>Currently has
+          no value</small></em></div>
+    <div class="change-old" *ngIf="grantDiff.oldGrantAmount"><p class="px-2 my-1" [innerHTML]="getTheDifference(currencyService.getFormattedAmount(grantDiff.oldGrantAmount),currencyService.getFormattedAmount(grantDiff.newGrantAmount)).before"></p></div>
+    <div *ngIf="!grantDiff.oldGrantAmount && grantDiff.newGrantAmount" class="text-white"><em><small>Previously had
+          no value</small></em></div>
   </div>
   <div *ngIf="grantDiff.oldGrantee || grantDiff.newGrantee" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Implementing organization changed</span>
-    <div class="change-new" *ngIf="grantDiff.newGrantee"><p class="px-2 my-1">{{grantDiff.newGrantee}}</p></div>
-    <div *ngIf="!grantDiff.newGrantee && grantDiff.oldGrantee" class="text-danger"><i><small>Currently has no
-          value</small></i></div>
-    <div class="change-old" *ngIf="grantDiff.oldGrantee"><p class="px-2 my-1">{{grantDiff.oldGrantee}}</p></div>
-    <div *ngIf="!grantDiff.oldGrantee && grantDiff.newGrantee" class="text-white"><i><small>Previously had no
-          value</small></i></div>
+    <div class="change-new" *ngIf="grantDiff.newGrantee"><p class="px-2 my-1" [innerHTML]="getTheDifference(grantDiff.oldGrantee,grantDiff.newGrantee).after"></p></div>
+    <div *ngIf="!grantDiff.newGrantee && grantDiff.oldGrantee" class="text-danger"><em><small>Currently has no
+          value</small></em></div>
+    <div class="change-old" *ngIf="grantDiff.oldGrantee"><p class="px-2 my-1" [innerHTML]="getTheDifference(grantDiff.oldGrantee,grantDiff.newGrantee).before"></p></div>
+    <div *ngIf="!grantDiff.oldGrantee && grantDiff.newGrantee" class="text-white"><em><small>Previously had no
+          value</small></em></div>
   </div>
   <div *ngIf="grantDiff.oldRep || grantDiff.newRep" class="mb-2 change-box">
     <span class="change-title"><span>Grant Header | </span>Implementing Organization Representative changed</span>
-    <div class="change-new" *ngIf="grantDiff.newRep"><p class="px-2 my-1">{{grantDiff.newRep}}</p></div>
-    <div *ngIf="!grantDiff.newRep && grantDiff.oldRep" class="text-danger"><i><small>Currently has no
-          value</small></i></div>
-    <div class="change-old" *ngIf="grantDiff.oldRep"><p class="px-2 my-1">{{grantDiff.oldRep}}</p></div>
-    <div *ngIf="!grantDiff.oldRep && grantDiff.newRep" class="text-white"><i><small>Previously had no
-          value</small></i></div>
+    <div class="change-new" *ngIf="grantDiff.newRep"><p class="px-2 my-1" [innerHTML]="getTheDifference(grantDiff.oldRep,grantDiff.newRep).after"></p></div>
+    <div *ngIf="!grantDiff.newRep && grantDiff.oldRep" class="text-danger"><em><small>Currently has no
+          value</small></em></div>
+    <div class="change-old" *ngIf="grantDiff.oldRep"><p class="px-2 my-1" [innerHTML]="getTheDifference(grantDiff.oldRep,grantDiff.newRep).before"></p></div>
+    <div *ngIf="!grantDiff.oldRep && grantDiff.newRep" class="text-white"><em><small>Previously had no
+          value</small></em></div>
   </div>
 
   <ng-container *ngIf="grantDiff.orderDiffs && grantDiff.orderDiffs.length>0">
@@ -152,8 +153,8 @@
       </ng-container>
         <div *ngIf="sectionDiff.oldSection && sectionDiff.newSection && sectionDiff.oldSection.name!==sectionDiff.newSection.name" class="mb-2 change-box">
           <span class="change-title"><span>Grant Details | </span>Section name changed</span>
-          <div class="change-new"><p class="px-2 my-1">{{sectionDiff.newSection.name}}</p></div>
-          <div class="change-old"><p class="px-2 my-1">{{sectionDiff.oldSection.name}}</p></div>
+          <div class="change-new"><p class="px-2 my-1" [innerHTML]="getTheDifference(sectionDiff.oldSection.name,sectionDiff.newSection.name).after"></p></div>
+          <div class="change-old"><p class="px-2 my-1" [innerHTML]="getTheDifference(sectionDiff.oldSection.name,sectionDiff.newSection.name).before"></p></div>
         </div>
         <div *ngIf="sectionDiff.oldSection && !sectionDiff.newSection" class="mb-2 change-box">
           <span class="change-title"><span>Grant Details | </span><b>{{sectionDiff.oldSection.name}}</b> | deleted</span>
@@ -235,88 +236,89 @@
         <ng-container *ngIf="sectionDiff.attributesDiffs">
           <ng-container *ngFor="let attrDiff of sectionDiff.attributesDiffs">
             <div *ngIf="attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details | <b>{{attrDiff.section}}</b> | </span>changes</span>
+              <span class="change-title"><span>Grant Details | <strong>{{attrDiff.section}}</strong> | </span>changes</span>
               <div class="row change-new m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
-                  <p>{{attrDiff.newAttribute.name}}</p>
+                  <p [innerHTML]="getTheDifference(attrDiff.oldAttribute.name,attrDiff.newAttribute.name).after"></p>
                 </div>
                 <div class="col-3"><label class="mb-0 text-subheader">Field Type:</label>
-                  <p>{{getType(attrDiff.newAttribute.type)}}</p>
+                  <p [innerHTML]="getTheDifference(getType(attrDiff.oldAttribute.type),getType(attrDiff.newAttribute.type)).after"></p>
                 </div>
                 <div *ngIf="attrDiff.newAttribute.type==='multiline'" class="col-12"><label class="text-subheader mb-0">Field Value:</label>
-                  <div class="px-2 my-1"><pre style="font-size: inherit;">{{attrDiff.newAttribute.value}}</pre></div>
+                  <div class="px-2 my-1"><pre style="font-size: inherit;" [innerHTML]="getTheDifference(attrDiff.oldAttribute.value,attrDiff.newAttribute.value).after"></pre></div>
                 </div>
                 <div *ngIf="attrDiff.newAttribute.type==='kpi'" class="col-12">
                   <div class="row">
                     <div  class="col-4">
                       <label class=" text-subheader mb-0">Target/Goal:</label>
-                      <p>{{attrDiff.newAttribute.target}}</p>
+                      <p [innerHTML]="getTheDifference(attrDiff.oldAttribute.target,attrDiff.newAttribute.target).after"></p>
                     </div>
                     <div class="col-4">
                       <label class="text-subheader mb-0">Frequency:</label>
-                      <p *ngIf="attrDiff.newAttribute.frequency!=='half-yearly'">
-                        {{attrDiff.newAttribute.frequency | titlecase}}</p>
-                      <p *ngIf="attrDiff.newAttribute.frequency==='half-yearly'">Half Yearly</p>
+                      <p *ngIf="attrDiff.newAttribute.frequency!=='half-yearly'" [innerHTML]="getTheDifference(attrDiff.oldAttribute.frequency,attrDiff.newAttribute.frequency).after"></p>
+                      <p *ngIf="attrDiff.newAttribute.frequency==='half-yearly'" [innerHTML]="getTheDifference(attrDiff.oldAttribute.frequency,'Half Yearly').after"></p>
                     </div>
                   </div>
                 </div>
                 
                 <div *ngIf="attrDiff.newAttribute.type==='table'" class="col-12"
-                  [innerHTML]="getTabularData(attrDiff.newAttribute.tableValue)">
+                  [innerHTML]="getTabularDataNew(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                 </div>
                 <div *ngIf="attrDiff.newAttribute.type==='disbursement'" class="col-12"
-                  [innerHTML]="getDisbursementTabularData(attrDiff.newAttribute.tableValue)">
+                  [innerHTML]="getDisbursementTabularDataNew(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                 </div>
                 <div *ngIf="attrDiff.newAttribute.type==='document'" class="col-12">
-                  <ul>
+                  <div [innerHTML]="getDocumentNameNew(attrDiff.oldAttribute.value,attrDiff.newAttribute.value)"></div>
+                  <!-- <ul>
                     <li *ngFor="let doc of getDocumentName(attrDiff.newAttribute.value)">
                       {{doc.name}}
                     </li>
-                  </ul>
+                  </ul> -->
                 </div>
               </div>
               <div class="row change-old m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
-                  <p>{{attrDiff.oldAttribute.name}}</p>
+                  <p [innerHTML]="getTheDifference(attrDiff.oldAttribute.name,attrDiff.newAttribute.name).before"></p>
                 </div>
                 <div class="col-3"><label class="mb-0 text-subheader">Field Type:</label>
-                  <p>{{getType(attrDiff.oldAttribute.type)}}</p>
+                  <p [innerHTML]="getTheDifference(getType(attrDiff.oldAttribute.type),getType(attrDiff.newAttribute.type)).before"></p>
                 </div>
                 <div *ngIf="attrDiff.oldAttribute.type==='multiline'" class="col-12"><label class="text-subheader mb-0">Field Value:</label>
-                  <div class="px-2 my-1"><pre style="font-size: inherit;">{{attrDiff.oldAttribute.value}}</pre></div>
+                  <div class="px-2 my-1"><pre style="font-size: inherit;"[innerHTML]="getTheDifference(attrDiff.oldAttribute.value,attrDiff.newAttribute.value).before"></pre></div>
                 </div>
                 <div *ngIf="attrDiff.oldAttribute.type==='kpi'" class="col-12">
                   <div class="row">
-                    <div  class="col-3">
+                    <div  class="col-4">
                       <label class="text-subheader mb-0">Target/Goal:</label>
-                      <p>{{attrDiff.oldAttribute.target}}</p>
+                      <p [innerHTML]="getTheDifference(attrDiff.oldAttribute.target,attrDiff.newAttribute.target).before"></p>
                     </div>
-                    <div class="col-3">
+                    <div class="col-4">
                       <label class="text-subheader mb-0">Frequency:</label>
-                      <p *ngIf="attrDiff.oldAttribute.frequency!=='half-yearly'">
-                        {{attrDiff.oldAttribute.frequency | titlecase}}</p>
-                      <p *ngIf="attrDiff.oldAttribute.frequency==='half-yearly'">Half Yearly</p>
+                      <p *ngIf="attrDiff.oldAttribute.frequency!=='half-yearly'" [innerHTML]="getTheDifference(attrDiff.oldAttribute.frequency,attrDiff.newAttribute.frequency).before">
+                      </p>
+                      <p *ngIf="attrDiff.oldAttribute.frequency==='half-yearly'" [innerHTML]="getTheDifference('Half Yearly',attrDiff.newAttribute.frequency).before"></p>
                     </div>
                   </div>
                 </div>
                 
                 <div *ngIf="attrDiff.oldAttribute.type==='table'" class="col-12"
-                  [innerHTML]="getTabularData(attrDiff.oldAttribute.tableValue)">
+                  [innerHTML]="getTabularDataOld(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                 </div>
                 <div *ngIf="attrDiff.oldAttribute.type==='disbursement'" class="col-12"
-                  [innerHTML]="getDisbursementTabularData(attrDiff.oldAttribute.tableValue)">
+                  [innerHTML]="getDisbursementTabularDataOld(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                 </div>
                 <div *ngIf="attrDiff.oldAttribute.type==='document'" class="col-12">
-                  <ul>
+                  <div [innerHTML]="getDocumentNameOld(attrDiff.oldAttribute.value,attrDiff.newAttribute.value)"></div>
+                  <!-- <ul>
                     <li *ngFor="let doc of getDocumentName(attrDiff.oldAttribute.value)">
                       {{doc.name}}
                     </li>
-                  </ul>
+                  </ul> -->
                 </div>
               </div>
             </div>
             <div *ngIf="attrDiff.oldAttribute && !attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details | </span><b>{{attrDiff.section}}</b> | fields deleted </span>
+              <span class="change-title"><span>Grant Details | </span><strong>{{attrDiff.section}}</strong> | fields deleted </span>
               <div class="row change-old m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.oldAttribute.name}}</p>
@@ -358,7 +360,7 @@
               </div>
             </div>
             <div *ngIf="!attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-              <span class="change-title"><span>Grant Details | </span><b>{{attrDiff.section}}</b> | fields added </span>
+              <span class="change-title"><span>Grant Details | </span><strong>{{attrDiff.section}}</strong> | fields added </span>
               <div class="row change-new m-0" style="display: flex;">
                 <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                   <p>{{attrDiff.newAttribute.name}}</p>
@@ -408,48 +410,48 @@
 </ng-container>
 <ng-container *ngIf="_for==='Report'">
   <h5 *ngIf="!reportDiff" class="text-center mt-5">There are no differences between the two report states</h5>
-  <div *ngIf="reportDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;overflow-y:scroll;overflow-x:hidden;height: calc(100vh - 280px);">
+  <div *ngIf="reportDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;">
     <div *ngIf="reportDiff.oldReportName || reportDiff.newReportName" class="mb-2 change-box">
       <span class="change-title"><span>Report Header | </span>Report name changed</span>
-      <div class="change-new" *ngIf="reportDiff.newReportName"><div class="px-2 my-1">{{reportDiff.newReportName}}</div></div>
-      <div *ngIf="reportDiff.newReportName && !reportDiff.oldReportName" class="text-danger"><i><small>Currently has
-            no value</small></i></div>
-      <div class="change-old" *ngIf="reportDiff.oldReportName"><div class="px-2 my-1">{{reportDiff.oldReportName}}</div></div>
-      <div *ngIf="reportDiff.oldReportName && !reportDiff.newReportName" class="text-white"><i><small>Previously had
-            no value</small></i></div>
+      <div class="change-new" *ngIf="reportDiff.newReportName"><div class="px-2 my-1" [innerHTML]="getTheDifference(reportDiff.oldReportName,reportDiff.newReportName).after"></div></div>
+      <div *ngIf="reportDiff.newReportName && !reportDiff.oldReportName" class="text-danger"><em><small>Currently has
+            no value</small></em></div>
+      <div class="change-old" *ngIf="reportDiff.oldReportName"><div class="px-2 my-1" [innerHTML]="getTheDifference(reportDiff.oldReportName,reportDiff.newReportName).before"></div></div>
+      <div *ngIf="reportDiff.oldReportName && !reportDiff.newReportName" class="text-white"><em><small>Previously had
+            no value</small></em></div>
     </div>
     <div *ngIf="reportDiff.oldReportStartDate || reportDiff.newReportStartDate" class="mb-2 change-box">
       <span class="change-title"><span>Report Header | </span>Report start date changed</span>
       <div class="change-new" *ngIf="reportDiff.newReportStartDate">
-        <div class="px-2 my-1">{{reportDiff.newReportStartDate}}</div></div>
+        <div class="px-2 my-1" [innerHtml]="getTheDifference(reportDiff.oldReportStartDate?reportDiff.oldReportStartDate:'',reportDiff.newReportStartDate).after"></div></div>
       <div *ngIf="!reportDiff.newReportStartDate && reportDiff.oldReportStartDate" class="text-danger">
-        <i><small>Currently has no value</small></i></div>
+        <em><small>Currently has no value</small></em></div>
       <div class="change-old" *ngIf="reportDiff.oldReportStartDate">
-        <div class="px-2 my-1">{{reportDiff.oldReportStartDate}}</div></div>
+        <div class="px-2 my-1" [innerHtml]="getTheDifference(reportDiff.oldReportStartDate,reportDiff.newReportStartDate?reportDiff.newReportStartDate:'').before"></div></div>
       <div *ngIf="!reportDiff.oldReportStartDate && reportDiff.newReportStartDate" class="text-white">
-        <i><small>Previously had no value</small></i></div>
+        <em><small>Previously had no value</small></em></div>
     </div>
     <div *ngIf="reportDiff.oldReportEndDate || reportDiff.newReportEndDate" class="mb-2 change-box">
       <span class="change-title"><span>Report Header | </span>Report end date changed</span>
-      <div class="change-new" *ngIf="reportDiff.newReportEndDate"><div class="px-2 my-1">{{reportDiff.newReportEndDate}}</div>
+      <div class="change-new" *ngIf="reportDiff.newReportEndDate"><div class="px-2 my-1" [innerHTML]="getTheDifference(reportDiff.oldReportEndDate?reportDiff.oldReportEndDate:'',reportDiff.newReportEndDate).after"></div>
       </div>
-      <div *ngIf="!reportDiff.newReportEndDate && reportDiff.oldReportEndDate" class="text-danger"><i><small>Currently
-            has no value</small></i></div>
-      <div class="change-old" *ngIf="reportDiff.oldReportEndDate"><div class="px-2 my-1">{{reportDiff.oldReportEndDate}}</div>
+      <div *ngIf="!reportDiff.newReportEndDate && reportDiff.oldReportEndDate" class="text-danger"><em><small>Currently
+            has no value</small></em></div>
+      <div class="change-old" *ngIf="reportDiff.oldReportEndDate"><div class="px-2 my-1" [innerHTML]="getTheDifference(reportDiff.oldReportEndDate,reportDiff.newReportEndDate?reportDiff.newReportEndDate:'').before"></div>
       </div>
-      <div *ngIf="!reportDiff.oldReportEndDate && reportDiff.newReportEndDate" class="text-white"><i><small>Previously
-            had no value</small></i></div>
+      <div *ngIf="!reportDiff.oldReportEndDate && reportDiff.newReportEndDate" class="text-white"><em><small>Previously
+            had no value</small></em></div>
     </div>
     <div *ngIf="reportDiff.oldReportDueDate || reportDiff.newReportDueDate" class="mb-2 change-box">
       <span class="change-title"><span>Report Header | </span>Report Due Date changed</span>
-      <div class="change-new" *ngIf="reportDiff.newReportDueDate"><div class="px-2 my-1">{{reportDiff.newReportDueDate}}</div>
+      <div class="change-new" *ngIf="reportDiff.newReportDueDate"><div class="px-2 my-1" [innerHtml]="getTheDifference( reportDiff.oldReportDueDate? reportDiff.oldReportDueDate:'',reportDiff.newReportDueDate).after"></div>
       </div>
-      <div *ngIf="!reportDiff.newReportDueDate && reportDiff.oldReportDueDate" class="text-danger"><i><small>Currently
-            has no value</small></i></div>
-      <div class="change-old" *ngIf="reportDiff.oldReportDueDate"><div class="px-2 my-1">{{reportDiff.oldReportDueDate}}</div>
+      <div *ngIf="!reportDiff.newReportDueDate && reportDiff.oldReportDueDate" class="text-danger"><em><small>Currently
+            has no value</small></em></div>
+      <div class="change-old" *ngIf="reportDiff.oldReportDueDate"><div class="px-2 my-1" [innerHtml]="getTheDifference(reportDiff.oldReportDueDate,reportDiff.newReportDueDate?reportDiff.newReportDueDate:'').before"></div>
       </div>
-      <div *ngIf="!reportDiff.oldReportDueDate && reportDiff.newReportDueDate" class="text-white"><i><small>Previously
-            had no value</small></i></div>
+      <div *ngIf="!reportDiff.oldReportDueDate && reportDiff.newReportDueDate" class="text-white"><em><small>Previously
+            had no value</small></em></div>
     </div>
 
     <ng-container *ngIf="reportDiff.sectionDiffs">
@@ -479,8 +481,8 @@
         </ng-container>
           <div *ngIf="sectionDiff.oldSection && sectionDiff.newSection && sectionDiff.oldSection.name!==sectionDiff.newSection.name" class="mb-2 change-box">
             <span class="change-title"><span>Report Detail | </span>Section name changed</span>
-            <div class="change-new">{{sectionDiff.newSection.sectionName}}</div>
-            <div class="change-old">{{sectionDiff.oldSection.sectionName}}</div>
+            <div class="change-new" [innerHtml]="getTheDifference(sectionDiff.oldSection.sectionName,sectionDiff.newSection.sectionName).after"></div>
+            <div class="change-old" [innerHtml]="getTheDifference(sectionDiff.oldSection.sectionName,sectionDiff.newSection.sectionName).before"></div>
           </div>
           <div *ngIf="sectionDiff.oldSection && !sectionDiff.newSection" class="mb-2 change-box">
             <span class="change-title"><span>Report Detail | </span><b>{{sectionDiff.oldSection.name}}</b> | deleted</span>
@@ -563,96 +565,98 @@
           <ng-container *ngIf="sectionDiff.attributesDiffs">
             <ng-container *ngFor="let attrDiff of sectionDiff.attributesDiffs">
               <div *ngIf="attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-                <span class="change-title"><span>Report Detail | </span><b>{{sectionDiff.newSection.name}}</b> | changes </span>
+                <span class="change-title"><span>Report Detail | </span><strong>{{sectionDiff.newSection.name}}</strong> | changes </span>
                 <div class="row change-new m-0" style="display: flex;">
                   <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
-                    <p>{{attrDiff.newAttribute.name}}</p>
+                    <p [innerHtml]="getTheDifference(attrDiff.oldAttribute.name,attrDiff.newAttribute.name).after"></p>
                   </div>
                   <div class="col-3"><label class="mb-0 text-subheader">Field Type:</label>
-                    <p>{{getType(attrDiff.newAttribute.type)}}</p>
+                    <p [innerHtml]="getTheDifference(getType(attrDiff.oldAttribute.type),getType(attrDiff.newAttribute.type)).after"></p>
                   </div>
                   <div *ngIf="attrDiff.newAttribute.type==='multiline'" class="col-12"><label class="text-subheader">Field Value:</label>
-                    <p>{{attrDiff.newAttribute.value}}</p>
+                    <pre [innerHTML]="getTheDifference(attrDiff.oldAttribute.value,attrDiff.newAttribute.value).after"></pre>
                   </div>
                   <div *ngIf="attrDiff.newAttribute.type==='kpi'" class="col-12">
                     <div class="row">
                       <div class="col-3">
                         <label class="text-subheader">Target/Goal:</label>
-                        <p>{{attrDiff.newAttribute.target}}</p>
+                        <p [innerHTML]="getTheDifference(attrDiff.oldAttribute.target,attrDiff.newAttribute.target).after"></p>
                       </div>
                       <div class="col-3">
                         <label class="text-subheader">Actual Achieved:</label>
-                        <p>{{attrDiff.newAttribute.actualTarget}}</p>
+                        <p [innerHTML]="getTheDifference(attrDiff.oldAttribute.actualTarget,attrDiff.newAttribute.actualTarget).after"></p>
                       </div>
                       <div class="col-3">
                         <label class="text-subheader">Frequency:</label>
-                        <p *ngIf="attrDiff.newAttribute.frequency!=='half-yearly'">
-                          {{attrDiff.newAttribute.frequency | titlecase}}</p>
-                        <p *ngIf="attrDiff.newAttribute.frequency==='half-yearly'">Half Yearly</p>
+                        <p *ngIf="attrDiff.newAttribute.frequency!=='half-yearly'" [innerHTML]="getTheDifference(attrDiff.oldAttribute.frequency | titlecase,attrDiff.newAttribute.frequency | titlecase).after">
+                          </p>
+                        <p *ngIf="attrDiff.newAttribute.frequency==='half-yearly'" [innerHTML]="getTheDifference('Half Yearly',attrDiff.newAttribute.frequency | titlecase).after"></p>
                       </div>
                     </div>
                   </div>
                   
                   <div *ngIf="attrDiff.newAttribute.type==='table'" class="col-12"
-                    [innerHTML]="getTabularData(attrDiff.newAttribute.tableValue)">
+                    [innerHTML]="getTabularDataNew(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                   </div>
                   <div *ngIf="attrDiff.newAttribute.type==='disbursement'" class="col-12"
-                    [innerHTML]="getDisbursementTabularData(attrDiff.newAttribute.tableValue)">
+                    [innerHTML]="getDisbursementTabularDataNew(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                   </div>
                   <div *ngIf="attrDiff.newAttribute.type==='document'" class="col-12">
-                    <ul>
+                    <div [innerHTML]="getDocumentNameNew(attrDiff.oldAttribute.value,attrDiff.newAttribute.value)"></div>
+                    <!-- <ul>
                       <li *ngFor="let doc of getDocumentName(attrDiff.newAttribute.value)">
                         {{doc.name}}
                       </li>
-                    </ul>
+                    </ul> -->
                   </div>
                 </div>
                 <div class="row change-old m-0" style="display: flex;">
                   <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
-                    <p>{{attrDiff.oldAttribute.name}}</p>
+                    <p [innerHtml]="getTheDifference(attrDiff.oldAttribute.name,attrDiff.newAttribute.name).before"></p>
                   </div>
                   <div class="col-3"><label class="mb-0 text-subheader">Field Type:</label>
-                    <p>{{getType(attrDiff.oldAttribute.type)}}</p>
+                    <p [innerHtml]="getTheDifference(getType(attrDiff.oldAttribute.type),getType(attrDiff.newAttribute.type)).before"></p>
                   </div>
                   <div *ngIf="attrDiff.oldAttribute.type==='multiline'" class="col-12"><label class="text-subheader">Field Value:</label>
-                    <p>{{attrDiff.oldAttribute.value}}</p>
+                    <pre [innerHTML]="getTheDifference(attrDiff.oldAttribute.value,attrDiff.newAttribute.value).before"></pre>
                   </div>
                   <div class="col-12" *ngIf="attrDiff.oldAttribute.type==='kpi'">
                     <div class="row">
                       <div class="col-3">
                         <label class="text-subheader">Target/Goal:</label>
-                        <p>{{attrDiff.oldAttribute.target}}</p>
+                        <p [innerHTML]="getTheDifference(attrDiff.oldAttribute.target,attrDiff.newAttribute.target).before"></p>
                       </div>
                       <div class="col-3">
                         <label class="text-subheader">Actual Achieved:</label>
-                        <p>{{attrDiff.oldAttribute.actualTarget}}</p>
+                        <p [innerHTML]="getTheDifference(attrDiff.oldAttribute.actualTarget,attrDiff.newAttribute.actualTarget).before"></p>
                       </div>
                       <div class="col-3">
                         <label class="text-subheader">Frequency:</label>
-                        <p *ngIf="attrDiff.newAttribute.frequency!=='half-yearly'">
-                          {{attrDiff.newAttribute.frequency | titlecase}}</p>
-                        <p *ngIf="attrDiff.newAttribute.frequency==='half-yearly'">Half Yearly</p>
+                        <p *ngIf="attrDiff.newAttribute.frequency!=='half-yearly'" [innerHTML]="getTheDifference(attrDiff.oldAttribute.frequency | titlecase,attrDiff.newAttribute.frequency | titlecase).before">
+                        </p>
+                        <p *ngIf="attrDiff.newAttribute.frequency==='half-yearly'" [innerHTML]="getTheDifference('Half Yearly',attrDiff.newAttribute.frequency | titlecase).before"></p>
                       </div>
                     </div>
                   </div>
                   
                   <div *ngIf="attrDiff.oldAttribute.type==='table'" class="col-12"
-                    [innerHTML]="getTabularData(attrDiff.oldAttribute.tableValue)">
+                  [innerHTML]="getTabularDataOld(attrDiff.oldAttribute.tableValue,attrDiff.newAttribute.tableValue)">
                   </div>
                   <div *ngIf="attrDiff.oldAttribute.type==='disbursement'" class="col-12"
-                    [innerHTML]="getDisbursementTabularData(attrDiff.oldAttribute.tableValue)">
+                    [innerHTML]="getDisbursementTabularDataOld(attrDiff.oldAttribute.tableValue,attrDiff.oldAttribute.tableValue)">
                   </div>
                   <div *ngIf="attrDiff.oldAttribute.type==='document'" class="col-12">
-                    <ul>
+                    <div [innerHTML]="getDocumentNameOld(attrDiff.oldAttribute.value,attrDiff.newAttribute.value)"></div>
+                    <!-- <ul>
                       <li *ngFor="let doc of getDocumentName(attrDiff.oldAttribute.value)">
                         {{doc.name}}
                       </li>
-                    </ul>
+                    </ul> -->
                   </div>
                 </div>
               </div>
               <div *ngIf="attrDiff.oldAttribute && !attrDiff.newAttribute" class="mb-2 change-box">
-                <span class="change-title"><span>Report Detail | </span><b>{{attrDiff.section}}</b> | Fields deleted</span>
+                <span class="change-title"><span>Report Detail | </span><strong>{{attrDiff.section}}</strong> | Fields deleted</span>
                 <div class="row change-old m-0" style="display: flex;">
                   <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                     <p>{{attrDiff.oldAttribute.name}}</p>
@@ -698,7 +702,7 @@
                 </div>
               </div>
               <div *ngIf="!attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-                <span class="change-title"><span>Report Detail | </span><b>{{attrDiff.section}}</b> | Fields added</span>
+                <span class="change-title"><span>Report Detail | </span><strong>{{attrDiff.section}}</strong> | Fields added</span>
                 <div class="row change-new m-0" style="display: flex;">
                   <div class="col-4"><label class="mb-0 text-subheader">Field Name:</label>
                     <p>{{attrDiff.newAttribute.name}}</p>
@@ -752,26 +756,26 @@
 </ng-container>
 <ng-container *ngIf="_for==='Disbursement'">
   <h5 *ngIf="!disbursementDiff" class="text-center mt-5">There are no differences between the two approval request states</h5>
-  <div *ngIf="disbursementDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;overflow-y:scroll;overflow-x:hidden;height: calc(100vh - 280px);">
+  <div *ngIf="disbursementDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;">
     <div *ngIf="disbursementDiff.oldRequestedAmount || disbursementDiff.newRequestedAmount" class="mb-2 change-box">
       <span class="change-title"><span>Approval Request Header | </span>Requested Amount changed</span>
       <div class="change-new" *ngIf="disbursementDiff.newRequestedAmount">
-        <div class="px-2 my-1">{{currencyService.getFormattedAmount(disbursementDiff.newRequestedAmount)}}</div></div>
+        <div class="px-2 my-1" [innerHTML]="getTheDifference(currencyService.getFormattedAmount(disbursementDiff.oldRequestedAmount?disbursementDiff.oldRequestedAmount:0),currencyService.getFormattedAmount(disbursementDiff.newRequestedAmount)).after"></div></div>
       <div *ngIf="disbursementDiff.newRequestedAmount && !disbursementDiff.oldRequestedAmount" class="text-danger">
-        <i><small>No value</small></i></div>
+        <em><small>No value</small></em></div>
       <div class="change-old" *ngIf="disbursementDiff.oldRequestedAmount">
-        <div class="px-2 my-1">{{currencyService.getFormattedAmount(disbursementDiff.oldRequestedAmount)}}</div></div>
+        <div class="px-2 my-1" [innerHTML]="getTheDifference(currencyService.getFormattedAmount(disbursementDiff.oldRequestedAmount),currencyService.getFormattedAmount(disbursementDiff.newRequestedAmount?disbursementDiff.newRequestedAmount:0)).before"></div></div>
       <div *ngIf="disbursementDiff.oldRequestedAmount && !disbursementDiff.newRequestedAmount" class="text-white">
-        <i><small>Previously had no value</small></i></div>
+        <em><small>Previously had no value</small></em></div>
     </div>
     <div *ngIf="disbursementDiff.oldReason || disbursementDiff.newReason" class="mb-2 change-box">
       <span class="change-title"><span>Approval Request Header | </span>Approval Request Commentary changed</span>
-      <div class="change-new" *ngIf="disbursementDiff.newReason"><div class="px-2 my-1">{{disbursementDiff.newReason}}</div></div>
-      <div *ngIf="!disbursementDiff.newReason && disbursementDiff.oldReason" class="text-danger"><i><small>No
-            value</small></i></div>
-      <div class="change-old" *ngIf="disbursementDiff.oldReason"><div class="px-2 my-1">{{disbursementDiff.oldReason}}</div></div>
-      <div *ngIf="!disbursementDiff.oldReason && disbursementDiff.newReason" class="text-white"><i><small>Previously
-            had no value</small></i></div>
+      <div class="change-new" *ngIf="disbursementDiff.newReason"><div class="px-2 my-1" [innerHTML]="getTheDifference(disbursementDiff.oldReason?disbursementDiff.oldReason:'',disbursementDiff.newReason).after"></div></div>
+      <div *ngIf="!disbursementDiff.newReason && disbursementDiff.oldReason" class="text-danger"><em><small>No
+            value</small></em></div>
+      <div class="change-old" *ngIf="disbursementDiff.oldReason"><div class="px-2 my-1"  [innerHTML]="getTheDifference(disbursementDiff.oldReason,disbursementDiff.newReason?disbursementDiff.newReason:'').before"></div></div>
+      <div *ngIf="!disbursementDiff.oldReason && disbursementDiff.newReason" class="text-white"><em><small>Previously
+            had no value</small></em></div>
     </div>
     <div *ngIf="disbursementDiff.actualDisbursement" class="mb-2 change-box">
       <span class="change-title"><span>Recorded Disbursements | </span><b>Recorded Disbursements</b> changes</span>
@@ -779,16 +783,15 @@
         <div class="px-2 my-1">
           <table width="100%" border="1">
             <tr>
-              <td>Disbursement Date</td>
-              <td>Disbursement Amount</td>
-              <td>Milestone/Notes</td>
+            <th id="disbursement_date">Disbursement Date</th>
+            <th id="disbursement_amount">Disbursement Amount</th>
+            <th id="milestone">Milestone/Notes</th>
             </tr>
           <ng-container *ngFor="let ad of disbursementDiff.actualDisbursement">
             <tr>
             <td>{{ad.disbursementDate}}</td>
             <td>{{ad.actualAmount}}</td>
             <td>{{ad.note}}</td>
-          </tr>
           </ng-container>
         </table>
         </div>
@@ -797,3 +800,4 @@
     </div>
   </div>
 </ng-container>
+</div>

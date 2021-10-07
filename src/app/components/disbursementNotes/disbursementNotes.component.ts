@@ -33,6 +33,7 @@ export class DisbursementNotesComponent implements OnInit {
 
     @ViewChild("scrollContainer") scrollContainer: ElementRef;
     @ViewChild("inputMessage") inputMessage: ElementRef;
+    hasChanges = false;
 
     constructor(
         private _bottomSheetRef: MatDialogRef<DisbursementNotesComponent>
@@ -103,4 +104,7 @@ export class DisbursementNotesComponent implements OnInit {
         }
     }
 
+    checkIfHasDifferences(val) {
+        this.hasChanges = val;
+    }
 }

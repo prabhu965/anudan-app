@@ -3,9 +3,10 @@ import { ReportDiff } from './../model/report';
 import { CurrencyService } from './../currency-service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Grant, GrantDiff, SectionDiff, AttributeDiff } from './../model/dahsboard';
-import { Component, Input, OnInit, Inject } from '@angular/core';
+import { Component, Input, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 import * as deepDiff from 'deep-object-diff';
 import * as inf from 'indian-number-format';
+import * as difference from 'simple-text-diff';
 
 @Component({
   selector: 'app-grant-compare',
@@ -14,6 +15,7 @@ import * as inf from 'indian-number-format';
   styles: [`
     ::ng-deep .wf-assignment-class .mat-dialog-container{
       overflow: hidden !important;
+      height: calc(100vh - 114px);
     }
   `]
 })
@@ -27,6 +29,7 @@ export class GrantCompareComponent implements OnInit {
   @Input("compare2Title") compare2: string = "Compared with Grant";
   @Input("for") _for = "Grant";
   @Input("compareType") _compareType = "weak";
+  @Output() hasChanges = new EventEmitter();
   changes: any[] = [];
   grantDiff: GrantDiff;
   reportDiff: ReportDiff;
@@ -34,6 +37,7 @@ export class GrantCompareComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<GrantCompareComponent>
     , @Inject(MAT_DIALOG_DATA) public itemsCompare: any, public currencyService: CurrencyService) {
+    dialogRef.disableClose = true;
 
     if (itemsCompare.checkType) {
       this._compareType = itemsCompare.checkType;
@@ -49,6 +53,8 @@ export class GrantCompareComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getTheDifference('a', 'b');
+
     if (this._for === 'Grant' && this._compareType === 'weak') {
       this._diffWeak(this.newItem, this.oldItem);
     } else if (this._for === 'Grant' && this._compareType === 'strong') {
@@ -384,7 +390,11 @@ export class GrantCompareComponent implements OnInit {
     if (this.grantDiff && this.grantDiff.sectionDiffs) {
       this.grantDiff.sectionDiffs.sort((a, b) => a.order >= b.order ? 1 : -1);
     }
-    console.log(this.grantDiff);
+    if (this.grantDiff) {
+      this.hasChanges.emit(true);
+    } else {
+      this.hasChanges.emit(false);
+    }
     return this.changes;
   }
 
@@ -541,7 +551,7 @@ export class GrantCompareComponent implements OnInit {
                                   if (oldAttr.tableValue[i].columns[j].name !== attr.tableValue[i].columns[j].name) {
                                     hasDifferences = true;
                                   }
-                                  if (((!oldAttr.tableValue[i].columns[j].value || oldAttr.tableValue[i].columns[j].value === null) ? "" : oldAttr.tableValue[i].columns[j].value) !== ((!attr.tableValue[i].columns[j].value || attr.tableValue[i].columns[j].value === null || attr.tableValue[i].columns[j].value === "0") ? "" : attr.tableValue[i].columns[j].value)) {
+                                  if (((!oldAttr.tableValue[i].columns[j].value || oldAttr.tableValue[i].columns[j].value === null) ? "" : oldAttr.tableValue[i].columns[j].value === "0" ? "" : oldAttr.tableValue[i].columns[j].value) !== ((!attr.tableValue[i].columns[j].value || attr.tableValue[i].columns[j].value === null || attr.tableValue[i].columns[j].value === "0") ? "" : attr.tableValue[i].columns[j].value === "0" ? "" : attr.tableValue[i].columns[j].value)) {
                                     hasDifferences = true;
                                   }
                                 }
@@ -697,7 +707,11 @@ export class GrantCompareComponent implements OnInit {
     if (this.grantDiff && this.grantDiff.sectionDiffs) {
       this.grantDiff.sectionDiffs.sort((a, b) => a.order >= b.order ? 1 : -1);
     }
-    console.log(this.grantDiff);
+    if (this.grantDiff) {
+      this.hasChanges.emit(true);
+    } else {
+      this.hasChanges.emit(false);
+    }
     return this.changes;
   }
 
@@ -988,8 +1002,9 @@ export class GrantCompareComponent implements OnInit {
     }
 
     let secDiff = [];
-    this._getReportDiff();
+
     if (hasSectionDifferences) {
+      this._getReportDiff();
       for (let a of newReport.sections) {
         this._getReportSectionOrderDiffs();
 
@@ -999,7 +1014,7 @@ export class GrantCompareComponent implements OnInit {
 
     }
 
-    if (this.reportDiff.orderDiffs && this.reportDiff.orderDiffs.length > 0) {
+    if (this.reportDiff && this.reportDiff.orderDiffs && this.reportDiff.orderDiffs.length > 0) {
       for (let oldSec of oldReport.sections) {
         //secDiff.push({ name: oldSec.name, type: 'old', order: oldSec.order });
         this.grantDiff.orderDiffs.push({ name: oldSec.name, type: 'old', order: oldSec.order })
@@ -1011,6 +1026,12 @@ export class GrantCompareComponent implements OnInit {
     this.changes.push(resultSections);
     if (this.reportDiff && this.reportDiff.sectionDiffs) {
       this.reportDiff.sectionDiffs.sort((a, b) => a.order >= b.order ? 1 : -1);
+    }
+
+    if (this.reportDiff) {
+      this.hasChanges.emit(true);
+    } else {
+      this.hasChanges.emit(false);
     }
     return this.changes;
   }
@@ -1113,6 +1134,12 @@ export class GrantCompareComponent implements OnInit {
 
 
     this.changes.push(resultHeader);
+
+    if (this.disbursementDiff) {
+      this.hasChanges.emit(true);
+    } else {
+      this.hasChanges.emit(false);
+    }
     return this.changes;
   }
 
@@ -1131,7 +1158,205 @@ export class GrantCompareComponent implements OnInit {
       return 'Document';
     } else if (type === 'kpi') {
       return 'Measurement/KPI';
+    } else if (type === 'disbursement') {
+      return 'Disbursement';
     }
+  }
+
+  getTabularDataNew(oldData, data) {
+    let html = '<table width="100%" border="1" class="bg-white"><tr>';
+    const tabData = data;
+    html += '<td>' + this.getTheDifference((oldData && oldData.length > 0 && oldData[0].header ? oldData[0].header : ''), (tabData && tabData.lenght > 0 && tabData[0].header ? tabData[0].header : '')).after + '</td>';
+    for (let i = 0; i < tabData[0].columns.length; i++) {
+
+
+      //if(tabData[0].columns[i].name.trim() !== ''){
+      html += '<td>' + this.getTheDifference(String((oldData && oldData.length > 0 && oldData[0].columns[i] && oldData[0].columns[i].name && oldData[0].columns[i].name.trim() === '') ? oldData[0].columns[i].name : '&nbsp;'), String(tabData && tabData.length > 0 && tabData[0].columns[i] && tabData[0].columns[i].name && tabData[0].columns[i].name.trim() === '' ? '&nbsp;' : tabData[0].columns[i].name)).after + '</td>';
+      //}
+    }
+    html += '</tr>';
+    for (let i = 0; i < tabData.length; i++) {
+
+      html += '<tr><td>' + this.getTheDifference(oldData && oldData.length > 0 && oldData[i] ? oldData[i].name : '', tabData[i].name).after + '</td>';
+      for (let j = 0; j < tabData[i].columns.length; j++) {
+        //if(tabData[i].columns[j].name.trim() !== ''){
+        html += '<td>' + this.getTheDifference(oldData && oldData.length > 0 && oldData[i] ? String(oldData[i].columns[j].value.trim() === '' ? '&nbsp;' : oldData[i].columns[j].value) : '', String(tabData[i].columns[j].value.trim() === '' ? '&nbsp;' : tabData[i].columns[j].value)).after + '</td>';
+        //}
+      }
+      html += '</tr>';
+    }
+
+    html += '</table>'
+    return html;
+  }
+
+  getTabularDataOld(oldData, data) {
+    let html = '<table width="100%" border="1" class="bg-white"><tr>';
+    const tabData = data;
+    html += '<td>' + this.getTheDifference((oldData && oldData.length > 0 && oldData[0].header ? oldData[0].header : ''), (tabData && tabData.length > 0 && tabData[0].header ? tabData[0].header : '')).before + '</td>';
+    for (let i = 0; i < tabData[0].columns.length; i++) {
+
+
+      //if(tabData[0].columns[i].name.trim() !== ''){
+      html += '<td>' + this.getTheDifference(String(oldData && oldData.length > 0 && oldData[0].columns[i].name.trim() === '' ? '&nbsp;' : oldData[0].columns[i].name), String(tabData && tabData.length > 0 && tabData[0].columns[i].name.trim() === '' ? '&nbsp;' : tabData[0].columns[i].name)).before + '</td>';
+      //}
+    }
+    html += '</tr>';
+    for (let i = 0; i < tabData.length; i++) {
+      if (!oldData[i]) {
+        continue;
+      }
+      html += '<tr><td>' + this.getTheDifference(oldData && oldData.length > 0 && oldData[i] ? oldData[i].name : '', tabData && tabData.length > 0 && tabData[i].name ? tabData[i].name : '').before + '</td>';
+      for (let j = 0; j < tabData[i].columns.length; j++) {
+        //if(tabData[i].columns[j].name.trim() !== ''){
+        html += '<td>' + this.getTheDifference(oldData[i] ? String(oldData[i].columns[j].value.trim() === '' ? '&nbsp;' : oldData[i].columns[j].value) : '', String(tabData[i].columns[j].value.trim() === '' ? '&nbsp;' : tabData[i].columns[j].value)).before + '</td>';
+        //}
+      }
+      html += '</tr>';
+    }
+
+    html += '</table>'
+    return html;
+  }
+
+  getDisbursementTabularDataNew(oldData, data) {
+    let html = '<table width="100%" border="1" class="bg-white"><tr>';
+    const tabData = data;
+    if (tabData) {
+      html += '<td>' + this.getTheDifference(oldData[0].header ? oldData[0].header : '', tabData[0].header ? tabData[0].header : '').after + '</td>';
+      for (let i = 0; i < tabData[0].columns.length; i++) {
+
+
+        //if(tabData[0].columns[i].name.trim() !== ''){
+        html += '<td>' + this.getTheDifference(oldData[0].columns[i].name ? oldData[0].columns[i].name : '', tabData[0].columns[i].name).after + '</td>';
+        //}
+      }
+      html += '</tr>';
+      for (let i = 0; i < tabData.length; i++) {
+        html += '<tr><td>' + this.getTheDifference(oldData[i] && oldData[i].name ? oldData[i].name : '', tabData[i].name).after + '</td>';
+        for (let j = 0; j < tabData[i].columns.length; j++) {
+          //if(tabData[i].columns[j].name.trim() !== ''){
+          if (!tabData[i].columns[j].dataType) {
+            html += '<td>' + this.getTheDifference(oldData[i] && oldData[i].columns[j].value ? oldData[i].columns[j].value : '', tabData[i].columns[j].value).after + '</td>';
+          } else if (tabData[i].columns[j].dataType === 'currency') {
+            html += '<td class="text-right">₹ ' + this.getTheDifference(inf.format(Number(oldData[i] && oldData[i].columns[j].value && oldData[i].columns[j].value.trim() !== '' ? oldData[i].columns[j].value : 0), 2), inf.format(Number(tabData[i] && tabData[i].columns[j].value && tabData[i].columns[j].value.trim() !== '' ? tabData[i].columns[j].value : 0), 2)).after + '</td>';
+          }
+
+
+          //}
+        }
+        html += '</tr>';
+      }
+    }
+
+    html += '</table>'
+    return html;
+  }
+
+  getDisbursementTabularDataOld(oldData, data) {
+    let html = '<table width="100%" border="1" class="bg-white"><tr>';
+    const tabData = data;
+    if (tabData) {
+      html += '<td>' + this.getTheDifference(oldData[0].header ? oldData[0].header : '', tabData[0].header ? tabData[0].header : '').before + '</td>';
+      for (let i = 0; i < tabData[0].columns.length; i++) {
+
+
+        //if(tabData[0].columns[i].name.trim() !== ''){
+        html += '<td>' + this.getTheDifference(oldData[0].columns[i].name ? oldData[0].columns[i].name : '', tabData[0].columns[i].name).before + '</td>';
+        //}
+      }
+      html += '</tr>';
+      for (let i = 0; i < tabData.length; i++) {
+        if (!oldData[i]) {
+          continue;
+        }
+        html += '<tr><td>' + this.getTheDifference(oldData[i] && oldData[i].name ? oldData[i].name : '', tabData[i].name).before + '</td>';
+        for (let j = 0; j < tabData[i].columns.length; j++) {
+          //if(tabData[i].columns[j].name.trim() !== ''){
+          if (!tabData[i].columns[j].dataType) {
+            html += '<td>' + this.getTheDifference(oldData[i] && oldData[i].columns[j].value ? oldData[i].columns[j].value : '', tabData[i].columns[j].value).before + '</td>';
+          } else if (tabData[i].columns[j].dataType === 'currency') {
+            html += '<td class="text-right">₹ ' + this.getTheDifference(inf.format(Number(oldData[i] && oldData[i].columns[j].value && oldData[i].columns[j].value.trim() !== '' ? oldData[i].columns[j].value : 0), 2), inf.format(Number(tabData[i] && tabData[i].columns[j].value && tabData[i].columns[j].value.trim() !== '' ? tabData[i].columns[j].value : 0), 2)).before + '</td>';
+          }
+
+
+          //}
+        }
+        html += '</tr>';
+      }
+    }
+
+    html += '</table>'
+    return html;
+  }
+
+
+  getDocumentNameNew(oldVal, val: string): string {
+    let obj = [];
+    let objOld = [];
+    let formattedData = "<ul>"
+    if (val && val !== "") {
+      obj = JSON.parse(val);
+    }
+    if (oldVal && oldVal !== "") {
+      objOld = JSON.parse(oldVal);
+    }
+
+    if (obj && obj.length > 0) {
+
+
+      for (let i = 0; i < obj.length; i++) {
+        formattedData += "<li>" + this.getTheDifference(objOld[i] ? objOld[i].name : '', obj[i].name).after + "</li>"
+      }
+
+    }
+    formattedData += "</ul>";
+    return formattedData;
+  }
+
+  getDocumentNameOld(oldVal, val: string): string {
+    let obj = [];
+    let objOld = [];
+    let formattedData = "<ul>"
+    if (val && val !== "") {
+      obj = JSON.parse(val);
+    }
+    if (oldVal && oldVal !== "") {
+      objOld = JSON.parse(oldVal);
+    }
+
+    if (obj && obj.length > 0) {
+
+
+      for (let i = 0; i < obj.length; i++) {
+        if (!objOld[i]) {
+          continue;
+        }
+        formattedData += "<li>" + this.getTheDifference(objOld[i].name, obj[i].name).before + "</li>"
+      }
+
+    }
+    formattedData += "</ul>";
+    return formattedData;
+  }
+
+  getDocumentName(val: string): any[] {
+    let obj = [];
+    if (val && val !== "") {
+      obj = JSON.parse(val);
+    }
+    return obj;
+  }
+
+  onNoClick() {
+    this.dialogRef.close();
+  }
+
+  getTheDifference(o: string, n: string) {
+    const diff = difference.default.diffPatchBySeparator(o, n, ' ');
+    console.log(diff);
+    return diff;
+
   }
 
   getTabularData(data) {
@@ -1198,18 +1423,5 @@ export class GrantCompareComponent implements OnInit {
     //document.getElementById('attribute_' + elemId).innerHTML = '';
     //document.getElementById('attribute_' + elemId).append('<H1>Hello</H1>');
     return html;
-  }
-
-
-  getDocumentName(val: string): any[] {
-    let obj = [];
-    if (val && val !== "") {
-      obj = JSON.parse(val);
-    }
-    return obj;
-  }
-
-  onNoClick() {
-    this.dialogRef.close();
   }
 }

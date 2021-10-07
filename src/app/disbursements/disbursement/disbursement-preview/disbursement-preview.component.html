@@ -102,7 +102,7 @@
           >
             <div class="row">
               <div class="col-3">
-                <img [src]="logoUrl" alt="logo" class="img-fluid" />
+                <img alt="img"[src]="logoUrl" alt="logo" class="img-fluid" />
               </div>
               <div
                 class="col-9 text-left pl-3"
@@ -120,8 +120,8 @@
                       type="text"
                       autocomplete="off"
                     >
-                    <i *ngIf="currentDisbursement.grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></i>
-                    <i *ngIf="currentDisbursement.grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></i>
+                    <em *ngIf="currentDisbursement.grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags"></em>
+                    <em *ngIf="currentDisbursement.grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags"></em>
                     
                       <b
                         >Disbursement Approval Request for
@@ -138,12 +138,12 @@
                       type="text"
                       autocomplete="off"
                     >
-                    <i *ngIf="currentDisbursement.grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags" style="font-size: 0.6em;"></i>
-                    <i *ngIf="currentDisbursement.grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags" style="font-size: 0.6em;"></i>
+                    <em *ngIf="currentDisbursement.grant.grantTags.length===1" class="fas fa-tag fa-xs ml-2 grant-tags" style="font-size: 0.6em;"></em>
+                    <em *ngIf="currentDisbursement.grant.grantTags.length>1" class="fas fa-tags fa-xs ml-2 grant-tags" style="font-size: 0.6em;"></em>
                     
                       <b
                         >Disbursement Record against Approved Note for
-                        <i>{{ currentDisbursement.grant.name }}</i></b
+                        <em>{{ currentDisbursement.grant.name }}</em></b
                       >
                     </h4>
                   </div>
@@ -162,69 +162,69 @@
             <div class="row">
               <div class="col-12 mb-2">
                 <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  style="color: #929292; font-size: 13px; font-family: Roboto, sans-serif;"
                   >Grant Name:</span
                 >
                 <div class="ml-0 mb-1">
-                  <b>{{
+                  <strong>{{
                     (currentDisbursement.grant.referenceNo
                       ? currentDisbursement.grant.referenceNo + " | "
                       : "") + currentDisbursement.grant.name
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-6 mb-2">
                 <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  style="color: #929292; font-size: 13px; font-family: Roboto, sans-serif;"
                   >Implementing Organization:</span
                 >
                 <div  
                   class="ml-0 mb-1"
                 >
-                  <b *ngIf="isExternalGrant(currentDisbursement.grant)">{{ currentDisbursement.grant.organization.name }}</b>
-                  <b *ngIf="!isExternalGrant(currentDisbursement.grant)">{{
+                  <strong *ngIf="isExternalGrant(currentDisbursement.grant)">{{ currentDisbursement.grant.organization.name }}</strong>
+                  <strong *ngIf="!isExternalGrant(currentDisbursement.grant)">{{
                     currentDisbursement.grant.grantorOrganization.name
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-6 mb-2">
                 <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  style="color: #929292; font-size: 13px; font-family: Roboto, sans-serif;"
                   >Implementing Organization Representative:</span
                 >
                 <div  
                   class="ml-0 mb-1"
                 >
-                  <b >{{ currentDisbursement.grant.representative }}</b>
+                  <strong >{{ currentDisbursement.grant.representative }}</strong>
                   
                 </div>
               </div>
               <div class="col-3 mb-2">
                 <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  style="color: #929292; font-size: 13px; font-family: Roboto, sans-serif;"
                   >Grant Start Date:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b>{{
+                  <strong>{{
                     currentDisbursement.grant.stDate | date: "dd-MMM-yyyy"
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
               <div class="col-3 mb-2">
                 <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  style="color: #929292; font-size: 13px; font-family: Roboto, sans-serif;"
                   >Grant End Date:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b>{{
+                  <strong>{{
                     currentDisbursement.grant.enDate | date: "dd-MMM-yyyy"
-                  }}</b>
+                  }}</strong>
                 </div>
               </div>
             
               <div class="col-6 mb-2">
                 <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  style="color: #929292; font-size: 13px; font-family: Roboto, sans-serif;"
                   >Grant Amount:</span
                 >
                 <div
@@ -250,14 +250,14 @@
             <p class="text-header">Planned Project Funds</p>
             <table id="tablePlaceholderX" width="100%">
               <tr style="background: #f9f9f9">
-                <td
+                <th id="planned_installment_entry_no"
                   width="2%"
-                  align="center"
+                  class="text-center"
                   valign="middle"
                   style="border: 1px solid #e4e4e4"
                 >
                   Planned Installment #
-                </td>
+                </th>
                 <ng-container
                   *ngFor="
                     let column of getGrantDisbursementAttribute()
@@ -265,28 +265,28 @@
                     let i = index
                   "
                 >
-                  <td
+                  <th [id]="column.name.replace(' ','')+'_id'"
                     *ngIf="column.name !== 'Notes'"
                     width="15%"
-                    align="center"
+                    class="text-center"
                     valign="middle"
                     style="border: 1px solid #e4e4e4"
                   >
                     {{
                       column.name === "Notes" ? "Milestones/Notes" : column.name
                     }}
-                  </td>
-                  <td
+                  </th>
+                  <th [id]="column.name.replace(' ','')+'_id'"
                     *ngIf="column.name === 'Notes'"
                     width="50%"
-                    align="center"
+                    class="text-center"
                     valign="middle"
                     style="border: 1px solid #e4e4e4"
                   >
                     {{
                       column.name === "Notes" ? "Milestones/Notes" : column.name
                     }}
-                  </td>
+                  </th>
                 </ng-container>
               </tr>
               <ng-container
@@ -361,12 +361,12 @@
                     *ngIf="column.dataType === 'currency'"
                     style="background: #f4f4f4 !important"
                   >
-                    <b>{{
+                    <strong>{{
                       getGrantTotals(
                         j,
                         getGrantDisbursementAttribute().fieldTableValue
                       )
-                    }}</b>
+                    }}</strong>
                   </td>
                 </ng-container>
                 <td class="anu-input" style="background: #f4f4f4 !important">
@@ -385,30 +385,30 @@
             <p class="text-header">Project Funds Received</p>
             <table width="100%" style="background: #f2f2f2">
               <tr>
-                <td
+                <th id="col#"
                   style="border: 1px solid #e4e4e4"
                   align="center"
                   class="py-2"
                   width="10%"
                 >
-                  <b>#</b>
-                </td>
-                <td style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursement Date</b>
-                </td>
-                <td style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursement Amount</b>
-                </td>
-                <td style="border: 1px solid #e4e4e4" align="center">
-                  <b>Funds from Other Sources</b>
-                </td>
-                <td
+                  <strong>#</strong>
+                </th>
+                <th id="disbursement_date" style="border: 1px solid #e4e4e4" align="center">
+                  <strong>Disbursement Date</strong>
+                </th>
+                <th id="disbursement_amount" style="border: 1px solid #e4e4e4" align="center">
+                  <strong>Disbursement Amount</strong>
+                </th>
+                <th id="funds_from_other_sources" style="border: 1px solid #e4e4e4" align="center">
+                  <strong>Funds from Other Sources</strong>
+                </th>
+                <th id="milestone"
                   style="border: 1px solid #e4e4e4"
                   align="center"
                   width="40%"
                 >
-                  <b>Milestones/Notes</b>
-                </td>
+                  <strong>Milestones/Notes</strong>
+                </th>
               </tr>
               <ng-container
                 *ngIf="currentDisbursement.approvedActualsDibursements"
@@ -464,20 +464,20 @@
                       >
                     </td>
                     <td align="right">
-                      <b>{{
+                      <strong>{{
                         currencyService.getFormattedAmount(
                           disbursementService.getActualDisbursementsTotal(
                             currentDisbursement
                           )
                         )
-                      }}</b>
+                      }}</strong>
                     </td>
                     <td align="right">
-                      <b>{{
+                      <strong>{{
                         currencyService.getFormattedAmount(
                           disbursementService.getFFOSTotal(currentDisbursement)
                         )
-                      }}</b>
+                      }}</strong>
                     </td>
                     <td></td>
                   </tr>
@@ -498,7 +498,7 @@
                       currentDisbursement
                     )
                   "
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  style="color: #929292; font-size: 13px; font-family: Roboto, sans-serif;"
                   >Disbursement Amount Requested:</span
                 >
                 <span
@@ -507,7 +507,7 @@
                       currentDisbursement
                     )
                   "
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  style="color: #929292; font-size: 13px; font-family: Roboto, sans-serif;"
                   >Approved Disbursement Amount:</span
                 >
                 <div class="ml-0 mb-1">
@@ -529,11 +529,11 @@
               </div>
               <div class="col-7 mb-2 mx-2">
                 <span
-                  style="color: #929292; font-size: 13px; font-family: Roboto"
+                  style="color: #929292; font-size: 13px; font-family: Roboto, sans-serif;"
                   >Commentary:</span
                 >
                 <div class="ml-0 mb-3">
-                  <b>{{ currentDisbursement.reason }}</b>
+                  <strong>{{ currentDisbursement.reason }}</strong>
                 </div>
               </div>
             </div>
@@ -568,27 +568,27 @@
               class="disbursements-class"
             >
               <tr>
-                <td
+                <th id="col#"
                   style="border: 1px solid #e4e4e4"
                   align="center"
                   class="py-2"
                   width="10%"
                 >
-                  <b>#</b>
-                </td>
-                <td style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursement Date</b>
-                </td>
-                <td style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursed Amount</b>
-                </td>
-                <td
+                  <strong>#</strong>
+                </th>
+                <th id="disbursement_date" style="border: 1px solid #e4e4e4" align="center">
+                  <strong>Disbursement Date</strong>
+                </th>
+                <th id="disbursement_amount" style="border: 1px solid #e4e4e4" align="center">
+                  <strong>Disbursed Amount</strong>
+                </th>
+                <th id='disbursement_milestone'
                   style="border: 1px solid #e4e4e4"
                   align="center"
                   width="40%"
                 >
-                  <b>Milestones/Notes</b>
-                </td>
+                  <strong>Milestones/Notes</strong>
+                </th>
               </tr>
               <ng-container
                 *ngFor="
@@ -717,14 +717,14 @@
                 style="background: #f9f9f9"
               >
                 <td colspan="2" style="border: 1px solid #e4e4e4" class="pl-5">
-                  <b>TOTALS</b>
+                  <strong>TOTALS</strong>
                 </td>
                 <td
                   style="border: 1px solid #e4e4e4"
                   align="right"
                   class="pr-3"
                 >
-                  <b>{{ currencyService.getFormattedAmount(getTotals()) }}</b>
+                  <strong>{{ currencyService.getFormattedAmount(getTotals()) }}</strong>
                 </td>
                 <td style="border: 1px solid #e4e4e4">&nbsp;</td>
               </tr>
@@ -740,7 +740,7 @@
               (click)="addDisbursementRow()"
               style="cursor: pointer"
               class="ml-2"
-              ><i class="fas fa-plus-circle text-green mr-1"></i>Add a row</span
+              ><em class="fas fa-plus-circle text-green mr-1"></em>Add a row</span
             >
           </div>
 
@@ -774,27 +774,27 @@
           >
             <table #tablePlaceholder width="100%" class="disbursements-class">
               <tr>
-                <td
+                <th id="col#"
                   style="border: 1px solid #e4e4e4"
                   align="center"
                   class="py-2"
                   width="10%"
                 >
-                  <b>#</b>
-                </td>
-                <td style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursement Date</b>
-                </td>
-                <td style="border: 1px solid #e4e4e4" align="center">
-                  <b>Disbursed Amount</b>
-                </td>
-                <td
+                  <strong>#</strong>
+                </th>
+                <th id="disbursement_date" style="border: 1px solid #e4e4e4" align="center">
+                  <strong>Disbursement Date</strong>
+                </th>
+                <th id="disbursement_amount" style="border: 1px solid #e4e4e4" align="center">
+                  <strong>Disbursed Amount</strong>
+                </th>
+                <th id="note'"
                   style="border: 1px solid #e4e4e4"
                   align="center"
                   width="40%"
                 >
-                  <b>Note</b>
-                </td>
+                  <strong>Note</strong>
+                </th>
               </tr>
               <ng-container
                 *ngFor="
@@ -832,14 +832,14 @@
                 style="background: #f9f9f9"
               >
                 <td colspan="2" style="border: 1px solid #e4e4e4" class="pl-5">
-                  <b>TOTALS</b>
+                  <strong>TOTALS</strong>
                 </td>
                 <td
                   style="border: 1px solid #e4e4e4"
                   align="right"
                   class="pr-3"
                 >
-                  <b>{{ currencyService.getFormattedAmount(getTotals()) }}</b>
+                  <strong>{{ currencyService.getFormattedAmount(getTotals()) }}</strong>
                 </td>
                 <td style="border: 1px solid #e4e4e4">&nbsp;</td>
               </tr>
@@ -860,34 +860,34 @@
           >
             <span class="ml-0">
               <ng-container *ngIf="doc.location.includes('.pdf')">
-                <i class="far fa-file-pdf text-danger ml-1"></i>
+                <em class="far fa-file-pdf text-danger ml-1"></em>
               </ng-container>
               <ng-container
                 *ngIf="
                 doc.location.includes('.xls') || doc.location.includes('.xlsx')
                 "
               >
-                <i
+                <em
                   class="far fa-file-excel text-success ml-1"
-                ></i>
+                ></em>
               </ng-container>
               <ng-container
                 *ngIf="
                 doc.location.includes('.doc') || doc.location.includes('.docx')
                 "
               >
-                <i
+                <em
                   class="far fa-file-word text-primary ml-1"
-                ></i>
+                ></em>
               </ng-container>
               <ng-container
                 *ngIf="
                 doc.location.includes('.ppt') || doc.location.includes('.pptx')
                 "
               >
-                <i
+                <em
                   class="far fa-file-powerpoint text-danger ml-1"
-                ></i>
+                ></em>
               </ng-container>
               {{ doc.name }}{{'.'+doc.location.substring(doc.location.lastIndexOf(".")+1)}}
             </span></a

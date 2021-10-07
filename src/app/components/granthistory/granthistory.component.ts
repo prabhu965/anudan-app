@@ -13,7 +13,14 @@ declare var jsPlumb: any;
 @Component({
   selector: 'app-granthistory-dialog',
   templateUrl: './granthistory.component.html',
-  styleUrls: ['./granthistory.component.scss']
+  styleUrls: ['./granthistory.component.scss'],
+  styles: [`
+      ::ng-deep .grant-notes-class .mat-dialog-container{
+          overflow-y: hidden !important;
+          border-radius: 0 !important;
+          height: calc(100vh - 114px) !important;
+      }
+  `]
 })
 export class GranthistoryComponent implements OnInit {
 
@@ -28,7 +35,7 @@ export class GranthistoryComponent implements OnInit {
     , private renderer: Renderer2
     , @Inject(ElementRef) er: ElementRef
   ) {
-    this.dialogRef.disableClose = false;
+    this.dialogRef.disableClose = true;
   }
 
   ngOnInit() {

@@ -35,9 +35,9 @@
       />
     </mat-form-field>
   </div>
-  <div  class="col-12 scrollable" style="overflow-y: scroll;height: inherit;min-height: calc(100vh - 200px) !important;max-height: calc(100vh - 200px) !important;">
+  <div  class="col-12 scrollable" style="overflow-y: scroll;height: inherit;min-height: calc(100vh - 210px) !important;max-height: calc(100vh - 210px) !important;">
     <div *ngIf="!selectedFilteredReports">
-      <img src="./assets/img/loader.gif" style="width: 10%" />
+      <img alt="img"src="./assets/img/loader.gif" style="width: 10%" />
       <p style="color: black">Loading upcoming reports...</p>
     </div>
     <div
@@ -66,25 +66,25 @@
           report is still valid.
         </p>
         <div class="text-subheader text-left mb-0 mt-2">
-          <div class="mb-1"><b  class="search-context">{{
+          <div class="mb-1"><strong  class="search-context">{{
             (report.grant.referenceNo
               ? report.grant.referenceNo + " | "
               : "") + report.grant.name
-          }}</b></div>
+          }}</strong></div>
           
-          <div class="mb-1"><b *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
+          <div class="mb-1"><strong *ngIf="isExternalGrant(report.grant)" class=" mt-1 search-context">{{
             report.grant.organization
               ? report.grant.organization.name
               : ""
-          }}</b> 
-          <b *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
+          }}</strong> 
+          <strong *ngIf="!isExternalGrant(report.grant)" class="mt-1 search-context">{{
             report.grant.grantorOrganization.name
-          }}</b> </div>
+          }}</strong> </div>
           
           <div class="mt-1">
-            <img src="./assets/img/rupee.png" style="width: 9px" /><b
+            <img alt="img"src="./assets/img/rupee.png" style="width: 9px" /><strong
             >{{ getFormattedGrantAmount(report.grant.amount) }}
-          </b>
+          </strong>
           &nbsp;&nbsp;<span class="text-subheader"><small>({{
             getGrantAmountInWords(report.grant.amount)
           }})</small></span>

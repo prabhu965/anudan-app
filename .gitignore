@@ -18,6 +18,7 @@
 *.launch
 .settings/
 *.sublime-workspace
+/frontend
 
 # IDE - VSCode
 .vscode/*
@@ -47,5 +48,7 @@ release.json
 release.json
 release.json
 release.json
+release.json
+
 
 release.json

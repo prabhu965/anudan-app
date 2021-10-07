@@ -27,13 +27,13 @@
   <mat-form-field *ngIf="validationResult.canMove">
     <textarea *ngIf="validationResult.canMove" class="anu-input" matInput #inputMessage></textarea>
   </mat-form-field>
-  <mat-expansion-panel  style="background: #f8f8f8;" [expanded]="false" class="mb-3 grants-expansion-panel" *ngIf="current && original">
+  <mat-expansion-panel  style="background: #f8f8f8;" [expanded]="false" class="mb-3 grants-expansion-panel" *ngIf="current && original" [ngStyle]="hasChanges?{'visibility':'visible','height':'auto'}:{'visibility':'hidden','height':'0'}">
     <mat-expansion-panel-header class="grant-expansion-panel" style="padding: 15px;">
       <mat-panel-title style="display: flex; align-items: center">
         <small>View changes</small>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <app-grant-compare [newItem]="current" [oldItem]="original" [standAlone]="false" [title]="'Approval Request Changes'" [compare1Title]="'Current State'" [compare2Title]="'Previous State'" [for]="'Disbursement'"></app-grant-compare>
+    <app-grant-compare [newItem]="current" [oldItem]="original" [standAlone]="false" [title]="'Approval Request Changes'" [compare1Title]="'Current State'" [compare2Title]="'Previous State'" [for]="'Disbursement'" (hasChanges)="checkIfHasDifferences($event)"></app-grant-compare>
 
     <!-- <div *ngIf="disbursementDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;overflow:scroll;">
       <div *ngIf="disbursementDiff.oldRequestedAmount || disbursementDiff.newRequestedAmount" class="mb-2 change-box">
@@ -41,20 +41,20 @@
         <div class="change-new" *ngIf="disbursementDiff.newRequestedAmount">
           {{currencyService.getFormattedAmount(disbursementDiff.newRequestedAmount)}}</div>
         <div *ngIf="disbursementDiff.newRequestedAmount && !disbursementDiff.oldRequestedAmount" class="text-danger">
-          <i><small>No value</small></i></div>
+          <em><small>No value</small></em></div>
         <div class="change-old" *ngIf="disbursementDiff.oldRequestedAmount">
           {{currencyService.getFormattedAmount(disbursementDiff.oldRequestedAmount)}}</div>
         <div *ngIf="disbursementDiff.oldRequestedAmount && !disbursementDiff.newRequestedAmount" class="text-white">
-          <i><small>Previously had no value</small></i></div>
+          <em><small>Previously had no value</small></em></div>
       </div>
       <div *ngIf="disbursementDiff.oldReason || disbursementDiff.newReason" class="mb-2 change-box">
         <span class="change-title">Approval Request Commentary changed</span>
         <div class="change-new" *ngIf="disbursementDiff.newReason">{{disbursementDiff.newReason}}</div>
-        <div *ngIf="!disbursementDiff.newReason && disbursementDiff.oldReason" class="text-danger"><i><small>No
-              value</small></i></div>
+        <div *ngIf="!disbursementDiff.newReason && disbursementDiff.oldReason" class="text-danger"><em><small>No
+              value</small></em></div>
         <div class="change-old" *ngIf="disbursementDiff.oldReason">{{disbursementDiff.oldReason}}</div>
-        <div *ngIf="!disbursementDiff.oldReason && disbursementDiff.newReason" class="text-white"><i><small>Previously
-              had no value</small></i></div>
+        <div *ngIf="!disbursementDiff.oldReason && disbursementDiff.newReason" class="text-white"><em><small>Previously
+              had no value</small></em></div>
       </div>
     </div> -->
   </mat-expansion-panel>

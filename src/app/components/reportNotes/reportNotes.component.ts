@@ -27,6 +27,7 @@ export class ReportNotesComponent implements OnInit {
     current: any;
     original: any;
     validationResult: any;
+    hasChanges = false;
 
     @ViewChild("scrollContainer") scrollContainer: ElementRef;
     @ViewChild("inputMessage") inputMessage: ElementRef;
@@ -563,5 +564,9 @@ export class ReportNotesComponent implements OnInit {
         //document.getElementById('attribute_' + elemId).innerHTML = '';
         //document.getElementById('attribute_' + elemId).append('<H1>Hello</H1>');
         return html;
+    }
+
+    checkIfHasDifferences(val) {
+        this.hasChanges = val;
     }
 }

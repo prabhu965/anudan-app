@@ -48,10 +48,10 @@
 
                     <div [ngClass]="user.active?'col-3 pl-0 text-right':'col-4 pl-0 text-right'"
                         style="display: flex;flex-direction: row-reverse;align-items: center;color:#9f9f9f">
-                        <button *ngIf="!user.deleted" class="btn btn-sm btn-red" (click)="deleteUser(user)"><i
-                                class="fas fa-user-slash mr-2 text-red" style="cursor: pointer;"></i>Disable</button>
-                        <button *ngIf="user.deleted" class="btn btn-sm btn-green" (click)="unDeleteUser(user)"><i
-                                class=" fas fa-user-check mr-2 text-green" style="cursor: pointer;"></i>Enable</button>
+                        <button *ngIf="!user.deleted" class="btn btn-sm btn-red" (click)="deleteUser(user)"><em
+                                class="fas fa-user-slash mr-2 text-red" style="cursor: pointer;"></em>Disable</button>
+                        <button *ngIf="user.deleted" class="btn btn-sm btn-green" (click)="unDeleteUser(user)"><em
+                                class=" fas fa-user-check mr-2 text-green" style="cursor: pointer;"></em>Enable</button>
                         
                             <button mat-icon-button *ngIf="user.active && !user.deleted">
                                 <mat-icon style="font-size: 20px;color:#9f9f9f;" (click)="editUser(user,$event)">create</mat-icon>

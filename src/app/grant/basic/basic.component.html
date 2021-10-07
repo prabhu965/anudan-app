@@ -10,7 +10,7 @@
         style="display: flex; align-items: center; justify-content: flex-start"
       >
         <!--<button *ngIf="canManage" class="btn btn-sm btn-green float-right">
-                  <i class="fas fa-plus-square mr-2"></i>Add new Section</button>-->
+                  <em class="fas fa-plus-square mr-2"></em>Add new Section</button>-->
         <mat-icon
           mat-button
           [matMenuTriggerFor]="menu1"
@@ -74,29 +74,29 @@
       <div *ngIf="!canManage">
         <div class="row">
           <div class="col-12 mb-4">
-            <b>Grant Name:</b>
+            <strong>Grant Name:</strong>
             <div>{{ currentGrant.name }}</div>
           </div>
           <div class="col-4 mb-4">
-            <b>Grant Start Date:</b>
+            <strong>Grant Start Date:</strong>
             <div>{{ currentGrant.startDate | date: "dd-MMM-yyyy" }}</div>
           </div>
           <div class="col-4 mb-4">
-            <b>Grant End Date:</b>
+            <strong>Grant End Date:</strong>
             <div>{{ currentGrant.endDate | date: "dd-MMM-yyyy" }}</div>
           </div>
           <div class="col-4 mb-4">
-            <b>Grant Amount (₹):</b>
+            <strong>Grant Amount (₹):</strong>
             <div>{{ currentGrant.amount }}</div>
           </div>
           <div class="col-6 mb-4">
-            <b>Implementing Organization:</b>
+            <strong>Implementing Organization:</strong>
             <div *ngIf="currentGrant.organization">
               {{ currentGrant.organization.name }}
             </div>
           </div>
           <div class="col-6 mb-4">
-            <b>Implementing Organization Representative:</b>
+            <strong>Implementing Organization Representative:</strong>
             <div>{{ currentGrant.representative }}</div>
           </div>
         </div>
@@ -317,7 +317,7 @@
             <label
               style="
                 font-weight: 400;
-                font-family: Lato;
+                font-family: Lato, sans-serif;
                 color: rgba(0, 0, 0, 0.54);
               "
               >Amount (In Words)</label

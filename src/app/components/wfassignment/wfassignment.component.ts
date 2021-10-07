@@ -23,6 +23,8 @@ declare var jsPlumb: any;
     styles: [`
         ::ng-deep .wf-assignment-class .mat-dialog-container{
             overflow: hidden !important;
+            height: calc(100vh - 114px);
+            padding-top: 10px !important;
         }
     `]
 })
@@ -931,11 +933,11 @@ export class WfassignmentComponent implements OnInit, AfterViewInit {
             } else {
                 return 'state-ext-active';
             }
-            return 'state-active';
         } else if (status === 'REVIEW') {
             return 'state-review';
+        } else {
+            return "";
         }
-        return 'state-closed';
     }
 
     zoomOut() {

@@ -84,6 +84,7 @@
     "rupees-to-words": "^1.0.4",
     "rxjs": "6.3.3",
     "rxjs-compat": "6.3.3",
+    "simple-text-diff": "^1.7.0",
     "ts-stream": "^2.0.1",
     "web-animations-js": "2.3.1",
     "zone.js": "0.8.26"

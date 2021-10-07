@@ -21,7 +21,7 @@
             <a
               (click)="addNewFieldToSection(section.id, section.sectionName)"
               class="btn btn-sm btn-green"
-              >Add a Field<i class="fa fa-plus-square ml-2"></i
+              >Add a Field<em class="fa fa-plus-square ml-2"></em
             ></a>
           </div>
         </ng-container>
@@ -31,7 +31,7 @@
         style="display: flex; align-items: center; justify-content: flex-start"
       >
         <!--<button *ngIf="canManage" class="btn btn-sm btn-green float-right">
-          <i class="fas fa-plus-square mr-2"></i>Add new Section</button>-->
+          <em class="fas fa-plus-square mr-2"></em>Add new Section</button>-->
         <mat-icon
           mat-button
           [matMenuTriggerFor]="menu"
@@ -123,7 +123,7 @@
                     attribute.fieldType === 'multiline'
                   "
                 >
-                  <b>{{ attribute.fieldName }}</b>
+                  <strong>{{ attribute.fieldName }}</strong>
                   <div>{{ attribute.fieldValue }}</div>
                 </ng-container>
                 <ng-container
@@ -193,17 +193,17 @@
                       >
                         <span class="ml-3">
                           <ng-container *ngIf="doc.type === 'pdf'">
-                            <i class="fas fa-file-pdf text-danger"></i>
+                            <em class="fas fa-file-pdf text-danger"></em>
                           </ng-container>
                           <ng-container
                             *ngIf="doc.type === 'xls' || doc.type === 'xlsx'"
                           >
-                            <i class="fas fa-file-excel text-success"></i>
+                            <em class="fas fa-file-excel text-success"></em>
                           </ng-container>
                           <ng-container
                             *ngIf="doc.type === 'doc' || doc.type === 'docx'"
                           >
-                            <i class="fas fa-file-word text-primary"></i>
+                            <em class="fas fa-file-word text-primary"></em>
                           </ng-container>
                           {{ doc.name }}
                         </span>
@@ -237,9 +237,9 @@
                     
                     <a class="mr-2 text-gray" *ngIf="currentGrant.grantDetails.sections.length > 1"
                        (click)="confirm(section.id,0,[],0,'section','Delete section ' + section.sectionName + '?')"><i
-                            class="fa fa-trash"></i></a>
+                            class="fa fa-trash"></em></a>
                     <a (click)="addNewFieldToSection(section.id,section.sectionName)"
-                       class="mr-2 text-gray"><i class="fa fa-plus-square"></i></a>
+                       class="mr-2 text-gray"><em class="fa fa-plus-square"></em></a>
                   </div>
                 </div>
                 <hr>-->
@@ -417,16 +417,16 @@
                               >
                             </div>
                             <div style="margin-left: 250px">
-                              <i
+                              <em
                                 (click)="moveColsRight()"
                                 class="fas fa-arrow-alt-circle-left mr-3"
                                 style="cursor: pointer"
-                              ></i
-                              ><i
+                              ></em
+                              ><em
                                 (click)="moveColsLeft()"
                                 class="fas fa-arrow-alt-circle-right"
                                 style="cursor: pointer"
-                              ></i>
+                              ></em>
                             </div>
                           </div>
                           <div
@@ -436,7 +436,7 @@
                           >
                             <table id="tablePlaceholder">
                               <tr>
-                                <td
+                                <th id="canton"
                                   width="20%"
                                   style="
                                     min-width: 250px;
@@ -457,7 +457,7 @@
                                       class="anu-input"
                                     />
                                   </mat-form-field>
-                                </td>
+                                </th>
                                 <ng-container
                                   *ngIf="attribute.fieldTableValue[0]"
                                 >
@@ -468,7 +468,7 @@
                                       let i = index
                                     "
                                   >
-                                    <td style="border: 1px solid #e4e4e4">
+                                    <th id="'header_'+i" style="border: 1px solid #e4e4e4">
                                       <mat-form-field>
                                         <mat-icon
                                           *ngIf="
@@ -510,7 +510,7 @@
                                           (ngModelChange)="checkGrant()"
                                         />
                                       </mat-form-field>
-                                    </td>
+                                    </th>
                                   </ng-container>
                                 </ng-container>
                               </tr>
@@ -627,7 +627,7 @@
                               width="100%"
                             >
                               <tr>
-                                <td
+                                <th id="planned"
                                   align="center"
                                   width="15%"
                                   valign="middle"
@@ -639,7 +639,7 @@
                                   <label class="m-0"
                                     ><span>Planned Installment #</span></label
                                   >
-                                </td>
+                                </th>
                                 <ng-container *ngIf="1 === 1">
                                   <ng-container
                                     *ngFor="
@@ -648,7 +648,7 @@
                                       let i = index
                                     "
                                   >
-                                    <td
+                                    <th id="'c_'+i"
                                       align="center"
                                       [width]="
                                         column.name === 'Notes' ? '' : '15%'
@@ -668,7 +668,7 @@
                                             : column.name
                                         }}</label
                                       >
-                                    </td>
+                                    </th>
                                   </ng-container>
                                 </ng-container>
                               </tr>
@@ -726,7 +726,7 @@
                                           top: -12px;
                                         "
                                       >
-                                        <b>{{ row.name }}</b>
+                                        <strong>{{ row.name }}</strong>
                                       </p>
                                     </ng-container>
                                     <ng-container
@@ -742,7 +742,7 @@
                                           top: 0;
                                         "
                                       >
-                                        <b>{{ row.name }}</b>
+                                        <strong>{{ row.name }}</strong>
                                       </p>
                                     </ng-container>
                                   </td>
@@ -816,7 +816,7 @@
                                 style="background: #f4f4f4"
                               >
                                 <td align="center" class="py-2">
-                                  <b>TOTALS:</b>
+                                  <strong>TOTALS:</strong>
                                 </td>
                                 <ng-container
                                   *ngIf="attribute.fieldTableValue[0]"
@@ -833,9 +833,9 @@
                                       class="text-right pr-3 my-0"
                                       *ngIf="column.dataType === 'currency'"
                                     >
-                                      <b>{{
+                                      <strong>{{
                                         getTotals(j, attribute.fieldTableValue)
-                                      }}</b>
+                                      }}</strong>
                                     </p>
                                   </td>
                                 </ng-container>
@@ -845,8 +845,8 @@
                                 style="background: #f9f9f9"
                               >
                                 <td align="center">
-                                  <b style="color: #949494"
-                                    >Planned Project Fund:</b
+                                  <strong style="color: #949494"
+                                    >Planned Project Fund:</strong
                                   >
                                 </td>
                                 <ng-container
@@ -864,9 +864,9 @@
                                       class="text-right pr-3 my-0"
                                       *ngIf="column.dataType === 'currency'"
                                     >
-                                      <b style="color: #949494">{{
+                                      <strong style="color: #949494">{{
                                         getCommittedGrantTotals(j)
-                                      }}</b>
+                                      }}</strong>
                                     </p>
                                   </td>
                                 </ng-container>

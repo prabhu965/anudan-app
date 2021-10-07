@@ -46,9 +46,9 @@ export class GrantTagsComponent {
     this.selectedTags = Object.assign([], data.grantTags);
     this.initialTags = Object.assign([], data.grantTags);
     this.appComp = data.appComp;
-    this.allTags.filter((el) => {
-      return (this.initialTags.findIndex(a => a.orgTagId === el.id) < 0);
-    });
+    const filteredTags = this.allTags.filter((el) =>
+      this.initialTags.findIndex(a => a.orgTagId === el.id) < 0);
+    this.allTags = filteredTags;
     this.grant = data.grant;
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),

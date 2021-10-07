@@ -200,6 +200,16 @@
             text-align: center;
             color: #a9afbb;
         }
+
+        em{
+            font-size: 24px;
+            float: left;
+            margin-right: 15px;
+            line-height: 30px;
+            width: 30px;
+            text-align: center;
+            color: #a9afbb;
+        }
     }
 
     .nav li a,
@@ -377,50 +387,50 @@
      .main-content{
         margin-top: 70px;
         padding: 0;
-        min-height: calc(100vh - 196px);
-        max-height: calc(100vh - 196px);
+        min-height: calc(100vh - 180px);
+        max-height: calc(100vh - 180px);
         overflow-x: hidden;
     }
 
     .main-content.no-top-margin{
         margin-top: 40px !important;
-        min-height: calc(100vh - 165px) !important;
-        max-height: calc(100vh - 165px) !important;
+        min-height: calc(100vh - 149px) !important;
+        max-height: calc(100vh - 149px) !important;
     }
 
     .main-content.no-top-margin1{
         margin-top: 0 !important;
-        min-height: calc(100vh - 195px) !important;
-        max-height: calc(100vh - 195px) !important;
+        min-height: calc(100vh - 179px) !important;
+        max-height: calc(100vh - 179px) !important;
     }
 
     .main-content.no-top-margin2 {
         margin-top: 0 !important;
-        min-height: calc(100vh - 173px) !important;
-        max-height: calc(100vh - 173px) !important;
+        min-height: calc(100vh - 157px) !important;
+        max-height: calc(100vh - 157px) !important;
     }
 
     .main-content.no-top-margin3 {
         margin-top: 0 !important;
-        min-height: calc(100vh - 155px) !important;
-        max-height: calc(100vh - 155px) !important;
+        min-height: calc(100vh - 139px) !important;
+        max-height: calc(100vh - 139px) !important;
     }
 
     .main-content.no-top-margin4 {
         margin-top: 0 !important;
-        min-height: calc(100vh - 386px) !important;
-        max-height: calc(100vh - 386px) !important;
+        min-height: calc(100vh - 370px) !important;
+        max-height: calc(100vh - 370px) !important;
     }
     .main-content.no-top-margin5 {
         margin-top: 0 !important;
-        min-height: calc(100vh - 126px) !important;
-        max-height: calc(100vh - 126px) !important;
+        min-height: calc(100vh - 110px) !important;
+        max-height: calc(100vh - 110px) !important;
     }
 
     .main-content.no-top-margin6 {
         margin-top: 0 !important;
-        min-height: calc(100vh - 195px) !important;
-        max-height: calc(100vh - 195px) !important;
+        min-height: calc(100vh - 179px) !important;
+        max-height: calc(100vh - 179px) !important;
     }
 
     .main-content.mat-tab-body-content{

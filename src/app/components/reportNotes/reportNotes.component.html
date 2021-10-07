@@ -38,55 +38,55 @@
   <mat-form-field *ngIf="validationResult.canMove">
     <textarea *ngIf="validationResult.canMove" class="anu-input" matInput #inputMessage></textarea>
   </mat-form-field>
-  <mat-expansion-panel style="background: #f8f8f8;" [expanded]="false" class="mb-3 grants-expansion-panel" *ngIf="current && original">
+  <mat-expansion-panel style="background: #f8f8f8;" [expanded]="false" class="mb-3 grants-expansion-panel" *ngIf="current && original" [ngStyle]="hasChanges?{'visibility':'visible','height':'auto'}:{'visibility':'hidden','height':'0'}">
     <mat-expansion-panel-header class="grant-expansion-panel" style="padding: 15px;">
       <mat-panel-title style="display: flex; align-items: center">
         <small>View changes</small>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <app-grant-compare *ngIf="current && original" [newItem]="current" [oldItem]="original" [standAlone]="false" [title]="'Report Changes'" [compare1Title]="'Current State'" [compare2Title]="'Previous State'" [for]="'Report'"></app-grant-compare>
+    <app-grant-compare *ngIf="current && original" [newItem]="current" [oldItem]="original" [standAlone]="false" [title]="'Report Changes'" [compare1Title]="'Current State'" [compare2Title]="'Previous State'" [for]="'Report'" (hasChanges)="checkIfHasDifferences($event)"></app-grant-compare>
     <!-- <div *ngIf="reportDiff" style="background:#fff;padding:5px;max-height:200px;min-width:600px;overflow:scroll;">
       <div *ngIf="reportDiff.oldReportName || reportDiff.newReportName" class="mb-2 change-box">
         <span class="change-title">Report name changed</span>
         <div class="change-new" *ngIf="reportDiff.newReportName">{{reportDiff.newReportName}}</div>
-        <div *ngIf="reportDiff.newReportName && !reportDiff.oldReportName" class="text-danger"><i><small>Currently has
-              no value</small></i></div>
+        <div *ngIf="reportDiff.newReportName && !reportDiff.oldReportName" class="text-danger"><em><small>Currently has
+              no value</small></em></div>
         <div class="change-old" *ngIf="reportDiff.oldReportName">{{reportDiff.oldReportName}}</div>
-        <div *ngIf="reportDiff.oldReportName && !reportDiff.newReportName" class="text-white"><i><small>Previously had
-              no value</small></i></div>
+        <div *ngIf="reportDiff.oldReportName && !reportDiff.newReportName" class="text-white"><em><small>Previously had
+              no value</small></em></div>
       </div>
       <div *ngIf="reportDiff.oldReportStartDate || reportDiff.newReportStartDate" class="mb-2 change-box">
         <span class="change-title">Report start date changed</span>
         <div class="change-new" *ngIf="reportDiff.newReportStartDate">
           {{reportDiff.newReportStartDate | date:'dd-MMM-yyyy'}}</div>
         <div *ngIf="!reportDiff.newReportStartDate && reportDiff.oldReportStartDate" class="text-danger">
-          <i><small>Currently has no value</small></i></div>
+          <em><small>Currently has no value</small></em></div>
         <div class="change-old" *ngIf="reportDiff.oldReportStartDate">
           {{reportDiff.oldReportStartDate | date:'dd-MMM-yyyy'}}</div>
         <div *ngIf="!reportDiff.oldReportStartDate && reportDiff.newReportStartDate" class="text-white">
-          <i><small>Previously had no value</small></i></div>
+          <em><small>Previously had no value</small></em></div>
       </div>
       <div *ngIf="reportDiff.oldReportEndDate || reportDiff.newReportEndDate" class="mb-2 change-box">
         <span class="change-title">Report end date changed</span>
         <div class="change-new" *ngIf="reportDiff.newReportEndDate">{{reportDiff.newReportEndDate | date:'dd-MMM-yyyy'}}
         </div>
-        <div *ngIf="!reportDiff.newReportEndDate && reportDiff.oldReportEndDate" class="text-danger"><i><small>Currently
-              has no value</small></i></div>
+        <div *ngIf="!reportDiff.newReportEndDate && reportDiff.oldReportEndDate" class="text-danger"><em><small>Currently
+              has no value</small></em></div>
         <div class="change-old" *ngIf="reportDiff.oldReportEndDate">{{reportDiff.oldReportEndDate | date:'dd-MMM-yyyy'}}
         </div>
-        <div *ngIf="!reportDiff.oldReportEndDate && reportDiff.newReportEndDate" class="text-white"><i><small>Previously
-              had no value</small></i></div>
+        <div *ngIf="!reportDiff.oldReportEndDate && reportDiff.newReportEndDate" class="text-white"><em><small>Previously
+              had no value</small></em></div>
       </div>
       <div *ngIf="reportDiff.oldReportDueDate || reportDiff.newReportDueDate" class="mb-2 change-box">
         <span class="change-title">Report Due Date changed</span>
         <div class="change-new" *ngIf="reportDiff.newReportDueDate">{{reportDiff.newReportDueDate | date:'dd-MMM-yyyy'}}
         </div>
-        <div *ngIf="!reportDiff.newReportDueDate && reportDiff.oldReportDueDate" class="text-danger"><i><small>Currently
-              has no value</small></i></div>
+        <div *ngIf="!reportDiff.newReportDueDate && reportDiff.oldReportDueDate" class="text-danger"><em><small>Currently
+              has no value</small></em></div>
         <div class="change-old" *ngIf="reportDiff.oldReportDueDate">{{reportDiff.oldReportDueDate | date:'dd-MMM-yyyy'}}
         </div>
-        <div *ngIf="!reportDiff.oldReportDueDate && reportDiff.newReportDueDate" class="text-white"><i><small>Previously
-              had no value</small></i></div>
+        <div *ngIf="!reportDiff.oldReportDueDate && reportDiff.newReportDueDate" class="text-white"><em><small>Previously
+              had no value</small></em></div>
       </div>
 
       <ng-container *ngIf="reportDiff.sectionDiffs">
@@ -110,7 +110,7 @@
             <ng-container *ngIf="sectionDiff.attributesDiffs">
               <ng-container *ngFor="let attrDiff of sectionDiff.attributesDiffs">
                 <div *ngIf="attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-                  <span class="change-title">Field changes in section <b>{{attrDiff.section}}</b></span>
+                  <span class="change-title">Field changes in section <strong>{{attrDiff.section}}</strong></span>
                   <div class="row change-new m-0" style="display: flex;">
                     <div class="col-4"><label>Title:</label>
                       <p>{{attrDiff.newAttribute.fieldName}}</p>
@@ -189,7 +189,7 @@
                   </div>
                 </div>
                 <div *ngIf="attrDiff.oldAttribute && !attrDiff.newAttribute" class="mb-2 change-box">
-                  <span class="change-title">Field deleted in section <b>{{attrDiff.section}}</b></span>
+                  <span class="change-title">Field deleted in section <strong>{{attrDiff.section}}</strong></span>
                   <div class="row change-delete m-0" style="display: flex;">
                     <div class="col-4"><label>Title:</label>
                       <p>{{attrDiff.oldAttribute.fieldName}}</p>
@@ -226,7 +226,7 @@
                   </div>
                 </div>
                 <div *ngIf="!attrDiff.oldAttribute && attrDiff.newAttribute" class="mb-2 change-box">
-                  <span class="change-title">Field added in section <b>{{attrDiff.section}}</b></span>
+                  <span class="change-title">Field added in section <strong>{{attrDiff.section}}</strong></span>
                   <div class="row change-new m-0" style="display: flex;">
                     <div class="col-4"><label>Field Name:</label>
                       <p>{{attrDiff.newAttribute.fieldName}}</p>

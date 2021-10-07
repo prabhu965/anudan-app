@@ -10,7 +10,14 @@ import { FieldDialogComponent } from '../field-dialog/field-dialog.component';
 @Component({
   selector: 'project-documents-dialog',
   templateUrl: './project-documents.component.html',
-  styleUrls: ['./project-documents.component.scss']
+  styleUrls: ['./project-documents.component.scss'],
+  styles: [`
+      ::ng-deep .wf-assignment-class .mat-dialog-container{
+          overflow: hidden !important;
+          height: calc(100vh - 114px);
+          padding-top: 10px !important;
+      }
+  `]
 })
 export class ProjectDocumentsComponent implements OnInit {
 
@@ -152,7 +159,7 @@ export class ProjectDocumentsComponent implements OnInit {
   deleteSelection() {
 
     const dReg = this.dialog.open(FieldDialogComponent, {
-      data: { title: 'Are you sure you want to delete the selected document(s)?',btnMain:"Delete Document(s)",btnSecondary:"Not Now" },
+      data: { title: 'Are you sure you want to delete the selected document(s)?', btnMain: "Delete Document(s)", btnSecondary: "Not Now" },
       panelClass: 'center-class'
     });
 
