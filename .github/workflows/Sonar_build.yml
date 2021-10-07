@@ -2,7 +2,7 @@ name: Sonar Build
 on:
    workflow_dispatch:
    push:
-    branches: [ dev ]
+    branches: [ master ]
 jobs:
   sonarcloud:
     name: SonarCloud
@@ -12,13 +12,6 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
           ref: dev
-          args: >
-            -Dsonar.organization=anudan1
-            -Dsonar.projectKey=anudan-app
-            -Dsonar.projectVersion=1.0
-            -Dsonar.sources=src/app
-            -Dsonar.exclusions=src/app/**.spec.ts
-            -Dsonar.sourceEncoding=UTF-8
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
