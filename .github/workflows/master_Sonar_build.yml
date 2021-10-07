@@ -17,8 +17,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
          args: >
+            -Dsonar.projectName=anudan-app/master
             -Dsonar.organization=anudan1
-            -Dsonar.projectKey=prabhu965_anudan-app
+            -Dsonar.projectKey=anudan
             -Dsonar.projectVersion=1.0
             -Dsonar.sources=src/app
             -Dsonar.exclusions=src/app/**.spec.ts
